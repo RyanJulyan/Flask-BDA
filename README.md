@@ -69,17 +69,17 @@
 
 # Quickstart
 * Open and run the file: `<Path To>/create_project_git.py` from the root of BDA (you can download just that file if you wish)
-    * fill in the instructions eg:
+    * Fill in the instructions eg:
 ```
 Project Name:
 My Awesome Project
 ```
-* you will notice this creates a folder in the same path as the file: "create_project_git.py".
-    * this folder will be lower case and will have stripped out all of the special characters and replaced spaces with underscores
+* You will notice this creates a folder in the same path as the file: "create_project_git.py".
+    * This folder will be lower case and will have stripped out all of the special characters and replaced spaces with underscores eg: `my_awesome_project`
 
 # Create new CRUD module
 * Open and run the file: `<Path To>/<my_awesome_project>/create_module.py`
-    * fill in the instructions eg:
+    * Fill in the instructions eg:
 ```
 Module Name:
 Projects
@@ -116,7 +116,7 @@ There are 2 out of the box environments supported with instructions on how to co
 ### Windows
 * Open new terminal
     * "Windows-Key + R" will show you the 'RUN' box
-    * type "cmd" to open the terminal
+    * Type "cmd" to open the terminal
 ```
 cd <Path To>/my_awesome_project
 
@@ -150,12 +150,12 @@ flask run
 ## Docker Environment
 ### Windows
 * Open browser and install docker desktop from the 
-    * go to: https://hub.docker.com/editions/community/docker-ce-desktop-windows/
+    * Go to: https://hub.docker.com/editions/community/docker-ce-desktop-windows/
 * "Windows-Key + R" will show you the 'RUN' box
-    * type "C:\Program Files\Docker\Docker\Docker Desktop.exe" to open docker
+    * Type "C:\Program Files\Docker\Docker\Docker Desktop.exe" to open docker
 * Open new terminal
     * "Windows-Key + R" will show you the 'RUN' box
-    * type "cmd" to open the terminal
+    * Type "cmd" to open the terminal
 ```
 cd <Path To>/my_awesome_project
 
