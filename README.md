@@ -18,7 +18,21 @@
     * Creates:
         * Model
         * Web Controllers
+            * index
+            * create
+            * store
+            * show
+            * edit
+            * update
+            * destroy
         * API Controllers
+            * XyzListResource
+                * get
+                * post
+            * XyzResource
+                * get
+                * update
+                * delete
         * Forms
         * URL's (prefixed by the module name)
             * Web Routes:
