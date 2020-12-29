@@ -1,0 +1,60 @@
+{
+    "short_name": "PWA",
+    "name": "Default Example PWA",
+    "description": "This is a bare bones example of a PWA with all the features I want to include",
+    "gcm_sender_id": "556538051306",
+    "background_color": "#3367D6",
+    "theme_color": "#3367D6",
+    "orientation": "portrait",
+    "display": "standalone",
+    "scope": "/",
+    "start_url": "/",
+    "share_target": {
+      "method": "GET",
+      "enctype": "application/x-www-form-urlencoded",
+      "action": "share.html",
+      "params": {
+        "title": "name",
+        "text": "description",
+        "url": "link"
+      }
+    },
+    "icons": [
+      {
+        "src": "/static/images/icon-192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "/static/images/icon-512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ],
+    "shortcuts": [
+      {
+        "name": "How's weather today?",
+        "short_name": "Today",
+        "description": "View weather information for today",
+        "url": "/static/images/today?source=pwa",
+        "icons": [
+          { 
+            "src": "/static/images/today.png",
+            "sizes": "512x512"
+          }
+        ]
+      },
+      {
+        "name": "How's weather tomorrow?",
+        "short_name": "Tomorrow",
+        "description": "View weather information for tomorrow",
+        "url": "/PWA/static/images/tomorrow?source=pwa",
+        "icons": [
+          {
+            "src": "/PWA/static/images/tomorrow.png",
+            "sizes": "512x512"
+          }
+        ]
+      }
+    ]
+  }

@@ -38,15 +38,15 @@
 
   <!-- Icons -->
   <link rel="shortcut icon" type="image/ico" href="/favicon.ico" />
-  <link rel="apple-touch-icon" href="./static/images/icon-512.png" />
-  <link rel="apple-touch-icon" sizes="72x72" href="./static/images/icon-512.png" />
-  <link rel="apple-touch-icon" sizes="114x114" href="./static/images/icon-512.png" />
-  <link rel="apple-touch-startup-image" href="./static/images/icon-512.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="./static/images/icon-512.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="./static/images/icon-512.png">
-  <link rel="icon" href="./static/images/icon-192.png" sizes="192x192" />
-  <link rel="icon" href="./static/images/icon-512.png" sizes="512x512" />
-  <meta name="msapplication-TileImage" content="./static/images/icon-512.png">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/icon-512.png') }}" />
+  <link rel="apple-touch-icon" sizes="72x72" href="{{ url_for('static', filename='images/icon-512.png') }}" />
+  <link rel="apple-touch-icon" sizes="114x114" href="{{ url_for('static', filename='images/icon-512.png') }}" />
+  <link rel="apple-touch-startup-image" href="{{ url_for('static', filename='images/icon-512.png') }}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/icon-512.png') }}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/icon-512.png') }}">
+  <link rel="icon" href="{{ url_for('static', filename='images/icon-192.png') }}" sizes="192x192" />
+  <link rel="icon" href="{{ url_for('static', filename='images/icon-512.png') }}" sizes="512x512" />
+  <meta name="msapplication-TileImage" content="{{ url_for('static', filename='images/icon-512.png') }}">
 
   <!-- PWA -->
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -58,13 +58,13 @@
   
   <script async src="https://unpkg.com/pwacompat" crossorigin="anonymous" defer></script>
 
-  <link rel="manifest" href="manifest.json" />
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}" />
 
   <!-- Local Storage -->
-  <script src="static/js/immortal-db.min.js" defer></script>
+  <script src="{{ url_for('static', filename='js/immortal-db.min.js') }}" defer></script>
 
   <!-- Helper Functions -->
-  <script src="static/js/helper_functions.js" defer></script>
+  <script src="{{ url_for('static', filename='js/helper_functions.js') }}" defer></script>
 
   <!-- Site CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -73,7 +73,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" defer></script>
   
   <!-- Register Service Worker -->
-  <script src="static/js/register_sw.js" defer></script>
+  <script src="{{ url_for('static', filename='js/register_sw.js') }}" defer></script>
   
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -88,12 +88,12 @@
     <!-- Install Button -->
     <button type="button" id="installButton" class="btn btn-success">Install</button>
     <!-- Javascript -->
-    <script src="static/js/install_prompt.js" defer></script>
+    <script src="{{ url_for('static', filename='js/install_prompt.js') }}" defer></script>
     
     <!-- Web Push Notification Button -->
     <button type="button" id="webPushButton" class="btn btn-success">Allow Notifications</button>
     <!-- Javascript -->
-    <script src="static/js/web_push.js" defer></script>
+    <script src="{{ url_for('static', filename='js/web_push.js') }}" defer></script>
     
     <!-- Page Content -->
     {% block content %}
@@ -103,7 +103,7 @@
     <button type="button" class="btn btn-primary shareButton" data-title="Share 1">Share</button>
     <button type="button" class="btn btn-primary shareButton" data-title="Share 2">Share</button>
     <!-- Javascript -->
-    <script src="static/js/web_share.js" defer></script>
+    <script src="{{ url_for('static', filename='js/web_share.js') }}" defer></script>
     
 </body>
 </html>

@@ -8,13 +8,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-	<title>404 HTML Template by Colorlib</title>
+	<title>403 Error</title>
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
 
 	<!-- Custom stlylesheet -->
-	<link type="text/css" rel="stylesheet" href="./static/css/404_style.css" />
+	<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/404_style.css') }}" />
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -30,13 +30,10 @@
 	<div id="notfound">
 		<div class="notfound">
 			<div class="notfound-404">
-				<h1>4<span>0</span>4</h1>
+				<h1>4<span>0</span>3</h1>
 			</div>
-			<h2>the page you requested could not found</h2>
-			<form class="notfound-search">
-				<input type="text" placeholder="Search...">
-				<button type="button"><span></span></button>
-			</form>
+			<h2>the page you requested is forbidden</h2>
+			<a href="/">Go Back to Home</a>
 		</div>
 	</div>
 
