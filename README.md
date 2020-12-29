@@ -15,7 +15,7 @@
     * Docker virual environment
     * Local virtual environment
 * Create custom module files and folders that fit into the flask project structure from "create_module.py" file with prompts
-    * Creates:
+    * Running this will creates:
         * Model
         * Web Controllers
             * index
@@ -36,19 +36,19 @@
         * Forms
         * URL's (prefixed by the module name)
             * Web Routes:
-                * index (View ../xyz/ [list elements])
-                * create (View ../xyz/create [single element])
-                * store (POST URL ../xyz/store [single element])
-                * show (View ../xyz/show/{id} [single element])
-                * edit (View ../xyz/edit/{id} [single element])
-                * update (PUT URL ../xyz/update/{id} [single element])
-                * destroy (DELETE URL ../xyz/destroy/{id} [single element])
+                * View ../xyz/ [list elements] (index)
+                * View ../xyz/create [single element] (create)
+                * POST URL ../xyz/store [single element] (store)
+                * View ../xyz/show/{id} [single element] (show)
+                * View ../xyz/edit/{id} [single element] (edit)
+                * PUT URL ../xyz/update/{id} [single element](update)
+                * DELETE URL ../xyz/destroy/{id} [single element] (destroy)
             * API Routes:
-                * get (GET URL ../api/xyz [list elements])
-                * post (POST URL ../api/xyz [single element])
-                * get (GET URL ../api/xyz/{id} [single element])
-                * update (PUT URL ../api/xyz/{id} [single element])
-                * delete (DELETE URL ../api/xyz/{id} [single element])
+                * GET URL ../api/xyz [list elements] (get)
+                * POST URL ../api/xyz [single element] (post)
+                * GET URL ../api/xyz/{id} [single element] (get)
+                * PUT URL ../api/xyz/{id} [single element] (update)
+                * DELETE URL ../api/xyz/{id} [single element](delete)
         * Views for:
             * index (list elements)
             * create (single element)
