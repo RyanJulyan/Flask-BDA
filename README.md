@@ -26,7 +26,7 @@
 * Open and run the file: "create_project_git.py"
     * fill in the instructions eg:
 ```
-<font color="blue">Project Name:</font>
+Project Name:
 My Awesome Project
 ```
 * you will notice this creates a folder in the same path as the file: "create_project_git.py".
@@ -36,7 +36,7 @@ My Awesome Project
 * Open and run the file: "create_module.py"
     * fill in the instructions eg:
 ```
-<font color="blue">Module Name:</font>
+Module Name:
 Projects
 ```
 
