@@ -14,7 +14,7 @@
     * .gitignore files with defaults
     * Docker virual environment
     * Local virtual environment
-* Create custom module files and folders from "create_module.py" file with prompts
+* Create custom module files and folders that fit into the flask project structure from "create_module.py" file with prompts
 
 
 # Requirements
@@ -26,7 +26,7 @@
 * Open and run the file: "create_project_git.py"
     * fill in the instructions eg:
 ```
-Project Name:
+<font color="blue">Project Name:</font>
 My Awesome Project
 ```
 * you will notice this creates a folder in the same path as the file: "create_project_git.py".
@@ -36,7 +36,7 @@ My Awesome Project
 * Open and run the file: "create_module.py"
     * fill in the instructions eg:
 ```
-Module Name:
+<font color="blue">Module Name:</font>
 Projects
 ```
 
