@@ -2,11 +2,11 @@
 ## is a Rapid Application Development (RAD) tool meant to assist with structure and building flask based python applications.
 
 ## Overview
-* [Project Features] (#features)
-* [Requirements] (#requirements)
-* [Quickstart] (#quickstart)
-* [Create new CRUD module] (#create-new-crud-module)
-* [Environments] (#environments)
+* [Project Features](#features)
+* [Requirements](#requirements)
+* [Quickstart](#quickstart)
+* [Create new CRUD module](#create-new-crud-module)
+* [Environments](#environments)
 
 ### Features
 * Single file run and setup
@@ -109,8 +109,8 @@ Default value:
 
 # Environments
 There are 2 out of the box environments supported with instructions on how to configure each for  `Windows / Linux / Mac`
-* [Local python env] (#local-environment)
-* [Docker] (#docker-environment)
+* [Local python env](#local-environment)
+* [Docker](#docker-environment)
 
 ## Local Environment
 ### Windows
