@@ -1,7 +1,14 @@
 # Business Driven App (BDA)
-## is a Rapid Application Development (RAD) tool meant to assist with structure and building applications.
+## is a Rapid Application Development (RAD) tool meant to assist with structure and building flask based python applications.
 
-### This project currently offers the following features:
+## Overview
+* [Project Features] (### Features:)
+* [Requirements] (# Requirements)
+* [Quickstart] (# Quickstart)
+* [Create new CRUD module] (# Create new CRUD module)
+* [Environments] (# Environments)
+
+### Features:
 * Single file run and setup
 * Starter flask project which builds a project folder structures with  
     * Progressive Web App (PWA) to make it more friendly towards desktop and allow native installs from the web, chache for offline support, page sharing and push notifications etc
@@ -36,24 +43,24 @@
         * Forms
         * URL's (prefixed by the module name)
             * Web Routes:
-                * View ../xyz/ [list elements] ( index )
-                * View ../xyz/create [single element] ( create )
-                * POST URL ../xyz/store [single element] ( store )
-                * View ../xyz/show/{id} [single element] ( show )
-                * View ../xyz/edit/{id} [single element] ( edit )
-                * PUT URL ../xyz/update/{id} [single element]( update )
-                * DELETE URL ../xyz/destroy/{id} [single element] ( destroy )
+                * View ../xyz/ [list elements] `index`
+                * View ../xyz/create [single element] `create`
+                * POST URL ../xyz/store [single element] `store`
+                * View ../xyz/show/{id} [single element] `show`
+                * View ../xyz/edit/{id} [single element] `edit`
+                * PUT URL ../xyz/update/{id} [single element]`update`
+                * DELETE URL ../xyz/destroy/{id} [single element] `destroy`
             * API Routes:
-                * GET URL ../api/xyz [list elements] ( get )
-                * POST URL ../api/xyz [single element] ( post )
-                * GET URL ../api/xyz/{id} [single element] ( get )
-                * PUT URL ../api/xyz/{id} [single element] ( update )
-                * DELETE URL ../api/xyz/{id} [single element]( delete )
+                * GET URL ../api/xyz [list elements] `get`
+                * POST URL ../api/xyz [single element] `post`
+                * GET URL ../api/xyz/{id} [single element] `get`
+                * PUT URL ../api/xyz/{id} [single element] `update`
+                * DELETE URL ../api/xyz/{id} [single element]`delete`
         * Views for:
             * index (list elements)
-            * create (single element)
+            * create (single element form)
             * show (single element)
-            * edit (single element)
+            * edit (single element form)
 
 # Requirements
 * Python (https://www.python.org/downloads/) with PIP (https://pip.pypa.io/en/stable/installing/)
@@ -102,8 +109,8 @@ Default value:
 
 # Environments
 There are 2 out of the box environments supported with instructions on how to configure each for  `Windows / Linux / Mac`
-* Local python env
-* Docker
+* [Local python env] (## Local Environment)
+* [Docker] (## Docker Environment)
 
 ## Local Environment
 ### Windows
