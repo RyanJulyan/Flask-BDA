@@ -26,6 +26,7 @@ parser = reqparse.RequestParser()
 # parser.add_argument('example')
 
 # Xyz
+# https://flask-restful.readthedocs.io/en/latest/quickstart.html
 # shows a single xyz item, updates a single xyz item and lets you delete a xyz item
 class XyzResource(Resource):
     def get(self, id): # /xyz/<id>

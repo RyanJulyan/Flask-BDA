@@ -22,13 +22,13 @@ def index():
   
   return render_template("xyz/index.html", data=data)
 
-@mod_xyz.route('/create/', methods=['GET'])
+@mod_xyz.route('/create', methods=['GET'])
 def create():
   data = {}
 
   return render_template("xyz/create.html", data=data)
 
-@mod_xyz.route('/store/', methods=['POST'])
+@mod_xyz.route('/store', methods=['POST'])
 def store():
 
   data = Xyz(
@@ -59,7 +59,7 @@ def update(id):
   
   return redirect(url_for('xyz.show'))
 
-@mod_xyz.route('/destroy/<id>', methods=['POST'])
+@mod_xyz.route('/destroy/<id>', methods=['POST','DELETE'])
 def destroy(id):
   data = {}
   data['xyz'] = Xyz.query.filter_by(email=form.email.data).first()

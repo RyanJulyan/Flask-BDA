@@ -17,14 +17,29 @@
 * Create custom module files and folders that fit into the flask project structure from "create_module.py" file with prompts
     * Creates:
         * Model
-        * Controlle
+        * Web Controllers
+        * API Controllers
         * Forms
         * URL's (prefixed by the module name)
-            * Routes:
-                * index
-                * 
-        * Views (Templates for index)
-
+            * Web Routes:
+                * index (View ../xyz/ [list elements])
+                * create (View ../xyz/create [single element])
+                * store (POST URL ../xyz/store [single element])
+                * show (View ../xyz/show/<id> [single element])
+                * edit (View ../xyz/edit/<id> [single element])
+                * update (PUT URL ../xyz/update/<id> [single element])
+                * destroy (DELETE URL ../xyz/destroy/<id> [single element])
+            * API Routes:
+                * get (GET URL ../api/xyz [list elements])
+                * post (POST URL ../api/xyz [single element])
+                * get (GET URL ../api/xyz/<id> [single element])
+                * update (PUT URL ../api/xyz/<id> [single element])
+                * delete (DELETE URL ../api/xyz/<id> [single element])
+        * Views for:
+            * index (list elements)
+            * create (single element)
+            * show (single element)
+            * edit (single element)
 
 # Requirements
 * Python (https://www.python.org/downloads/) with PIP (https://pip.pypa.io/en/stable/installing/)
