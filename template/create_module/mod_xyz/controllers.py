@@ -65,4 +65,3 @@ def destroy(id):
   data['xyz'] = Xyz.query.filter_by(email=form.email.data).first()
   
   return redirect(url_for('xyz.index'))
-

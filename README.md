@@ -15,15 +15,24 @@
     * Docker virual environment
     * Local virtual environment
 * Create custom module files and folders that fit into the flask project structure from "create_module.py" file with prompts
+    * Creates:
+        * Model
+        * Controlle
+        * Forms
+        * URL's (prefixed by the module name)
+            * Routes:
+                * index
+                * 
+        * Views (Templates for index)
 
 
 # Requirements
-* Python (https://www.python.org/downloads/) with PIP
+* Python (https://www.python.org/downloads/) with PIP (https://pip.pypa.io/en/stable/installing/)
     * pip install virtualenv
     * pip install PyGithub
 
 # Quickstart
-* Open and run the file: "create_project_git.py"
+* Open and run the file: `<Path To>/create_project_git.py` from the root of BDA (you can download just that file if you wish)
     * fill in the instructions eg:
 ```
 Project Name:
@@ -33,12 +42,34 @@ My Awesome Project
     * this folder will be lower case and will have stripped out all of the special characters and replaced spaces with underscores
 
 # Create new CRUD module
-* Open and run the file: "create_module.py"
+* Open and run the file: `<Path To>/<my_awesome_project>/create_module.py`
     * fill in the instructions eg:
 ```
 Module Name:
 Projects
 ```
+* You can then create a table with columns by following the prompts eg:
+```
+Create new field Name (type the string: 'STOP_CREATING_FIELDS' to exit): name
+What datatype is name
+        'String'
+        'Int'
+        'Float'
+        'Numeric'
+        'Text'
+        'Date'
+        'DateTime'
+        'Boolean'
+        'BigInt'
+        'Enum'
+        'JSON'
+        'LargeBinary': String
+String Length (1-256): 256
+Is name nullable ('True', 'False'): false
+Is name unique ('True', 'False'): true
+Default value: 
+
+``` 
 
 # Environments
 There are 2 out of the box environments supported with instructions on how to configure each for  `Windows / Linux / Mac`

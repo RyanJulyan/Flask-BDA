@@ -14,6 +14,7 @@ import re
 ######## Project Details #########
 ##################################
 ##################################
+
 def getBool(prompt):
   while True:
     try:
@@ -112,8 +113,8 @@ def fields():
       if(dataType == 'Enum'):
         parameters = getEnumParameters()
         dataType = "Enum(" + str((', '.join('"' + item + '"' for item in parameters))) + ")"
-      nullable = getBool("is " + field + " nullable ('True', 'False'): ")
-      unique = getBool("is " + field + " unique ('True', 'False'): ")
+      nullable = getBool("Is " + field + " nullable ('True', 'False'): ")
+      unique = getBool("Is " + field + " unique ('True', 'False'): ")
       default = input("Default value: ") or False
       fields[field] = {
         "dataType":dataType,
@@ -143,19 +144,31 @@ for key, value in fields.items():
 
 instanceParams = str((', '.join( item for item in feildNames)))
 
-########################################
-########################################
-######## Make Base Directories #########
-########################################
-########################################
-os.system('mkdir "app/mod_' + module +'"')
-os.system('mkdir "app/templates/' + module + '"')
-
 ################################################
 ################################################
 ######## Creating A Module / Component #########
 ################################################
 ################################################
+
+########################################
+########################################
+######## Make Base Directories #########
+########################################
+########################################
+
+def copytree(src, dst, renameFrom='',renameTo='', symlinks=False, ignore=None):
+    if not os.path.exists(dst):
+        os.makedirs(dst.replace(renameFrom, renameTo))
+    for item in os.listdir(src):
+        s = os.path.join(src, item)
+        d = os.path.join(dst.replace(renameFrom, renameTo), item.replace(renameFrom, renameTo))
+        if os.path.isdir(s):
+            copytree(s, d, renameFrom, renameTo, symlinks, ignore)
+        else:
+            if not os.path.exists(d) or os.stat(s).st_mtime - os.stat(d).st_mtime > 1:
+                shutil.copy2(s, d)
+
+copytree('create_module', 'app/', 'xyz', module)
 
 ############################
 ############################
@@ -194,187 +207,56 @@ destination.close()
 ################################
 os.remove('app/__init__.py~')
 
-###################################
-######## mod_ controllers #########
-###################################
-f = open('app/mod_' + module +'/controllers.py', "w")
-f.write("""
-# Import flask dependencies
-from flask import Blueprint, request, render_template, flash, g, session, redirect, url_for
+def replaceTextBetweenTags(filePath, startBlockString, endBlockString, replacementString):
 
-# Import the database object from the main app module
-from app import db
+  searchExpressionString = startBlockString + '.*?' + endBlockString
+  replacementString = f"""{startBlockString}
+  {replacementString}
+  {endBlockString}"""
 
-# Import module forms
-from app.mod_""" + module +""".forms import LoginForm
+  with open(filePath) as file :
+    filedata = file.read()
 
-# Import module models (i.e. User)
-from app.mod_""" + module +""".models import """ + model +"""
+  for line in filedata:
+    filedata=re.sub(searchExpressionString, replacementString, filedata, flags=re.DOTALL)
 
-# Define the blueprint: '""" + module +"""', set its url prefix: app.url/""" + module +"""
-mod_""" + module +""" = Blueprint('""" + module +"""', __name__, url_prefix='/""" + module +"""')
+  with open(filePath, 'w') as file:
+    file.write(filedata)
 
-# Set the route and accepted methods
-@mod_""" + module +""".route('/', methods=['GET'])
-def index():
-  data = {}
-  data['""" + module +"""'] = """ + model +""".query.all()
-  
-  return render_template(\""""+ module +"""/index.html\", data=data)
+  file.close()
 
-@mod_""" + module +""".route('/create/', methods=['GET'])
-def create():
-  data = {}
-
-  return render_template(\""""+ module +"""/create.html\", data=data)
-
-@mod_""" + module +""".route('/store/', methods=['POST'])
-def store():
-
-  post = """ + model +"""(
-      title=request.form.get("title"),
-      body=request.form.get("body"),
-      author_id = g.user.id,
-      slug = slugify(request.form.get("title"))
-  )
-
-  return redirect(url_for('""" + module +""".index'))
-
-@mod_""" + module +""".route('/show/<id>', methods=['GET'])
-def show(id):
-  data = {}
-  data['""" + module +"""'] = """ + model +""".query.get(id=form.id.data)
-  
-  return render_template(\""""+ module +"""/show.html\", data=data)
-
-@mod_""" + module +""".route('/edit/<id>', methods=['GET'])
-def edit(id):
-  data = {}
-  data['""" + module +"""'] = """ + model +""".query.get(id=form.id.data)
-  
-  return render_template(\""""+ module +"""/edit.html\", data=data)
-
-@mod_""" + module +""".route('/update/<id>', methods=['PUT','PATCH'])
-def update(id):
-  data = {}
-  data['""" + module +"""'] = """ + model +""".query.filter_by(email=form.email.data).first()
-  
-  return redirect(url_for('""" + module +""".show'))
-
-@mod_""" + module +""".route('/destroy/<id>', methods=['POST'])
-def destroy(id):
-  data = {}
-  data['""" + module +"""'] = """ + model +""".query.filter_by(email=form.email.data).first()
-  
-  return redirect(url_for('""" + module +""".index'))
-
-""")
-f.close()
-
-##############################
-######## mod_ models #########
-##############################
-f = open('app/mod_' + module +'/models.py', "w")
-f.write("""
-# Import the database object (db) from the main application module
-# We will define this inside /app/__init__.py in the next sections.
-from app import db
-
-# Define a base model for other database tables to inherit
-class Base(db.Model):
-  
-  __abstract__  = True
-  id            = db.Column(db.BigInteger, autoincrement=True, primary_key=True)
-  created_at    = db.Column(db.DateTime, default=db.func.current_timestamp())
-  updated_at    = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
-  deleted_at    = db.Column(db.DateTime, nullable=True)
-
-# Define a """+ model + """ model
-class """+ model + """(Base):
-  __tablename__ = '""" + module +"""'
-  # Fields
-  """+ columns + """
-  # New instance instantiation procedure
-  def __init__(self, """ + instanceParams + """):
-    """ + instanceNames + """
-    self.deleted_at = deleted_at
-  
-  def __repr__(self):
-    return '<"""+ model + """ %r>' % (self.name)
-""")
-f.close()
-
-#############################
-######## mod_ forms #########
-#############################
-f = open('app/mod_' + module +'/forms.py', "w")
-f.write("""
-# Import Form and RecaptchaField (optional)
-from flask_wtf import Form # , RecaptchaField
-
-# Import Form elements such as TextField and BooleanField (optional)
-from wtforms import TextField, BooleanField
-
-# Import Form validators
-from wtforms.validators import Required
-
-# Define the login form (WTForms)
-
-class LoginForm(Form):
-    email    = TextField('Email Address', [Email(),
-                Required(message='Forgot your email address?')])
-    password = PasswordField('Password', [
-                Required(message='Must provide a password. ;-)')])
-""")
-f.close()
-
-##################################
-######## mod_ index.html #########
-##################################
-f = open('app/templates/' + module +'/index.html', "w")
-f.write("""
-{% extends "index.html" %}
-
-{% block content %}
-
-{% endblock content %}
-""")
-f.close()
-###################################
-######## mod_ create.html #########
-###################################
-f = open('app/templates/' + module +'/create.html', "w")
-f.write("""
-{% extends "index.html" %}
-
-{% block content %}
-
-{% endblock content %}
-""")
-f.close()
-#################################
-######## mod_ show.html #########
-#################################
-f = open('app/templates/' + module +'/show.html', "w")
-f.write("""
-{% extends "index.html" %}
-
-{% block content %}
-
-{% endblock content %}
-""")
-f.close()
-#################################
-######## mod_ edit.html #########
-#################################
-f = open('app/templates/' + module +'/edit.html', "w")
-f.write("""
-{% extends "index.html" %}
-
-{% block content %}
-
-{% endblock content %}
-""")
-f.close()
-
+def renameCustomizeFileVariables(src, renameFrom='',renameTo=''):
+  for item in os.listdir(src):
+        s = os.path.join(src, item)
+        if os.path.isdir(s):
+            renameCustomizeFileVariables(s, renameFrom, renameTo)
+        else:
+          ###############################################
+          ######## manage source -> destination #########
+          ###############################################
+          destination= open(s, "w" )
+          source = open(s+'~', "r" )
+          
+          if('models.py' in s):
+            replaceTextBetweenTags(s,'# start new field definitions','# end new field definitions','')
+            replaceTextBetweenTags(s,'# start new instance fields','# end new instance fields','')
+          
+          for line in source:
+            ###################################
+            ######## Rename Variables #########
+            ###################################
+            destination.write( ( line.replace(renameFrom, renameTo) ).replace(renameFrom.capitalize(), renameTo.capitalize()) )
+            
+            if "# start new field definitions" in line:
+                destination.write(columns+"\n" )
+            
+            if "# start new instance fields" in line:
+                destination.write(instanceNames+"\n" )
+            
+            if "def __init__" in line and 'models.py' in s:
+                destination.write('def __init__(self, ' + instanceParams + "): # ,example_field):\n" )
+          ################################
+          ######## remove source #########
+          ################################
+          os.remove(s+'~')
 

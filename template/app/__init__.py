@@ -2,11 +2,15 @@
 # Import flask and template operators
 from flask import Flask, render_template
 
+# Import Flask Restful for API
+from flask_restful import Resource, Api
+
 # Import SQLAlchemy
 from flask_sqlalchemy import SQLAlchemy
 
 # Define the WSGI application object
 app = Flask(__name__)
+api = Api(app)
 
 # Configurations
 app.config.from_object('config')

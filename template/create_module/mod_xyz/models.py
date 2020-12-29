@@ -15,14 +15,19 @@ class Base(db.Model):
 # Define a Xyz model
 class Xyz(Base):
   __tablename__ = 'xyz'
-  # new field definitions
-    
-  example_field = db.Column(db.String(256), nullable=False,default=False, unique=False)
+  # start new field definitions
+  # this line should be removed and replaced with the columns variable
+  # end new field definitions
+
+  # example_field = db.Column(db.String(256), nullable=False,default=False, unique=False)
 
   # New instance instantiation procedure
-  def __init__(self, example_field):
-    # new fields
-    self.example_field = example_field
+  def __init__(self): # ,example_field):
+    # start new instance fields
+    # this line should be removed and replaced with the instanceNames variable
+    # end new instance fields
+
+    #self.example_field = example_field
   
   def __repr__(self):
     return '<Xyz %r>' % (self.name)

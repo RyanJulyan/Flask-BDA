@@ -5,7 +5,7 @@ window.addEventListener('load', () => {
 async function registerSW() {
   if ('serviceWorker' in navigator) {
     try {
-      await navigator.serviceWorker.register('./sw.js')
+      await navigator.serviceWorker.register('/sw.js')
       .then(function(result){
         console.log("sw.js Scope:", result.scope)
       });
