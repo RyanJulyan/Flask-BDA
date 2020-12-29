@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable = yes">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  
+  <!-- https://gist.github.com/lancejpollard/1978404 -->
+  <!-- https://gist.github.com/whitingx/3840905 -->
+  <title>BDA</title>
+  <meta name="apple-mobile-web-app-title" content="BDA">
+  <meta name="application-name" content="BDA">
+
+  <!-- SEO -->
+  <meta name='subtitle' content='{Subtitle}'>
+  <meta name="summary" content="{SiteSummary}">
+  <meta name="abstract" content="{SiteAbstract}">
+  <meta name="description" content="{SiteDescription}">
+  <meta name="keywords" content="{Keywords}">
+  <meta name="author" content="{DeveloperName}">
+  <meta name="subject" content="{SiteSubject}">
+  <meta name="copyright"content="BDA">
+  <meta name="url" content="http://www.bda.com">
+  <meta name="identifier-URL" content="http://www.bda.com">
+  <meta name="robots" content="index, follow" />
+  <meta name="revisit-after" content="7 days">
+
+  <!-- OpenGraph Meta Tags -->
+  <!-- https://ogp.me/ -->
+  <meta name="og:title" content="BDA"/>
+  <meta name="og:type" content="website"/>
+  <meta name="og:url" content="http://www.bda.com/"/>
+  <meta name="og:image" content="http://ia.media-imdb.com/rock.jpg"/>
+  <meta name="og:site_name" content="BDA"/>
+  <meta name="og:description" content="This is a bare bones example of a PWA with all the features I want to include"/>
+
+  <!-- Icons -->
+  <link rel="shortcut icon" type="image/ico" href="/favicon.ico" />
+  <link rel="apple-touch-icon" href="./static/images/icon-512.png" />
+  <link rel="apple-touch-icon" sizes="72x72" href="./static/images/icon-512.png" />
+  <link rel="apple-touch-icon" sizes="114x114" href="./static/images/icon-512.png" />
+  <link rel="apple-touch-startup-image" href="./static/images/icon-512.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./static/images/icon-512.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./static/images/icon-512.png">
+  <link rel="icon" href="./static/images/icon-192.png" sizes="192x192" />
+  <link rel="icon" href="./static/images/icon-512.png" sizes="512x512" />
+  <meta name="msapplication-TileImage" content="./static/images/icon-512.png">
+
+  <!-- PWA -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=yes">
+  <meta content="yes" name="apple-touch-fullscreen" />
+  <meta name="theme-color" content="#3367D6">
+  <meta name="msapplication-TileColor" content="#3367D6">
+  
+  <script async src="https://unpkg.com/pwacompat" crossorigin="anonymous" defer></script>
+
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Local Storage -->
+  <script src="static/js/immortal-db.min.js" defer></script>
+
+  <!-- Helper Functions -->
+  <script src="static/js/helper_functions.js" defer></script>
+
+  <!-- Site CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <!-- Site Javascript -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" defer></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" defer></script>
+  
+  <!-- Register Service Worker -->
+  <script src="static/js/register_sw.js" defer></script>
+  
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+  
+</head>
+<body>
+    
+    <!-- Install Button -->
+    <button type="button" id="installButton" class="btn btn-success">Install</button>
+    <!-- Javascript -->
+    <script src="static/js/install_prompt.js" defer></script>
+    
+    <!-- Web Push Notification Button -->
+    <button type="button" id="webPushButton" class="btn btn-success">Allow Notifications</button>
+    <!-- Javascript -->
+    <script src="static/js/web_push.js" defer></script>
+    
+    <!-- Page Content -->
+    {% block content %}
+    {% endblock content %}
+
+    <!-- Share Buttons -->
+    <button type="button" class="btn btn-primary shareButton" data-title="Share 1">Share</button>
+    <button type="button" class="btn btn-primary shareButton" data-title="Share 2">Share</button>
+    <!-- Javascript -->
+    <script src="static/js/web_share.js" defer></script>
+    
+</body>
+</html>
