@@ -9,32 +9,32 @@
   
   <!-- https://gist.github.com/lancejpollard/1978404 -->
   <!-- https://gist.github.com/whitingx/3840905 -->
-  <title>BDA</title>
-  <meta name="apple-mobile-web-app-title" content="BDA">
-  <meta name="application-name" content="BDA">
+  <title>{{ config.SITE_TITLE }}</title>
+  <meta name="apple-mobile-web-app-title" content="{{ config.SITE_TITLE }}">
+  <meta name="application-name" content="{{ config.SITE_TITLE }}">
 
   <!-- SEO -->
-  <meta name='subtitle' content='{Subtitle}'>
-  <meta name="summary" content="{SiteSummary}">
-  <meta name="abstract" content="{SiteAbstract}">
-  <meta name="description" content="{SiteDescription}">
-  <meta name="keywords" content="{Keywords}">
-  <meta name="author" content="{DeveloperName}">
-  <meta name="subject" content="{SiteSubject}">
-  <meta name="copyright"content="BDA">
-  <meta name="url" content="http://www.bda.com">
-  <meta name="identifier-URL" content="http://www.bda.com">
+  <meta name='subtitle' content='{{ config.SEO_SUBTITLE }}'>
+  <meta name="summary" content="{{ config.SEO_SUMMARY }}">
+  <meta name="abstract" content="{{ config.SEO_ABSTRACT }}">
+  <meta name="description" content="{{ config.SITE_DESCRIPTION }}">
+  <meta name="keywords" content="{{ config.SEO_KEYWORDS }}">
+  <meta name="author" content="{{ config.DEVELOPER_NAME }}">
+  <meta name="subject" content="{{ config.SEO_SUBJECT }}">
+  <meta name="copyright"content="{{ config.SITE_TITLE }}">
+  <meta name="url" content="{{ config.SITE_URL }}">
+  <meta name="identifier-URL" content="{{ config.SITE_URL }}">
   <meta name="robots" content="index, follow" />
-  <meta name="revisit-after" content="7 days">
+  <meta name="revisit-after" content="{{ config.SEO_REVISIT_AFTER }}">
 
   <!-- OpenGraph Meta Tags -->
   <!-- https://ogp.me/ -->
-  <meta name="og:title" content="BDA"/>
+  <meta name="og:title" content="{{ config.SITE_TITLE }}"/>
   <meta name="og:type" content="website"/>
-  <meta name="og:url" content="http://www.bda.com/"/>
+  <meta name="og:url" content="{{ config.SITE_URL }}"/>
   <meta name="og:image" content="http://ia.media-imdb.com/rock.jpg"/>
-  <meta name="og:site_name" content="BDA"/>
-  <meta name="og:description" content="This is a bare bones example of a PWA with all the features I want to include"/>
+  <meta name="og:site_name" content="{{ config.SITE_TITLE }}"/>
+  <meta name="og:description" content="{{ config.SITE_DESCRIPTION }}"/>
 
   <!-- Icons -->
   <link rel="shortcut icon" type="image/ico" href="/favicon.ico" />
@@ -53,8 +53,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="format-detection" content="telephone=yes">
   <meta content="yes" name="apple-touch-fullscreen" />
-  <meta name="theme-color" content="#3367D6">
-  <meta name="msapplication-TileColor" content="#3367D6">
+  <meta name="theme-color" content="{{ config.SITE_THEME_COLOR }}">
+  <meta name="msapplication-TileColor" content="{{ config.SITE_THEME_COLOR }}">
   
   <script async src="https://unpkg.com/pwacompat" crossorigin="anonymous" defer></script>
 
@@ -67,10 +67,9 @@
   <script src="{{ url_for('static', filename='js/helper_functions.js') }}" defer></script>
 
   <!-- Site CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  
   <!-- Site Javascript -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" defer></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" defer></script>
   
   <!-- Register Service Worker -->
   <script src="{{ url_for('static', filename='js/register_sw.js') }}" defer></script>
@@ -85,25 +84,26 @@
 </head>
 <body>
     
-    <!-- Install Button -->
-    <button type="button" id="installButton" class="btn btn-success">Install</button>
-    <!-- Javascript -->
-    <script src="{{ url_for('static', filename='js/install_prompt.js') }}" defer></script>
-    
-    <!-- Web Push Notification Button -->
-    <button type="button" id="webPushButton" class="btn btn-success">Allow Notifications</button>
-    <!-- Javascript -->
-    <script src="{{ url_for('static', filename='js/web_push.js') }}" defer></script>
-    
     <!-- Page Content -->
-    {% block content %}
-    {% endblock content %}
-
-    <!-- Share Buttons -->
-    <button type="button" class="btn btn-primary shareButton" data-title="Share 1">Share</button>
-    <button type="button" class="btn btn-primary shareButton" data-title="Share 2">Share</button>
-    <!-- Javascript -->
-    <script src="{{ url_for('static', filename='js/web_share.js') }}" defer></script>
+    {% block page_content %}
+      
+      <!-- Install Button -->
+      <button type="button" id="installButton" class="btn btn-success">Install</button>
+      <!-- Javascript -->
+      <script src="{{ url_for('static', filename='js/install_prompt.js') }}" defer></script>
+      
+      <!-- Web Push Notification Button -->
+      <button type="button" id="webPushButton" class="btn btn-success">Allow Notifications</button>
+      <!-- Javascript -->
+      <script src="{{ url_for('static', filename='js/web_push.js') }}" defer></script>
+      
+      <!-- Share Buttons -->
+      <button type="button" class="btn btn-primary shareButton" data-title="Share 1">Share</button>
+      <button type="button" class="btn btn-primary shareButton" data-title="Share 2">Share</button>
+      <!-- Javascript -->
+      <script src="{{ url_for('static', filename='js/web_share.js') }}" defer></script>
+        
+    {% endblock page_content %}
     
 </body>
 </html>

@@ -2,6 +2,7 @@ const cacheName = 'pwa-sw-v0.0.0.2';
 const staticAssets = [
   './',
   './index.html',
+  'https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css',
   './static/css/styles.css',
   './static/js/immortal-db.min.js',
   './static/js/register_sw.js',

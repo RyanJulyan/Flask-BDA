@@ -10,7 +10,7 @@ from wtforms.validators import Required
 
 # Define the login form (WTForms)
 
-class XyzForm(Form):
+class LoginForm(Form):
     email    = TextField('Email Address', [Email(),
                 Required(message='Forgot your email address?')])
     password = PasswordField('Password', [

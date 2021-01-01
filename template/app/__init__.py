@@ -1,6 +1,8 @@
 
 # Import flask and template operators
-from flask import Flask, render_template
+from flask import Flask, render_template, make_response, send_from_directory
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 
 # Import Flask Restful for API
 from flask_restful import Resource, Api
@@ -12,12 +14,33 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 api = Api(app)
 
+# Login_manager
+login_manager = LoginManager()
+login_manager.init_app(app)
+
 # Configurations
 app.config.from_object('config')
+
+# Serializer
+serializer = URLSafeTimedSerializer(app.secret_key)
 
 # Define the database object which is imported
 # by modules and controllers
 db = SQLAlchemy(app)
+
+# User_loader
+@login_manager.user_loader
+def load_user(session_token):
+    user = User.query.filter_by(session_token=session_token).first()
+    
+    try:
+        serializer.loads(session_token, max_age=app.config['TIME_TO_EXPIRE'])
+    except SignatureExpired:
+        user.session_token = None
+        db.session.commit()
+        return None
+
+    return user
 
 # Sample HTTP error handling
 @app.errorhandler(404)
@@ -36,15 +59,29 @@ def sw():
     return response
     # return app.send_static_file('sw.js')
 
+#Serve Service Worker
+@app.route('/')
+def landing():
+    return render_template('./public/index.html')
+
 # Import a module / component using its blueprint handler variable (mod_auth)
+# from app.mod_xyz.controllers import mod_xyz as xyz_module
 from app.mod_auth.controllers import mod_auth as auth_module
 # import new xyz_module
-from app.mod_xyz.controllers import mod_xyz as xyz_module
+from app.mod_test.controllers import mod_public_test as test_public_module
+from app.mod_test.controllers import mod_admin_test as test_admin_module
+from app.mod_test.api_controllers import TestListResource, TestResource
 
 # Register blueprint(s)
 app.register_blueprint(auth_module)
 # register_blueprint new xyz_module
-app.register_blueprint(xyz_module)
+app.register_blueprint(test_public_module)
+app.register_blueprint(test_admin_module)
+
+# Register api(s)
+# new xyz api resource routing
+api.add_resource(TestListResource, '/api/test')
+api.add_resource(TestResource, '/api/test/<id>')
 
 # Build the database:
 # This will create the database file using SQLAlchemy

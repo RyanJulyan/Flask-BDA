@@ -138,7 +138,7 @@ instanceNames = '    \n'
 instanceParams = ''
 
 for key, value in fields.items():
-  columns += "  {} = db.Column(db.{}, nullable={},default={}, unique={})\n".format(key,value['dataType'],value['nullable'],value['default'],value['unique'])
+  columns += "  {} = db.Column(db.{}, nullable={}, default={}, unique={})\n".format(key,value['dataType'],value['nullable'],value['default'],value['unique'])
   instanceNames += "    self.{} = {}\n".format(key,key)
   feildNames.append(key)
 
@@ -194,10 +194,17 @@ for line in source:
     destination.write( line )
     
     if "# import new xyz_module" in line:
-        destination.write("from app.mod_" + module + ".controllers import mod_" + module + " as " + module + "_module\n" )
+        destination.write("from app.mod_" + module + ".controllers import mod_public_" + module + " as " + module + "_public_module\n" )
+        destination.write("from app.mod_" + module + ".controllers import mod_admin_" + module + " as " + module + "_admin_module\n" )
+        destination.write("from app.mod_" + module + ".api_controllers import " + module.capitalize() + "ListResource, " + module.capitalize() + "Resource\n" )
     
     if "# register_blueprint new xyz_module" in line:
-        destination.write("app.register_blueprint(" + module + "_module)\n" )
+        destination.write("app.register_blueprint(" + module + "_public_module)\n" )
+        destination.write("app.register_blueprint(" + module + "_admin_module)\n" )
+    
+    if "# new xyz api resource routing" in line:
+        destination.write("api.add_resource(" + module.capitalize() + "ListResource, '/api/" + module + "')\n" )
+        destination.write("api.add_resource(" + module.capitalize() + "Resource, '/api/" + module + "/<id>')\n" )
 
 source.close()
 destination.close()
@@ -205,7 +212,14 @@ destination.close()
 ################################
 ######## remove source #########
 ################################
+
 os.remove('app/__init__.py~')
+
+#############################################
+#############################################
+######## mod_  and template updates #########
+#############################################
+#############################################
 
 def replaceTextBetweenTags(filePath, startBlockString, endBlockString, replacementString):
 
@@ -231,9 +245,16 @@ def renameCustomizeFileVariables(src, renameFrom='',renameTo=''):
         if os.path.isdir(s):
             renameCustomizeFileVariables(s, renameFrom, renameTo)
         else:
+          #############################################################
+          ######## Copy temp for manage source -> destination #########
+          #############################################################
+
+          shutil.copy2(s, s+'~')
+
           ###############################################
           ######## manage source -> destination #########
           ###############################################
+
           destination= open(s, "w" )
           source = open(s+'~', "r" )
           
@@ -242,10 +263,15 @@ def renameCustomizeFileVariables(src, renameFrom='',renameTo=''):
             replaceTextBetweenTags(s,'# start new instance fields','# end new instance fields','')
           
           for line in source:
+
             ###################################
             ######## Rename Variables #########
             ###################################
-            destination.write( ( line.replace(renameFrom, renameTo) ).replace(renameFrom.capitalize(), renameTo.capitalize()) )
+            
+            if "def __init__" in line and 'models.py' in s:
+              continue
+            else:
+              destination.write( ( line.replace(renameFrom, renameTo) ).replace(renameFrom.capitalize(), renameTo.capitalize()) )
             
             if "# start new field definitions" in line:
                 destination.write(columns+"\n" )
@@ -254,9 +280,18 @@ def renameCustomizeFileVariables(src, renameFrom='',renameTo=''):
                 destination.write(instanceNames+"\n" )
             
             if "def __init__" in line and 'models.py' in s:
-                destination.write('def __init__(self, ' + instanceParams + "): # ,example_field):\n" )
+                destination.write('  def __init__(self, ' + instanceParams + "): # ,example_field):\n" )
+            
+          source.close()
+          destination.close()
+
           ################################
           ######## remove source #########
           ################################
+
           os.remove(s+'~')
+
+renameCustomizeFileVariables('app/mod_'+module,'xyz',module)
+renameCustomizeFileVariables('app/templates/'+module,'xyz',module)
+
 

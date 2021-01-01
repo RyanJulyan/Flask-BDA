@@ -1,5 +1,5 @@
 # Business Driven App (BDA)
-## is a Rapid Application Development (RAD) tool meant to assist with structure and building flask based python applications.
+## a Rapid Application Development (RAD) tool to assist with building flask python applications.
 
 ## Overview
 * [Project Features](#features)
@@ -16,30 +16,36 @@
     * Isolated module code and templates
     * Configuration file "config.py" for quick access and management of environment and environment variables
     * Server entry point file for shared hosting from "run.py" 
+    * A Landing page with call to action and features
     * A 403 page which all forbidden pages goes to
     * A 404 page which all unknown pages goes to
     * .gitignore files with defaults
     * Docker virual environment
     * Local virtual environment
+    * Tailwind for Layouts / design
+        * Highly customizable and flexable
+        * Pre-setup via CDN
+        * Versatile
+        * There is no JavaScript. And because of that, you can easily bind it with any JavaScript framework of your choice
 * Create custom module files and folders that fit into the flask project structure from "create_module.py" file with prompts
     * Running this will creates:
         * Model
         * Web Controllers
-            * index
-            * create
-            * store
-            * show
-            * edit
-            * update
-            * destroy
+            * `index`
+            * `create`
+            * `store`
+            * `show`
+            * `edit`
+            * `update`
+            * `destroy`
         * API Controllers
             * XyzListResource
-                * get
-                * post
+                * `get`
+                * `post`
             * XyzResource
-                * get
-                * update
-                * delete
+                * `get`
+                * `update`
+                * `delete`
         * Forms
         * URL's (prefixed by the module name)
             * Web Routes:
@@ -57,15 +63,18 @@
                 * PUT URL ../api/xyz/{id} [single element] `update`
                 * DELETE URL ../api/xyz/{id} [single element]`delete`
         * Views for:
-            * index (list elements)
-            * create (single element form)
-            * show (single element)
-            * edit (single element form)
+            * public
+                * `public_list.html` (list elements)
+            * admin
+                * `index.html` (list elements)
+                * `create.html` (single element form)
+                * `show.html` (single element)
+                * `edit.html` (single element form)
 
 # Requirements
 * Python (https://www.python.org/downloads/) with PIP (https://pip.pypa.io/en/stable/installing/)
-    * pip install virtualenv
-    * pip install PyGithub
+    * `pip install virtualenv`
+    * `pip install PyGithub`
 
 # Quickstart
 * Open and run the file: `<Path To>/create_project_git.py` from the root of BDA (you can download just that file if you wish)
@@ -108,7 +117,7 @@ Default value:
 ``` 
 
 # Environments
-There are 2 out of the box environments supported with instructions on how to configure each for  `Windows / Linux / Mac`
+There are 2 out of the box environments supported with instructions on how to configure each for  `Windows / Linux / Mac` and you could run them at the same time if you want.
 * [Local python env](#local-environment)
 * [Docker](#docker-environment)
 
@@ -119,6 +128,9 @@ There are 2 out of the box environments supported with instructions on how to co
     * Type "cmd" to open the terminal
 ```
 cd <Path To>/my_awesome_project
+
+pip install virtualenv
+virtualenv env
 
 env\Scripts\activate
 
@@ -135,6 +147,9 @@ flask run
     * "Control + Option + Shift + T" to open the terminal
 ```
 cd <Path To>/my_awesome_project
+
+pip install virtualenv
+virtualenv env
 
 env/bin/activate
 

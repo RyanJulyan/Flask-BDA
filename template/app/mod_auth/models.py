@@ -2,6 +2,7 @@
 # Import the database object (db) from the main application module
 # We will define this inside /app/__init__.py in the next sections.
 from app import db
+from flask_login import UserMixin
 
 # Define a base model for other database tables to inherit
 class Base(db.Model):
@@ -14,7 +15,7 @@ class Base(db.Model):
     deleted_at    = db.Column(db.DateTime, nullable=True)
 
 # Define a User model
-class User(Base):
+class User(UserMixin, Base):
 
     __tablename__ = 'auth_user'
 
@@ -28,7 +29,13 @@ class User(Base):
     # Authorisation Data: role & status
     role     = db.Column(db.SmallInteger, nullable=False)
     status   = db.Column(db.SmallInteger, nullable=False)
-
+    
+    # Authorisation Data: Session 
+    session_token = db.Column(db.String(100), unique=True)
+    
+    def get_id(self):
+        return self.session_token
+    
     # New instance instantiation procedure
     def __init__(self, name, email, password):
 

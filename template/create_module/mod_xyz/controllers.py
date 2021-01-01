@@ -6,29 +6,37 @@ from flask import Blueprint, request, render_template, flash, g, session, redire
 from app import db
 
 # Import module forms
-# from app.mod_xyz.forms import LoginForm
+from app.mod_xyz.forms import XyzForm
 
 # Import module models (i.e. User)
 from app.mod_xyz.models import Xyz
 
 # Define the blueprint: 'xyz', set its url prefix: app.url/xyz
-mod_xyz = Blueprint('xyz', __name__, url_prefix='/xyz')
+mod_public_xyz = Blueprint('xyz_public', __name__, url_prefix='/xyz')
+mod_admin_xyz = Blueprint('xyz_admin', __name__, url_prefix='/admin/xyz')
 
 # Set the route and accepted methods
-@mod_xyz.route('/', methods=['GET'])
+@mod_public_xyz.route('/', methods=['GET'])
+def public_list():
+  data = {}
+  data['xyz'] = Xyz.query.all()
+  
+  return render_template("xyz/public/public_list.html", data=data)
+
+@mod_admin_xyz.route('/', methods=['GET'])
 def index():
   data = {}
   data['xyz'] = Xyz.query.all()
   
-  return render_template("xyz/index.html", data=data)
+  return render_template("xyz/admin/index.html", data=data)
 
-@mod_xyz.route('/create', methods=['GET'])
+@mod_admin_xyz.route('/create', methods=['GET'])
 def create():
   data = {}
 
-  return render_template("xyz/create.html", data=data)
+  return render_template("xyz/admin/create.html", data=data)
 
-@mod_xyz.route('/store', methods=['POST'])
+@mod_admin_xyz.route('/store', methods=['POST'])
 def store():
 
   data = Xyz(
@@ -36,32 +44,32 @@ def store():
       # title=request.form.get("title")
   )
 
-  return redirect(url_for('xyz.index'))
+  return redirect(url_for('xyz_admin.index'))
 
-@mod_xyz.route('/show/<id>', methods=['GET'])
+@mod_admin_xyz.route('/show/<id>', methods=['GET'])
 def show(id):
   data = {}
-  data['xyz'] = Xyz.query.get(id=form.id.data)
+  data['xyz'] = Xyz.query.get(id)
   
-  return render_template("xyz/show.html", data=data)
+  return render_template("xyz/admin/show.html", data=data)
 
-@mod_xyz.route('/edit/<id>', methods=['GET'])
+@mod_admin_xyz.route('/edit/<id>', methods=['GET'])
 def edit(id):
   data = {}
-  data['xyz'] = Xyz.query.get(id=form.id.data)
+  data['xyz'] = Xyz.query.get(id)
   
-  return render_template("xyz/edit.html", data=data)
+  return render_template("xyz/admin/edit.html", data=data)
 
-@mod_xyz.route('/update/<id>', methods=['PUT','PATCH'])
+@mod_admin_xyz.route('/update/<id>', methods=['PUT','PATCH'])
 def update(id):
   data = {}
-  data['xyz'] = Xyz.query.filter_by(email=form.email.data).first()
+  # data['xyz'] = Xyz.query.filter_by(email=form.email.data).first()
   
-  return redirect(url_for('xyz.show'))
+  return redirect(url_for('xyz_admin.index'))
 
-@mod_xyz.route('/destroy/<id>', methods=['POST','DELETE'])
+@mod_admin_xyz.route('/destroy/<id>', methods=['POST','DELETE'])
 def destroy(id):
   data = {}
-  data['xyz'] = Xyz.query.filter_by(email=form.email.data).first()
+  # data['xyz'] = Xyz.query.filter_by(email=form.email.data).first()
   
-  return redirect(url_for('xyz.index'))
+  return redirect(url_for('xyz_admin.index'))

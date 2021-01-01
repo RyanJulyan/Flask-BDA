@@ -1,0 +1,109 @@
+
+async function generateKey() {
+  const algoritm = { name: "ECDH", namedCurve: "P-256", };
+  const exportable = true;
+  const usage = ["deriveKey", "deriveBits"];
+  return await window.crypto.subtle.generateKey(algoritm, exportable, usage).then(key => { return key; });
+}
+
+async function exportKey(key) {
+  const format = "jwk";
+  return await window.crypto.subtle.exportKey(format, key).then(key => { return key; });
+}
+
+async function importPublicKey(key) {
+  const format = "jwk";
+  const algoritm = { name: "ECDH", namedCurve: "P-256", };
+  const exportable = true;
+  const usage = [];
+  return await window.crypto.subtle.importKey(format, key, algoritm, exportable, usage).then(key => { return key; });
+}
+
+async function importPrivateKey(key) {
+  const format = "jwk";
+  const algoritm = { name: "ECDH", namedCurve: "P-256", };
+  const exportable = true;
+  const usage = ["deriveKey", "deriveBits"];
+  return await window.crypto.subtle.importKey(format, key, algoritm, exportable, usage).then(key => { return key; });
+}
+
+async function deriveKey(publicKey,privateKey) {
+  const fromAlgoritm = { name: "ECDH", public: publicKey};
+  const algoritm = { name: "AES-GCM", length: 256 };
+  const exportable = true;
+  const usage = ["encrypt", "decrypt"];
+  return await window.crypto.subtle.deriveKey(fromAlgoritm, privateKey, algoritm, exportable, usage).then(key => { return key; });
+}
+
+async function encryptText(message, derivedKey, initializationVector = 16){
+    try {
+        
+        const messageText = JSON.stringify(message);
+        const data=  new TextEncoder().encode(messageText)
+        // const uintArray = new Uint8Array(
+        //     [...data].map((char) => char.charCodeAt(0))
+        // );
+
+        const iv = window.crypto.getRandomValues(new Uint8Array(initializationVector));
+        
+        const algorithm = {
+            name: "AES-GCM",
+            length: 128,
+            iv: iv,
+        };
+
+        const encryptedData = await window.crypto.subtle.encrypt(
+            algorithm,
+            derivedKey,
+            data
+        ).then(value => { return value; });
+
+        return new TextDecoder().decode(encryptedData);
+    } catch (e) {
+        return `error encrypting message: ${e}`;
+    }
+}
+
+async function decryptText(encryptedMessage, derivedKey, initializationVector = 16){
+    try {
+        
+        const messageText = JSON.stringify(encryptedMessage);
+        const uintArray = new Uint8Array(
+            [...messageText].map((char) => char.charCodeAt(0))
+        );
+
+        const iv = window.crypto.getRandomValues(new Uint8Array(initializationVector));
+        
+        const algorithm = {
+            name: "AES-GCM",
+            length: 128,
+            iv: iv,
+        };
+
+        const decryptedData = await window.crypto.subtle.decrypt(
+            algorithm,
+            derivedKey,
+            uintArray
+        ).then(value => { return value; });
+
+        return new TextDecoder().decode(decryptedData);
+    } catch (e) {
+        return `error decrypting message: ${e}`;
+    }
+}
+
+const keyPair = await generateKey()
+
+const publicKeyJwk = await exportKey(keyPair.publicKey)
+const privateKeyJwk = await exportKey(keyPair.privateKey)
+
+const publicKey = await importPublicKey(publicKeyJwk)
+const privateKey = await importPrivateKey(privateKeyJwk)
+
+const derivedKey = await deriveKey(publicKey,privateKey);
+
+const encryptedMessage = await encryptText({message:"should work even with JSON"},derivedKey)
+
+const decryptedMessage = await decryptText(encryptedMessage,derivedKey)
+
+
