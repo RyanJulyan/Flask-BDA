@@ -24,6 +24,7 @@ def public_list():
   return render_template("xyz/public/public_list.html", data=data)
 
 @mod_admin_xyz.route('/', methods=['GET'])
+@login_required
 def index():
   data = {}
   data['xyz'] = Xyz.query.all()
@@ -31,12 +32,14 @@ def index():
   return render_template("xyz/admin/index.html", data=data)
 
 @mod_admin_xyz.route('/create', methods=['GET'])
+@login_required
 def create():
   data = {}
 
   return render_template("xyz/admin/create.html", data=data)
 
 @mod_admin_xyz.route('/store', methods=['POST'])
+@login_required
 def store():
 
   data = Xyz(
@@ -47,6 +50,7 @@ def store():
   return redirect(url_for('xyz_admin.index'))
 
 @mod_admin_xyz.route('/show/<id>', methods=['GET'])
+@login_required
 def show(id):
   data = {}
   data['xyz'] = Xyz.query.get(id)
@@ -54,6 +58,7 @@ def show(id):
   return render_template("xyz/admin/show.html", data=data)
 
 @mod_admin_xyz.route('/edit/<id>', methods=['GET'])
+@login_required
 def edit(id):
   data = {}
   data['xyz'] = Xyz.query.get(id)
@@ -61,6 +66,7 @@ def edit(id):
   return render_template("xyz/admin/edit.html", data=data)
 
 @mod_admin_xyz.route('/update/<id>', methods=['PUT','PATCH'])
+@login_required
 def update(id):
   data = {}
   # data['xyz'] = Xyz.query.filter_by(email=form.email.data).first()
@@ -68,6 +74,7 @@ def update(id):
   return redirect(url_for('xyz_admin.index'))
 
 @mod_admin_xyz.route('/destroy/<id>', methods=['POST','DELETE'])
+@login_required
 def destroy(id):
   data = {}
   # data['xyz'] = Xyz.query.filter_by(email=form.email.data).first()

@@ -10,7 +10,12 @@
 
 ### Features
 * Single file run and setup
-* Starter flask project which builds a project folder structures with  
+* Starter flask project which builds a project folder structures with
+    * Flask microframework
+        * Quick and easy
+        * Ability to scale up
+        * One of the most popular Python web application frameworks.
+        * Doesn't enforce any dependencies or project layout.
     * Progressive Web App (PWA) to make it more friendly towards desktop and allow native installs from the web, chache for offline support, page sharing and push notifications etc
     * SEO ready page index template file
     * Isolated module code and templates
@@ -27,10 +32,12 @@
         * Pre-setup via CDN
         * Versatile
         * There is no JavaScript. And because of that, you can easily bind it with any JavaScript framework of your choice
-* Create custom module files and folders that fit into the flask project structure from "create_module.py" file with prompts
-    * Running this will creates:
-        * Model
-        * Web Controllers
+* Create custom module files and folders that fit into the flask project structure from "create_module.py" file with prompts to create the following:
+    * Model
+    * Web Controller
+        * Public
+            * `public_list`
+        * Admin
             * `index`
             * `create`
             * `store`
@@ -38,38 +45,38 @@
             * `edit`
             * `update`
             * `destroy`
-        * API Controllers
-            * XyzListResource
-                * `get`
-                * `post`
-            * XyzResource
-                * `get`
-                * `update`
-                * `delete`
-        * Forms
-        * URL's (prefixed by the module name)
-            * Web Routes:
-                * View ../xyz/ [list elements] `index`
-                * View ../xyz/create [single element] `create`
-                * POST URL ../xyz/store [single element] `store`
-                * View ../xyz/show/{id} [single element] `show`
-                * View ../xyz/edit/{id} [single element] `edit`
-                * PUT URL ../xyz/update/{id} [single element]`update`
-                * DELETE URL ../xyz/destroy/{id} [single element] `destroy`
-            * API Routes:
-                * GET URL ../api/xyz [list elements] `get`
-                * POST URL ../api/xyz [single element] `post`
-                * GET URL ../api/xyz/{id} [single element] `get`
-                * PUT URL ../api/xyz/{id} [single element] `update`
-                * DELETE URL ../api/xyz/{id} [single element]`delete`
-        * Views for:
-            * public
-                * `public_list.html` (list elements)
-            * admin
-                * `index.html` (list elements)
-                * `create.html` (single element form)
-                * `show.html` (single element)
-                * `edit.html` (single element form)
+    * API Controller
+        * ListResource
+            * `get`
+            * `post`
+        * Resource
+            * `get`
+            * `update`
+            * `delete`
+    * Forms
+    * URL's (prefixed by the module name)
+        * Web Routes:
+            * View ../xyz/ [list elements] `index`
+            * View ../xyz/create [single element] `create`
+            * POST URL ../xyz/store [single element] `store`
+            * View ../xyz/show/{id} [single element] `show`
+            * View ../xyz/edit/{id} [single element] `edit`
+            * PUT URL ../xyz/update/{id} [single element]`update`
+            * DELETE URL ../xyz/destroy/{id} [single element] `destroy`
+        * API Routes:
+            * GET URL ../api/xyz [list elements] `get`
+            * POST URL ../api/xyz [single element] `post`
+            * GET URL ../api/xyz/{id} [single element] `get`
+            * PUT URL ../api/xyz/{id} [single element] `update`
+            * DELETE URL ../api/xyz/{id} [single element]`delete`
+    * Views for:
+        * Public
+            * `public_list.html` (list elements)
+        * Admin
+            * `index.html` (list elements)
+            * `create.html` (single element form)
+            * `show.html` (single element)
+            * `edit.html` (single element form)
 
 # Requirements
 * Python (https://www.python.org/downloads/) with PIP (https://pip.pypa.io/en/stable/installing/)
@@ -194,6 +201,6 @@ systemctl start docker
 cd <Path To>/my_awesome_project
 
 docker build -t flask_app:latest .
-docker run -p 5000:5000 flask_app
+docker run -it -p 5000:5000 flask_app
 
 ```
