@@ -18,6 +18,7 @@
     * Type "cmd" to open the terminal
 ```
 pip install virtualenv
+
 ```
 
 ### Linux / Mac
