@@ -32,8 +32,9 @@
         * Pre-setup via CDN
         * Versatile
         * There is no JavaScript. And because of that, you can easily bind it with any JavaScript framework of your choice
-* Create custom module files and folders that fit into the flask project structure from "create_module.py" file with prompts to create the following:
+* Create custom [module](#Modules) files and folders that fit into the flask project structure from `create_module.py` file with prompts to create the following:
     * Model
+        * Dynamically create table data model 
     * Web Controller
         * Public
             * `public_list`
@@ -56,13 +57,13 @@
     * Forms
     * URL's (prefixed by the module name)
         * Web Routes:
-            * View ../xyz/ [list elements] `index`
-            * View ../xyz/create [single element] `create`
-            * POST URL ../xyz/store [single element] `store`
-            * View ../xyz/show/{id} [single element] `show`
-            * View ../xyz/edit/{id} [single element] `edit`
-            * PUT URL ../xyz/update/{id} [single element]`update`
-            * DELETE URL ../xyz/destroy/{id} [single element] `destroy`
+            * View ../admin/xyz/ [list elements] `index`
+            * View ../admin/xyz/create [single element] `create`
+            * POST URL ../admin/xyz/store [single element] `store`
+            * View ../admin/xyz/show/{id} [single element] `show`
+            * View ../admin/xyz/edit/{id} [single element] `edit`
+            * PUT URL ../admin/xyz/update/{id} [single element]`update`
+            * DELETE URL ../admin/xyz/destroy/{id} [single element] `destroy`
         * API Routes:
             * GET URL ../api/xyz [list elements] `get`
             * POST URL ../api/xyz [single element] `post`
@@ -79,13 +80,47 @@
             * `edit.html` (single element form)
 
 # Requirements
-* Python (https://www.python.org/downloads/) with PIP (https://pip.pypa.io/en/stable/installing/)
-    * `pip install virtualenv`
-    * `pip install PyGithub`
+* Download and install Python (https://www.python.org/downloads/)
+    * Ensure pip is installed should be because it comes with the latest versions of python but in case it is not, please install it from herre: https://pip.pypa.io/en/stable/installing/
+
+### Windows
+* Open new terminal
+    * "Windows-Key + R" will show you the 'RUN' box
+    * Type "cmd" to open the terminal
+```
+pip install virtualenv
+```
+
+### Linux / Mac
+* Open new terminal
+    * "Control + Option + Shift + T" to open the terminal
+```
+pip install virtualenv
+```
 
 # Quickstart
-* Open and run the file: `<Path To>/create_project_git.py` from the root of BDA (you can download just that file if you wish)
-    * Fill in the instructions eg:
+* Ensure you have installed the [requirements](#requirements)
+### Windows
+* Open new terminal
+    * "Windows-Key + R" will show you the 'RUN' box
+    * Type "cmd" to open the terminal
+```
+curl -L https://raw.githubusercontent.com/RyanJulyan/Flask-BDA/main/create_project_git.py --ssl-no-revok -o create_project_git.py
+
+python create_project_git.py
+
+```
+### Linux / Mac
+* Open new terminal
+    * "Control + Option + Shift + T" to open the terminal
+```
+curl -L https://raw.githubusercontent.com/RyanJulyan/Flask-BDA/main/create_project_git.py --ssl-no-revok -o create_project_git.py
+
+python create_project_git.py
+
+```
+
+* Fill in your project name when prompted eg:
 ```
 Project Name:
 My Awesome Project
@@ -204,3 +239,15 @@ docker build -t flask_app:latest .
 docker run -it -p 5000:5000 flask_app
 
 ```
+
+# Glossary
+## Modules
+A module is a part of a program. Programs are composed of one or more independently developed modules that when combined create the program. 
+
+A module is a self-contained component, making it easier to manage as the program grows.
+
+Modules in Flask-BDA help you create: a Data Model, Routes and associated functions for controlling the logic and Views
+
+## Controllers:
+### introduction
+Controllers can group related request handling logic into a single class. For example, a UserController class might handle all incoming requests related to users, including showing, creating, updating, and deleting users.

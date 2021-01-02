@@ -68,20 +68,13 @@ def landing():
 # from app.mod_xyz.controllers import mod_xyz as xyz_module
 from app.mod_auth.controllers import mod_auth as auth_module
 # import new xyz_module
-from app.mod_test.controllers import mod_public_test as test_public_module
-from app.mod_test.controllers import mod_admin_test as test_admin_module
-from app.mod_test.api_controllers import TestListResource, TestResource
 
 # Register blueprint(s)
 app.register_blueprint(auth_module)
 # register_blueprint new xyz_module
-app.register_blueprint(test_public_module)
-app.register_blueprint(test_admin_module)
 
 # Register api(s)
 # new xyz api resource routing
-api.add_resource(TestListResource, '/api/test')
-api.add_resource(TestResource, '/api/test/<id>')
 
 # Build the database:
 # This will create the database file using SQLAlchemy
