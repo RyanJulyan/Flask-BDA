@@ -2,11 +2,58 @@
 ## a Rapid Application Development (RAD) tool to assist with building flask python applications.
 
 ## Overview
-* [Project Features](#features)
 * [Requirements](#requirements)
 * [Quickstart](#quickstart)
+* [Project Features](#features)
 * [Create new CRUD module](#create-new-crud-module)
 * [Environments](#environments)
+
+# Requirements
+* Download and install Python (https://www.python.org/downloads/)
+    * Ensure pip is installed should be because it comes with the latest versions of python but in case it is not, please install it from herre: https://pip.pypa.io/en/stable/installing/
+
+### Windows
+* Open new terminal
+    * "Windows-Key + R" will show you the 'RUN' box
+    * Type "cmd" to open the terminal
+```
+pip install virtualenv
+```
+
+### Linux / Mac
+* Open new terminal
+    * "Control + Option + Shift + T" to open the terminal
+```
+pip install virtualenv
+
+```
+
+# Quickstart
+* Ensure you have installed the [requirements](#requirements)
+### Windows
+* Open new terminal
+    * "Windows-Key + R" will show you the 'RUN' box
+    * Type "cmd" to open the terminal
+### Linux / Mac
+* Open new terminal
+    * "Control + Option + Shift + T" to open the terminal
+
+* Copy, paste and run the following code in the terminal
+    * This will download the required create_project python file and run it to help you start a project
+```
+curl -L https://raw.githubusercontent.com/RyanJulyan/Flask-BDA/main/create_project_git.py --ssl-no-revok -o create_project_git.py
+
+python create_project_git.py
+
+```
+
+* Fill in your project name when prompted eg:
+```
+Project Name:
+My Awesome Project
+```
+* You will notice this creates a folder in the same path as the file: "create_project_git.py".
+    * This folder will be lower case and will have stripped out all of the special characters and replaced spaces with underscores eg: `my_awesome_project`
 
 ### Features
 * Single file run and setup
@@ -78,52 +125,6 @@
             * `create.html` (single element form)
             * `show.html` (single element)
             * `edit.html` (single element form)
-
-# Requirements
-* Download and install Python (https://www.python.org/downloads/)
-    * Ensure pip is installed should be because it comes with the latest versions of python but in case it is not, please install it from herre: https://pip.pypa.io/en/stable/installing/
-
-### Windows
-* Open new terminal
-    * "Windows-Key + R" will show you the 'RUN' box
-    * Type "cmd" to open the terminal
-```
-pip install virtualenv
-```
-
-### Linux / Mac
-* Open new terminal
-    * "Control + Option + Shift + T" to open the terminal
-```
-pip install virtualenv
-```
-
-# Quickstart
-* Ensure you have installed the [requirements](#requirements)
-### Windows
-* Open new terminal
-    * "Windows-Key + R" will show you the 'RUN' box
-    * Type "cmd" to open the terminal
-### Linux / Mac
-* Open new terminal
-    * "Control + Option + Shift + T" to open the terminal
-
-* Copy, paste and run the following code in the terminal
-    * This will download the required create_project python file and run it to help you start a project
-```
-curl -L https://raw.githubusercontent.com/RyanJulyan/Flask-BDA/main/create_project_git.py --ssl-no-revok -o create_project_git.py
-
-python create_project_git.py
-
-```
-
-* Fill in your project name when prompted eg:
-```
-Project Name:
-My Awesome Project
-```
-* You will notice this creates a folder in the same path as the file: "create_project_git.py".
-    * This folder will be lower case and will have stripped out all of the special characters and replaced spaces with underscores eg: `my_awesome_project`
 
 # Create new CRUD module
 * Open and run the file: `<Path To>/<my_awesome_project>/create_module.py`
