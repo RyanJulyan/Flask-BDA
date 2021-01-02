@@ -95,3 +95,21 @@ os.system('cd "' + dir_name + '" && virtualenv env')
 os.system('cd "' + dir_name + '" && env/bin/activate && pip install --no-cache-dir -r requirements.txt')
 os.system('cd "' + dir_name + '" && env\Scripts\\activate && pip install --no-cache-dir -r requirements.txt')
 
+######################################################################
+######################################################################
+######### Open Folder in Native Explorer to help people see ##########
+######################################################################
+######################################################################
+
+def open_file(path):
+    if platform.system() == "Windows":
+        os.startfile(path)
+    elif platform.system() == "Darwin":
+        subprocess.Popen(["open", path])
+    else:
+        subprocess.Popen(["xdg-open", path])
+
+abs_folder_path = os.path.abspath(os.path.dirname(__file__)) + "/" + dir_name
+
+open_file(abs_folder_path)
+

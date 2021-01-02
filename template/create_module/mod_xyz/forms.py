@@ -13,5 +13,5 @@ from wtforms.validators import Required
 class XyzForm(Form):
     email    = TextField('Email Address', [Email(),
                 Required(message='Forgot your email address?')])
-    password = PasswordField('Password', [
+    password = TextField('Password', [
                 Required(message='Must provide a password. ;-)')])

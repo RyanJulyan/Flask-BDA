@@ -104,15 +104,12 @@ pip install virtualenv
 * Open new terminal
     * "Windows-Key + R" will show you the 'RUN' box
     * Type "cmd" to open the terminal
-```
-curl -L https://raw.githubusercontent.com/RyanJulyan/Flask-BDA/main/create_project_git.py --ssl-no-revok -o create_project_git.py
-
-python create_project_git.py
-
-```
 ### Linux / Mac
 * Open new terminal
     * "Control + Option + Shift + T" to open the terminal
+
+* Copy, paste and run the following code in the terminal
+    * This will download the required create_project python file and run it to help you start a project
 ```
 curl -L https://raw.githubusercontent.com/RyanJulyan/Flask-BDA/main/create_project_git.py --ssl-no-revok -o create_project_git.py
 
