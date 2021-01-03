@@ -20,6 +20,9 @@
 pip install virtualenv
 
 ```
+> **Note:** if the package does not install you may need to run the comand as an admin.
+> 
+> press the  "Windows-Key" type "cmd", "Right-Click" on the word "Command Prompt" and Select the option "Run as administrator"
 
 ### Linux / Mac
 * Open new terminal
@@ -39,6 +42,8 @@ pip install virtualenv
 * Open new terminal
     * "Control + Option + Shift + T" to open the terminal
 
+---
+
 * Copy, paste and run the following code in the terminal
     * This will download the required create_project python file and run it to help you start a project
 ```
@@ -53,8 +58,8 @@ python create_project_git.py
 Project Name:
 My Awesome Project
 ```
-* You will notice this creates a folder in the same path as the file: "create_project_git.py".
-    * This folder will be lower case and will have stripped out all of the special characters and replaced spaces with underscores eg: `my_awesome_project`
+> **Note:** You will notice this creates a folder in the same path as the file: "create_project_git.py".
+> This folder will be lower case and will have stripped out all of the special characters and replaced spaces with underscores eg: `my_awesome_project`
 
 ### Features
 * Single file run and setup
@@ -73,13 +78,17 @@ My Awesome Project
     * A 403 page which all forbidden pages goes to
     * A 404 page which all unknown pages goes to
     * .gitignore files with defaults
-    * Docker virual environment
-    * Local virtual environment
+    * Local virtual Python environment
+    * Docker virual environment config
+    * AWS Serverless yml config
     * Tailwind for Layouts / design
         * Highly customizable and flexable
         * Pre-setup via CDN
         * Versatile
         * There is no JavaScript. And because of that, you can easily bind it with any JavaScript framework of your choice
+
+---
+
 * Create custom [module](#Modules) files and folders that fit into the flask project structure from `create_module.py` file with prompts to create the following:
     * Model
         * Dynamically create table data model 
@@ -130,18 +139,32 @@ My Awesome Project
             * `show.html` (single element)
             * `edit.html` (single element form)
 
-# Create new CRUD module
-### A module is a self-contained component, making it easier to manage as the program grows. Modules in Flask-BDA help you create: a Data Model, Routes and associated functions for controlling the logic and Views
+```
+├── dream-team
+       ├── app
+       │   ├── __init__.py
+       │   ├── templates
+       │   ├── static
+       │   ├── models.py
+       │   └── views.py
+       ├── config.py
+       ├── requirements.txt
+       └── run.py
+```
+
+# Create new [CRUD](#CRUD) module
+
+> A module is a self-contained component, making it easier to manage as the program grows. Modules in Flask-BDA help you create: a Data Model, Routes and associated functions for controlling the logic and Views
 
 * To create your own custom modules, Open and run the file: `<Path To>/<my_awesome_project>/create_module.py`
     * Fill in the instructions eg:
 ```
 Module Name:
-Projects
+`Projects`
 ```
 * You can then create a table with columns by following the prompts eg:
 ```
-Create new field Name (type the string: 'STOP_CREATING_FIELDS' to exit): name
+Create new field Name (type the string: 'STOP_CREATING_FIELDS' to exit): `name`
 What datatype is name
         'String'
         'Int'
@@ -154,18 +177,23 @@ What datatype is name
         'BigInt'
         'Enum'
         'JSON'
-        'LargeBinary': String
-String Length (1-256): 256
-Is name nullable ('True', 'False'): false
-Is name unique ('True', 'False'): true
+        'LargeBinary': `String`
+String Length (1-256): `256`
+Is name nullable ('True', 'False'): `false`
+Is name unique ('True', 'False'): `true`
 Default value: 
 
-``` 
+```
+
+> **Note:** this will keep looping until you type and submit the words: "STOP_CREATING_FIELDS". 
+> 
+> This allows you to create multiple fields for your module quickly and easily
 
 # Environments
-There are 2 out of the box environments supported with instructions on how to configure each for  `Windows / Linux / Mac` and you could run them at the same time if you want.
+There are 3 out of the box environments supported with instructions on how to configure each for  `Windows / Linux / Mac` and you could run them at the same time if you want.
 * [Local python env](#local-environment)
 * [Docker](#docker-environment)
+* [AWS Serverless](#aws-serverles) (Still under Development)
 
 ## Local Environment
 ### Windows
@@ -210,8 +238,8 @@ flask run
 
 ## Docker Environment
 ### Windows
-* Open browser and install docker desktop from the 
-    * Go to: https://hub.docker.com/editions/community/docker-ce-desktop-windows/
+* Open browser and install docker desktop
+    * Go to: https://hub.docker.com/editions/community/docker-ce-desktop-windows/ to get the installer
 * "Windows-Key + R" will show you the 'RUN' box
     * Type "C:\Program Files\Docker\Docker\Docker Desktop.exe" to open docker
 * Open new terminal
@@ -244,14 +272,68 @@ docker run -it -p 5000:5000 flask_app
 
 ```
 
+## AWS Serverles
+### Via npm
+```
+npm update -g serverless
+
+```
+### Windows
+* Open browser and install Chocolatey from the 
+    * Go to: https://chocolatey.org/install to get the installer
+* Open new terminal
+    * "Windows-Key + R" will show you the 'RUN' box
+    * Type "cmd" to open the terminal
+```
+choco install serverless
+
+serverless
+
+```
+* Open new terminal
+    * "Windows-Key + R" will show you the 'RUN' box
+    * Type "cmd" to open the terminal
+```
+cd <Path To>/my_awesome_project
+
+serverless deploy
+
+```
+
+### Linux / Mac
+* Open new terminal
+    * "Control + Option + Shift + T" to open the terminal
+```
+curl -o- -L https://slss.io/install | bash
+
+serverless
+
+```
+* Open new terminal
+    * "Control + Option + Shift + T" to open the terminal
+```
+cd <Path To>/my_awesome_project
+
+serverless deploy
+
+```
+
+> if you include additional python packages in your project don't forget to run a pip freeze to ensure you get that correct packages for your deployments
+>
+> `pip freeze > requirements.txt`
+
 # Glossary
 ## Modules
-A module is a part of a program. Programs are composed of one or more independently developed modules that when combined create the program. 
-
-A module is a self-contained component, making it easier to manage as the program grows.
-
-Modules in Flask-BDA help you create: a Data Model, Routes and associated functions for controlling the logic and Views
+> A module is a part of a program. Programs are composed of one or more independently developed modules that when combined create the  program. 
+> 
+> A module is a self-contained component, making it easier to manage as the program grows.
+> 
+> Modules in Flask-BDA help you create: a Data Model, Routes and associated functions for controlling the logic and Views
 
 ## Controllers:
 ### introduction
-Controllers can group related request handling logic into a single class. For example, a UserController class might handle all incoming requests related to users, including showing, creating, updating, and deleting users.
+> Controllers can group related request handling logic into a single class. For example, a UserController class might handle all incoming requests related to users, including showing, creating, updating, and deleting users.
+
+## CRUD
+## Definition
+> Create, Read, Update, and Delete ("CRUD")

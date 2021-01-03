@@ -15,6 +15,9 @@ from app.mod_xyz.models import Xyz
 mod_public_xyz = Blueprint('xyz_public', __name__, url_prefix='/xyz')
 mod_admin_xyz = Blueprint('xyz_admin', __name__, url_prefix='/admin/xyz')
 
+# If in form is submitted
+form = XyzForm(request.form)
+
 # Set the route and accepted methods
 @mod_public_xyz.route('/', methods=['GET'])
 def public_list():
@@ -36,14 +39,17 @@ def index():
 def create():
   data = {}
 
-  return render_template("xyz/admin/create.html", data=data)
+  return render_template("xyz/admin/create.html", form=form, data=data)
 
 @mod_admin_xyz.route('/store', methods=['POST'])
 @login_required
 def store():
 
   data = Xyz(
-      # new request feilds
+      # start new request feilds
+      # this line should be removed and replaced with the formDefinitions variable
+      # end new request feilds
+      
       # title=request.form.get("title")
   )
 
@@ -63,7 +69,7 @@ def edit(id):
   data = {}
   data['xyz'] = Xyz.query.get(id)
   
-  return render_template("xyz/admin/edit.html", data=data)
+  return render_template("xyz/admin/edit.html", form=form, data=data)
 
 @mod_admin_xyz.route('/update/<id>', methods=['PUT','PATCH'])
 @login_required
