@@ -168,7 +168,7 @@ def copytree(src, dst, renameFrom='',renameTo='', symlinks=False, ignore=None):
             if not os.path.exists(d) or os.stat(s).st_mtime - os.stat(d).st_mtime > 1:
                 shutil.copy2(s, d)
 
-copytree('create_module', 'app/', 'xyz', module)
+copytree('create_module_template', 'app/', 'xyz', module)
 
 ############################
 ############################

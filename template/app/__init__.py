@@ -28,6 +28,9 @@ serializer = URLSafeTimedSerializer(app.secret_key)
 # by modules and controllers
 db = SQLAlchemy(app)
 
+# Import module models (i.e. User)
+from app.mod_auth.models import User
+
 # User_loader
 @login_manager.user_loader
 def load_user(session_token):
@@ -47,7 +50,7 @@ def load_user(session_token):
 def not_found(error):
     return render_template('./404.html'), 404
 @app.errorhandler(403)
-def not_found(error):
+def not_allowed(error):
     return render_template('./403.html'), 403
 
 #Serve Service Worker

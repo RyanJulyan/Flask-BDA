@@ -105,13 +105,16 @@ My Awesome Project
     * Forms
     * URL's (prefixed by the module name)
         * Web Routes:
-            * View ../admin/xyz/ [list elements] `index`
-            * View ../admin/xyz/create [single element] `create`
-            * POST URL ../admin/xyz/store [single element] `store`
-            * View ../admin/xyz/show/{id} [single element] `show`
-            * View ../admin/xyz/edit/{id} [single element] `edit`
-            * PUT URL ../admin/xyz/update/{id} [single element]`update`
-            * DELETE URL ../admin/xyz/destroy/{id} [single element] `destroy`
+            * Public
+                * View ../xyz/ [list elements] `public_list`
+            * Admin
+                * View ../admin/xyz/ [list elements] `index`
+                * View ../admin/xyz/create [single element] `create`
+                * POST URL ../admin/xyz/store [single element] `store`
+                * View ../admin/xyz/show/{id} [single element] `show`
+                * View ../admin/xyz/edit/{id} [single element] `edit`
+                * PUT URL ../admin/xyz/update/{id} [single element]`update`
+                * DELETE URL ../admin/xyz/destroy/{id} [single element] `destroy`
         * API Routes:
             * GET URL ../api/xyz [list elements] `get`
             * POST URL ../api/xyz [single element] `post`
@@ -128,7 +131,9 @@ My Awesome Project
             * `edit.html` (single element form)
 
 # Create new CRUD module
-* Open and run the file: `<Path To>/<my_awesome_project>/create_module.py`
+### A module is a self-contained component, making it easier to manage as the program grows. Modules in Flask-BDA help you create: a Data Model, Routes and associated functions for controlling the logic and Views
+
+* To create your own custom modules, Open and run the file: `<Path To>/<my_awesome_project>/create_module.py`
     * Fill in the instructions eg:
 ```
 Module Name:
