@@ -80,6 +80,8 @@ My Awesome Project
     * A 403 page which all forbidden pages goes to
     * A 404 page which all unknown pages goes to
     * .gitignore files with defaults
+    * [Testing](#testing) with Python [flake8](https://flake8.pycqa.org/en/latest/) Linting and Test cases Python [unittest](https://docs.python.org/3/library/unittest.html)
+    * CI/CD through [Github actions workflow](https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions)
     * [Local virtual Python environment](#local-environment)
     * [Docker virual environment config](#docker-environment)
     * [AWS Serverless yml config](#aws-serverless)
@@ -328,15 +330,15 @@ serverless deploy
 # Testing
 There are 3 aspects of testing provided:
 * CI/CD through [Github actions workflow](https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions) which is already set up to implement:
-    * python [flake8](https://flake8.pycqa.org/en/latest/) Linting.
+    * Python [flake8](https://flake8.pycqa.org/en/latest/) Linting.
         * It displays the warnings in a per-file, merged output. Flake8 is a wrapper around these tools:
             * PyFlakes
             * pycodestyle
             * Ned Batchelder’s McCabe script
-    * python [unittest](https://docs.python.org/3/library/unittest.html) originally inspired by JUnit and has a similar flavor as major unit testing frameworks in other languages.
+    * Python [unittest](https://docs.python.org/3/library/unittest.html) originally inspired by JUnit and has a similar flavor as major unit testing frameworks in other languages.
 
 # Python unittest
-To manually run Python unittest ensure that you have installed the local environements](#local-environment)
+To manually run Python unittest ensure that you have installed the [local environements](#local-environment)
 
 ### Windows
 * Open new terminal
