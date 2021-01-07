@@ -1,4 +1,5 @@
 
+import os
 
 SITE_TITLE = 'Flask BDA'
 SITE_URL = 'http://www.bda.com'
@@ -10,7 +11,6 @@ DEVELOPER_NAME = 'Ryan Julyan'
 DEBUG = True
 
 # Define the application directory
-import os
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 # Define the database - we are working with
@@ -24,7 +24,7 @@ DATABASE_CONNECT_OPTIONS = {}
 # operations using the other.
 THREADS_PER_PAGE = 2
 
-# Time for session expirey 
+# Time for session expirey
 TIME_TO_EXPIRE = 3600
 
 # Enable protection agains *Cross-site Request Forgery (CSRF)*
@@ -38,14 +38,14 @@ CSRF_SESSION_KEY = 'secret'
 SECRET_KEY = 'secret'
 
 # Email Credentails
-MAIL_MAILER='smtp'
-MAIL_HOST='smtp.mailtrap.io'
-MAIL_PORT=2525
-MAIL_USERNAME='email@example.com'
-MAIL_PASSWORD='example password'
-MAIL_ENCRYPTION=None
-MAIL_FROM_ADDRESS='email@example.com'
-MAIL_FROM_NAME='Flask BDA'
+MAIL_MAILER = 'smtp'
+MAIL_HOST = 'smtp.mailtrap.io'
+MAIL_PORT = 2525
+MAIL_USERNAME = 'email@example.com'
+MAIL_PASSWORD = 'example password'
+MAIL_ENCRYPTION = None
+MAIL_FROM_ADDRESS = 'email@example.com'
+MAIL_FROM_NAME = 'Flask BDA'
 
 # Search Engine Optimization (SEO)
 SEO_SUBJECT = 'Rapid Application Development.'
@@ -54,4 +54,3 @@ SEO_SUMMARY = 'This site was created using Flask BDA.'
 SEO_ABSTRACT = 'This site was created using Flask BDA.'
 SEO_KEYWORDS = 'Flask, PWA, Python, Rapid Application Development, RAD, Progressive Web App, Flask BDA.'
 SEO_REVISIT_AFTER = '7 days'
-

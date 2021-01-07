@@ -7,6 +7,8 @@
 * [Project Features](#features)
 * [Create new CRUD module](#create-new-crud-module)
 * [Environments](#environments)
+* [Testing](#testing)
+* [Glossary](#glossary)
 
 # Requirements
 * Download and install Python (https://www.python.org/downloads/)
@@ -78,10 +80,10 @@ My Awesome Project
     * A 403 page which all forbidden pages goes to
     * A 404 page which all unknown pages goes to
     * .gitignore files with defaults
-    * Local virtual Python environment
-    * Docker virual environment config
-    * AWS Serverless yml config
-    * Tailwind for Layouts / design
+    * [Local virtual Python environment](#local-environment)
+    * [Docker virual environment config](#docker-environment)
+    * [AWS Serverless yml config](#aws-serverless)
+    * [Tailwind](https://tailwindcss.com/) for layouts / design
         * Highly customizable and flexable
         * Pre-setup via CDN
         * Versatile
@@ -193,7 +195,7 @@ Default value:
 There are 3 out of the box environments supported with instructions on how to configure each for  `Windows / Linux / Mac` and you could run them at the same time if you want.
 * [Local python env](#local-environment)
 * [Docker](#docker-environment)
-* [AWS Serverless](#aws-serverles) (Still under Development)
+* [AWS Serverless](#aws-serverless) (Still under Development)
 
 ## Local Environment
 ### Windows
@@ -237,6 +239,7 @@ flask run
 ```
 
 ## Docker Environment
+> NOTE if you are using [Github](https://github.com/) and have docker installed (details on how to install lower down), you will get a new image built every time you `push` or do a `pull_request` on Github, which is set up in the file: `docker-image.yml` however if you want to do this manually, please follow the following steps:
 ### Windows
 * Open browser and install docker desktop
     * Go to: https://hub.docker.com/editions/community/docker-ce-desktop-windows/ to get the installer
@@ -272,7 +275,7 @@ docker run -it -p 5000:5000 flask_app
 
 ```
 
-## AWS Serverles
+## AWS Serverless
 ### Via npm
 ```
 npm update -g serverless
@@ -321,6 +324,43 @@ serverless deploy
 > if you include additional python packages in your project don't forget to run a pip freeze to ensure you get that correct packages for your deployments
 >
 > `pip freeze > requirements.txt`
+
+# Testing
+There are 3 aspects of testing provided:
+* CI/CD through [Github actions workflow](https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions) which is already set up to implement:
+    * python [flake8](https://flake8.pycqa.org/en/latest/) Linting.
+        * It displays the warnings in a per-file, merged output. Flake8 is a wrapper around these tools:
+            * PyFlakes
+            * pycodestyle
+            * Ned Batchelder’s McCabe script
+    * python [unittest](https://docs.python.org/3/library/unittest.html) originally inspired by JUnit and has a similar flavor as major unit testing frameworks in other languages.
+
+# Python unittest
+To manually run Python unittest ensure that you have installed the local environements](#local-environment)
+
+### Windows
+* Open new terminal
+    * "Windows-Key + R" will show you the 'RUN' box
+    * Type "cmd" to open the terminal
+```
+cd <Path To>/my_awesome_project
+
+env/bin/activate
+
+python -m unittest discover
+
+```
+### Linux / Mac
+* Open new terminal
+    * "Control + Option + Shift + T" to open the terminal
+```
+cd <Path To>/my_awesome_project
+
+env/bin/activate
+
+python -m unittest discover
+
+```
 
 # Glossary
 ## Modules

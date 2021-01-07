@@ -1,28 +1,28 @@
 # Python 3
 
-##########################
-##########################
-######## Imports #########
-##########################
-##########################
+###########
+###########
+# Imports #
+###########
+###########
 import os
 import shutil
 import re
 
-##################################
-##################################
-######## Project Details #########
-##################################
-##################################
+###################
+###################
+# Project Details #
+###################
+###################
 
-def getBool(prompt):
+def getBool(prompt): 
   while True:
     try:
       return {"true":True,"false":False}[input(prompt).lower()]
     except KeyError:
       print ("Invalid input please enter True or False!")
 
-def getStringNum(prompt):
+def getStringNum(prompt): 
   while True:
     try:
         num = int(input(prompt))
@@ -32,7 +32,7 @@ def getStringNum(prompt):
     except:
         print("That's not a valid number between 1-256!")
 
-def getDataType(prompt):
+def getDataType(prompt): 
   while True:
     try:
       return {
@@ -52,11 +52,11 @@ def getDataType(prompt):
     except KeyError:
       print ("Invalid data type")
 
-def module():
+def module(): 
   print("Module Name: ")
   while True:
     module = input()
-    if(len(module) > 0):
+    if(len(module) > 0): 
       module = module.casefold()
       module = re.sub('[;!,*)@#%(&$?.^\'"+<>/\\{}]', '', module)
       module = module.replace(" ", "_")
@@ -65,22 +65,22 @@ def module():
       print("Invalid Module Name!")
       print("Please enter a valid module name:")
 
-def getEnumParameters():
+def getEnumParameters(): 
   parameters = []
   while True:
     field = input("Create new Parameter Value (type the string: 'STOP_CREATING_PARAMETERS' to exit): ")
-    if(field == 'STOP_CREATING_PARAMETERS'):
+    if(field == 'STOP_CREATING_PARAMETERS'): 
       return parameters
     if(field in parameters):
       print("Parameter Value Already Exists!")
       print("Please enter a different parameter value!")
     elif(len(field) > 0):
       parameters.append(field)
-    else:  
+    else:
       print("Invalid Parameter Value!")
       print("Please enter a valid parameter value!")
 
-def fields():
+def fields(): 
   fields = {}
   while True:
     print("Create new field Name (type the string: 'STOP_CREATING_FIELDS' to exit): ")
@@ -122,7 +122,7 @@ def fields():
         "unique":unique,
         "default":default
       }
-    else:  
+    else:
       print("Invalid Field Name!")
       print("Please enter a valid field name:")
 
@@ -147,17 +147,17 @@ for key, value in fields.items():
 
 instanceParams = str((', '.join( item for item in feildNames)))
 
-################################################
-################################################
-######## Creating A Module / Component #########
-################################################
-################################################
+#################################
+#################################
+# Creating A Module / Component #
+#################################
+#################################
 
-########################################
-########################################
-######## Make Base Directories #########
-########################################
-########################################
+#########################
+#########################
+# Make Base Directories #
+#########################
+#########################
 
 def copytree(src, dst, renameFrom='',renameTo='', symlinks=False, ignore=None):
     if not os.path.exists(dst):
@@ -173,21 +173,21 @@ def copytree(src, dst, renameFrom='',renameTo='', symlinks=False, ignore=None):
 
 copytree('create_module_template', 'app/', 'xyz', module)
 
-############################
-############################
-######## mod_ Init #########
-############################
-############################
+#############
+#############
+# mod_ Init #
+#############
+#############
 
-########################################################################
-######## Copy App __init__.py for manage source -> destination #########
-########################################################################
+#########################################################
+# Copy App __init__.py for manage source -> destination #
+#########################################################
 
 shutil.copy2('app/__init__.py', 'app/__init__.py~')
 
-###############################################
-######## manage source -> destination #########
-###############################################
+################################
+# manage source -> destination #
+################################
 
 destination= open('app/__init__.py', "w" )
 source = open('app/__init__.py~', "r" )
@@ -215,17 +215,17 @@ for line in source:
 source.close()
 destination.close()
 
-################################
-######## remove source #########
-################################
+#################
+# remove source #
+#################
 
 os.remove('app/__init__.py~')
 
-#############################################
-#############################################
-######## mod_  and template updates #########
-#############################################
-#############################################
+##############################
+##############################
+# mod_  and template updates #
+##############################
+##############################
 
 def replaceTextBetweenTags(filePath, startBlockString, endBlockString, replacementString):
 
@@ -251,9 +251,9 @@ def renameCustomizeFileVariables(src, renameFrom='',renameTo=''):
         if os.path.isdir(s):
             renameCustomizeFileVariables(s, renameFrom, renameTo)
         else:
-          ############################################################
-          ######## Clean Required Values Between System Tags #########
-          ############################################################
+          #############################################
+          # Clean Required Values Between System Tags #
+          #############################################
           
           if('forms.py' in s):
             replaceTextBetweenTags(s,'# start new form definitions','# end new form definitions','\n')
@@ -261,24 +261,24 @@ def renameCustomizeFileVariables(src, renameFrom='',renameTo=''):
             replaceTextBetweenTags(s,'# start new field definitions','# end new field definitions','\n')
             replaceTextBetweenTags(s,'# start new instance fields','# end new instance fields','\n')
           
-          #############################################################
-          ######## Copy temp for manage source -> destination #########
-          #############################################################
+          ##############################################
+          # Copy temp for manage source -> destination #
+          ##############################################
 
           shutil.copy2(s, s+'~')
 
-          ###############################################
-          ######## manage source -> destination #########
-          ###############################################
+          ################################
+          # manage source -> destination #
+          ################################
 
           destination= open(s, "w" )
           source = open(s+'~', "r" )
           
           for line in source:
 
-            ###################################
-            ######## Rename Variables #########
-            ###################################
+            ####################
+            # Rename Variables #
+            ####################
             
             if "def __init__" in line and 'models.py' in s:
               pass
@@ -301,13 +301,11 @@ def renameCustomizeFileVariables(src, renameFrom='',renameTo=''):
           source.close()
           destination.close()
 
-          ################################
-          ######## remove source #########
-          ################################
+          #################
+          # remove source #
+          #################
 
           os.remove(s+'~')
 
 renameCustomizeFileVariables('app/mod_'+module,'xyz',module)
 renameCustomizeFileVariables('app/templates/'+module,'xyz',module)
-
-

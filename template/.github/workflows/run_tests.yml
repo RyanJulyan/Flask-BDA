@@ -1,0 +1,48 @@
+name: Run unit tests with Python
+
+# Sets the events which will trigger the Action
+# `push` = any "push" action to the GitHub "remote",
+# other example actions: [push, pull_request, release]
+# changes to any branch will be considered
+on: [push]
+
+jobs:
+  # `build` is a user-defined name for this job
+  build:
+    # Set the base environment to run the Action on
+    runs-on: alpine-latest
+    
+    strategy:
+      matrix:
+        # Set the Python version(s comma seperate to add more versions) to run the tests with
+        python-version: [3.8]
+    
+    # Steps to complete the job
+    # uses allows you to do specific actions,
+    # it follows a stucture of: "https://github.com/{action_name}" find more actions at:
+    # https://github.com/actions
+    steps:
+    - name: Checking out code from the repository
+      uses: actions/checkout@v2
+    
+    - name: Setting up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    
+    - name: Lint the code with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    
+    - name: Test with unittest
+      run: |
+        python -m unittest discover
