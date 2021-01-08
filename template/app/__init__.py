@@ -10,6 +10,14 @@ from flask_restful import Resource, Api
 # Import SQLAlchemy
 from flask_sqlalchemy import SQLAlchemy
 
+# Import module models (i.e. User)
+from app.mod_auth.models import User
+
+# Import a module / component using its blueprint handler variable (mod_auth)
+# from app.mod_xyz.controllers import mod_xyz as xyz_module
+from app.mod_auth.controllers import mod_auth as auth_module
+# import new xyz_module
+
 # Define the WSGI application object
 app = Flask(__name__)
 api = Api(app)
@@ -28,14 +36,11 @@ serializer = URLSafeTimedSerializer(app.secret_key)
 # by modules and controllers
 db = SQLAlchemy(app)
 
-# Import module models (i.e. User)
-from app.mod_auth.models import User
 
 # User_loader
 @login_manager.user_loader
 def load_user(session_token):
     user = User.query.filter_by(session_token=session_token).first()
-    
     try:
         serializer.loads(session_token, max_age=app.config['TIME_TO_EXPIRE'])
     except SignatureExpired:
@@ -45,32 +50,33 @@ def load_user(session_token):
 
     return user
 
+
 # Sample HTTP error handling
 @app.errorhandler(404)
 def not_found(error):
     return render_template('./404.html'), 404
+
+
 @app.errorhandler(403)
 def not_allowed(error):
     return render_template('./403.html'), 403
 
-#Serve Service Worker
+
+# Serve Service Worker
 @app.route('/sw.js')
 def sw():
     response = make_response(send_from_directory('static', filename='sw.js'))
-    #change the content header file
-    response.headers['Content-Type']='application/javascript'
+    # change the content header file
+    response.headers['Content-Type'] = 'application/javascript'
     return response
     # return app.send_static_file('sw.js')
 
-#Serve Service Worker
+
+# Serve Service Worker
 @app.route('/')
 def landing():
     return render_template('./public/index.html')
 
-# Import a module / component using its blueprint handler variable (mod_auth)
-# from app.mod_xyz.controllers import mod_xyz as xyz_module
-from app.mod_auth.controllers import mod_auth as auth_module
-# import new xyz_module
 
 # Register blueprint(s)
 app.register_blueprint(auth_module)

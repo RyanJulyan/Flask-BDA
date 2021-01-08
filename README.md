@@ -1,10 +1,13 @@
 # Business Driven App (BDA)
 ## a Rapid Application Development (RAD) tool to assist with building flask python applications.
 
+> **Note:** Still under Development
+
 ## Overview
 * [Requirements](#requirements)
 * [Quickstart](#quickstart)
 * [Project Features](#features)
+* [Project Structure](#project-structure)
 * [Create new CRUD module](#create-new-crud-module)
 * [Environments](#environments)
 * [Testing](#testing)
@@ -74,14 +77,14 @@ My Awesome Project
     * Progressive Web App (PWA) to make it more friendly towards desktop and allow native installs from the web, chache for offline support, page sharing and push notifications etc
     * SEO ready page index template file
     * Isolated module code and templates
-    * Configuration file "config.py" for quick access and management of environment and environment variables
-    * Server entry point file for shared hosting from "run.py" 
+    * Configuration file "config.py" for quick access and management of environment and environment variables and default SEO
     * A Landing page with call to action and features
     * A 403 page which all forbidden pages goes to
     * A 404 page which all unknown pages goes to
     * .gitignore files with defaults
     * [Testing](#testing) with Python [flake8](https://flake8.pycqa.org/en/latest/) Linting and Test cases Python [unittest](https://docs.python.org/3/library/unittest.html)
     * CI/CD through [Github actions workflow](https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions)
+    * Server entry point file for shared hosting from "run.py" 
     * [Local virtual Python environment](#local-environment)
     * [Docker virual environment config](#docker-environment)
     * [AWS Serverless yml config](#aws-serverless)
@@ -142,23 +145,62 @@ My Awesome Project
             * `create.html` (single element form)
             * `show.html` (single element)
             * `edit.html` (single element form)
-
+### Project Structure
 ```
-├── dream-team
+├── project_name
        ├── app
-       │   ├── __init__.py
-       │   ├── templates
-       │   ├── static
-       │   ├── models.py
-       │   └── views.py
+       │    ├── mod_auth
+       │    │     ├── __init__.py
+       │    │     ├── controllers.py
+       │    │     ├── forms.py
+       │    │     └── models.py
+       │    ├── static
+       │    │     ├── css
+       │    │     ├── images
+       │    │     ├── js
+       │    │     ├── manifest.json
+       │    │     └── sw.js
+       │    ├── templates
+       │    │     ├── admin
+       │    │     ├── auth
+       │    │     ├── public
+       │    │     ├── 403.html
+       │    │     ├── 404.html
+       │    │     └── index.html
+       │    └── __init__.py
+       ├── create_module_template
+       │    ├── mod_xyz
+       │    │     ├── api_controllers.py
+       │    │     ├── controllers.py
+       │    │     ├── forms.py
+       │    │     └── models.py
+       │    └── templates
+       │          └── xyz
+       │               ├── admin
+       │               │    ├── create.html
+       │               │    ├── edit.html
+       │               │    ├── index.html
+       │               │    └── show.html
+       │               ├── public
+       │                    └── public_list.html
+       ├── .dockerignore
+       ├── .gitignore
+       ├── app.db
        ├── config.py
+       ├── create_module.py
+       ├── Dockerfile
+       ├── LICENSE
+       ├── README.md
        ├── requirements.txt
-       └── run.py
+       ├── run.py
+       └── serverless.yml
 ```
 
 # Create new [CRUD](#CRUD) module
 
 > A module is a self-contained component, making it easier to manage as the program grows. Modules in Flask-BDA help you create: a Data Model, Routes and associated functions for controlling the logic and Views
+> 
+> when you create a new CRUD module, all the elements from the folder `create_module_template` are copied into the app directory and renamed to the module name you provide as described below
 
 * To create your own custom modules, Open and run the file: `<Path To>/<my_awesome_project>/create_module.py`
     * Fill in the instructions eg:
@@ -278,6 +320,9 @@ docker run -it -p 5000:5000 flask_app
 ```
 
 ## AWS Serverless
+
+> **Note:** Still under Development
+
 ### Via npm
 ```
 npm update -g serverless
@@ -337,8 +382,39 @@ There are 3 aspects of testing provided:
             * Ned Batchelder’s McCabe script
     * Python [unittest](https://docs.python.org/3/library/unittest.html) originally inspired by JUnit and has a similar flavor as major unit testing frameworks in other languages.
 
+# Python flake8
+
+> **Note** To manually run Python unittest ensure that you have installed the [local environements](#local-environment)
+
+### Windows
+* Open new terminal
+    * "Windows-Key + R" will show you the 'RUN' box
+    * Type "cmd" to open the terminal
+```
+cd <Path To>/my_awesome_project
+
+env/bin/activate
+
+flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+flake8 . --count --exit-zero --max-complexity=11 --max-line-length=127 --statistics
+
+```
+### Linux / Mac
+* Open new terminal
+    * "Control + Option + Shift + T" to open the terminal
+```
+cd <Path To>/my_awesome_project
+
+env/bin/activate
+
+flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+```
+
 # Python unittest
-To manually run Python unittest ensure that you have installed the [local environements](#local-environment)
+
+> **Note** To manually run Python unittest ensure that you have installed the [local environements](#local-environment)
 
 ### Windows
 * Open new terminal
