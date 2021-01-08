@@ -20,7 +20,6 @@ class Xyz(Base):
     # start new field definitions
     # this line should be removed and replaced with the columns variable
     # end new field definitions
-
     # example_field = db.Column(db.String(256), nullable=False,default=False, unique=False)
 
     # New instance instantiation procedure

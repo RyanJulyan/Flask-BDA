@@ -139,10 +139,12 @@ model = module.capitalize()
 fields = fields()
 
 # process user data
-columns = '  \n'
+columns = ''
 feildNames = []
-instanceNames = '    \n'
-formDefinitions = '    \n'
+instanceNames = ''
+formDefinitions = ''
+newFormRequestDefinitions = ''
+updateFormRequestDefinitions = ''
 instanceParams = ''
 
 for key, value in fields.items():
@@ -156,9 +158,20 @@ for key, value in fields.items():
     formDefinitions += "    {} = TextField('{}', [Required(message='Must provide a {}')])\n".format(key,
                                                                                                     friendly_name,
                                                                                                     friendly_name)
+    newFormRequestDefinitions += "        {}=request.form.get('{}')\n".format(key,
+                                                                            key)
+    updateFormRequestDefinitions += "    data.{}=request.form.get('{}')\n".format(key,
+                                                                            key)
     feildNames.append(key)
 
 instanceParams = str((', '.join(item for item in feildNames)))
+
+columns = columns.rstrip('\n')
+instanceNames = instanceNames.rstrip('\n')
+friendly_name = friendly_name.rstrip('\n')
+formDefinitions = formDefinitions.rstrip('\n')
+newFormRequestDefinitions = newFormRequestDefinitions.rstrip('\n')
+updateFormRequestDefinitions = updateFormRequestDefinitions.rstrip('\n')
 
 #################################
 #################################
@@ -239,11 +252,9 @@ os.remove('app/__init__.py~')
 ##############################
 
 
-def replaceTextBetweenTags(filePath, startBlockString, endBlockString, replacementString):
+def replaceTextBetweenTags(filePath, startBlockString, endBlockString, indentPadding, replacementString):
     searchExpressionString = startBlockString + '.*?' + endBlockString
-    replacementString = f"""{startBlockString}
-    {replacementString}
-    {endBlockString}"""
+    replacementString = f"""{startBlockString}\n{replacementString}\n{indentPadding}{endBlockString}"""
 
     with open(filePath) as file:
         filedata = file.read()
@@ -267,10 +278,13 @@ def customizeFileVariables(src, renameFrom='', renameTo=''):
             # Clean Required Values Between System Tags #
             #############################################
             if('forms.py' in s):
-                replaceTextBetweenTags(s, '# start new form definitions', '# end new form definitions', '\n')
+                replaceTextBetweenTags(s, '# start new form definitions', '# end new form definitions', '    ', '')
             if('models.py' in s):
-                replaceTextBetweenTags(s, '# start new field definitions', '# end new field definitions', '\n')
-                replaceTextBetweenTags(s, '# start new instance fields', '# end new instance fields', '\n')
+                replaceTextBetweenTags(s, '# start new field definitions', '# end new field definitions', '    ', '')
+                replaceTextBetweenTags(s, '# start new instance fields', '# end new instance fields', '        ', '')
+            if('controllers.py' in s):
+                replaceTextBetweenTags(s, '# start new request feilds', '# end new request feilds', '        ', '')
+                replaceTextBetweenTags(s, '# start update request feilds', '# end update request feilds', '    ','')
             ##############################################
             # Copy temp for manage source -> destination #
             ##############################################
@@ -289,13 +303,17 @@ def customizeFileVariables(src, renameFrom='', renameTo=''):
                 else:
                     destination.write((line.replace(renameFrom, renameTo)).replace(renameFrom.capitalize(), renameTo.capitalize()))
                 if "# start new form definitions" in line:
-                    destination.write(formDefinitions+"\n")
+                    destination.write(formDefinitions)
                 if "# start new field definitions" in line:
-                    destination.write(columns+"\n")
+                    destination.write(columns)
                 if "# start new instance fields" in line:
-                    destination.write(instanceNames+"\n")
+                    destination.write(instanceNames)
                 if "def __init__" in line and 'models.py' in s:
                     destination.write('    def __init__(self, ' + instanceParams + "):  # ,example_field):\n")
+                if "# start new request feilds" in line:
+                    destination.write(newFormRequestDefinitions)
+                if "# start update request feilds" in line:
+                    destination.write(updateFormRequestDefinitions)
             source.close()
             destination.close()
 

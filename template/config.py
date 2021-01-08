@@ -37,6 +37,9 @@ CSRF_SESSION_KEY = 'secret'
 # Secret key for signing cookies
 SECRET_KEY = 'secret'
 
+# Default number of results to show per page
+ROWS_PER_PAGE = 20
+
 # Email Credentails
 MAIL_MAILER = 'smtp'
 MAIL_HOST = 'smtp.mailtrap.io'

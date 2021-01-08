@@ -4,7 +4,7 @@ from flask import Blueprint, request, render_template, flash, g, session, redire
 from flask_login import login_required
 
 # Import the database object from the main app module
-from app import db
+from app import db, app
 
 # Import module forms
 from app.mod_xyz.forms import XyzForm
@@ -23,8 +23,8 @@ form = XyzForm(request.form)
 # Set the route and accepted methods
 @mod_public_xyz.route('/', methods=['GET'])
 def public_list():
-    data = {}
-    data['xyz'] = Xyz.query.all()
+    page = request.args.get('page', 1, type=int)
+    data = Xyz.query.paginate(page=page, per_page=app.config['ROWS_PER_PAGE'])
 
     return render_template("xyz/public/public_list.html", data=data)
 
@@ -32,8 +32,8 @@ def public_list():
 @mod_admin_xyz.route('/', methods=['GET'])
 @login_required
 def index():
-    data = {}
-    data['xyz'] = Xyz.query.all()
+    page = request.args.get('page', 1, type=int)
+    data = Xyz.query.paginate(page=page, per_page=app.config['ROWS_PER_PAGE'])
 
     return render_template("xyz/admin/index.html", data=data)
 
@@ -41,7 +41,7 @@ def index():
 @mod_admin_xyz.route('/create', methods=['GET'])
 @login_required
 def create():
-    data = {}
+    data = Xyz.query.get(id)
 
     return render_template("xyz/admin/create.html", form=form, data=data)
 
@@ -51,10 +51,12 @@ def create():
 def store():
     data = Xyz(
         # start new request feilds
-        # this line should be removed and replaced with the formDefinitions variable
+        # this line should be removed and replaced with the newFormRequestDefinitions variable
         # end new request feilds
         # title=request.form.get("title")
     )
+    db.session.add(data)
+    db.session.commit()
 
     return redirect(url_for('xyz_admin.index'))
 
@@ -62,8 +64,7 @@ def store():
 @mod_admin_xyz.route('/show/<id>', methods=['GET'])
 @login_required
 def show(id):
-    data = {}
-    data['xyz'] = Xyz.query.get(id)
+    data = Xyz.query.get(id)
 
     return render_template("xyz/admin/show.html", data=data)
 
@@ -71,8 +72,7 @@ def show(id):
 @mod_admin_xyz.route('/edit/<id>', methods=['GET'])
 @login_required
 def edit(id):
-    data = {}
-    data['xyz'] = Xyz.query.get(id)
+    data = Xyz.query.get(id)
 
     return render_template("xyz/admin/edit.html", form=form, data=data)
 
@@ -80,8 +80,12 @@ def edit(id):
 @mod_admin_xyz.route('/update/<id>', methods=['PUT', 'PATCH'])
 @login_required
 def update(id):
-    data = {}
-    # data['xyz'] = Xyz.query.filter_by(email=form.email.data).first()
+    data = Xyz.query.get(id)
+    # start update request feilds
+    # this line should be removed and replaced with the updateFormRequestDefinitions variable
+    # end update request feilds
+    # data.title=request.form.get("title")
+    db.session.commit()
 
     return redirect(url_for('xyz_admin.index'))
 
@@ -89,6 +93,8 @@ def update(id):
 @mod_admin_xyz.route('/destroy/<id>', methods=['POST', 'DELETE'])
 @login_required
 def destroy(id):
-    data = {}
-    # data['xyz'] = Xyz.query.filter_by(email=form.email.data).first()
+    data = Xyz.query.get(id)
+    db.session.delete(data)
+    db.session.commit()
+
     return redirect(url_for('xyz_admin.index'))

@@ -1,5 +1,5 @@
 # Business Driven App (BDA)
-## a Rapid Application Development (RAD) tool to assist with building flask python applications.
+## A Rapid Application Development (RAD) tool to assist with building flask python applications.
 
 > **Note:** Still under Development
 
@@ -14,24 +14,26 @@
 * [Glossary](#glossary)
 
 # Requirements
-* Download and install Python (https://www.python.org/downloads/)
-    * Ensure pip is installed should be because it comes with the latest versions of python but in case it is not, please install it from herre: https://pip.pypa.io/en/stable/installing/
+* Download and install Python (https://www.python.org/downloads/) if you do not already have it installed.
+    * Ensure pip is installed (pip should be installed already because it comes with the latest versions of python) in case it is not, please install it from here: https://pip.pypa.io/en/stable/installing/
 
 ### Windows
 * Open new terminal
     * "Windows-Key + R" will show you the 'RUN' box
     * Type "cmd" to open the terminal
+* Copy, paste and run the following code in the terminal
 ```
 pip install virtualenv
 
 ```
 > **Note:** if the package does not install you may need to run the comand as an admin.
 > 
-> press the  "Windows-Key" type "cmd", "Right-Click" on the word "Command Prompt" and Select the option "Run as administrator"
+> press the  "Windows-Key" type "cmd", "Right-Click" on the word "Command Prompt" and Select the option "Run as administrator" and then follow the previous steps again
 
 ### Linux / Mac
 * Open new terminal
     * "Control + Option + Shift + T" to open the terminal
+* Copy, paste and run the following code in the terminal
 ```
 pip install virtualenv
 
@@ -39,18 +41,25 @@ pip install virtualenv
 
 # Quickstart
 * Ensure you have installed the [requirements](#requirements)
+
 ### Windows
 * Open new terminal
     * "Windows-Key + R" will show you the 'RUN' box
     * Type "cmd" to open the terminal
+* Copy, paste and run the following code in the terminal
+    * This will download the required `create_project.py` python file and run it to help you start a project
+```
+curl -L https://raw.githubusercontent.com/RyanJulyan/Flask-BDA/main/create_project_git.py --ssl-no-revok -o create_project_git.py
+
+python create_project_git.py
+
+```
+
 ### Linux / Mac
 * Open new terminal
     * "Control + Option + Shift + T" to open the terminal
-
----
-
 * Copy, paste and run the following code in the terminal
-    * This will download the required create_project python file and run it to help you start a project
+    * This will download the required `create_project.py` python file and run it to help you start a project
 ```
 curl -L https://raw.githubusercontent.com/RyanJulyan/Flask-BDA/main/create_project_git.py --ssl-no-revok -o create_project_git.py
 
@@ -87,6 +96,8 @@ My Awesome Project
     * Server entry point file for shared hosting from "run.py" 
     * [Local virtual Python environment](#local-environment)
     * [Docker virual environment config](#docker-environment)
+        * Removes tons of headaches when setting up your dev environment
+        * Prevents issues such as "well, it worked on my machine!"
     * [AWS Serverless yml config](#aws-serverless)
     * [Tailwind](https://tailwindcss.com/) for layouts / design
         * Highly customizable and flexable
@@ -196,11 +207,31 @@ My Awesome Project
        └── serverless.yml
 ```
 
-# Create new [CRUD](#CRUD) module
+# Create new [CRUD](#crud) module
 
 > A module is a self-contained component, making it easier to manage as the program grows. Modules in Flask-BDA help you create: a Data Model, Routes and associated functions for controlling the logic and Views
 > 
-> when you create a new CRUD module, all the elements from the folder `create_module_template` are copied into the app directory and renamed to the module name you provide as described below
+> When you create a new CRUD module, all the elements from the folder `create_module_template` are copied into the app directory and renamed to the module name you provide by replacing all `xyz` values with your module name and adding additional data model information as described below
+
+### create_module_template structure for `Projects` module added to app
+```
+├── project_name
+       └── app
+            ├── mod_projects
+            │     ├── api_controllers.py
+            │     ├── controllers.py
+            │     ├── forms.py
+            │     └── models.py
+            └── templates
+                  └── projects
+                       ├── admin
+                       │    ├── create.html
+                       │    ├── edit.html
+                       │    ├── index.html
+                       │    └── show.html
+                       └── public
+                            └── public_list.html
+```
 
 * To create your own custom modules, Open and run the file: `<Path To>/<my_awesome_project>/create_module.py`
     * Fill in the instructions eg:
@@ -242,6 +273,9 @@ There are 3 out of the box environments supported with instructions on how to co
 * [AWS Serverless](#aws-serverless) (Still under Development)
 
 ## Local Environment
+
+> To create and develop a local application we are using [virtualenv](https://pypi.org/project/virtualenv/) A tool for creating isolated virtual python environments.
+
 ### Windows
 * Open new terminal
     * "Windows-Key + R" will show you the 'RUN' box
@@ -262,6 +296,7 @@ set FLASK_ENV=development
 flask run
 
 ```
+
 ### Linux / Mac
 * Open new terminal
     * "Control + Option + Shift + T" to open the terminal
@@ -283,7 +318,11 @@ flask run
 ```
 
 ## Docker Environment
-> NOTE if you are using [Github](https://github.com/) and have docker installed (details on how to install lower down), you will get a new image built every time you `push` or do a `pull_request` on Github, which is set up in the file: `docker-image.yml` however if you want to do this manually, please follow the following steps:
+
+> To create and deploy a containerized application we are using [Docker](https://www.docker.com/) which helps developers and development teams build and ship apps. Docker is used for the building and sharing of containerized applications and microservices.
+
+> NOTE if you are using [Github](https://github.com/) and have docker installed (details on how to install lower down), you will get a new image built every time you `push` or do a `pull_request` on Github, which is set up in the file: `docker-image.yml` however if you want to do this manually, please follow the following steps:4
+
 ### Windows
 * Open browser and install docker desktop
     * Go to: https://hub.docker.com/editions/community/docker-ce-desktop-windows/ to get the installer
@@ -321,13 +360,18 @@ docker run -it -p 5000:5000 flask_app
 
 ## AWS Serverless
 
-> **Note:** Still under Development
+> **Note:** Still under development
+
+> To create and deploy a serverless application we are using [The Serverless Framework](https://www.serverless.com/) whice allows for a zero-friction serverless development, allowing you to easily build apps that auto-scale on low cost, next-gen cloud infrastructure.
+> 
+> The Serverless framework is an open source tool that provides an easy YAML + CLI development and deployment to AWS, Azure, Google Cloud, Knative & more.
 
 ### Via npm
 ```
 npm update -g serverless
 
 ```
+
 ### Windows
 * Open browser and install Chocolatey from the 
     * Go to: https://chocolatey.org/install to get the installer
@@ -340,6 +384,11 @@ choco install serverless
 serverless
 
 ```
+
+> **Note:** if the package does not install you may need to run the comand as an admin.
+> 
+> press the  "Windows-Key" type "cmd", "Right-Click" on the word "Command Prompt" and Select the option "Run as administrator" and then follow the previous steps again
+
 * Open new terminal
     * "Windows-Key + R" will show you the 'RUN' box
     * Type "cmd" to open the terminal
@@ -368,7 +417,7 @@ serverless deploy
 
 ```
 
-> if you include additional python packages in your project don't forget to run a pip freeze to ensure you get that correct packages for your deployments
+> If you include additional python packages in your project don't forget to run a `pip freeze` from your terminal to ensure you get that correct packages for your deployments
 >
 > `pip freeze > requirements.txt`
 
@@ -442,6 +491,7 @@ python -m unittest discover
 
 # Glossary
 ## Modules
+### Introduction
 > A module is a part of a program. Programs are composed of one or more independently developed modules that when combined create the  program. 
 > 
 > A module is a self-contained component, making it easier to manage as the program grows.
@@ -449,9 +499,9 @@ python -m unittest discover
 > Modules in Flask-BDA help you create: a Data Model, Routes and associated functions for controlling the logic and Views
 
 ## Controllers:
-### introduction
+### Introduction
 > Controllers can group related request handling logic into a single class. For example, a UserController class might handle all incoming requests related to users, including showing, creating, updating, and deleting users.
 
 ## CRUD
-## Definition
+### Definition
 > Create, Read, Update, and Delete ("CRUD")
