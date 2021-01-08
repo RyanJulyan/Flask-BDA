@@ -9,7 +9,7 @@ from app import db, app
 # Import module forms
 from app.mod_xyz.forms import XyzForm
 
-# Import module models (i.e. User)
+# Import module models (e.g. User)
 from app.mod_xyz.models import Xyz
 
 # Define the blueprint: 'xyz', set its url prefix: app.url/xyz

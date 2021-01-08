@@ -97,9 +97,9 @@ os.remove(repo+'.zip')
 ######################
 ######################
 
-os.system('cd "' + dir_name + '" && virtualenv env')
-os.system('cd "' + dir_name + '" && env/bin/activate && pip install --no-cache-dir -r requirements.txt')
-os.system('cd "' + dir_name + '" && env\\Scripts\\activate && pip install --no-cache-dir -r requirements.txt')
+os.system('cd "' + dir_name + '" && virtualenv venv')
+os.system('cd "' + dir_name + '" && venv/bin/activate && pip install --no-cache-dir -r requirements.txt')
+os.system('cd "' + dir_name + '" && venv\\Scripts\\activate && pip install --no-cache-dir -r requirements.txt')
 
 #####################################################
 #####################################################

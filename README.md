@@ -268,7 +268,7 @@ Default value:
 
 # Environments
 There are 3 out of the box environments supported with instructions on how to configure each for  `Windows / Linux / Mac` and you could run them at the same time if you want.
-* [Local python env](#local-environment)
+* [Local python venv](#local-environment)
 * [Docker](#docker-environment)
 * [AWS Serverless](#aws-serverless) (Still under Development)
 
@@ -284,9 +284,9 @@ There are 3 out of the box environments supported with instructions on how to co
 cd <Path To>/my_awesome_project
 
 pip install virtualenv
-virtualenv env
+virtualenv venv
 
-env\Scripts\activate
+venv\Scripts\activate
 
 pip install --no-cache-dir -r requirements.txt
 
@@ -304,9 +304,9 @@ flask run
 cd <Path To>/my_awesome_project
 
 pip install virtualenv
-virtualenv env
+virtualenv venv
 
-env/bin/activate
+venv/bin/activate
 
 pip install --no-cache-dir -r requirements.txt
 
@@ -442,7 +442,7 @@ There are 3 aspects of testing provided:
 ```
 cd <Path To>/my_awesome_project
 
-env/bin/activate
+venv\Scripts\activate
 
 flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
 flake8 . --count --exit-zero --max-complexity=11 --max-line-length=127 --statistics
@@ -454,7 +454,7 @@ flake8 . --count --exit-zero --max-complexity=11 --max-line-length=127 --statist
 ```
 cd <Path To>/my_awesome_project
 
-env/bin/activate
+venv/bin/activate
 
 flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
 flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
@@ -472,7 +472,7 @@ flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statist
 ```
 cd <Path To>/my_awesome_project
 
-env/bin/activate
+venv/bin/activate
 
 python -m unittest discover
 
@@ -483,7 +483,7 @@ python -m unittest discover
 ```
 cd <Path To>/my_awesome_project
 
-env/bin/activate
+venv/bin/activate
 
 python -m unittest discover
 
