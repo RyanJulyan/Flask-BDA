@@ -83,25 +83,25 @@
   
 </head>
 <body>
+      
+    <!-- Install Button -->
+    <button type="button" id="installButton" class="btn btn-success">Install</button>
+    <!-- Javascript -->
+    <script src="{{ url_for('static', filename='js/install_prompt.js') }}" defer></script>
+    
+    <!-- Web Push Notification Button -->
+    <button type="button" id="webPushButton" class="btn btn-success">Allow Notifications</button>
+    <!-- Javascript -->
+    <script src="{{ url_for('static', filename='js/web_push.js') }}" defer></script>
+    
+    <!-- Share Buttons -->
+    <button type="button" class="btn btn-primary shareButton" data-title="Share 1">Share</button>
+    <button type="button" class="btn btn-primary shareButton" data-title="Share 2">Share</button>
+    <!-- Javascript -->
+    <script src="{{ url_for('static', filename='js/web_share.js') }}" defer></script>
     
     <!-- Page Content -->
     {% block page_content %}
-      
-      <!-- Install Button -->
-      <button type="button" id="installButton" class="btn btn-success">Install</button>
-      <!-- Javascript -->
-      <script src="{{ url_for('static', filename='js/install_prompt.js') }}" defer></script>
-      
-      <!-- Web Push Notification Button -->
-      <button type="button" id="webPushButton" class="btn btn-success">Allow Notifications</button>
-      <!-- Javascript -->
-      <script src="{{ url_for('static', filename='js/web_push.js') }}" defer></script>
-      
-      <!-- Share Buttons -->
-      <button type="button" class="btn btn-primary shareButton" data-title="Share 1">Share</button>
-      <button type="button" class="btn btn-primary shareButton" data-title="Share 2">Share</button>
-      <!-- Javascript -->
-      <script src="{{ url_for('static', filename='js/web_share.js') }}" defer></script>
         
     {% endblock page_content %}
     
