@@ -50,6 +50,11 @@ MAIL_ENCRYPTION = None
 MAIL_FROM_ADDRESS = 'email@example.com'
 MAIL_FROM_NAME = 'Flask BDA'
 
+# Swagger
+SWAGGER_URL = '/api/doc'  # URL for exposing Swagger UI (without trailing '/')
+SWAGGER_API_URL = 'swagger.json'  # Our API url (can of course be a local resource)
+SWAGGER_BLUEPRINT_URL_PREFIX = '/swagger'
+
 # Search Engine Optimization (SEO)
 SEO_SUBJECT = 'Rapid Application Development.'
 SEO_SUBTITLE = 'Flask BDA Site.'

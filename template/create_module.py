@@ -145,6 +145,9 @@ instanceNames = ''
 formDefinitions = ''
 newFormRequestDefinitions = ''
 updateFormRequestDefinitions = ''
+newApiRequestDefinitions = ''
+updateApiRequestDefinitions = ''
+argumentParser = ''
 instanceParams = ''
 
 for key, value in fields.items():
@@ -155,23 +158,28 @@ for key, value in fields.items():
                                                                                     value['unique'])
     instanceNames += "        self.{} = {}\n".format(key, key)
     friendly_name = (key.capitalize()).replace('_', ' ')
-    formDefinitions += "    {} = TextField('{}', [Required(message='Must provide a {}')])\n".format(key,
-                                                                                                    friendly_name,
-                                                                                                    friendly_name)
-    newFormRequestDefinitions += "        {}=request.form.get('{}')\n".format(key,
-                                                                            key)
-    updateFormRequestDefinitions += "    data.{}=request.form.get('{}')\n".format(key,
-                                                                            key)
+    if fields[key]['nullable']:
+        formDefinitions += "    {} = TextField('{}')\n".format(key, key)
+        argumentParser += "parser.add_argument('{}', help='{} of {}')\n".format(key, key, friendly_name)
+    else:
+        formDefinitions += "    {} = TextField('{}', [Required(message='Must provide a {}')])\n".format(key, key, friendly_name)
+        argumentParser += "parser.add_argument('{}', required=True, help='{} of {}')\n".format(key, key, friendly_name)
+    newApiRequestDefinitions += "            {}=args['{}']\n".format(key, key)
+    newFormRequestDefinitions += "        {}=request.form.get('{}')\n".format(key, key)
+    updateApiRequestDefinitions += "    data.{} = args['{}']\n".format(key, key)
+    updateFormRequestDefinitions += "    data.{} = request.form.get('{}')\n".format(key, key)
     feildNames.append(key)
 
 instanceParams = str((', '.join(item for item in feildNames)))
 
+newFormRequestDefinitions = newFormRequestDefinitions.rstrip('\n')
+updateFormRequestDefinitions = updateFormRequestDefinitions.rstrip('\n')
+newApiRequestDefinitions = newApiRequestDefinitions.rstrip('\n')
+argumentParser = argumentParser.rstrip('\n')
 columns = columns.rstrip('\n')
 instanceNames = instanceNames.rstrip('\n')
 friendly_name = friendly_name.rstrip('\n')
 formDefinitions = formDefinitions.rstrip('\n')
-newFormRequestDefinitions = newFormRequestDefinitions.rstrip('\n')
-updateFormRequestDefinitions = updateFormRequestDefinitions.rstrip('\n')
 
 #################################
 #################################
@@ -224,9 +232,9 @@ for line in source:
     destination.write(line)
     if "# import new xyz_module" in line:
         destination.write("# " + module + "\n")
-        destination.write("from app.mod_" + module + ".controllers import mod_public_" + module + " as " + module + "_public_module\n")
-        destination.write("from app.mod_" + module + ".controllers import mod_admin_" + module + " as " + module + "_admin_module\n")
-        destination.write("from app.mod_" + module + ".api_controllers import " + module.capitalize() + "ListResource, " + module.capitalize() + "Resource\n")
+        destination.write("from app.mod_" + module + ".controllers import mod_public_" + module + " as " + module + "_public_module  # noqa: E402\n")
+        destination.write("from app.mod_" + module + ".controllers import mod_admin_" + module + " as " + module + "_admin_module  # noqa: E402\n")
+        destination.write("from app.mod_" + module + ".api_controllers import " + module.capitalize() + "ListResource, " + module.capitalize() + "Resource  # noqa: E402\n")
     if "# register_blueprint new xyz_module" in line:
         destination.write("# " + module + "\n")
         destination.write("app.register_blueprint(" + module + "_public_module)\n")
@@ -277,14 +285,18 @@ def customizeFileVariables(src, renameFrom='', renameTo=''):
             #############################################
             # Clean Required Values Between System Tags #
             #############################################
+            if('api_controllers.py' in s):
+                replaceTextBetweenTags(s, '# start new add_argument', '# end new add_argument', '', '')
+                replaceTextBetweenTags(s, '# start update api_request feilds', '# end update api_request feilds', '        ', '')
+                replaceTextBetweenTags(s, '# start new api_request feilds', '# end new api_request feilds', '            ', '')
+            if('controllers.py' in s):
+                replaceTextBetweenTags(s, '# start new request feilds', '# end new request feilds', '        ', '')
+                replaceTextBetweenTags(s, '# start update request feilds', '# end update request feilds', '    ','')
             if('forms.py' in s):
                 replaceTextBetweenTags(s, '# start new form definitions', '# end new form definitions', '    ', '')
             if('models.py' in s):
                 replaceTextBetweenTags(s, '# start new field definitions', '# end new field definitions', '    ', '')
                 replaceTextBetweenTags(s, '# start new instance fields', '# end new instance fields', '        ', '')
-            if('controllers.py' in s):
-                replaceTextBetweenTags(s, '# start new request feilds', '# end new request feilds', '        ', '')
-                replaceTextBetweenTags(s, '# start update request feilds', '# end update request feilds', '    ','')
             ##############################################
             # Copy temp for manage source -> destination #
             ##############################################
@@ -302,6 +314,12 @@ def customizeFileVariables(src, renameFrom='', renameTo=''):
                     pass
                 else:
                     destination.write((line.replace(renameFrom, renameTo)).replace(renameFrom.capitalize(), renameTo.capitalize()))
+                if "# start new add_argument" in line:
+                    destination.write(argumentParser)
+                if "# start new request feilds" in line:
+                    destination.write(newFormRequestDefinitions)
+                if "# start update request feilds" in line:
+                    destination.write(updateFormRequestDefinitions)
                 if "# start new form definitions" in line:
                     destination.write(formDefinitions)
                 if "# start new field definitions" in line:
@@ -310,10 +328,6 @@ def customizeFileVariables(src, renameFrom='', renameTo=''):
                     destination.write(instanceNames)
                 if "def __init__" in line and 'models.py' in s:
                     destination.write('    def __init__(self, ' + instanceParams + "):  # ,example_field):\n")
-                if "# start new request feilds" in line:
-                    destination.write(newFormRequestDefinitions)
-                if "# start update request feilds" in line:
-                    destination.write(updateFormRequestDefinitions)
             source.close()
             destination.close()
 

@@ -84,7 +84,7 @@ def update(id):
     # start update request feilds
     # this line should be removed and replaced with the updateFormRequestDefinitions variable
     # end update request feilds
-    # data.title=request.form.get("title")
+    # data.title = request.form.get("title")
     db.session.commit()
 
     return redirect(url_for('xyz_admin.index'))
