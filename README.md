@@ -1,5 +1,5 @@
 # Business Driven App (BDA)
-## A Rapid Application Development (RAD) tool to assist with building flask python applications. Build Applications Fast, Right, and for the Future.
+## A Rapid Application Development (RAD) tool to assist with building flask python applications. Helping you build applications fast, right, and for the Future.
 
 > **Note:** Still under Development
 
@@ -14,11 +14,12 @@
 ## Overview
 * [Requirements](#requirements)
 * [Quickstart](#quickstart)
-* [Project Features](#features)
 * [Project Structure](#project-structure)
 * [Create new CRUD module](#create-new-crud-module)
 * [Environments](#environments)
 * [Testing](#testing)
+* [Features List](#features-list)
+* [Project Structure](#project-structure)
 * [Glossary](#glossary)
 
 # Requirements
@@ -62,143 +63,6 @@ Project Name:
 ```
 > **Note:** You will notice this creates a folder in the same path as the file: "create_project_git.py".
 > This folder will be lower case and will have stripped out all of the special characters and replaced spaces with underscores eg: `my_awesome_project`
-
-# Features
-* Single file run and setup
-* Starter flask project which builds a project folder structures with
-    * Flask microframework
-        * Quick and easy
-        * Ability to scale up
-        * One of the most popular Python web application frameworks.
-        * Doesn't enforce any dependencies or project layout.
-    * Progressive Web App (PWA) to make it more friendly towards desktop and allow native installs from the web, chache for offline support, page sharing and push notifications etc
-    * SEO ready page index template file
-    * Isolated module code and templates
-    * Configuration file "config.py" for quick access and management of environment and environment variables and default SEO
-    * A Landing page with call to action and features
-    * A 403 page which all forbidden pages goes to
-    * A 404 page which all unknown pages goes to
-    * .gitignore files with defaults
-    * [Testing](#testing) with Python [flake8](https://flake8.pycqa.org/en/latest/) Linting and Test cases Python [unittest](https://docs.python.org/3/library/unittest.html)
-    * CI/CD through [Github actions workflow](https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions)
-    * Can run in any cloud or in your data center.
-        * Server entry point file for shared hosting from "run.py" 
-        * [Local virtual Python environment](#local-environment)
-        * [Docker virual environment config](#docker-environment)
-            * Removes tons of headaches when setting up your dev environment
-            * Prevents issues such as "well, it worked on my machine!"
-        * [AWS Serverless yml config](#aws-serverless)
-    * Great UI by default with [Tailwind](https://tailwindcss.com/)
-        * Highly customizable and flexable
-        * Pre-setup via CDN
-        * Versatile
-        * There is no JavaScript. And because of that, you can easily bind it with any JavaScript framework of your choice
-
----
-
-* Create custom [module](#Modules) files and folders that fit into the flask project structure from `create_module.py` file with prompts to create the following:
-    * Model
-        * Dynamically create table data model 
-    * Web Controller
-        * Public
-            * `public_list`
-        * Admin
-            * `index`
-            * `create`
-            * `store`
-            * `show`
-            * `edit`
-            * `update`
-            * `destroy`
-    * API Controller
-        * ListResource
-            * `get`
-            * `post`
-        * Resource
-            * `get`
-            * `update`
-            * `delete`
-    * Forms
-    * SQLAlchemy Events. Pre-configured `before` and `after` changes on a data model `event listeners` for:
-        * `Insert`
-        * `Update`
-        * `Delete` 
-    * URL's (prefixed by the module name)
-        * Web Routes:
-            * Public
-                * View ../xyz/ [list elements] `public_list`
-            * Admin
-                * View ../admin/xyz/ [list elements] `index`
-                * View ../admin/xyz/create [single element] `create`
-                * POST URL ../admin/xyz/store [single element] `store`
-                * View ../admin/xyz/show/{id} [single element] `show`
-                * View ../admin/xyz/edit/{id} [single element] `edit`
-                * PUT URL ../admin/xyz/update/{id} [single element]`update`
-                * DELETE URL ../admin/xyz/destroy/{id} [single element] `destroy`
-        * API Routes:
-            * GET URL ../api/xyz [list elements] `get`
-            * POST URL ../api/xyz [single element] `post`
-            * GET URL ../api/xyz/{id} [single element] `get`
-            * PUT URL ../api/xyz/{id} [single element] `update`
-            * DELETE URL ../api/xyz/{id} [single element]`delete`
-    * Views for:
-        * Public
-            * `public_list.html` (list elements)
-        * Admin
-            * `index.html` (list elements)
-            * `create.html` (single element form)
-            * `show.html` (single element)
-            * `edit.html` (single element form)
-### Project Structure
-```
-├── project_name
-       ├── app
-       │    ├── mod_auth
-       │    │     ├── __init__.py
-       │    │     ├── controllers.py
-       │    │     ├── forms.py
-       │    │     └── models.py
-       │    ├── static
-       │    │     ├── css
-       │    │     ├── images
-       │    │     ├── js
-       │    │     ├── manifest.json
-       │    │     └── sw.js
-       │    ├── templates
-       │    │     ├── admin
-       │    │     ├── auth
-       │    │     ├── public
-       │    │     ├── 403.html
-       │    │     ├── 404.html
-       │    │     └── index.html
-       │    └── __init__.py
-       ├── create_module_template
-       │    ├── mod_xyz
-       │    │     ├── api_controllers.py
-       │    │     ├── controllers.py
-       │    │     ├── forms.py
-       │    │     └── models.py
-       │    └── templates
-       │          └── xyz
-       │               ├── admin
-       │               │    ├── create.html
-       │               │    ├── edit.html
-       │               │    ├── index.html
-       │               │    └── show.html
-       │               ├── public
-       │                    └── public_list.html
-       ├── .dockerignore
-       ├── .gitignore
-       ├── app.db
-       ├── config.py
-       ├── create_module.py
-       ├── Dockerfile
-       ├── LICENSE
-       ├── README.md
-       ├── requirements.txt
-       ├── run.py
-       └── serverless.yml
-```
 
 # Create new [CRUD](#crud) module
 
@@ -484,6 +348,144 @@ venv/bin/activate
 
 python -m unittest discover
 
+```
+
+
+# Features List
+* Single file run and setup
+* Starter flask project which builds a project folder structures with
+    * Flask microframework
+        * Quick and easy
+        * Ability to scale up
+        * One of the most popular Python web application frameworks.
+        * Doesn't enforce any dependencies or project layout.
+    * Progressive Web App (PWA) to make it more friendly towards desktop and allow native installs from the web, chache for offline support, page sharing and push notifications etc
+    * SEO ready page index template file
+    * Isolated module code and templates
+    * Configuration file "config.py" for quick access and management of environment and environment variables and default SEO
+    * A Landing page with call to action and features
+    * A 403 page which all forbidden pages goes to
+    * A 404 page which all unknown pages goes to
+    * .gitignore files with defaults
+    * [Testing](#testing) with Python [flake8](https://flake8.pycqa.org/en/latest/) Linting and Test cases Python [unittest](https://docs.python.org/3/library/unittest.html)
+    * CI/CD through [Github actions workflow](https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions)
+    * Can run in any cloud or in your data center.
+        * Server entry point file for shared hosting from "run.py" 
+        * [Local virtual Python environment](#local-environment)
+        * [Docker virual environment config](#docker-environment)
+            * Removes tons of headaches when setting up your dev environment
+            * Prevents issues such as "well, it worked on my machine!"
+        * [AWS Serverless yml config](#aws-serverless)
+    * Great UI by default with [Tailwind](https://tailwindcss.com/)
+        * Highly customizable and flexable
+        * Pre-setup via CDN
+        * Versatile
+        * There is no JavaScript. And because of that, you can easily bind it with any JavaScript framework of your choice
+
+
+* Create custom [module](#Modules) files and folders that fit into the flask project structure from `create_module.py` file with prompts to create the following:
+    * Model
+        * Dynamically create table data model 
+    * Web Controller
+        * Public
+            * `public_list`
+        * Admin
+            * `index`
+            * `create`
+            * `store`
+            * `show`
+            * `edit`
+            * `update`
+            * `destroy`
+    * API Controller
+        * ListResource
+            * `get`
+            * `post`
+        * Resource
+            * `get`
+            * `update`
+            * `delete`
+    * Forms
+    * SQLAlchemy Events. Pre-configured `before` and `after` changes on a data model `event listeners` for:
+        * `Insert`
+        * `Update`
+        * `Delete` 
+    * URL's (prefixed by the module name)
+        * Web Routes:
+            * Public
+                * View ../xyz/ [list elements] `public_list`
+            * Admin
+                * View ../admin/xyz/ [list elements] `index`
+                * View ../admin/xyz/create [single element] `create`
+                * POST URL ../admin/xyz/store [single element] `store`
+                * View ../admin/xyz/show/{id} [single element] `show`
+                * View ../admin/xyz/edit/{id} [single element] `edit`
+                * PUT URL ../admin/xyz/update/{id} [single element]`update`
+                * DELETE URL ../admin/xyz/destroy/{id} [single element] `destroy`
+        * API Routes:
+            * GET URL ../api/xyz [list elements] `get`
+            * POST URL ../api/xyz [single element] `post`
+            * GET URL ../api/xyz/{id} [single element] `get`
+            * PUT URL ../api/xyz/{id} [single element] `update`
+            * DELETE URL ../api/xyz/{id} [single element]`delete`
+    * Views for:
+        * Public
+            * `public_list.html` (list elements)
+        * Admin
+            * `index.html` (list elements)
+            * `create.html` (single element form)
+            * `show.html` (single element)
+            * `edit.html` (single element form)
+
+## Project Structure
+```
+├── project_name
+       ├── app
+       │    ├── mod_auth
+       │    │     ├── __init__.py
+       │    │     ├── controllers.py
+       │    │     ├── forms.py
+       │    │     └── models.py
+       │    ├── static
+       │    │     ├── css
+       │    │     ├── images
+       │    │     ├── js
+       │    │     ├── manifest.json
+       │    │     └── sw.js
+       │    ├── templates
+       │    │     ├── admin
+       │    │     ├── auth
+       │    │     ├── public
+       │    │     ├── 403.html
+       │    │     ├── 404.html
+       │    │     └── index.html
+       │    └── __init__.py
+       ├── create_module_template
+       │    ├── mod_xyz
+       │    │     ├── api_controllers.py
+       │    │     ├── controllers.py
+       │    │     ├── forms.py
+       │    │     └── models.py
+       │    └── templates
+       │          └── xyz
+       │               ├── admin
+       │               │    ├── create.html
+       │               │    ├── edit.html
+       │               │    ├── index.html
+       │               │    └── show.html
+       │               ├── public
+       │                    └── public_list.html
+       ├── .dockerignore
+       ├── .gitignore
+       ├── app.db
+       ├── config.py
+       ├── create_module.py
+       ├── Dockerfile
+       ├── LICENSE
+       ├── README.md
+       ├── requirements.txt
+       ├── run.py
+       └── serverless.yml
 ```
 
 # Glossary
