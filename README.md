@@ -17,6 +17,7 @@
 * Download and install Python (https://www.python.org/downloads/) if you do not already have it installed.
     * Ensure pip is installed (pip should be installed already because it comes with the latest versions of python) in case it is not, please install it from here: https://pip.pypa.io/en/stable/installing/
 
+## Install the local python virual Environment 
 ### Windows
 * Open new terminal
     * "Windows-Key + R" will show you the 'RUN' box
@@ -66,16 +67,17 @@ curl -L https://raw.githubusercontent.com/RyanJulyan/Flask-BDA/main/create_proje
 python create_project_git.py
 
 ```
+---
 
 * Fill in your project name when prompted eg:
 ```
 Project Name:
-My Awesome Project
+"My Awesome Project"
 ```
 > **Note:** You will notice this creates a folder in the same path as the file: "create_project_git.py".
 > This folder will be lower case and will have stripped out all of the special characters and replaced spaces with underscores eg: `my_awesome_project`
 
-### Features
+# Features
 * Single file run and setup
 * Starter flask project which builds a project folder structures with
     * Flask microframework

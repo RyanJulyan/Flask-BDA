@@ -35,7 +35,7 @@ def dirName(projectName):
     while True:
         dir_name = projectName
         if(len(dir_name) > 0):
-            dir_name = dir_name.casefold()
+            dir_name = dir_name.lower()
             dir_name = re.sub('[;!,*)@#%(&$?.^\'"+<>/\\{}]', '', dir_name)
             dir_name = dir_name.replace(" ", "_")
             return dir_name
