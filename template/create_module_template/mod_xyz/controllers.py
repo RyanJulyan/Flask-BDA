@@ -41,9 +41,8 @@ def index():
 @mod_admin_xyz.route('/create', methods=['GET'])
 @login_required
 def create():
-    data = Xyz.query.get(id)
 
-    return render_template("xyz/admin/create.html", form=form, data=data)
+    return render_template("xyz/admin/create.html", form=form)
 
 
 @mod_admin_xyz.route('/store', methods=['POST'])

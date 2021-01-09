@@ -1,7 +1,15 @@
 # Business Driven App (BDA)
-## A Rapid Application Development (RAD) tool to assist with building flask python applications.
+## A Rapid Application Development (RAD) tool to assist with building flask python applications. Build Applications Fast, Right, and for the Future.
 
 > **Note:** Still under Development
+
+> Flask BDA is a low-code platform which provides the tools for companies to raplidly develop and deploy secure applications that run on any device.
+> 
+> We change the way software is built so you can rapidly create and deploy critical applications of any size that evolve with your business.
+> 
+> Developers can build and deploy a full range of applications - from consumer apps to critical internal business systems - designed to help developers deliver secure applications quickly and efficiently so apps are delivered in weeks and even days.
+>
+> Flask BDA provides Full-stack Development from UI, business processes, custom logic, and data models to create full-stack, cross-platform apps. providing you a schfold that you can add your own code when needed. with no lock-in ever.
 
 ## Overview
 * [Requirements](#requirements)
@@ -17,7 +25,8 @@
 * Download and install Python (https://www.python.org/downloads/) if you do not already have it installed.
     * Ensure pip is installed (pip should be installed already because it comes with the latest versions of python) in case it is not, please install it from here: https://pip.pypa.io/en/stable/installing/
 
-## Install the local python virual Environment 
+## Install the local python virual environment package from pip `virtualenv`
+
 ### Windows
 * Open new terminal
     * "Windows-Key + R" will show you the 'RUN' box
@@ -70,6 +79,7 @@ python create_project_git.py
 ---
 
 * Fill in your project name when prompted eg:
+    * Please ensure you put quotes around your project name to prevent errors eg: `"My Awesome Project"`
 ```
 Project Name:
 "My Awesome Project"
@@ -95,13 +105,14 @@ Project Name:
     * .gitignore files with defaults
     * [Testing](#testing) with Python [flake8](https://flake8.pycqa.org/en/latest/) Linting and Test cases Python [unittest](https://docs.python.org/3/library/unittest.html)
     * CI/CD through [Github actions workflow](https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions)
-    * Server entry point file for shared hosting from "run.py" 
-    * [Local virtual Python environment](#local-environment)
-    * [Docker virual environment config](#docker-environment)
-        * Removes tons of headaches when setting up your dev environment
-        * Prevents issues such as "well, it worked on my machine!"
-    * [AWS Serverless yml config](#aws-serverless)
-    * [Tailwind](https://tailwindcss.com/) for layouts / design
+    * Can run in any cloud or in your data center.
+        * Server entry point file for shared hosting from "run.py" 
+        * [Local virtual Python environment](#local-environment)
+        * [Docker virual environment config](#docker-environment)
+            * Removes tons of headaches when setting up your dev environment
+            * Prevents issues such as "well, it worked on my machine!"
+        * [AWS Serverless yml config](#aws-serverless)
+    * Great UI by default with [Tailwind](https://tailwindcss.com/)
         * Highly customizable and flexable
         * Pre-setup via CDN
         * Versatile
@@ -245,18 +256,19 @@ Module Name:
 ```
 Create new field Name (type the string: 'STOP_CREATING_FIELDS' to exit): `name`
 What datatype is name
-        'String'
-        'Int'
-        'Float'
-        'Numeric'
-        'Text'
-        'Date'
-        'DateTime'
-        'Boolean'
-        'BigInt'
-        'Enum'
-        'JSON'
-        'LargeBinary': `String`
+        Choose one of the following options
+        ('String'
+         ,'Int'
+         ,'Float'
+         ,'Numeric'
+         ,'Text'
+         ,'Date'
+         ,'DateTime'
+         ,'Boolean'
+         ,'BigInt'
+         ,'Enum'
+         ,'JSON'
+         ,'LargeBinary'): `String`
 String Length (1-256): `256`
 Is name nullable ('True', 'False'): `false`
 Is name unique ('True', 'False'): `true`
@@ -424,14 +436,17 @@ serverless deploy
 > `pip freeze > requirements.txt`
 
 # Testing
+
+> 
+
 There are 3 aspects of testing provided:
 * CI/CD through [Github actions workflow](https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions) which is already set up to implement:
-    * Python [flake8](https://flake8.pycqa.org/en/latest/) Linting.
+    * Python [flake8](https://flake8.pycqa.org/en/latest/) code [linting](#linting).
         * It displays the warnings in a per-file, merged output. Flake8 is a wrapper around these tools:
             * PyFlakes
             * pycodestyle
             * Ned Batchelder’s McCabe script
-    * Python [unittest](https://docs.python.org/3/library/unittest.html) originally inspired by JUnit and has a similar flavor as major unit testing frameworks in other languages.
+    * Python [unittest](https://docs.python.org/3/library/unittest.html) originally inspired by JUnit and has a similar flavor as major [unit testing](#unit-testing) frameworks in other languages.
 
 # Python flake8
 
@@ -507,3 +522,13 @@ python -m unittest discover
 ## CRUD
 ### Definition
 > Create, Read, Update, and Delete ("CRUD")
+
+## Linting
+### Definition
+> Linting is the automated checking of your source code for programmatic and stylistic errors. This is done by using a lint tool (otherwise known as linter). A lint tool is a basic static code analyzer.
+> 
+> lint, or a linter, is a static code analysis tool used to flag programming errors, bugs, stylistic errors, and suspicious constructs.
+
+## Unit Testing
+### Definition
+> In computer programming, unit testing is a software testing method by which individual units of source code—sets of one or more computer program modules together with associated control data, usage procedures, and operating procedures—are tested to determine whether they are fit for use.

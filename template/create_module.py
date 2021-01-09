@@ -88,6 +88,7 @@ def getEnumParameters():
 
 def fields():
     fields = {}
+    print("Create new data model for your module " + module + ": ")
     while True:
         print("Create new field Name (type the string: 'STOP_CREATING_FIELDS' to exit): ")
         field = input()
@@ -101,18 +102,19 @@ def fields():
             field = re.sub('[;!,*)@#%(&$?.^\'"+<>/\\{}]', '', field)
             field = field.replace(" ", "_")
             dataType = getDataType("What datatype is " + field + """
-            'String'
-            'Int'
-            'Float'
-            'Numeric'
-            'Text'
-            'Date'
-            'DateTime'
-            'Boolean'
-            'BigInt'
-            'Enum'
-            'JSON'
-            'LargeBinary': """)
+            Choose one of the following options
+            ('String'
+             ,'Int'
+             ,'Float'
+             ,'Numeric'
+             ,'Text'
+             ,'Date'
+             ,'DateTime'
+             ,'Boolean'
+             ,'BigInt'
+             ,'Enum'
+             ,'JSON'
+             ,'LargeBinary'): """)
             if(dataType == 'String'):
                 num = getStringNum("String Length (1-256):")
                 dataType = "String(" + str(num) + ")"
@@ -185,7 +187,7 @@ formDefinitions = formDefinitions.rstrip('\n')
 #################################
 # Creating A Module / Component #
 #################################
-#################################
+#####################x############
 
 #########################
 #########################
