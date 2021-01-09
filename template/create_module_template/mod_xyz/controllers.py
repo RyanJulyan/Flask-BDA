@@ -2,6 +2,7 @@
 # Import flask dependencies
 from flask import Blueprint, request, render_template, flash, g, session, redirect, url_for
 from flask_login import login_required
+from sqlalchemy import event
 
 # Import the database object from the main app module
 from app import db, app
@@ -97,3 +98,34 @@ def destroy(id):
     db.session.commit()
 
     return redirect(url_for('xyz_admin.index'))
+
+
+# SQLAlchemy Events before and after insert, update and delete changes on a table
+@event.listens_for(Xyz, "before_insert")
+def before_insert(mapper, connection, target):
+    pass
+
+
+@event.listens_for(Xyz, "after_insert")
+def after_insert(mapper, connection, target):
+    pass
+
+
+@event.listens_for(Xyz, "before_update")
+def before_update(mapper, connection, target):
+    pass
+
+
+@event.listens_for(Xyz, "after_update")
+def after_update(mapper, connection, target):
+    pass
+
+
+@event.listens_for(Xyz, "before_delete")
+def before_delete(mapper, connection, target):
+    pass
+
+
+@event.listens_for(Xyz, "after_delete")
+def after_delete(mapper, connection, target):
+    pass

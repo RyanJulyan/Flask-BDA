@@ -119,6 +119,10 @@ Project Name:
             * `update`
             * `delete`
     * Forms
+    * SQLAlchemy Events. Pre-configured `before` and `after` changes on a data model `event listeners` for:
+        * `Insert`
+        * `Update`
+        * `Delete` 
     * URL's (prefixed by the module name)
         * Web Routes:
             * Public
