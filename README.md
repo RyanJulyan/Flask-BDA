@@ -9,7 +9,7 @@
 > 
 > Developers can build and deploy a full range of applications - from consumer apps to critical internal business systems - designed to help developers deliver secure applications quickly and efficiently so apps are delivered in weeks and even days.
 >
-> Flask BDA provides Full-stack Development from UI, business processes, custom logic, and data models to create full-stack, cross-platform apps. providing you a schfold that you can add your own code when needed. with no lock-in ever.
+> Flask BDA provides Full-stack development from; UI, business processes, custom logic, and data models to create cross-platform apps out of the box. providing you a scaffold that you can add your own code when needed. with no lock-in ever.
 
 ## Overview
 * [Requirements](#requirements)
@@ -24,30 +24,6 @@
 # Requirements
 * Download and install Python (https://www.python.org/downloads/) if you do not already have it installed.
     * Ensure pip is installed (pip should be installed already because it comes with the latest versions of python) in case it is not, please install it from here: https://pip.pypa.io/en/stable/installing/
-
-## Install the local python virual environment package from pip `virtualenv`
-
-### Windows
-* Open new terminal
-    * "Windows-Key + R" will show you the 'RUN' box
-    * Type "cmd" to open the terminal
-* Copy, paste and run the following code in the terminal
-```
-pip install virtualenv
-
-```
-> **Note:** if the package does not install you may need to run the comand as an admin.
-> 
-> press the  "Windows-Key" type "cmd", "Right-Click" on the word "Command Prompt" and Select the option "Run as administrator" and then follow the previous steps again
-
-### Linux / Mac
-* Open new terminal
-    * "Control + Option + Shift + T" to open the terminal
-* Copy, paste and run the following code in the terminal
-```
-pip install virtualenv
-
-```
 
 # Quickstart
 * Ensure you have installed the [requirements](#requirements)
