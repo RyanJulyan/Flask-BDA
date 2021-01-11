@@ -5,7 +5,7 @@
 
 > Flask BDA is a low-code platform which provides the tools for companies to raplidly develop and deploy secure applications that run on any device.
 > 
-> We change the way software is built so you can rapidly create and deploy critical applications of any size that evolve with your business.
+> We change the way software is built so you can rapidly create and deploy critical applications of any size that evolve with your business saving you time & money.
 > 
 > Developers can build and deploy a full range of applications - from consumer apps to critical internal business systems - designed to help developers deliver secure applications quickly and efficiently so apps are delivered in weeks and even days.
 >
@@ -70,25 +70,7 @@ Project Name:
 > 
 > When you create a new CRUD module, all the elements from the folder `create_module_template` are copied into the app directory and renamed to the module name you provide by replacing all `xyz` values with your module name and adding additional data model information as described below
 
-### create_module_template structure for `Projects` module added to app
-```
-├── project_name
-       └── app
-            ├── mod_projects
-            │     ├── api_controllers.py
-            │     ├── controllers.py
-            │     ├── forms.py
-            │     └── models.py
-            └── templates
-                  └── projects
-                       ├── admin
-                       │    ├── create.html
-                       │    ├── edit.html
-                       │    ├── index.html
-                       │    └── show.html
-                       └── public
-                            └── public_list.html
-```
+## How to create a new module
 
 * To create your own custom modules, Open and run the file: `<Path To>/<my_awesome_project>/create_module.py`
     * Fill in the instructions eg:
@@ -123,6 +105,35 @@ Default value:
 > **Note:** this will keep looping until you type and submit the words: "STOP_CREATING_FIELDS". 
 > 
 > This allows you to create multiple fields for your module quickly and easily
+
+### App changes
+
+> files and folders from the `create_module_template` folder are created for the `Projects` module, and then added to the `app` folder
+>
+> This will create a scaffolded admin pannel views, an API and public facing views and logic to allow you to imediately interact with the module you created.
+> 
+> From the admin pannel you will be able to perform the following actions: Create, Read, Update, and Delete ("CRUD") for your new modle.
+> 
+> The public facing views allows guest users (users not logged in) to see a view of the information provided
+
+```
+├── my_awesome_project
+       └── app
+            ├── mod_projects
+            │     ├── api_controllers.py
+            │     ├── controllers.py
+            │     ├── forms.py
+            │     └── models.py
+            └── templates
+                  └── projects
+                       ├── admin
+                       │    ├── create.html
+                       │    ├── edit.html
+                       │    ├── index.html
+                       │    └── show.html
+                       └── public
+                            └── public_list.html
+```
 
 # Environments
 There are 3 out of the box environments supported with instructions on how to configure each for  `Windows / Linux / Mac` and you could run them at the same time if you want.
