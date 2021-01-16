@@ -1,3 +1,5 @@
+org: ryanjulyan
+app: flask-bda
 # serverless.yml
 
 service: serverless-flask
@@ -5,7 +7,6 @@ service: serverless-flask
 plugins:
   - serverless-python-requirements
   - serverless-wsgi
-
 custom:
   wsgi:
     app: app.app
@@ -21,7 +22,7 @@ provider:
 
 functions:
   app:
-    handler: wsgi.handler
+    handler: wsgi_handler.handler
     events:
       - http: ANY /
       - http: 'ANY {proxy+}'

@@ -1,21 +1,49 @@
 
 import os
 
-SITE_TITLE = 'Flask BDA'
-SITE_URL = 'http://www.bda.com'
-SITE_DESCRIPTION = 'My awesome new Flask BDA site.'
+SITE_TITLE = 'Flask-BDA'
+SITE_URL = 'http://www.Flask-BDA.com'
+SITE_DESCRIPTION = 'My awesome new Flask-BDA site.'
 SITE_THEME_COLOR = '#3367D6'
 DEVELOPER_NAME = 'Ryan Julyan'
 
 # Statement for enabling the development environment
 DEBUG = True
+DEBUG_TB_PROFILER_ENABLED = True
 
 # Define the application directory
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
-# Define the database - we are working with
+# Define the database engine - we are working with
 # SQLite for this example
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'app.db')
+DATABASE_ENGINE = 'sqlite:///'
+
+# MySQL
+# DATABASE_ENGINE = 'mysql://'
+
+# PostgreSQL
+# DATABASE_ENGINE = 'postgresql://'
+
+# SQLServer
+# DATABASE_ENGINE = 'mssql+pymssql://'
+# TRUSTED_CONNECTION = 'yes'  # for windows authentication.
+
+DATABASE_HOST = ''
+DATABASE_PORT = ''
+DATABASE_USERNAME = ''
+DATABASE_PASSWORD = ''
+DATABASE_NAME = os.path.join(BASE_DIR, 'app.db')
+
+
+# Amazon DynamoDB
+# DATABASE_ENGINE = 'amazondynamodb///?'
+# DYNAMODB_ACCESS_KEY = ''
+# DYNAMODB_SECRET_KEY = ''
+# DYNAMODB_DOMAIN = 'amazonaws.com'
+# DYNAMODB_REGION = 'us-east-1'
+
+SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_HOST + DATABASE_PORT + DATABASE_NAME
+
 DATABASE_CONNECT_OPTIONS = {}
 
 # Application threads. A common general assumption is
@@ -48,17 +76,17 @@ MAIL_USERNAME = 'email@example.com'
 MAIL_PASSWORD = 'example password'
 MAIL_ENCRYPTION = None
 MAIL_FROM_ADDRESS = 'email@example.com'
-MAIL_FROM_NAME = 'Flask BDA'
+MAIL_FROM_NAME = 'Flask-BDA'
 
 # Swagger
+SWAGGER_BLUEPRINT_URL_PREFIX = '/swagger'
 SWAGGER_URL = '/api/doc'  # URL for exposing Swagger UI (without trailing '/')
 SWAGGER_API_URL = 'swagger.json'  # Our API url (can of course be a local resource)
-SWAGGER_BLUEPRINT_URL_PREFIX = '/swagger'
 
 # Search Engine Optimization (SEO)
 SEO_SUBJECT = 'Rapid Application Development.'
-SEO_SUBTITLE = 'Flask BDA Site.'
-SEO_SUMMARY = 'This site was created using Flask BDA.'
-SEO_ABSTRACT = 'This site was created using Flask BDA.'
-SEO_KEYWORDS = 'Flask, PWA, Python, Rapid Application Development, RAD, Progressive Web App, Flask BDA.'
+SEO_SUBTITLE = 'Flask-BDA Site.'
+SEO_SUMMARY = 'This site was created using Flask-BDA.'
+SEO_ABSTRACT = 'This site was created using Flask-BDA.'
+SEO_KEYWORDS = 'Flask, PWA, Python, Rapid Application Development, RAD, Progressive Web App, Flask-BDA.'
 SEO_REVISIT_AFTER = '7 days'

@@ -11,133 +11,133 @@ from flask_mobility.decorators import mobile_template
 from app import db, app
 
 # Import module forms
-from app.mod_xyz.forms import XyzForm
+from app.mod_test.forms import TestForm
 
 # Import module models (e.g. User)
-from app.mod_xyz.models import Xyz
+from app.mod_test.models import Test
 
-# Define the blueprint: 'xyz', set its url prefix: app.url/xyz
-mod_public_xyz = Blueprint('xyz_public', __name__, url_prefix='/xyz')
-mod_admin_xyz = Blueprint('xyz_admin', __name__, url_prefix='/admin/xyz')
+# Define the blueprint: 'test', set its url prefix: app.url/test
+mod_public_test = Blueprint('test_public', __name__, url_prefix='/test')
+mod_admin_test = Blueprint('test_admin', __name__, url_prefix='/admin/test')
 
 
 # Set the route and accepted methods
-@mod_public_xyz.route('/', methods=['GET'])
-@mobile_template('{mobile/}xyz/public/public_list.html')
+@mod_public_test.route('/', methods=['GET'])
+@mobile_template('{mobile/}test/public/public_list.html')
 def public_list(template):
     page = request.args.get('page', 1, type=int)
-    data = Xyz.query.paginate(page=page, per_page=app.config['ROWS_PER_PAGE'])
+    data = Test.query.paginate(page=page, per_page=app.config['ROWS_PER_PAGE'])
 
     return render_template(template, data=data)
 
 
-@mod_admin_xyz.route('/', methods=['GET'])
-@mobile_template('{mobile/}xyz/admin/index.html')
+@mod_admin_test.route('/', methods=['GET'])
+@mobile_template('{mobile/}test/admin/index.html')
 @login_required
 def index(template):
     page = request.args.get('page', 1, type=int)
-    data = Xyz.query.paginate(page=page, per_page=app.config['ROWS_PER_PAGE'])
+    data = Test.query.paginate(page=page, per_page=app.config['ROWS_PER_PAGE'])
 
     return render_template(template, data=data)
 
 
-@mod_admin_xyz.route('/create', methods=['GET'])
-@mobile_template('{mobile/}xyz/admin/create.html')
+@mod_admin_test.route('/create', methods=['GET'])
+@mobile_template('{mobile/}test/admin/create.html')
 @login_required
 def create(template):
 
     # If in form is submitted
-    form = XyzForm(request.form)
+    form = TestForm(request.form)
 
     return render_template(template, form=form)
 
 
-@mod_admin_xyz.route('/store', methods=['POST'])
+@mod_admin_test.route('/store', methods=['POST'])
 @login_required
 def store():
-    data = Xyz(
+    data = Test(
         # start new request feilds
-        # this line should be removed and replaced with the newFormRequestDefinitions variable
+        name=request.form.get('name')
         # end new request feilds
         # title=request.form.get("title")
     )
     db.session.add(data)
     db.session.commit()
 
-    return redirect(url_for('xyz_admin.index'))
+    return redirect(url_for('test_admin.index'))
 
 
-@mod_admin_xyz.route('/show/<id>', methods=['GET'])
-@mobile_template('{mobile/}xyz/admin/show.html')
+@mod_admin_test.route('/show/<id>', methods=['GET'])
+@mobile_template('{mobile/}test/admin/show.html')
 @login_required
 def show(id,template):
-    data = Xyz.query.get(id)
+    data = Test.query.get(id)
 
     return render_template(template, data=data)
 
 
-@mod_admin_xyz.route('/edit/<id>', methods=['GET'])
-@mobile_template('{mobile/}xyz/admin/edit.html')
+@mod_admin_test.route('/edit/<id>', methods=['GET'])
+@mobile_template('{mobile/}test/admin/edit.html')
 @login_required
 def edit(id,template):
 
     # If in form is submitted
-    form = XyzForm(request.form)
+    form = TestForm(request.form)
 
-    data = Xyz.query.get(id)
+    data = Test.query.get(id)
 
     return render_template(template, form=form, data=data)
 
 
-@mod_admin_xyz.route('/update/<id>', methods=['PUT', 'PATCH'])
+@mod_admin_test.route('/update/<id>', methods=['PUT', 'PATCH'])
 @login_required
 def update(id):
-    data = Xyz.query.get(id)
+    data = Test.query.get(id)
     # start update request feilds
-    # this line should be removed and replaced with the updateFormRequestDefinitions variable
+    data.name = request.form.get('name')
     # end update request feilds
     # data.title = request.form.get("title")
     db.session.commit()
 
-    return redirect(url_for('xyz_admin.index'))
+    return redirect(url_for('test_admin.index'))
 
 
-@mod_admin_xyz.route('/destroy/<id>', methods=['POST', 'DELETE'])
+@mod_admin_test.route('/destroy/<id>', methods=['POST', 'DELETE'])
 @login_required
 def destroy(id):
-    data = Xyz.query.get(id)
+    data = Test.query.get(id)
     db.session.delete(data)
     db.session.commit()
 
-    return redirect(url_for('xyz_admin.index'))
+    return redirect(url_for('test_admin.index'))
 
 
 # SQLAlchemy Events before and after insert, update and delete changes on a table
-@event.listens_for(Xyz, "before_insert")
+@event.listens_for(Test, "before_insert")
 def before_insert(mapper, connection, target):
     pass
 
 
-@event.listens_for(Xyz, "after_insert")
+@event.listens_for(Test, "after_insert")
 def after_insert(mapper, connection, target):
     pass
 
 
-@event.listens_for(Xyz, "before_update")
+@event.listens_for(Test, "before_update")
 def before_update(mapper, connection, target):
     pass
 
 
-@event.listens_for(Xyz, "after_update")
+@event.listens_for(Test, "after_update")
 def after_update(mapper, connection, target):
     pass
 
 
-@event.listens_for(Xyz, "before_delete")
+@event.listens_for(Test, "before_delete")
 def before_delete(mapper, connection, target):
     pass
 
 
-@event.listens_for(Xyz, "after_delete")
+@event.listens_for(Test, "after_delete")
 def after_delete(mapper, connection, target):
     pass

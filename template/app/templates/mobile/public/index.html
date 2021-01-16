@@ -1,0 +1,14 @@
+
+{% extends "index.html" %}
+
+  {% block page_content %}
+  
+        
+  {% block content %}
+    
+    request.MOBILE:
+    <strong>{% if request.MOBILE %}True{% else %}False{% endif %}</strong>
+    
+  {% endblock content %}
+  
+  {% endblock page_content %}

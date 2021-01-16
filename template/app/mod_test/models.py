@@ -14,21 +14,21 @@ class Base(db.Model):
     deleted_at = db.Column(db.DateTime, nullable=True)
 
 
-# Define a Xyz model
-class Xyz(Base):
-    __tablename__ = 'xyz'
+# Define a Test model
+class Test(Base):
+    __tablename__ = 'test'
     # start new field definitions
-    # this line should be removed and replaced with the columns variable
+    name = db.Column(db.Text, nullable=False, default=False, unique=True)
     # end new field definitions
     # example_field = db.Column(db.String(256), nullable=False,default=False, unique=False)
 
     # New instance instantiation procedure
-    def __init__(self):  # ,example_field):
+    def __init__(self, name):  # ,example_field):
         # start new instance fields
-        # this line should be removed and replaced with the instanceNames variable
+        self.name = name
         # end new instance fields
         # self.example_field = example_field
 
     def __repr__(self):
         # Set model quick lookup
-        return '<Xyz %r>' % (self.id)
+        return '<Test %r>' % (self.id)

@@ -10,6 +10,9 @@
 > Developers can build and deploy a full range of applications - from consumer apps to critical internal business systems - designed to help developers deliver secure applications quickly and efficiently so apps are delivered in weeks and even days.
 >
 > Flask BDA provides Full-stack development from; UI, business processes, custom logic, and data models to create cross-platform apps out of the box. providing you a scaffold that you can add your own code when needed. with no lock-in ever.
+> 
+> Free and Developer-Friendly
+> Flask-BDA is a free to use, source available, application development tool with a developer-friendly license. 
 
 ## Overview
 * [Requirements](#requirements)
@@ -17,10 +20,12 @@
 * [Project Structure](#project-structure)
 * [Create new CRUD module](#create-new-crud-module)
 * [Environments](#environments)
+* [Installing Additional Python Packages](#installing-additional-python-packages)
 * [Testing](#testing)
 * [Features List](#features-list)
 * [Project Structure](#project-structure)
 * [Glossary](#glossary)
+* [License](#license)
 
 # Requirements
 * Download and install Python (https://www.python.org/downloads/) if you do not already have it installed.
@@ -250,23 +255,34 @@ npm update -g serverless
 ```
 choco install serverless
 
-serverless
-
 ```
 
 > **Note:** if the package does not install you may need to run the comand as an admin.
 > 
 > press the  "Windows-Key" type "cmd", "Right-Click" on the word "Command Prompt" and Select the option "Run as administrator" and then follow the previous steps again
 
+* Open browser and install docker desktop
+    * Go to: https://hub.docker.com/editions/community/docker-ce-desktop-windows/ to get the installer
+* "Windows-Key + R" will show you the 'RUN' box
+    * Type "C:\Program Files\Docker\Docker\Docker Desktop.exe" to open docker
 * Open new terminal
     * "Windows-Key + R" will show you the 'RUN' box
     * Type "cmd" to open the terminal
+
 ```
+serverless
+
 cd <Path To>/my_awesome_project
+
+sls plugin install -n serverless-python-requirements
+sls plugin install -n serverless-wsgi
 
 serverless deploy
 
 ```
+
+* Open browser and install Chocolatey from the 
+    * Go to: https://app.serverless.com/ to see the deployed application
 
 ### Linux / Mac
 * Open new terminal
@@ -274,28 +290,42 @@ serverless deploy
 ```
 curl -o- -L https://slss.io/install | bash
 
-serverless
-
 ```
+
 * Open new terminal
     * "Control + Option + Shift + T" to open the terminal
 ```
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+
+systemctl start docker
+
 cd <Path To>/my_awesome_project
+
+sls plugin install -n serverless-python-requirements
+sls plugin install -n serverless-wsgi
 
 serverless deploy
 
 ```
 
+* Open browser and install Chocolatey from the 
+    * Go to: https://app.serverless.com/ to see the deployed application
+
+# Installing Additional Python Packages
+
 > If you include additional python packages in your project don't forget to run a `pip freeze` from your terminal to ensure you get that correct packages for your deployments
 >
 > `pip freeze > requirements.txt`
+
+> **Note** It is suggested that you install and freeze Additional Python Packages from a virtual environment rather than globally. This keeps your `requirements.txt` small and limited to the packes you are using in your specific project.
 
 # Testing
 
 > 
 
 There are 3 aspects of testing provided:
-* CI/CD through [Github actions workflow](https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions) which is already set up to implement:
+* CI/CD through [Github actions workflow](https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions) which is already set up to implement but can also be used independently from GitHub:
     * Python [flake8](https://flake8.pycqa.org/en/latest/) code [linting](#linting).
         * It displays the warnings in a per-file, merged output. Flake8 is a wrapper around these tools:
             * PyFlakes
@@ -484,7 +514,7 @@ python -m unittest discover
        │               │    ├── edit.html
        │               │    ├── index.html
        │               │    └── show.html
-       │               ├── public
+       │               └── public
        │                    └── public_list.html
        ├── .dockerignore
        ├── .gitignore
@@ -525,3 +555,68 @@ python -m unittest discover
 ## Unit Testing
 ### Definition
 > In computer programming, unit testing is a software testing method by which individual units of source code—sets of one or more computer program modules together with associated control data, usage procedures, and operating procedures—are tested to determine whether they are fit for use.
+
+# License
+
+## Python 3
+
+View license information for Python 3. (https://docs.python.org/3.8/license.html) and other legal agreements (https://www.python.org/about/legal/)
+________________________________________
+
+## Docker
+
+View license information for Docker. (https://www.docker.com/legal/components-licenses) and other legal agreements (https://www.docker.com/legal)
+
+As with all Docker images, these likely also contain other software which may be under other licenses (such as Bash, etc from the base distribution, along with any direct or indirect dependencies of the primary software being contained).
+
+Some additional license information which was able to be auto-detected might be found in the repo-info repository's python/ directory.
+
+As for any pre-built image usage, it is the image user's responsibility to ensure that any use of this image complies with any relevant licenses for all software contained within.
+
+________________________________________
+
+## Serverless Framework
+
+View license information for Serverless Framework and other legal agreements (https://app.serverless.com/legal/terms).
+
+It is the user's responsibility to ensure that adhere to the Acceptable Use Policy (https://app.serverless.com/legal/aup)
+
+________________________________________
+
+## The Flask-BDA License
+
+Flask-BDA is created and distributed under the developer-friendly Flask-BDA License. The Flask-BDA License is derived from the popular Apache 2.0 license.
+
+The Flask-BDA License is the legal requirement for you or your company to use and distribute Flask-BDA and derivative works such as the applications you make with it. Your application or project can have a different license, but it still needs to comply with the original one.
+
+### The license grants you the following permissions:
+* You are free to commercialise any software created using original or modified (derivative) versions of Flask-BDA
+* You are free to commercialise any plugin, extension or tool created for use with Flask-BDA
+* You are free to modify Flask-BDA and you are not required to share the changes
+* You are free to distribute original or modified (derivative) versions of Flask-BDA
+* You are given a license to any patent that covers Flask-BDA
+
+### The license prevents you from doing the following:
+* You can not commercialise original or modified (derivative) versions of the Flask-BDA editor and/or engine
+* You can not hold Flask-BDA or Ryan Julyan liable for damages caused by the use of Flask-BDA
+* You can not bring any warranty claims to Flask-BDA or Ryan Julyan
+* You can not use the Flask-BDA trademark unless express permission has been given (see exceptions and additional information)
+The license requires that you do the following:
+    * You must include the Flask-BDA license and copyright notice in any work you create
+    * You must state significant changes made to Flask-BDA
+
+License and copyright notice inclusion
+
+The Flask-BDA License requires that you must include the license and copyright notice with all copies of Flask-BDA and in any derived work created using Flask-BDA. It is up to you to decide how you wish to distribute the license and notice. Below are some examples of how this can be done:
+    * Show the license and notice at the end of a credits screen if your application has one
+    * Show the license and notice from a dedicated license screen or popup in your application
+    * Print the license and notice to an output log when your application starts
+    * Put the license and notice in a text file and include it with the distribution of your application
+    * Put the license and notice in a printed manual included with your application
+
+________________________________________
+Copyright 2021 Flask-BDA, Ryan Julyan
+Licensed under the Flask-BDA License version 0.1 (the "License"); you may not use this file except in compliance with the License.
+You may obtain a copy of the License, `together with FAQs` at
+`https://github.com/RyanJulyan/Flask-BDA`
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.

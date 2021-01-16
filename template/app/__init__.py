@@ -4,6 +4,13 @@ from flask import Flask, render_template, make_response, send_from_directory
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 
+# flask-debugtoolbar
+from flask_debugtoolbar import DebugToolbarExtension
+
+# flask-mobility specific mobile views
+from flask_mobility import Mobility
+from flask_mobility.decorators import mobile_template
+
 # Import Flask API and Resource from Swagger for API
 from flask_restful_swagger_3 import Resource, Api
 
@@ -13,6 +20,7 @@ from flask_sqlalchemy import SQLAlchemy
 # Define the WSGI application object
 app = Flask(__name__)
 api = Api(app)
+Mobility(app)
 
 # Login_manager
 login_manager = LoginManager()
@@ -20,6 +28,8 @@ login_manager.init_app(app)
 
 # Configurations
 app.config.from_object('config')
+# Debug Toolbar
+toolbar = DebugToolbarExtension(app)
 
 # Serializer
 serializer = URLSafeTimedSerializer(app.secret_key)
@@ -70,8 +80,9 @@ def sw():
 
 # Serve Landing Page
 @app.route('/')
-def landing():
-    return render_template('./public/index.html')
+@mobile_template('{mobile/}public/index.html')
+def landing(template):
+    return render_template(template)
 
 
 # Import a module / component using its blueprint handler variable (mod_auth)
