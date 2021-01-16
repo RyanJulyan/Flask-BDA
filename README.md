@@ -5,18 +5,18 @@
 
 # Why use Flask-BDA
 
-> Other solutions such as [Tableau](https://www.tableau.com/), [Power BI](https://powerbi.microsoft.com/en-us/) and [Amazon QuickSight](https://aws.amazon.com/quicksight/) while fantastic tools, focus on reporting, but do not let you edit or add data to the platforms when needed, meaning you require additional solutions or software to acheive your business goals
+> Other solutions such as [Tableau](https://www.tableau.com/), [Power BI](https://powerbi.microsoft.com/en-us/) and [Amazon QuickSight](https://aws.amazon.com/quicksight/), while fantastic tools, focus on reporting but do not let you edit or add data to the platforms when needed, meaning you require additional solutions or software to acheive your business goals
 
-> Solutions like [Excel](https://www.microsoft.com/en-za/microsoft-365/excel) give you all the flexibility you might need, but your data is scattered and does not easily allow for a shared source of truth for your team and clients, it is very easy for excel documents to be out of sync or even shared, opening your company up to a security risk.
+> Solutions like [Excel](https://www.microsoft.com/en-za/microsoft-365/excel) are accessable to everyone and give you all the flexibility you might need, but your data is scattered and does not easily allow for a shared source of truth for your team and clients, it is very easy for excel documents to be out of sync or even shared, opening your company up to a security risk.
 
-> Flask-BDA helps you by providing you control to deliver raplid, secure Full-stack applications 3-5x (3-5 times) faster. With no lock-in ever.
+> Flask-BDA helps you by providing you control to deliver raplid, secure Full-stack applications 3-5x (3-5 times) faster. With no vendor lock-in ever.
 
 > Automatically deal with the tedious aspects that slow down software development
 > * Creates & manages all database connections and complex queries.
 > * Application Security with user and role-based access control
 > * Automatic audits on every action
 
-> Flask BDA is a low-code (meaning we will help you by writing a lot of the code for you) platform which provides the tools for companies to raplidly develop and deploy secure applications that run on any device.
+> Flask BDA is a low-code platform (meaning we will help you by writing a lot of the code for you) which provides the tools for companies to raplidly develop and deploy secure applications that run on any device.
 > 
 > We change the way software is built so you can rapidly create and deploy critical applications of any size that evolve with your business saving you time & money.
 > 
@@ -176,15 +176,28 @@ Default value:
 > The public facing views allows guest users (users not logged in) to see a view of the information provided
 
 ```
-├── my_awesome_project
+├── `my_awesome_project`
        └── app
-            ├── mod_projects
+            ├── generated_config
+            │     └── models
+            │          └── `projects`
+            │               └── models.json
+            ├── `mod_projects`
             │     ├── api_controllers.py
             │     ├── controllers.py
             │     ├── forms.py
             │     └── models.py
             └── templates
-                  └── projects
+                  ├── mobile
+                  │    └── `projects`
+                  │         ├── admin
+                  │         │    ├── create.html
+                  │         │    ├── edit.html
+                  │         │    ├── index.html
+                  │         │    └── show.html
+                  │         └── public
+                  │              └── public_list.html
+                  └── `projects`
                        ├── admin
                        │    ├── create.html
                        │    ├── edit.html
@@ -537,7 +550,7 @@ python -m unittest discover
 
 ## Project Structure
 ```
-├── project_name
+└── `project_name`
        ├── app
        │    ├── mod_auth
        │    │     ├── __init__.py
@@ -553,18 +566,32 @@ python -m unittest discover
        │    ├── templates
        │    │     ├── admin
        │    │     ├── auth
+       │    │     ├── mobile
        │    │     ├── public
        │    │     ├── 403.html
        │    │     ├── 404.html
        │    │     └── index.html
        │    └── __init__.py
        ├── create_module_template
+       │    ├── generated_config
+       │    │     └── models
+       │    │          └── xyz
+       │    │               └── models.json
        │    ├── mod_xyz
        │    │     ├── api_controllers.py
        │    │     ├── controllers.py
        │    │     ├── forms.py
        │    │     └── models.py
        │    └── templates
+       │          ├── mobile
+       │          │    └── xyz
+       │          │         ├── admin
+       │          │         │    ├── create.html
+       │          │         │    ├── edit.html
+       │          │         │    ├── index.html
+       │          │         │    └── show.html
+       │          │         └── public
+       │          │              └── public_list.html
        │          └── xyz
        │               ├── admin
        │               │    ├── create.html
