@@ -12,9 +12,11 @@
 > Flask BDA provides Full-stack development from; UI, business processes, custom logic, and data models to create cross-platform apps out of the box. providing you a scaffold that you can add your own code when needed. with no lock-in ever.
 > 
 > Free and Developer-Friendly
-> Flask-BDA is a free to use, source available, application development tool with a developer-friendly license. 
+> Flask-BDA is a free to use, source available, application development tool with a developer-friendly license.
 
 ## Overview
+* [Why use Flask-BDA](#why-use-flask-bda)
+* [Process](#process)
 * [Requirements](#requirements)
 * [Quickstart](#quickstart)
 * [Project Structure](#project-structure)
@@ -26,6 +28,59 @@
 * [Project Structure](#project-structure)
 * [Glossary](#glossary)
 * [License](#license)
+
+# Why use Flask-BDA
+
+> Other solutions such as [Tableau](https://www.tableau.com/), [Power BI](https://powerbi.microsoft.com/en-us/) and [Amazon QuickSight](https://aws.amazon.com/quicksight/) while fantastic tools, focus on reporting, but do not let you edit or add data to the platforms when needed, meaning you require additional solutions or software to acheive your business goals
+
+> Solutions like [Excel](https://www.microsoft.com/en-za/microsoft-365/excel) give you all the flexibility you might need, but your data is scattered and does not easily allow for a shared source of truth for your team and clients, it is very easy for excel documents to be out of sync or even shared, opening your company up to a security risk.
+
+> Flask-BDA helps you by providing you control to deliver raplid, secure Full-stack applications 3-5x (3-5 times) faster. With no lock-in ever.
+
+> Automatically deal with the tedious aspects that slow down software development
+> * Creates & manages all database connections and complex queries.
+> * Application Security with user and role-based access control
+> * Automatic audits on every action
+
+> Write custom solutions on top of and from the scaffolded solutions giving you full control
+
+# Process
+
+## Step 1:
+### Download pre-configured development environment
+
+> Start your development with a quick and easy download a pre-configured development environment up and running in minutes.
+
+> No complex setup required, only python is required.
+
+## Step 2:
+### Rapidly develop custom modules
+
+> Create your own modules and data structures.
+
+> Your data structures are saved as a data model allowing you to use different databases.
+
+## Step 3:
+### Fully functional pages
+
+> Auto generated views fully functional interactive pages, easily managed per module.
+
+> Out of the box, Admin and Mobile views are generated.
+
+## Step 4:
+### Customize
+
+> Configure reports to your specific needs and share them with your team and clients.
+
+> White your own custom code in an isolated module so you do not affect other modules.
+
+## Step 5:
+### Deploy
+
+> Web & Mobile
+
+> Docker, AWS, Shared hosting and a Local virtual environement.
+
 
 # Requirements
 * Download and install Python (https://www.python.org/downloads/) if you do not already have it installed.
@@ -401,9 +456,12 @@ python -m unittest discover
         * One of the most popular Python web application frameworks.
         * Doesn't enforce any dependencies or project layout.
     * Progressive Web App (PWA) to make it more friendly towards desktop and allow native installs from the web, chache for offline support, page sharing and push notifications etc
+    * Responsive layouts
+    * Mobile specific views
     * SEO ready page index template file
     * Isolated module code and templates
-    * Configuration file "config.py" for quick access and management of environment and environment variables and default SEO
+    * Configuration file `config.py` for quick access and management of environment and environment variables and default SEO
+    * Debugging built in and accessable through the Configuration file `config.py`
     * A Landing page with call to action and features
     * A 403 page which all forbidden pages goes to
     * A 404 page which all unknown pages goes to

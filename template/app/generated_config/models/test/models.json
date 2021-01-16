@@ -1,7 +1,0 @@
-{
-    "test":{ 
-        "model": "Test",
-        "fields": {"name": {"dataType": "Text", "nullable": False, "unique": True, "default": False}}
-    }
-    }
-}
