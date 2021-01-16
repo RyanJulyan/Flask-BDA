@@ -3,32 +3,6 @@
 
 > **Note:** Still under Development
 
-> Flask BDA is a low-code platform which provides the tools for companies to raplidly develop and deploy secure applications that run on any device.
-> 
-> We change the way software is built so you can rapidly create and deploy critical applications of any size that evolve with your business saving you time & money.
-> 
-> Developers can build and deploy a full range of applications - from consumer apps to critical internal business systems - designed to help developers deliver secure applications quickly and efficiently so apps are delivered in weeks and even days.
->
-> Flask BDA provides Full-stack development from; UI, business processes, custom logic, and data models to create cross-platform apps out of the box. providing you a scaffold that you can add your own code when needed. with no lock-in ever.
-> 
-> Free and Developer-Friendly
-> Flask-BDA is a free to use, source available, application development tool with a developer-friendly license.
-
-## Overview
-* [Why use Flask-BDA](#why-use-flask-bda)
-* [Process](#process)
-* [Requirements](#requirements)
-* [Quickstart](#quickstart)
-* [Project Structure](#project-structure)
-* [Create new CRUD module](#create-new-crud-module)
-* [Environments](#environments)
-* [Installing Additional Python Packages](#installing-additional-python-packages)
-* [Testing](#testing)
-* [Features List](#features-list)
-* [Project Structure](#project-structure)
-* [Glossary](#glossary)
-* [License](#license)
-
 # Why use Flask-BDA
 
 > Other solutions such as [Tableau](https://www.tableau.com/), [Power BI](https://powerbi.microsoft.com/en-us/) and [Amazon QuickSight](https://aws.amazon.com/quicksight/) while fantastic tools, focus on reporting, but do not let you edit or add data to the platforms when needed, meaning you require additional solutions or software to acheive your business goals
@@ -42,7 +16,32 @@
 > * Application Security with user and role-based access control
 > * Automatic audits on every action
 
-> Write custom solutions on top of and from the scaffolded solutions giving you full control
+> Flask BDA is a low-code (meaning we will help you by writing a lot of the code for you) platform which provides the tools for companies to raplidly develop and deploy secure applications that run on any device.
+> 
+> We change the way software is built so you can rapidly create and deploy critical applications of any size that evolve with your business saving you time & money.
+> 
+> Developers can build and deploy a full range of applications - from consumer apps to critical internal business systems - designed to help developers deliver secure applications quickly and efficiently so apps are delivered in weeks and even days.
+>
+> Flask BDA provides Full-stack development from; UI, business processes, custom logic, and data models to create cross-platform apps out of the box. providing you a scaffold that you can add your own code when needed. with no lock-in ever.
+> 
+> With pre-configured development environments, we reduce the pain (and cost) of getting to market, giving you the flexibility to choose where and how to deploy.
+> 
+> Free and Developer-Friendly
+> Flask-BDA is a free to use, source available, application development tool with a developer-friendly license.
+
+# Overview
+* [Why use Flask-BDA](#why-use-flask-bda)
+* [Process](#process)
+* [Requirements](#requirements)
+* [Quickstart](#quickstart)
+* [Create new CRUD module](#create-new-crud-module)
+* [Environments](#environments)
+* [Installing Additional Python Packages](#installing-additional-python-packages)
+* [Testing](#testing)
+* [Features List](#features-list)
+* [Project Structure](#project-structure)
+* [Glossary](#glossary)
+* [License](#license)
 
 # Process
 
@@ -79,7 +78,7 @@
 
 > Web & Mobile
 
-> Docker, AWS, Shared hosting and a Local virtual environement.
+> Environements include: Docker / AWS / Shared hosting.
 
 
 # Requirements
