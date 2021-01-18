@@ -86,6 +86,11 @@
     * Ensure pip is installed (pip should be installed already because it comes with the latest versions of python) in case it is not, please install it from here: https://pip.pypa.io/en/stable/installing/
 
 # Quickstart
+
+> To get started building your first project, with Flask-BDA follow the simple steps below to create your own pre-configured development environment up and running in minutes.
+
+> In this quickstart we are going to create a project called `"My Awesome Project"`, however, you can call the project anything you want.
+
 * Ensure you have installed the [requirements](#requirements)
 
 ### Windows
@@ -639,6 +644,10 @@ python -m unittest discover
 ## Unit Testing
 ### Definition
 > In computer programming, unit testing is a software testing method by which individual units of source code—sets of one or more computer program modules together with associated control data, usage procedures, and operating procedures—are tested to determine whether they are fit for use.
+
+## Low-code platform
+### Definition
+> A low-code development platform provides a development environment used to create application software through programatic or graphical user interfaces and configuration instead of traditional hand-coded computer programming.
 
 # License
 

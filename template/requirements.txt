@@ -1,5 +1,6 @@
 aniso8601==8.1.0
 appdirs==1.4.4
+blinker==1.4
 certifi==2020.12.5
 chardet==4.0.0
 click==7.1.2
@@ -9,7 +10,9 @@ email-validator==1.1.2
 filelock==3.0.12
 Flask==1.1.2
 Flask-Cors==3.0.10
+Flask-DebugToolbar==0.11.0
 Flask-Login==0.5.0
+Flask-Mobility==1.1.0
 Flask-RESTful==0.3.8
 flask-restful-swagger-3==0.4.3
 Flask-SQLAlchemy==2.4.4
