@@ -163,13 +163,13 @@ for key, value in fields.items():
     friendly_name = (key.capitalize()).replace('_', ' ')
     if fields[key]['nullable']:
         formDefinitions += "    {} = TextField('{}')\n".format(key, key)
-        argumentParser += "parser.add_argument('{}', help='{} of {}')\n".format(key, key, friendly_name)
+        argumentParser += "    '{}': fields.String(description='The {} {}')\n".format(key, model, friendly_name)
     else:
         formDefinitions += "    {} = TextField('{}', [Required(message='Must provide a {}')])\n".format(key, key, friendly_name)
-        argumentParser += "parser.add_argument('{}', required=True, help='{} of {}')\n".format(key, key, friendly_name)
+        argumentParser += "    '{}': fields.String(required=True, description='The {} {}')\n".format(key, model, friendly_name)
     newApiRequestDefinitions += "            {}=args['{}']\n".format(key, key)
     newFormRequestDefinitions += "        {}=request.form.get('{}')\n".format(key, key)
-    updateApiRequestDefinitions += "    data.{} = args['{}']\n".format(key, key)
+    updateApiRequestDefinitions += "        data.{} = args['{}']\n".format(key, key)
     updateFormRequestDefinitions += "    data.{} = request.form.get('{}')\n".format(key, key)
     renderFields += """
                 <div class="col-span-6 sm:col-span-3">
@@ -185,6 +185,7 @@ instanceParams = str((', '.join(item for item in feildNames)))
 newFormRequestDefinitions = newFormRequestDefinitions.rstrip('\n')
 updateFormRequestDefinitions = updateFormRequestDefinitions.rstrip('\n')
 newApiRequestDefinitions = newApiRequestDefinitions.rstrip('\n')
+updateApiRequestDefinitions = updateApiRequestDefinitions.rstrip('\n')
 argumentParser = argumentParser.rstrip('\n')
 columns = columns.rstrip('\n')
 instanceNames = instanceNames.rstrip('\n')
@@ -217,15 +218,13 @@ for line in source:
         destination.write("# " + module + "\n")
         destination.write("from app.mod_" + module + ".controllers import mod_public_" + module + " as " + module + "_public_module  # noqa: E402\n")
         destination.write("from app.mod_" + module + ".controllers import mod_admin_" + module + " as " + module + "_admin_module  # noqa: E402\n")
-        destination.write("from app.mod_" + module + ".api_controllers import " + module.capitalize() + "ListResource, " + module.capitalize() + "Resource  # noqa: E402\n")
     if "# register_blueprint new xyz_module" in line:
         destination.write("# " + module + "\n")
         destination.write("app.register_blueprint(" + module + "_public_module)\n")
         destination.write("app.register_blueprint(" + module + "_admin_module)\n")
-    if "# new xyz api resource routing" in line:
+    if "# new xyz api resources" in line:
         destination.write("# " + module + "\n")
-        destination.write("api.add_resource(" + module.capitalize() + "ListResource, '/api/" + module + "')\n")
-        destination.write("api.add_resource(" + module.capitalize() + "Resource, '/api/" + module + "/<id>')\n")
+        destination.write("from app.mod_" + module + ".api_controllers import ns as " + module.capitalize() + "_API  # noqa: E402\n")
 
 source.close()
 destination.close()
@@ -297,7 +296,7 @@ def customizeFileVariables(src, renameFrom='', renameTo=''):
             # Clean Required Values Between System Tags #
             #############################################
             if('api_controllers.py' in s):
-                replaceTextBetweenTags(s, '# start new add_argument', '# end new add_argument', '', '')
+                replaceTextBetweenTags(s, '# start new add_argument', '# end new add_argument', '    ', '')
                 replaceTextBetweenTags(s, '# start update api_request feilds', '# end update api_request feilds', '        ', '')
                 replaceTextBetweenTags(s, '# start new api_request feilds', '# end new api_request feilds', '            ', '')
             if('controllers.py' in s):
@@ -335,6 +334,10 @@ def customizeFileVariables(src, renameFrom='', renameTo=''):
                     destination.write(newFormRequestDefinitions)
                 if "# start update request feilds" in line:
                     destination.write(updateFormRequestDefinitions)
+                if "# start new api_request feilds" in line:
+                    destination.write(newApiRequestDefinitions)
+                if "# start update api_request feilds" in line:
+                    destination.write(updateApiRequestDefinitions)
                 if "# start new form definitions" in line:
                     destination.write(formDefinitions)
                 if "# start new field definitions" in line:

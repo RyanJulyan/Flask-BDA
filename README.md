@@ -66,6 +66,8 @@
 
 > Out of the box, Admin and Mobile views are generated.
 
+> API's are created automatically with a Swagger front-end and machine-friendly interface.
+
 ## Step 4:
 ### Customize
 
@@ -391,6 +393,23 @@ serverless deploy
 > `pip freeze > requirements.txt`
 
 > **Note** It is suggested that you install and freeze Additional Python Packages from a virtual environment rather than globally. This keeps your `requirements.txt` small and limited to the packes you are using in your specific project.
+
+# Ajax Requests
+
+> Ajax requests are made using [</> htmx](https://htmx.org/) by default
+> htmx is a dependency-free library that allows you to access AJAX, CSS Transitions, WebSockets and Server Sent Events directly in HTML, using attributes, so you can build modern user interfaces with the simplicity and power of hypertext. For a details on how to use htmx, please refer to the [docs](https://htmx.org/docs/) and for a full reference on the functionality, please refer to: [https://htmx.org/reference/](https://htmx.org/reference/)
+
+You can use htmx to implement many common UX patterns, such as Active Search:
+```
+<input type="text" name="q" 
+    hx-get="/trigger_delay" 
+    hx-trigger="keyup changed delay:500ms" 
+    hx-target="#search-results" 
+    placeholder="Search..."/>
+
+<div id="search-results"></div>
+```
+This input named q will issue a request to `/trigger_delay` 500 milliseconds after a key up event if the input has been changed and inserts the results into the div with the id search-results.
 
 # Testing
 

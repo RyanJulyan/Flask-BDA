@@ -12,14 +12,13 @@ from flask_mobility import Mobility
 from flask_mobility.decorators import mobile_template
 
 # Import Flask API and Resource from Swagger for API
-from flask_restful_swagger_3 import Resource, Api
+from flask_restx import Api, Resource
 
 # Import SQLAlchemy
 from flask_sqlalchemy import SQLAlchemy
 
 # Define the WSGI application object
 app = Flask(__name__)
-api = Api(app)
 Mobility(app)
 
 # Login_manager
@@ -28,6 +27,7 @@ login_manager.init_app(app)
 
 # Configurations
 app.config.from_object('config')
+
 # Debug Toolbar
 toolbar = DebugToolbarExtension(app)
 
@@ -40,7 +40,6 @@ db = SQLAlchemy(app)
 
 # Import module models (i.e. User)
 from app.mod_auth.models import User  # noqa: E402
-
 
 # User_loader
 @login_manager.user_loader
@@ -94,8 +93,17 @@ from app.mod_auth.controllers import mod_auth as auth_module  # noqa: E402
 app.register_blueprint(auth_module)
 # register_blueprint new xyz_module
 
+
+# Define the API
+api = Api(app, version='1.0',
+    title=app.config['SITE_TITLE'] + ' API',
+    description=app.config['SITE_DESCRIPTION'] + ' API',
+    # base_url='/api',  # this did not work when set so moved to docs
+    doc='/api/docs',
+)
+
 # Register api(s)
-# new xyz api resource routing
+# new xyz api resources
 
 # Build the database:
 # This will create the database file using SQLAlchemy
