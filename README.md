@@ -215,10 +215,11 @@ Default value:
 ```
 
 # Environments
-There are 3 out of the box environments supported with instructions on how to configure each for  `Windows / Linux / Mac` and you could run them at the same time if you want.
+There are 4 out of the box environments supported with instructions on how to configure each for  `Windows / Linux / Mac` and you could run them at the same time if you want.
 * [Local python venv](#local-environment)
 * [Docker](#docker-environment)
 * [AWS Serverless](#aws-serverless) (Still under Development)
+* [React Native](#react-native)
 
 ## Local Environment
 
@@ -273,7 +274,7 @@ flask run
 
 ### Windows
 * Open browser and install docker desktop
-    * Go to: https://hub.docker.com/editions/community/docker-ce-desktop-windows/ to get the installer
+    * Go to: [https://hub.docker.com/editions/community/docker-ce-desktop-windows/](https://hub.docker.com/editions/community/docker-ce-desktop-windows/) to get the installer
 * "Windows-Key + R" will show you the 'RUN' box
     * Type "C:\Program Files\Docker\Docker\Docker Desktop.exe" to open docker
 * Open new terminal
@@ -315,14 +316,28 @@ docker run -it -p 5000:5000 flask_app
 > The Serverless framework is an open source tool that provides an easy YAML + CLI development and deployment to AWS, Azure, Google Cloud, Knative & more.
 
 ### Via npm
+* Open browser and install node.js:
+    * Go to: [https://nodejs.org/en/download/](https://nodejs.org/en/download/)
+
+### Windows
+* Open new terminal
+    * "Windows-Key + R" will show you the 'RUN' box
+    * Type "cmd" to open the terminal
 ```
 npm update -g serverless
 
 ```
 
+### Linux / Mac
+* Open new terminal
+    * "Control + Option + Shift + T" to open the terminal
+```
+npm update -g serverless
+```
+
 ### Windows
-* Open browser and install Chocolatey from the 
-    * Go to: https://chocolatey.org/install to get the installer
+* Open browser and install Chocolatey: 
+    * Go to: [https://chocolatey.org/install](https://chocolatey.org/install) to get the installer
 * Open new terminal
     * "Windows-Key + R" will show you the 'RUN' box
     * Type "cmd" to open the terminal
@@ -335,8 +350,8 @@ choco install serverless
 > 
 > press the  "Windows-Key" type "cmd", "Right-Click" on the word "Command Prompt" and Select the option "Run as administrator" and then follow the previous steps again
 
-* Open browser and install docker desktop
-    * Go to: https://hub.docker.com/editions/community/docker-ce-desktop-windows/ to get the installer
+* Open browser and install docker desktop:
+    * Go to: [https://hub.docker.com/editions/community/docker-ce-desktop-windows/](https://hub.docker.com/editions/community/docker-ce-desktop-windows/) to get the installer
 * "Windows-Key + R" will show you the 'RUN' box
     * Type "C:\Program Files\Docker\Docker\Docker Desktop.exe" to open docker
 * Open new terminal
@@ -356,7 +371,7 @@ serverless deploy
 ```
 
 * Open browser and install Chocolatey from the 
-    * Go to: https://app.serverless.com/ to see the deployed application
+    * Go to: [https://app.serverless.com/](https://app.serverless.com/) to see the deployed application
 
 ### Linux / Mac
 * Open new terminal
@@ -383,8 +398,37 @@ serverless deploy
 
 ```
 
-* Open browser and install Chocolatey from the 
-    * Go to: https://app.serverless.com/ to see the deployed application
+* Open browser and go to: [https://app.serverless.com/](https://app.serverless.com/) to see the deployed application
+
+## React Native
+
+* Open browser and install node.js:
+    * Go to: [https://nodejs.org/en/download/](https://nodejs.org/en/download/)
+
+### Windows
+* Open new terminal
+    * "Windows-Key + R" will show you the 'RUN' box
+    * Type "cmd" to open the terminal
+```
+npm install -g expo-cli
+expo install react-native-webview
+
+```
+
+### Linux / Mac
+* Open new terminal
+    * "Control + Option + Shift + T" to open the terminal
+```
+npm install -g expo-cli
+expo install react-native-webview
+
+```
+
+### Run App
+* Install the `expo` app by searching for "expo" on the Apple or Google Play Store:
+    * `iOS` Go to: [https://apps.apple.com/app/apple-store/id982107779](https://apps.apple.com/app/apple-store/id982107779)
+    * `Android` Go to: [https://play.google.com/store/apps/details?id=host.exp.exponent](https://play.google.com/store/apps/details?id=host.exp.exponent)
+
 
 # Installing Additional Python Packages
 
@@ -396,7 +440,8 @@ serverless deploy
 
 # Ajax Requests
 
-> Ajax requests are made using [</> htmx](https://htmx.org/) by default
+> Ajax requests are made using [</> htmx](https://htmx.org/) by default.
+
 > htmx is a dependency-free library that allows you to access AJAX, CSS Transitions, WebSockets and Server Sent Events directly in HTML, using attributes, so you can build modern user interfaces with the simplicity and power of hypertext. For a details on how to use htmx, please refer to the [docs](https://htmx.org/docs/) and for a full reference on the functionality, please refer to: [https://htmx.org/reference/](https://htmx.org/reference/)
 
 You can use htmx to implement many common UX patterns, such as Active Search:

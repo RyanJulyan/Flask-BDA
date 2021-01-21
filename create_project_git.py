@@ -12,6 +12,7 @@ import subprocess
 import re
 import shutil
 import zipfile
+import secrets
 
 ###################
 ###################
@@ -47,6 +48,11 @@ def dirName(projectName):
 # Prompt user
 projectName = str(project())
 dir_name = str(dirName(projectName))
+
+
+CSRF_SESSION_KEY = secrets.token_urlsafe(256)
+SECRET_KEY = secrets.token_urlsafe(256)
+JWT_SECRET_KEY = secrets.token_urlsafe(256)
 
 ########################
 ########################
@@ -90,6 +96,45 @@ copytree(repo+'-main/template', dir_name, 'Flask BDA', projectName)
 shutil.rmtree(repo+'-main')
 
 os.remove(repo+'.zip')
+
+
+#############################
+#############################
+# Update Config Secret Keys #
+#############################
+#############################
+
+#########################################################
+# Copy App config.py for manage source -> destination #
+#########################################################
+
+shutil.copy2(dir_name + '/config.py', dir_name + '/config.py~')
+
+################################
+# manage source -> destination #
+################################
+
+source = open(dir_name + '/config.py~', "r")
+destination = open(dir_name + '/config.py~', "w")
+
+for line in source:
+    if "CSRF_SESSION_KEY = 'secret'" in line:
+        destination.write("CSRF_SESSION_KEY = '" + CSRF_SESSION_KEY + "'" + "\n")
+    elif "SECRET_KEY = 'secret'" in line:
+        destination.write("SECRET_KEY = '" + SECRET_KEY + "'" + "\n")
+    elif "JWT_SECRET_KEY = 'secret'" in line:
+        destination.write("JWT_SECRET_KEY = '" + JWT_SECRET_KEY + "'" + "\n")
+    else:
+        destination.write(line)
+
+source.close()
+destination.close()
+
+#################
+# remove source #
+#################
+
+os.remove(dir_name + '/config.py~')
 
 ######################
 ######################
