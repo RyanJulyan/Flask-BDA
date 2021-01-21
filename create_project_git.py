@@ -115,7 +115,7 @@ shutil.copy2(dir_name + '/config.py', dir_name + '/config.py~')
 ################################
 
 source = open(dir_name + '/config.py~', "r")
-destination = open(dir_name + '/config.py~', "w")
+destination = open(dir_name + '/config.py', "w")
 
 for line in source:
     if "CSRF_SESSION_KEY = 'secret'" in line:
