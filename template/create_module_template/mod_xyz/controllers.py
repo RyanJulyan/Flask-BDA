@@ -17,8 +17,8 @@ from app.mod_xyz.forms import XyzForm
 from app.mod_xyz.models import Xyz
 
 # Define the blueprint: 'xyz', set its url prefix: app.url/xyz
-mod_public_xyz = Blueprint('xyz_public', __name__, url_prefix='/xyz')
-mod_admin_xyz = Blueprint('xyz_admin', __name__, url_prefix='/admin/xyz')
+mod_public_xyz = Blueprint('xyz_public', __name__, template_folder='templates', url_prefix='/xyz')
+mod_admin_xyz = Blueprint('xyz_admin', __name__, template_folder='templates', url_prefix='/admin/xyz')
 
 
 # Set the route and accepted methods

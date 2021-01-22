@@ -1,7 +1,4 @@
 
-# Import Flask Restful for API
-from flask_restful import reqparse, abort
-
 # Import Flask Resource, fields from flask_restx for API and Swagger
 from flask_restx import Resource, fields
 
@@ -11,16 +8,10 @@ from app import db, app, api
 # Import module models (i.e. User)
 from app.mod_xyz.models import Xyz
 
-
-def abort_if_doesnt_exist(id, data):
-    if id not in data:
-        abort(404, message="Xyz {} doesn't exist".format(id))
-
 # Swagger namespace
 ns = api.namespace('api/xyz', description='Database model "Xyz", resource based, Api. \
     This API should have 2 endpoints from the name of the model prefixed by "api".')
 
-parser = reqparse.RequestParser()
 xyz = api.model('Xyz', {
     'id': fields.Integer(readonly=True, description='The Xyz unique identifier'),
     # start new add_argument
@@ -28,7 +19,6 @@ xyz = api.model('Xyz', {
     # end new add_argument
     # 'task': fields.String(required=True, description='The task details')
 })
-parser.add_argument('page')
 # parser.add_argument('example')
 
 # Xyz
@@ -48,7 +38,6 @@ class XyzResource(Resource):
         '''Fetch a single Xyz item given its identifier'''
         data = Xyz.query.get(id)
 
-        abort_if_doesnt_exist(id, data)
         return data, 200
 
     @ns.doc(responses={204: 'DELETED', 422: 'Unprocessable Entity', 500: 'Internal Server Error'},
@@ -56,8 +45,6 @@ class XyzResource(Resource):
     def delete(self, id):  # /xyz/<id>
         '''Delete a Xyz given its identifier'''
         data = Xyz.query.get(id)
-
-        abort_if_doesnt_exist(id, data)
 
         db.session.delete(data)
         db.session.commit()
@@ -94,7 +81,6 @@ class XyzListResource(Resource):
 
         data = Xyz.query.paginate(page=page, per_page=app.config['ROWS_PER_PAGE'])
 
-        abort_if_doesnt_exist(id, data)
         return data, 200
 
     @ns.doc(responses={201: 'INSERTED', 422: 'Unprocessable Entity', 500: 'Internal Server Error'},

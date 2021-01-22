@@ -82,7 +82,6 @@
 
 > Environements include: Docker / AWS / Shared hosting.
 
-
 # Requirements
 * Download and install Python (https://www.python.org/downloads/) if you do not already have it installed.
     * Ensure pip is installed (pip should be installed already because it comes with the latest versions of python) in case it is not, please install it from here: https://pip.pypa.io/en/stable/installing/
