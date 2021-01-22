@@ -1,6 +1,6 @@
 
 # Import Flask Resource, fields from flask_restx for API and Swagger
-from flask_restx import Resource, fields
+from flask_restx import Resource, fields, reqparse
 
 # Import the database object from the main app module
 from app import db, app, api
@@ -19,6 +19,10 @@ xyz = api.model('Xyz', {
     # end new add_argument
     # 'task': fields.String(required=True, description='The task details')
 })
+
+# Addtional query string arguements from URL
+parser = reqparse.RequestParser()
+parser.add_argument('page', type=int, help='page number for returned list. Must be an Integer. Used for dividing returned values from Xyz into pages. Returning up to ' + str(app.config['ROWS_PER_PAGE']) + 'records')
 # parser.add_argument('example')
 
 # Xyz
@@ -56,7 +60,6 @@ class XyzResource(Resource):
     @ns.marshal_list_with(xyz, code=201)
     def put(self, id):  # /xyz/<id>
         '''Update a Xyz given its identifier'''
-        args = parser.parse_args()
         data = Xyz.query.get(id)
         # start update api_request feilds
         # this line should be removed and replaced with the updateApiRequestDefinitions variable
@@ -69,17 +72,17 @@ class XyzResource(Resource):
 # XyzList
 # shows a list of all Xyz, and lets you POST to add new Xyz
 @ns.route('/')
-@ns.param('page', 'Dividing returned values from Xyz into pages. Returning up to ' + str(app.config['ROWS_PER_PAGE']) + 'records')
 class XyzListResource(Resource):
     @ns.doc(responses={200: 'OK', 422: 'Unprocessable Entity', 500: 'Internal Server Error'},
              description='get xyz')
+    @ns.expect(parser)
     @ns.marshal_list_with(xyz, code=200)
     def get(self):  # /xyz
         '''List Xyz records '''
         args = parser.parse_args()
         page = args['page']
 
-        data = Xyz.query.paginate(page=page, per_page=app.config['ROWS_PER_PAGE'])
+        data = Xyz.query.paginate(page=page, per_page=app.config['ROWS_PER_PAGE']).items
 
         return data, 200
 

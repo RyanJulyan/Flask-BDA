@@ -14,12 +14,16 @@ from flask_mobility.decorators import mobile_template
 # Import Flask API and Resource from Swagger for API
 from flask_restx import Api, Resource
 
+# JWT for API
+from flask_jwt_extended import JWTManager
+
 # Import SQLAlchemy
 from flask_sqlalchemy import SQLAlchemy
 
 # Define the WSGI application object
 app = Flask(__name__)
 Mobility(app)
+JWTManager(app)
 
 # Login_manager
 login_manager = LoginManager()
@@ -95,6 +99,7 @@ app.register_blueprint(auth_module)
 
 
 # Define the API
+# This must be after other routes or it overwrites everything.
 api = Api(app, version='1.0',
     title=app.config['SITE_TITLE'] + ' API',
     description=app.config['SITE_DESCRIPTION'] + ' API',

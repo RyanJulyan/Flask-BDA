@@ -168,18 +168,13 @@ for key, value in fields.items():
     instanceNames += "        self.{} = {}\n".format(key, key)
     friendly_name = (key.capitalize()).replace('_', ' ')
     if fields[key]['nullable']:
-        formDefinitions += "    {} = TextField('{}')\n".format(key, key)
         formDefinitionsArr.append("\n    {} = TextField('{}')".format(key, key))
-        argumentParser += "    '{}': fields.String(description='The {} {}')\n".format(key, model, friendly_name)
         argumentParserArr.append("\n    '{}': fields.String(description='The {} {}')".format(key, model, friendly_name))
     else:
-        formDefinitions += "    {} = TextField('{}', [Required(message='Must provide a {}')])\n".format(key, key, friendly_name)
         formDefinitionsArr.append("\n    {} = TextField('{}', [Required(message='Must provide a {}')])".format(key, key, friendly_name))
-        argumentParser += "    '{}': fields.String(required=True, description='The {} {}')\n".format(key, model, friendly_name)
         argumentParserArr.append("\n    '{}': fields.String(required=True, description='The {} {}')".format(key, model, friendly_name))
-    newApiRequestDefinitions += "            {}=args['{}']\n".format(key, key)
     newFormRequestDefinitions += "        {}=request.form.get('{}')\n".format(key, key)
-    updateApiRequestDefinitions += "        data.{} = args['{}']\n".format(key, key)
+    updateApiRequestDefinitions += "        data.{} = api.payload['{}']\n".format(key, key)
     updateFormRequestDefinitions += "    data.{} = request.form.get('{}')\n".format(key, key)
     renderFields += """
                 <div class="col-span-6 sm:col-span-3">
@@ -191,21 +186,19 @@ for key, value in fields.items():
     feildNames.append(key)
     newFormRequestDefinitionsArr.append("\n        {}=request.form.get('{}')".format(key, key))
     updateFormRequestDefinitionsArr.append("\n    data.{} = request.form.get('{}')".format(key, key))
-    newApiRequestDefinitionsArr.append("\n            {}=args['{}']".format(key, key))
-    updateApiRequestDefinitionsArr.append("\n        data.{} = args['{}']".format(key, key))
+    newApiRequestDefinitionsArr.append("\n            {}=api.payload['{}']".format(key, key))
 
 instanceParams = str((', '.join(item for item in feildNames)))
 formDefinitions = str((','.join(item for item in formDefinitionsArr)))
 newFormRequestDefinitions = str((','.join(item for item in newFormRequestDefinitionsArr)))
 updateFormRequestDefinitions = str((','.join(item for item in updateFormRequestDefinitionsArr)))
 newApiRequestDefinitions = str((','.join(item for item in newApiRequestDefinitionsArr)))
-updateApiRequestDefinitions = str((','.join(item for item in updateApiRequestDefinitionsArr)))
 argumentParser = str((','.join(item for item in argumentParserArr)))
 
 newFormRequestDefinitions = newFormRequestDefinitions.lstrip('\n')
 updateFormRequestDefinitions = updateFormRequestDefinitions.lstrip('\n')
 newApiRequestDefinitions = newApiRequestDefinitions.lstrip('\n')
-updateApiRequestDefinitions = updateApiRequestDefinitions.lstrip('\n')
+updateApiRequestDefinitions = updateApiRequestDefinitions.rstrip('\n')
 argumentParser = argumentParser.lstrip('\n')
 columns = columns.rstrip('\n')
 instanceNames = instanceNames.rstrip('\n')
