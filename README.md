@@ -401,6 +401,12 @@ serverless deploy
 
 ## React Native
 
+> For native mobile apps we are useing; react natve, specifically we are using [expo](https://expo.io/) a framework and a platform for universal React applications. It is a set of tools and services built around React Native and native platforms that help you develop, build, deploy, and quickly iterate on iOS, Android, and web apps from the same JavaScript/TypeScript codebase.
+
+> Advantages include faster build and testing workflows/processes, remote testing while developing with Over The Air (OTA) updates with changes visible on save during development.
+
+> Build one project that runs natively on all your users' devices.
+
 * Open browser and install node.js:
     * Go to: [https://nodejs.org/en/download/](https://nodejs.org/en/download/)
 
@@ -428,6 +434,9 @@ expo install react-native-webview
     * `iOS` Go to: [https://apps.apple.com/app/apple-store/id982107779](https://apps.apple.com/app/apple-store/id982107779)
     * `Android` Go to: [https://play.google.com/store/apps/details?id=host.exp.exponent](https://play.google.com/store/apps/details?id=host.exp.exponent)
 
+### Deploying to stores
+* Open browser and review expo's recomendations to ensure you are ready to deploy:
+    * Go to:https://docs.expo.io/distribution/app-stores/
 
 # Installing Additional Python Packages
 

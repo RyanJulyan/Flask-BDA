@@ -30,7 +30,7 @@ parser.add_argument('page', type=int, help='page number for returned list. Must 
 # https://github.com/python-restx/flask-restx#quick-start for API and Swagger
 # shows a single xyz item, updates a single xyz item and lets you delete a xyz item
 
-@ns.route('/<id>')
+@ns.route('/<int:id>')
 @ns.response(404, 'Xyz not found')
 @ns.param('id', 'The Xyz identifier')
 class XyzResource(Resource):

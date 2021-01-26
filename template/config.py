@@ -77,6 +77,8 @@ MAIL_PORT = 2525
 MAIL_USERNAME = 'email@example.com'
 MAIL_PASSWORD = 'example password'
 MAIL_ENCRYPTION = None
+MAIL_USE_TLS = True
+MAIL_USE_SSL = False
 MAIL_FROM_ADDRESS = 'email@example.com'
 MAIL_FROM_NAME = 'Flask-BDA'
 
