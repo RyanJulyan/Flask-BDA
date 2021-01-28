@@ -3,6 +3,8 @@ const staticAssets = [
   './',
   './index.html',
   'https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css',
+  'https://unpkg.com/tailwindcss@%5E2/dist/tailwind.min.css',
+  'https://unpkg.com/pwacompat',
   './static/css/styles.css',
   './static/js/immortal-db.min.js',
   './static/js/register_sw.js',

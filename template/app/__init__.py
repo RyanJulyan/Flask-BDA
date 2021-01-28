@@ -13,6 +13,7 @@ from flask_mobility.decorators import mobile_template
 
 # Import Flask API and Resource from Swagger for API
 from flask_restx import Api, Resource
+from flask_cors import CORS
 
 # JWT for API
 from flask_jwt_extended import JWTManager
@@ -31,6 +32,9 @@ login_manager.init_app(app)
 
 # Configurations
 app.config.from_object('config')
+
+# CORS
+CORS(app, resources={r"/api/*": {"origins": app.config['CORS_ORIGINS']}})
 
 # Debug Toolbar
 toolbar = DebugToolbarExtension(app)

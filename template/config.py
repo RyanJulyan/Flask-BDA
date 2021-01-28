@@ -8,7 +8,7 @@ SITE_THEME_COLOR = '#3367D6'
 DEVELOPER_NAME = 'Ryan Julyan'
 
 # Statement for enabling the development environment
-DEBUG = True
+DEBUG = False
 DEBUG_TB_PROFILER_ENABLED = True
 
 # Define the application directory
@@ -66,6 +66,9 @@ SECRET_KEY = 'secret'
 
 # Secret key for signing JWT (JSON Web Tokens)
 JWT_SECRET_KEY = 'secret'
+
+# CORS ORIGINS allowed
+CORS_ORIGINS = '*'
 
 # Default number of results to show per page
 ROWS_PER_PAGE = 20

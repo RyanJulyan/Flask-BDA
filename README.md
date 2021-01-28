@@ -182,7 +182,7 @@ Default value:
 > The public facing views allows guest users (users not logged in) to see a view of the information provided
 
 ```
-├── `my_awesome_project`
+└── `my_awesome_project`
        └── app
             ├── generated_config
             │     └── models
@@ -218,7 +218,7 @@ There are 4 out of the box environments supported with instructions on how to co
 * [Local python venv](#local-environment)
 * [Docker](#docker-environment)
 * [AWS Serverless](#aws-serverless) (Still under Development)
-* [React Native](#react-native)
+* [React Native](#react-native) (Still under Development)
 
 ## Local Environment
 
@@ -405,10 +405,13 @@ serverless deploy
 
 > Advantages include faster build and testing workflows/processes, remote testing while developing with Over The Air (OTA) updates with changes visible on save during development.
 
+> However there are some disadvantages and [Limitations](https://docs.expo.io/introduction/why-not-expo/) Expo is aware of these and describes them quite well. we suggest reviewing these limitations beforee using our pre-built method.
+
 > Build one project that runs natively on all your users' devices.
 
 * Open browser and install node.js:
     * Go to: [https://nodejs.org/en/download/](https://nodejs.org/en/download/)
+    * Follow the installation instructions and then continue to the next steps
 
 ### Windows
 * Open new terminal
@@ -416,6 +419,9 @@ serverless deploy
     * Type "cmd" to open the terminal
 ```
 npm install -g expo-cli
+
+cd <Path To>/my_awesome_project
+
 expo install react-native-webview
 
 ```
@@ -425,6 +431,9 @@ expo install react-native-webview
     * "Control + Option + Shift + T" to open the terminal
 ```
 npm install -g expo-cli
+
+cd <Path To>/my_awesome_project
+
 expo install react-native-webview
 
 ```
@@ -437,6 +446,30 @@ expo install react-native-webview
 ### Deploying to stores
 * Open browser and review expo's recomendations to ensure you are ready to deploy:
     * Go to:https://docs.expo.io/distribution/app-stores/
+* Open browser and review expo's recomendations on building for the different platforms:
+    * Go to:https://docs.expo.io/distribution/building-standalone-apps/
+
+
+### Windows
+* Open new terminal
+    * "Windows-Key + R" will show you the 'RUN' box
+    * Type "cmd" to open the terminal
+```
+cd <Path To>/my_awesome_project
+
+npx expo-optimize --quality 0.9
+
+```
+
+### Linux / Mac
+* Open new terminal
+    * "Control + Option + Shift + T" to open the terminal
+```
+cd <Path To>/my_awesome_project
+
+npx expo-optimize --quality 0.9
+
+```
 
 # Installing Additional Python Packages
 
