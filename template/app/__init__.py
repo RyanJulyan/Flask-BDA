@@ -21,6 +21,9 @@ from flask_jwt_extended import JWTManager
 # Import SQLAlchemy
 from flask_sqlalchemy import SQLAlchemy
 
+# Import Mail
+from flask_mail import Mail
+
 # Define the WSGI application object
 app = Flask(__name__)
 Mobility(app)
@@ -46,6 +49,9 @@ serializer = URLSafeTimedSerializer(app.secret_key)
 # by modules and controllers
 db = SQLAlchemy(app)
 
+# Mail
+mail = Mail(app)
+
 # Import module models (i.e. User)
 from app.mod_auth.models import User  # noqa: E402
 
@@ -67,12 +73,17 @@ def load_user(session_token):
 # Sample HTTP error handling
 @app.errorhandler(404)
 def not_found(error):
-    return render_template('./404.html'), 404
+    return render_template('./errors/404.html'), 404
 
 
 @app.errorhandler(403)
 def not_allowed(error):
-    return render_template('./403.html'), 403
+    return render_template('./errors/403.html'), 403
+
+
+@app.errorhandler(500)
+def internal_server_error(error):
+    return render_template('./errors/500.html'), 500
 
 
 # Serve Service Worker
@@ -108,7 +119,7 @@ api = Api(app, version='1.0',
     title=app.config['SITE_TITLE'] + ' API',
     description=app.config['SITE_DESCRIPTION'] + ' API',
     # base_url='/api',  # this did not work when set so moved to docs
-    doc='/api/docs',
+    doc=app.config['SWAGGER_URL'],
 )
 
 # Register api(s)

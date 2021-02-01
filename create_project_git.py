@@ -52,6 +52,7 @@ dir_name = str(dirName(projectName))
 
 CSRF_SESSION_KEY = secrets.token_urlsafe(256)
 SECRET_KEY = secrets.token_urlsafe(256)
+SECURITY_PASSWORD_SALT = secrets.token_urlsafe(256)
 JWT_SECRET_KEY = secrets.token_urlsafe(256)
 
 ########################
@@ -124,6 +125,8 @@ for line in source:
         destination.write("SECRET_KEY = '" + SECRET_KEY + "'" + "\n")
     elif "JWT_SECRET_KEY = 'secret'" in line:
         destination.write("JWT_SECRET_KEY = '" + JWT_SECRET_KEY + "'" + "\n")
+    elif "SECURITY_PASSWORD_SALT = 'secret'" in line:
+        destination.write("SECURITY_PASSWORD_SALT = '" + SECURITY_PASSWORD_SALT + "'" + "\n")
     else:
         destination.write(line)
 

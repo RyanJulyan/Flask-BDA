@@ -29,16 +29,25 @@ class User(UserMixin, Base):
     # Authorisation Data: role & status
     role = db.Column(db.SmallInteger, nullable=False)
     status = db.Column(db.SmallInteger, nullable=False)
+    # Confirmed account
+    confirmed = db.Column(db.Boolean, nullable=False, default=False)
+    confirmed_on = db.Column(db.DateTime, nullable=True)
     # Authorisation Data: Session
     session_token = db.Column(db.String(100), unique=True)
 
     def get_id(self):
         return self.session_token
 
-    def __init__(self, name, email, password):
+    def __init__(self, name, email, password, role,
+                status, confirmed, confirmed_on, session_token):
         self.name = name
         self.email = email
         self.password = password
+        self.role = role
+        self.status = status
+        self.confirmed = confirmed
+        self.confirmed_on = confirmed_on
+        self.session_token = session_token
 
     def __repr__(self):
         return '<User %r>' % (self.name)

@@ -29,6 +29,22 @@
 > Free and Developer-Friendly
 > Flask-BDA is a free to use, source available, application development tool with a developer-friendly license.
 
+## Rough Costing Table 2020 For Normal Development
+| Project size                                                    | Initial development cost |  Ongoing development cost             |
+|-----------------------------------------------------------------|-------------------------:|--------------------------------------:|
+| Small-sized projects (2 - 6 weeks of development)               |                  $11 250 |     $563 - $1 125 (±10%) / per month  |
+| Medium-sized projects (2 - 4 months of development)             |                  $33 750 |  $1 563  - $3 375 (±10%) / per month  |
+| Large-sized projects (6 - 18 months, or longer, of development) |                 $156 250 |  $3 375 - $15 625 (±10%) / per month  |
+
+## Rough Costing Table 2020 For Flask-BDA Development
+| Project size                                                    | Initial development cost |  Ongoing development cost            |
+|-----------------------------------------------------------------|-------------------------:|-------------------------------------:|
+| Small-sized projects (2 - 6 weeks of development)               |                   $3 750 |      $188 - $375 (±10%) / per month  |
+| Medium-sized projects (2 - 4 months of development)             |                  $11 250 |    $375 - $1 125 (±10%) / per month  |
+| Large-sized projects (6 - 18 months, or longer, of development) |                  $52 084 |  $1 125 - $5 208 (±10%) / per month  |
+
+> And with Flask-BDA you **loose NONE of the flexibility of "Normal Development"**
+
 # Overview
 * [Why use Flask-BDA](#why-use-flask-bda)
 * [Process](#process)
@@ -37,6 +53,8 @@
 * [Create new CRUD module](#create-new-crud-module)
 * [Environments](#environments)
 * [Installing Additional Python Packages](#installing-additional-python-packages)
+* [External API Requests](#external-api-requests)
+* [Ajax Requests](#ajax-requests)
 * [Testing](#testing)
 * [Features List](#features-list)
 * [Project Structure](#project-structure)
@@ -100,7 +118,7 @@
     * Type "cmd" to open the terminal
 * Copy, paste and run the following code in the terminal
     * This will download the required `create_project.py` python file and run it to help you start a project
-```
+```shell
 curl -L https://raw.githubusercontent.com/RyanJulyan/Flask-BDA/main/create_project_git.py --ssl-no-revok -o create_project_git.py
 
 python create_project_git.py
@@ -112,7 +130,7 @@ python create_project_git.py
     * "Control + Option + Shift + T" to open the terminal
 * Copy, paste and run the following code in the terminal
     * This will download the required `create_project.py` python file and run it to help you start a project
-```
+```shell
 curl -L https://raw.githubusercontent.com/RyanJulyan/Flask-BDA/main/create_project_git.py --ssl-no-revok -o create_project_git.py
 
 python create_project_git.py
@@ -122,7 +140,7 @@ python create_project_git.py
 
 * Fill in your project name when prompted eg:
     * Please ensure you put quotes around your project name to prevent errors eg: `"My Awesome Project"`
-```
+```python
 Project Name:
 "My Awesome Project"
 ```
@@ -139,13 +157,13 @@ Project Name:
 
 * To create your own custom modules, Open and run the file: `<Path To>/<my_awesome_project>/create_module.py`
     * Fill in the instructions eg:
-```
+```python
 Module Name:
-`Projects`
+"Projects"
 ```
 * You can then create a table with columns by following the prompts eg:
-```
-Create new field Name (type the string: 'STOP_CREATING_FIELDS' to exit): `name`
+```python
+Create new field Name (type the string: 'STOP_CREATING_FIELDS' to exit): "name"
 What datatype is name
         Choose one of the following options
         ('String'
@@ -159,10 +177,10 @@ What datatype is name
          ,'BigInt'
          ,'Enum'
          ,'JSON'
-         ,'LargeBinary'): `String`
-String Length (1-256): `256`
-Is name nullable ('True', 'False'): `false`
-Is name unique ('True', 'False'): `true`
+         ,'LargeBinary'): "String"
+String Length (1-256): 256
+Is name nullable ('True', 'False'): False
+Is name unique ('True', 'False'): True
 Default value: 
 
 ```
@@ -228,7 +246,7 @@ There are 4 out of the box environments supported with instructions on how to co
 * Open new terminal
     * "Windows-Key + R" will show you the 'RUN' box
     * Type "cmd" to open the terminal
-```
+```shell
 cd <Path To>/my_awesome_project
 
 pip install virtualenv
@@ -248,7 +266,7 @@ flask run
 ### Linux / Mac
 * Open new terminal
     * "Control + Option + Shift + T" to open the terminal
-```
+```shell
 cd <Path To>/my_awesome_project
 
 pip install virtualenv
@@ -279,7 +297,7 @@ flask run
 * Open new terminal
     * "Windows-Key + R" will show you the 'RUN' box
     * Type "cmd" to open the terminal
-```
+```shell
 cd <Path To>/my_awesome_project
 
 docker build -t flask_app:latest .
@@ -289,7 +307,7 @@ docker run -p 5000:5000 flask_app
 ### Linux / Mac
 * Open new terminal
     * "Control + Option + Shift + T" to open the terminal
-```
+```shell
 curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh
 
@@ -298,7 +316,7 @@ systemctl start docker
 ```
 * Open new terminal
     * "Control + Option + Shift + T" to open the terminal
-```
+```shell
 cd <Path To>/my_awesome_project
 
 docker build -t flask_app:latest .
@@ -322,7 +340,7 @@ docker run -it -p 5000:5000 flask_app
 * Open new terminal
     * "Windows-Key + R" will show you the 'RUN' box
     * Type "cmd" to open the terminal
-```
+```shell
 npm update -g serverless
 
 ```
@@ -330,7 +348,7 @@ npm update -g serverless
 ### Linux / Mac
 * Open new terminal
     * "Control + Option + Shift + T" to open the terminal
-```
+```shell
 npm update -g serverless
 ```
 
@@ -340,7 +358,7 @@ npm update -g serverless
 * Open new terminal
     * "Windows-Key + R" will show you the 'RUN' box
     * Type "cmd" to open the terminal
-```
+```shell
 choco install serverless
 
 ```
@@ -357,7 +375,7 @@ choco install serverless
     * "Windows-Key + R" will show you the 'RUN' box
     * Type "cmd" to open the terminal
 
-```
+```shell
 serverless
 
 cd <Path To>/my_awesome_project
@@ -375,14 +393,14 @@ serverless deploy
 ### Linux / Mac
 * Open new terminal
     * "Control + Option + Shift + T" to open the terminal
-```
+```shell
 curl -o- -L https://slss.io/install | bash
 
 ```
 
 * Open new terminal
     * "Control + Option + Shift + T" to open the terminal
-```
+```shell
 curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh
 
@@ -417,7 +435,7 @@ serverless deploy
 * Open new terminal
     * "Windows-Key + R" will show you the 'RUN' box
     * Type "cmd" to open the terminal
-```
+```shell
 npm install -g expo-cli
 
 cd <Path To>/my_awesome_project
@@ -429,7 +447,7 @@ expo install react-native-webview
 ### Linux / Mac
 * Open new terminal
     * "Control + Option + Shift + T" to open the terminal
-```
+```shell
 npm install -g expo-cli
 
 cd <Path To>/my_awesome_project
@@ -454,7 +472,7 @@ expo install react-native-webview
 * Open new terminal
     * "Windows-Key + R" will show you the 'RUN' box
     * Type "cmd" to open the terminal
-```
+```shell
 cd <Path To>/my_awesome_project
 
 npx expo-optimize --quality 0.9
@@ -464,7 +482,7 @@ npx expo-optimize --quality 0.9
 ### Linux / Mac
 * Open new terminal
     * "Control + Option + Shift + T" to open the terminal
-```
+```shell
 cd <Path To>/my_awesome_project
 
 npx expo-optimize --quality 0.9
@@ -479,6 +497,49 @@ npx expo-optimize --quality 0.9
 
 > **Note** It is suggested that you install and freeze Additional Python Packages from a virtual environment rather than globally. This keeps your `requirements.txt` small and limited to the packes you are using in your specific project.
 
+# External API Requests
+
+> Sometimes you need to make external requests (eg to an eexternal API). You could approach this by using [Ajax Requests](#ajax-requests), but sometimes you need to make these requests from the server side. To acheive this we use the [requests module](https://www.w3schools.com/python/module_requests.asp).
+
+* The structure of a requests is:
+```python
+import requests
+
+requests.methodname(params)
+```
+
+### Get Request Method
+```python
+import requests
+
+params = {"model": "Mustang"}
+
+x = requests.get('https://w3schools.com/python/demopage.php', params = params)
+print(x.status_code)
+print(x.text)
+```
+
+### Post Request Method
+```python
+import requests
+
+data = {"Name":"Example"}
+headers = {"Authorization": "Bearer <token>"}
+
+x = requests.post('https://w3schools.com/python/demopage.php', data = data, headers = headers)
+print(x.status_code)
+print(x.text)
+```
+
+### Delete Request Method
+```python
+import requests
+
+x = requests.delete('https://w3schools.com/python/demopage.php')
+print(x.status_code)
+print(x.text)
+```
+
 # Ajax Requests
 
 > Ajax requests are made using [</> htmx](https://htmx.org/) by default.
@@ -486,7 +547,7 @@ npx expo-optimize --quality 0.9
 > htmx is a dependency-free library that allows you to access AJAX, CSS Transitions, WebSockets and Server Sent Events directly in HTML, using attributes, so you can build modern user interfaces with the simplicity and power of hypertext. For a details on how to use htmx, please refer to the [docs](https://htmx.org/docs/) and for a full reference on the functionality, please refer to: [https://htmx.org/reference/](https://htmx.org/reference/)
 
 You can use htmx to implement many common UX patterns, such as Active Search:
-```
+```html
 <input type="text" name="q" 
     hx-get="/trigger_delay" 
     hx-trigger="keyup changed delay:500ms" 
@@ -518,7 +579,7 @@ There are 3 aspects of testing provided:
 * Open new terminal
     * "Windows-Key + R" will show you the 'RUN' box
     * Type "cmd" to open the terminal
-```
+```shell
 cd <Path To>/my_awesome_project
 
 venv\Scripts\activate
@@ -530,7 +591,7 @@ flake8 . --count --exit-zero --max-complexity=11 --max-line-length=127 --statist
 ### Linux / Mac
 * Open new terminal
     * "Control + Option + Shift + T" to open the terminal
-```
+```shell
 cd <Path To>/my_awesome_project
 
 venv/bin/activate
@@ -548,7 +609,7 @@ flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statist
 * Open new terminal
     * "Windows-Key + R" will show you the 'RUN' box
     * Type "cmd" to open the terminal
-```
+```shell
 cd <Path To>/my_awesome_project
 
 venv/bin/activate
@@ -559,7 +620,7 @@ python -m unittest discover
 ### Linux / Mac
 * Open new terminal
     * "Control + Option + Shift + T" to open the terminal
-```
+```shell
 cd <Path To>/my_awesome_project
 
 venv/bin/activate

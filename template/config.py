@@ -8,8 +8,9 @@ SITE_THEME_COLOR = '#3367D6'
 DEVELOPER_NAME = 'Ryan Julyan'
 
 # Statement for enabling the development environment
-DEBUG = False
+DEBUG = True
 DEBUG_TB_PROFILER_ENABLED = True
+DEBUG_TB_INTERCEPT_REDIRECTS = False
 
 # Define the application directory
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -61,8 +62,9 @@ CSRF_ENABLED = True
 # signing the data.
 CSRF_SESSION_KEY = 'secret'
 
-# Secret key for signing cookies
+# Secret key for signing cookies and Tokens
 SECRET_KEY = 'secret'
+SECURITY_PASSWORD_SALT = 'secret'
 
 # Secret key for signing JWT (JSON Web Tokens)
 JWT_SECRET_KEY = 'secret'
@@ -85,9 +87,13 @@ MAIL_USE_SSL = False
 MAIL_FROM_ADDRESS = 'email@example.com'
 MAIL_FROM_NAME = 'Flask-BDA'
 
+# File Upload
+UPLOAD_FOLDER = 'uploads'
+ALLOWED_EXTENSIONS = set(['txt', 'rtf', 'docx', 'doc', 'docm', 'dotx', 'odt', 'xlsx', 'xlsm', 'xlsb', 'xls', 'xltx', 'ods', 'csv', 'xml', 'json', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+
 # Swagger
 SWAGGER_BLUEPRINT_URL_PREFIX = '/swagger'
-SWAGGER_URL = '/api/doc'  # URL for exposing Swagger UI (without trailing '/')
+SWAGGER_URL = '/api/docs'  # URL for exposing Swagger UI (without trailing '/')
 SWAGGER_API_URL = 'swagger.json'  # Our API url (can of course be a local resource)
 
 # Search Engine Optimization (SEO)
