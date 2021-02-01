@@ -25,9 +25,8 @@
 > Flask-BDA provides Full-stack development from; UI, business processes, custom logic, and data models to create cross-platform apps out of the box. providing you a scaffold that you can add your own code when needed. with no lock-in ever.
 > 
 > With pre-configured development environments, we reduce the pain (and cost) of getting to market, giving you the flexibility to choose where and how to deploy.
-> 
+
 > Free and Developer-Friendly,
-> 
 > Flask-BDA is a free to use, source available, application development tool with a developer-friendly [license](#license).
 
 # Costs
