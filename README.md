@@ -1,4 +1,4 @@
-# Business Driven App (BDA)
+# Flask Business Driven App (BDA)
 ## A Rapid Application Development (RAD) tool to assist with building flask python applications. Helping you build applications fast, right, and for the Future.
 
 > **Note:** Still under Development
@@ -9,44 +9,57 @@
 
 > Solutions like [Excel](https://www.microsoft.com/en-za/microsoft-365/excel) are accessable to everyone and give you all the flexibility you might need, but your data is scattered and does not easily allow for a shared source of truth for your team and clients, it is very easy for excel documents to be out of sync or even shared, opening your company up to a security risk.
 
-> Flask-BDA helps you by providing you control to deliver raplid, secure Full-stack applications 3-5x (3-5 times) faster. With no vendor lock-in ever.
+> Flask-BDA helps you by providing you control to deliver raplid, secure, Full-stack applications 3-5x (3-5 times) faster. With no vendor or environment lock-in, ever.
 
 > Automatically deal with the tedious aspects that slow down software development
 > * Creates & manages all database connections and complex queries.
-> * Application Security with user and role-based access control
+> * Application security with user and role-based access control
 > * Automatic audits on every action
 
-> Flask BDA is a low-code platform (meaning we will help you by writing a lot of the code for you) which provides the tools for companies to raplidly develop and deploy secure applications that run on any device.
+> Flask-BDA is a [low-code platform](#low-code-platform) (meaning we will help you by writing a lot of the code for you) which provides the tools for companies to raplidly develop and deploy secure applications that run on any device.
 > 
 > We change the way software is built so you can rapidly create and deploy critical applications of any size that evolve with your business saving you time & money.
 > 
 > Developers can build and deploy a full range of applications - from consumer apps to critical internal business systems - designed to help developers deliver secure applications quickly and efficiently so apps are delivered in weeks and even days.
 >
-> Flask BDA provides Full-stack development from; UI, business processes, custom logic, and data models to create cross-platform apps out of the box. providing you a scaffold that you can add your own code when needed. with no lock-in ever.
+> Flask-BDA provides Full-stack development from; UI, business processes, custom logic, and data models to create cross-platform apps out of the box. providing you a scaffold that you can add your own code when needed. with no lock-in ever.
 > 
 > With pre-configured development environments, we reduce the pain (and cost) of getting to market, giving you the flexibility to choose where and how to deploy.
 > 
-> Free and Developer-Friendly
-> Flask-BDA is a free to use, source available, application development tool with a developer-friendly license.
+> Free and Developer-Friendly,
+> 
+> Flask-BDA is a free to use, source available, application development tool with a developer-friendly [license](#license).
 
-## Rough Costing Table 2020 For Normal Development
-| Project size                                                    | Initial development cost |  Ongoing development cost             |
-|-----------------------------------------------------------------|-------------------------:|--------------------------------------:|
-| Small-sized projects (2 - 6 weeks of development)               |                  $11 250 |     $563 - $1 125 (±10%) / per month  |
-| Medium-sized projects (2 - 4 months of development)             |                  $33 750 |  $1 563  - $3 375 (±10%) / per month  |
-| Large-sized projects (6 - 18 months, or longer, of development) |                 $156 250 |  $3 375 - $15 625 (±10%) / per month  |
+# Costs
 
-## Rough Costing Table 2020 For Flask-BDA Development
-| Project size                                                    | Initial development cost |  Ongoing development cost            |
-|-----------------------------------------------------------------|-------------------------:|-------------------------------------:|
-| Small-sized projects (2 - 6 weeks of development)               |                   $3 750 |      $188 - $375 (±10%) / per month  |
-| Medium-sized projects (2 - 4 months of development)             |                  $11 250 |    $375 - $1 125 (±10%) / per month  |
-| Large-sized projects (6 - 18 months, or longer, of development) |                  $52 084 |  $1 125 - $5 208 (±10%) / per month  |
+> Software development is always a costly exercise:
+> * You will need to pay one or multiple Software Developers, Business Analysts, Designers, Project Managers and other team members to  build your product.
+> * Your product is never finished. A software project will always need continued development.
+>     * When you deliver a product, your competition is already working on new and improved features and you need to be able to stay ahead, or at least keep up or users will move to your competition.
+>     * Once you start using your product, you and your team will think of new features that will make it even better and improve your processes.
+>     * Continued maintenance. As users make use of the product, they will find ways to break it that you haven't thought of, and they need to be fixed.
 
-> And with Flask-BDA you **loose NONE of the flexibility of "Normal Development"**
+## Rough Costing Table (2020) For Normal Development
+| Project size                                                    | Initial cost |  Ongoing cost                         |
+|-----------------------------------------------------------------|-------------:|--------------------------------------:|
+| Small-sized projects (2 - 6 weeks of development)               |      $11 250 |     $563 - $1 125 (±10%) / per month  |
+| Medium-sized projects (2 - 4 months of development)             |      $33 750 |  $1 563  - $3 375 (±10%) / per month  |
+| Large-sized projects (6 - 18 months, or longer, of development) |     $156 250 |  $3 375 - $15 625 (±10%) / per month  |
+
+## Rough Costing Table (2020) For Flask-BDA Development
+| Project size                                                    | Initial cost |  Ongoing cost                        |
+|-----------------------------------------------------------------|-------------:|-------------------------------------:|
+| Small-sized projects (1 - 3 weeks of development)               |       $3 750 |      $188 - $375 (±10%) / per month  |
+| Medium-sized projects (1 - 3 months of development)             |      $11 250 |    $375 - $1 125 (±10%) / per month  |
+| Large-sized projects (2 - 6 months, or longer, of development)  |      $52 084 |  $1 125 - $5 208 (±10%) / per month  |
+
+> With Flask-BDA you **DON'T LOOSE ANY of the flexibility of "Normal Development"** as it uses standarized development patterns and tried and tested technologies.
+
+> Flask-BDA uses many Open Source technologies and leverages existing technology stacks, so that you can easily find other developers who use the same technologies, and you do not have to pay for costly licence fees or environment costs regardless of how much revenue your company makes, or where you are in your business.
 
 # Overview
 * [Why use Flask-BDA](#why-use-flask-bda)
+* [Costs](#costs)
 * [Process](#process)
 * [Requirements](#requirements)
 * [Quickstart](#quickstart)
@@ -332,7 +345,7 @@ docker run -it -p 5000:5000 flask_app
 > 
 > The Serverless framework is an open source tool that provides an easy YAML + CLI development and deployment to AWS, Azure, Google Cloud, Knative & more.
 
-### Via npm
+## Via npm
 * Open browser and install node.js:
     * Go to: [https://nodejs.org/en/download/](https://nodejs.org/en/download/)
 
@@ -351,6 +364,8 @@ npm update -g serverless
 ```shell
 npm update -g serverless
 ```
+
+## Via terminal/console
 
 ### Windows
 * Open browser and install Chocolatey: 
@@ -867,15 +882,15 @@ The license requires that you do the following:
 License and copyright notice inclusion
 
 The Flask-BDA License requires that you must include the license and copyright notice with all copies of Flask-BDA and in any derived work created using Flask-BDA. It is up to you to decide how you wish to distribute the license and notice. Below are some examples of how this can be done:
-    * Show the license and notice at the end of a credits screen if your application has one
-    * Show the license and notice from a dedicated license screen or popup in your application
-    * Print the license and notice to an output log when your application starts
-    * Put the license and notice in a text file and include it with the distribution of your application
-    * Put the license and notice in a printed manual included with your application
+* Show the license and notice at the end of a credits screen if your application has one
+* Show the license and notice from a dedicated license screen or popup in your application
+* Print the license and notice to an output log when your application starts
+* Put the license and notice in a text file and include it with the distribution of your application
+* Put the license and notice in a printed manual included with your application
 
 ________________________________________
 Copyright 2021 Flask-BDA, Ryan Julyan
-Licensed under the Flask-BDA License version 0.1 (the "License"); you may not use this file except in compliance with the License.
-You may obtain a copy of the License, `together with FAQs` at
-`https://github.com/RyanJulyan/Flask-BDA`
+Licensed under the Flask-BDA License version 0.1 (the "License"); you may not use `Flask-BDA` except in compliance with the License.
+You may obtain a copy of the [License](https://github.com/RyanJulyan/Flask-BDA/blob/main/LICENSE), at
+`https://github.com/RyanJulyan/Flask-BDA/blob/main/LICENSE`
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
