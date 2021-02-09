@@ -8,6 +8,7 @@
 import os
 import shutil
 import re
+import secrets
 
 ###################
 ###################
@@ -56,12 +57,26 @@ def getDataType(prompt):
             print("Invalid data type")
 
 
+def relationship(field):
+    has_relationship = getBool("Does " + field + " have a Relationship with another Data Model? ('True', 'False'): ")
+    while has_relationship:
+        model = input("Which Model does the Field " + field + " have a Relationship with: ")
+        if(len(model) > 0):
+            model = model.lower()
+            model = re.sub('[;!,*)@#%(&$?.^\'"+<>/\\{}]', '', model)
+            model = model.replace(" ", "_")
+            return model
+        else:
+            print("Invalid model Name!")
+            print("Please enter a valid model name:")
+    return None
+
 def module():
     print("Module Name: ")
     while True:
         module = input()
         if(len(module) > 0):
-            module = module.casefold()
+            module = module.lower()
             module = re.sub('[;!,*)@#%(&$?.^\'"+<>/\\{}]', '', module)
             module = module.replace(" ", "_")
             return module
@@ -98,7 +113,7 @@ def fields():
             print("Field Name Already Exists!")
             print("Please enter a different field name!")
         elif(len(field) > 0):
-            field = field.casefold()
+            field = field.lower()
             field = re.sub('[;!,*)@#%(&$?.^\'"+<>/\\{}]', '', field)
             field = field.replace(" ", "_")
             dataType = getDataType("What datatype is " + field + """
@@ -123,11 +138,13 @@ def fields():
                 dataType = "Enum(" + str((', '.join('"' + item + '"' for item in parameters))) + ")"
             nullable = getBool("Is " + field + " nullable ('True', 'False'): ")
             unique = getBool("Is " + field + " unique ('True', 'False'): ")
+            relationship = relationship(field)
             default = input("Default value: ") or False
             fields[field] = {
                 "dataType": dataType,
                 "nullable": nullable,
                 "unique": unique,
+                "relationship": relationship,
                 "default": default
             }
         else:
@@ -160,11 +177,60 @@ instanceParams = ''
 renderFields = ''
 
 for key, value in fields.items():
-    columns += "    {} = db.Column(db.{}, nullable={}, default={}, unique={})\n".format(key,
+    if value['relationship']:
+        columns += "    {} = db.Column(db.{}, nullable={}, default={}, unique={}, db.ForeignKey('{}.id'))\n".format(key,
+                                                                                                                    value['dataType'],
+                                                                                                                    value['nullable'],
+                                                                                                                    value['default'],
+                                                                                                                    value['unique'],
+                                                                                                                    value['relationship'])
+
+        columns += "    {}_{} = relationship('{}', backref = '{}', lazy='joined')\n".format(value['relationship'],
+                                                                                            secrets.token_urlsafe(3),
+                                                                                            value['relationship'].capitalize(),
+                                                                                            value['relationship'])
+
+        columns += """
+    @aggregated('{}_count', db.Column(db.Integer))
+    def {}_count(self):
+        return db.func.count('1')\n""".format(value['relationship'],
+                                            value['relationship'])
+    else:
+        columns += "    {} = db.Column(db.{}, nullable={}, default={}, unique={})\n".format(key,
                                                                                     value['dataType'],
                                                                                     value['nullable'],
                                                                                     value['default'],
                                                                                     value['unique'])
+    if "Numeric" in value['dataType'] or "Integer" in value['dataType']:
+        columns += """
+    @aggregated('{}_sum', db.Column(db.Numeric(38, 19)))
+    def {}_sum(self):
+        return db.func.sum('{}.{}')\n""".format(key,
+                                            key,
+                                            model,
+                                            key)
+        columns += """
+    @aggregated('{}_avg', db.Column(db.Numeric(38, 19)))
+    def {}_avg(self):
+        return db.func.avg('{}.{}')\n""".format(key,
+                                            key,
+                                            model,
+                                            key)
+        columns += """
+    @aggregated('{}_min', db.Column(db.Numeric(38, 19)))
+    def {}_min(self):
+        return db.func.min('{}.{}')\n""".format(key,
+                                            key,
+                                            model,
+                                            key)
+        columns += """
+    @aggregated('{}_max', db.Column(db.Numeric(38, 19)))
+    def {}_max(self):
+        return db.func.max('{}.{}')\n""".format(key,
+                                            key,
+                                            model,
+                                            key)
+
     instanceNames += "        self.{} = {}\n".format(key, key)
     friendly_name = (key.capitalize()).replace('_', ' ')
     if fields[key]['nullable']:

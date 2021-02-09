@@ -52,6 +52,9 @@ db = SQLAlchemy(app)
 # Mail
 mail = Mail(app)
 
+# JWT blacklist 
+blacklist = set()
+
 # Import module models (i.e. User)
 from app.mod_auth.models import User  # noqa: E402
 

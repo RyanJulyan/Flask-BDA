@@ -19,7 +19,7 @@ class Base(db.Model):
 # Define a User model
 class User(UserMixin, Base):
 
-    __tablename__ = 'auth_user'
+    __tablename__ = 'users'
 
     # User Name
     name = db.Column(db.String(128),  nullable=False)

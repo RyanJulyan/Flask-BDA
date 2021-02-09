@@ -3,6 +3,9 @@
 # We will define this inside /app/__init__.py in the next sections.
 from app import db
 
+# Import aggregated functionality 
+from sqlalchemy_utils import aggregated
+
 
 # Define a base model for other database tables to inherit
 class Base(db.Model):
@@ -12,6 +15,10 @@ class Base(db.Model):
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
     deleted_at = db.Column(db.DateTime, nullable=True)
+
+    @aggregated('xyz_count', db.Column(db.Integer))
+    def xyz_count(self):
+        return db.func.count('1')
 
 
 # Define a Xyz model

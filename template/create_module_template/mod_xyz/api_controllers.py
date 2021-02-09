@@ -91,6 +91,7 @@ class XyzListResource(Resource):
     @ns.expect(xyz)
     @ns.marshal_with(xyz, code=201)
     def post(self):  # /xyz
+        '''Create a new Xyz record'''
         args = parser.parse_args()
         data = Xyz(
             # start new api_request feilds

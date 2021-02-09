@@ -1,5 +1,5 @@
 # Flask Business Driven App (BDA)
-## A Rapid Application Development (RAD) tool to assist with building flask python applications. Helping you build applications fast, right, and for the Future.
+## A Multi-tenant, SAAS ready, Rapid Application Development (RAD) tool to assist with building flask python applications. Helping you build applications fast, right, and for the Future.
 
 > **Note:** Still under Development
 
@@ -218,29 +218,29 @@ Default value:
             │     └── models
             │          └── `projects`
             │               └── models.json
-            ├── `mod_projects`
-            │     ├── api_controllers.py
-            │     ├── controllers.py
-            │     ├── forms.py
-            │     └── models.py
-            └── templates
-                  ├── mobile
-                  │    └── `projects`
-                  │         ├── admin
-                  │         │    ├── create.html
-                  │         │    ├── edit.html
-                  │         │    ├── index.html
-                  │         │    └── show.html
-                  │         └── public
-                  │              └── public_list.html
-                  └── `projects`
-                       ├── admin
-                       │    ├── create.html
-                       │    ├── edit.html
-                       │    ├── index.html
-                       │    └── show.html
-                       └── public
-                            └── public_list.html
+            └── `mod_projects`
+                  ├── templates
+                  │     ├── mobile
+                  │     │    └── `projects`
+                  │     │         ├── admin
+                  │     │         │    ├── create.html
+                  │     │         │    ├── edit.html
+                  │     │         │    ├── index.html
+                  │     │         │    └── show.html
+                  │     │         └── public
+                  │     │              └── public_list.html
+                  │     └── `projects`
+                  │          ├── admin
+                  │          │    ├── create.html
+                  │          │    ├── edit.html
+                  │          │    ├── index.html
+                  │          │    └── show.html
+                  │          └── public
+                  │               └── public_list.html
+                  ├── api_controllers.py
+                  ├── controllers.py
+                  ├── forms.py
+                  └── models.py
 ```
 
 # Environments
@@ -736,8 +736,46 @@ python -m unittest discover
 ## Project Structure
 ```
 └── `project_name`
+       ├── .github
+       │    └── workflows
+       │          ├── docker-image.yml
+       │          └── run_tests.yml
        ├── app
+       │    ├── mod_audit
+       │    │     ├── __init__.py
+       │    │     ├── controllers.py
+       │    │     └── models.py
        │    ├── mod_auth
+       │    │     ├── templates
+       │    │     │     ├── mobile
+       │    │     │     │    └── auth
+       │    │     │     │         ├── admin
+       │    │     │     │         │    ├── create.html
+       │    │     │     │         │    ├── edit.html
+       │    │     │     │         │    ├── index.html
+       │    │     │     │         │    └── show.html
+       │    │     │     │         └── public
+       │    │     │     │              └── public_list.html
+       │    │     │     └── auth
+       │    │     │          ├── admin
+       │    │     │          │    ├── create.html
+       │    │     │          │    ├── edit.html
+       │    │     │          │    ├── index.html
+       │    │     │          │    └── show.html
+       │    │     │          └── public
+       │    │     │               └── public_list.html
+       │    │     ├── __init__.py
+       │    │     ├── controllers.py
+       │    │     ├── forms.py
+       │    │     └── models.py
+       │    ├── mod_email
+       │    │     ├── __init__.py
+       │    │     ├── controllers.py
+       │    │     └── models.py
+       │    ├── mod_file_upload
+       │    │     ├── templates
+       │    │     │    └── file_upload
+       │    │     │         └── upload.html
        │    │     ├── __init__.py
        │    │     ├── controllers.py
        │    │     ├── forms.py
@@ -762,29 +800,29 @@ python -m unittest discover
        │    │     └── models
        │    │          └── xyz
        │    │               └── models.json
-       │    ├── mod_xyz
-       │    │     ├── api_controllers.py
-       │    │     ├── controllers.py
-       │    │     ├── forms.py
-       │    │     └── models.py
-       │    └── templates
-       │          ├── mobile
-       │          │    └── xyz
-       │          │         ├── admin
-       │          │         │    ├── create.html
-       │          │         │    ├── edit.html
-       │          │         │    ├── index.html
-       │          │         │    └── show.html
-       │          │         └── public
-       │          │              └── public_list.html
-       │          └── xyz
-       │               ├── admin
-       │               │    ├── create.html
-       │               │    ├── edit.html
-       │               │    ├── index.html
-       │               │    └── show.html
-       │               └── public
-       │                    └── public_list.html
+       │    └── mod_xyz
+       │          ├── templates
+       │          │     ├── mobile
+       │          │     │    └── `projects`
+       │          │     │         ├── admin
+       │          │     │         │    ├── create.html
+       │          │     │         │    ├── edit.html
+       │          │     │         │    ├── index.html
+       │          │     │         │    └── show.html
+       │          │     │         └── public
+       │          │     │              └── public_list.html
+       │          │     └── `projects`
+       │          │          ├── admin
+       │          │          │    ├── create.html
+       │          │          │    ├── edit.html
+       │          │          │    ├── index.html
+       │          │          │    └── show.html
+       │          │          └── public
+       │          │               └── public_list.html
+       │          ├── api_controllers.py
+       │          ├── controllers.py
+       │          ├── forms.py
+       │          └── models.py
        ├── .dockerignore
        ├── .gitignore
        ├── app.db
