@@ -76,7 +76,7 @@ def register():
     return redirect(url_for('auth.signin'))
 
 
-@user_blueprint.route('/confirm/<token>')
+@mod_auth.route('/confirm/<token>')
 @login_required
 def confirm_email(token):
     try:
@@ -95,7 +95,7 @@ def confirm_email(token):
     return redirect(url_for('main.home'))
 
 
-@user_blueprint.route('/unconfirmed')
+@mod_auth.route('/unconfirmed')
 @login_required
 def unconfirmed():
     if current_user.confirmed:

@@ -3,6 +3,7 @@
 from flask import Flask, render_template, make_response, send_from_directory
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
+from flask_wtf.csrf import CsrfProtect
 
 # flask-debugtoolbar
 from flask_debugtoolbar import DebugToolbarExtension
@@ -38,6 +39,9 @@ app.config.from_object('config')
 
 # CORS
 CORS(app, resources={r"/api/*": {"origins": app.config['CORS_ORIGINS']}})
+
+# Cross-site request forgery (Csrf) Protection
+CsrfProtect(app)
 
 # Debug Toolbar
 toolbar = DebugToolbarExtension(app)
