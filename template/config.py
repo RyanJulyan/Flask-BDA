@@ -95,6 +95,7 @@ SECURITY_PASSWORD_SALT = 'secret'
 # Secret key for signing JWT (JSON Web Tokens) #
 ################################################
 JWT_SECRET_KEY = 'secret'
+JWT_ACCESS_TOKEN_EXPIRES = 3600
 JWT_BLACKLIST_ENABLED = True
 JWT_BLACKLIST_TOKEN_CHECKS = ['access', 'refresh']
 

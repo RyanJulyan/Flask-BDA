@@ -33,7 +33,7 @@ class User(UserMixin, Base):
     confirmed = db.Column(db.Boolean, nullable=False, default=False)
     confirmed_on = db.Column(db.DateTime, nullable=True)
     # Authorisation Data: Session
-    session_token = db.Column(db.String(100), unique=True)
+    session_token = db.Column(db.String(100), nullable=True, unique=True)
 
     def get_id(self):
         return self.session_token

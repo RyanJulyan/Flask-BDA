@@ -2,6 +2,9 @@
 # Import Flask Resource, fields from flask_restx for API and Swagger
 from flask_restx import Resource, fields, reqparse
 
+# JWT for API
+from flask_jwt_extended import jwt_required
+
 # Import the database object from the main app module
 from app import db, app, api
 
@@ -38,6 +41,8 @@ class XyzResource(Resource):
     @ns.doc(responses={200: 'OK', 422: 'Unprocessable Entity', 500: 'Internal Server Error'},
              description='get xyz')
     @ns.marshal_list_with(xyz, code=200)
+    @ns.doc(security='jwt')
+    @jwt_required
     def get(self, id):  # /xyz/<id>
         '''Fetch a single Xyz item given its identifier'''
         data = Xyz.query.get(id)
@@ -46,6 +51,8 @@ class XyzResource(Resource):
 
     @ns.doc(responses={204: 'DELETED', 422: 'Unprocessable Entity', 500: 'Internal Server Error'},
              description='delete xyz')
+    @ns.doc(security='jwt')
+    @jwt_required
     def delete(self, id):  # /xyz/<id>
         '''Delete a Xyz given its identifier'''
         data = Xyz.query.get(id)
@@ -58,6 +65,8 @@ class XyzResource(Resource):
              description='update xyz')
     @ns.expect(xyz)
     @ns.marshal_list_with(xyz, code=201)
+    @ns.doc(security='jwt')
+    @jwt_required
     def put(self, id):  # /xyz/<id>
         '''Update a Xyz given its identifier'''
         data = Xyz.query.get(id)
@@ -77,6 +86,8 @@ class XyzListResource(Resource):
              description='get xyz')
     @ns.expect(parser)
     @ns.marshal_list_with(xyz, code=200)
+    @ns.doc(security='jwt')
+    @jwt_required
     def get(self):  # /xyz
         '''List Xyz records '''
         args = parser.parse_args()
@@ -90,6 +101,8 @@ class XyzListResource(Resource):
              description='insert xyz')
     @ns.expect(xyz)
     @ns.marshal_with(xyz, code=201)
+    @ns.doc(security='jwt')
+    @jwt_required
     def post(self):  # /xyz
         '''Create a new Xyz record'''
         args = parser.parse_args()

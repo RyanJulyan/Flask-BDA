@@ -28,7 +28,10 @@ from flask_mail import Mail
 # Define the WSGI application object
 app = Flask(__name__)
 Mobility(app)
-JWTManager(app)
+
+# JWT
+jwt = JWTManager(app)
+jwt.init_app(app)
 
 # Login_manager
 login_manager = LoginManager()
@@ -41,7 +44,7 @@ app.config.from_object('config')
 CORS(app, resources={r"/api/*": {"origins": app.config['CORS_ORIGINS']}})
 
 # Cross-site request forgery (Csrf) Protection
-CsrfProtect(app)
+csrf_protect = CsrfProtect(app)
 
 # Debug Toolbar
 toolbar = DebugToolbarExtension(app)
@@ -122,14 +125,25 @@ app.register_blueprint(auth_module)
 
 # Define the API
 # This must be after other routes or it overwrites everything.
+authorizations = {
+    'jwt': {
+        'type': 'apiKey',
+        'in': 'header',
+        'name': 'Authorization'
+    }
+}
 api = Api(app, version='1.0',
     title=app.config['SITE_TITLE'] + ' API',
     description=app.config['SITE_DESCRIPTION'] + ' API',
     # base_url='/api',  # this did not work when set so moved to docs
     doc=app.config['SWAGGER_URL'],
+    security='jwt',
+    decorators=[csrf_protect.exempt],
+    authorizations=authorizations
 )
 
 # Register api(s)
+from app.mod_auth.api_controllers import ns as Auth_API  # noqa: E402
 # new xyz api resources
 
 # Build the database:

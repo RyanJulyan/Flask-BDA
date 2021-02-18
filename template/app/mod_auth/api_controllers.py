@@ -1,10 +1,12 @@
 
+import secrets
+
 # Import Flask Resource, fields from flask_restx for API and Swagger
 from flask_restx import Resource, fields, reqparse
-from flask import request, jsonify
+from flask import request
 
 # Import the database object from the main app module
-from app import db, app, api, blacklist
+from app import db, app, api, jwt, blacklist
 
 # JWT for API
 from flask_jwt_extended import get_raw_jwt, jwt_required, create_access_token, \
@@ -15,7 +17,7 @@ from flask_jwt_extended import get_raw_jwt, jwt_required, create_access_token, \
 from app.mod_auth.models import User
 
 # Swagger namespace
-ns = api.namespace('api/auth', description='Database model "User", resource based, Api. \
+ns = api.namespace('api/user', description='Database model "User", resource based, Api. \
     This API should have 5 endpoints from the name of the model prefixed by "api".\
     as well as a login and logout route as well as a refresh token')
 
@@ -25,10 +27,16 @@ user = api.model('User', {
     'name': fields.String(required=True, description='The name of the user'),
     'email': fields.String(required=True, description='The email of the user'),
     'password': fields.String(required=True, description='The password of the user'),
-    'role': fields.SmallInteger(required=False, description='The role of the user'),
-    'status': fields.SmallInteger(required=False, description='The status of the user')
+    'role': fields.Integer(required=False, description='The role of the user'),
+    'status': fields.Integer(required=False, description='The status of the user')
     # end new add_argument
     # 'task': fields.String(required=True, description='The task details')
+})
+
+user_login = api.model('User_login', {
+    'email': fields.String(required=True, description='The email of the user'),
+    'password': fields.String(required=True, description='The password of the user'),
+    # 'token': fields.String(required=False, description='The password of the user')
 })
 
 # Addtional query string arguements from URL
@@ -46,55 +54,67 @@ def check_if_token_in_blacklist(decrypted_token):
     jti = decrypted_token['jti']
     return jti in blacklist
 
-@ns.route('/login', methods=['POST'])
-def login():
-    if not request.is_json:
-        return jsonify({"msg": "Missing JSON in request"}), 400
+@ns.route('/login')
+class Auth(Resource):
 
-    email = request.json.get('email', None)
-    password = request.json.get('password', None)
-    if not email:
-        return jsonify({"msg": "Missing email parameter"}), 400
-    if not password:
-        return jsonify({"msg": "Missing password parameter"}), 400
+    @ns.doc(responses={201: 'LOGGED IN', 422: 'Unprocessable Entity', 500: 'Internal Server Error'},
+             description='Login user')
+    @ns.expect(user_login)
+    # @ns.marshal_with(user_login, code=201)
+    @ns.doc(security=None)
+    def post(self):
+        if not request.is_json:
+            return {"msg": "Missing JSON in request"}, 400
 
-    data = User.query.filter(User.email == email, User.password == password)
+        email = request.json.get('email', None)
+        password = request.json.get('password', None)
+        if not email:
+            return {"msg": "Missing email parameter"}, 400
+        if not password:
+            return {"msg": "Missing password parameter"}, 400
 
-    if data is not None:
-        return jsonify({"msg": "Incorrect username or password"}), 401
+        data = User.query.filter(User.email.like(email), User.password.like(password)).first()
 
-    # Identity can be any data that is json serializable
-    access_token = create_access_token(identity=data.email)
-    return jsonify(access_token=access_token), 200
+        # return data.email is None, 200
+
+        if data.email is None:
+            return {"msg": "Incorrect username or password"}, 401
+
+        # Identity can be any data that is json serializable
+        access_token = create_access_token(identity=data.email)
+        return access_token, 200
 
 # Refresh token endpoint. This will generate a new access token from
 # the refresh token, but will mark that access token as non-fresh,
 # as we do not actually verify a password in this endpoint.
-@ns.route('/refresh', methods=['POST'])
-@jwt_refresh_token_required
-def refresh():
-    current_user = get_jwt_identity()
-    new_token = create_access_token(identity=current_user, fresh=False)
-    ret = {'access_token': new_token}
-    return jsonify(ret), 200
+# @ns.route('/refresh', methods=['POST'])
+# @ns.doc(security='jwt')
+# # @jwt_refresh_token_required
+# def refresh():
+#     current_user = get_jwt_identity()
+#     new_token = create_access_token(identity=current_user, fresh=False)
+#     ret = {'access_token': new_token}
+#     return jsonify(ret), 200
 
-# Endpoint for revoking the current users access token
-@ns.route('/logout', methods=['DELETE'])
-@jwt_required
-def logout():
-    jti = get_raw_jwt()['jti']
-    blacklist.add(jti)
-    return jsonify({"msg": "Successfully logged out"}), 200
+# # Endpoint for revoking the current users access token
+# @ns.route('/logout', methods=['DELETE'])
+# @ns.doc(security='jwt')
+# # @jwt_required
+# def logout():
+#     jti = get_raw_jwt()['jti']
+#     blacklist.add(jti)
+#     return jsonify({"msg": "Successfully logged out"}), 200
 
 @ns.route('/<int:id>')
 @ns.response(404, 'User not found')
 @ns.param('id', 'The User identifier')
-@jwt_required
 class XyzResource(Resource):
-    '''Show a single User item and lets you delete them'''
+    '''Show and edit a single User item and lets you delete them'''
     @ns.doc(responses={200: 'OK', 422: 'Unprocessable Entity', 500: 'Internal Server Error'},
              description='get user')
     @ns.marshal_list_with(user, code=200)
+    @ns.doc(security='jwt')
+    @jwt_required
     def get(self, id):  # /user/<id>
         '''Fetch a single User item given its identifier'''
         data = User.query.get(id)
@@ -103,6 +123,8 @@ class XyzResource(Resource):
 
     @ns.doc(responses={204: 'DELETED', 422: 'Unprocessable Entity', 500: 'Internal Server Error'},
              description='delete user')
+    @ns.doc(security='jwt')
+    @jwt_required
     def delete(self, id):  # /user/<id>
         '''Delete a User given its identifier'''
         data = User.query.get(id)
@@ -115,6 +137,8 @@ class XyzResource(Resource):
              description='update user')
     @ns.expect(user)
     @ns.marshal_list_with(user, code=201)
+    @ns.doc(security='jwt')
+    @jwt_required
     def put(self, id):  # /user/<id>
         '''Update a User given its identifier'''
         data = User.query.get(id)
@@ -129,12 +153,13 @@ class XyzResource(Resource):
 # UserList
 # shows a list of all User, and lets you POST to add new User
 @ns.route('/')
-@jwt_required
 class XyzListResource(Resource):
     @ns.doc(responses={200: 'OK', 422: 'Unprocessable Entity', 500: 'Internal Server Error'},
              description='get user')
     @ns.expect(parser)
     @ns.marshal_list_with(user, code=200)
+    @ns.doc(security='jwt')
+    @jwt_required
     def get(self):  # /user
         '''List User records '''
         args = parser.parse_args()
@@ -148,15 +173,22 @@ class XyzListResource(Resource):
              description='insert user')
     @ns.expect(user)
     @ns.marshal_with(user, code=201)
+    @ns.doc(security='jwt')
+    @jwt_required
     def post(self):  # /user
         """Create a new User record"""
+        
         args = parser.parse_args()
         data = User(
             # start new api_request feilds
-            name=args['name'],
-            email=args['email'],
-            password=args['name'],
-            status=args['status']
+            name = request.json.get('name', None),
+            email = request.json.get('email', None),
+            password = request.json.get('password', None),
+            role = request.json.get('role', None),
+            status = request.json.get('status', None),
+            confirmed = False,
+            confirmed_on = None,
+            session_token = secrets.token_urlsafe(100)
             # end new api_request feilds
             # title=args['title']
         )
