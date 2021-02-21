@@ -142,6 +142,7 @@ api = Api(app, version='1.0',
     authorizations=authorizations
 )
 
+
 # Register api(s)
 from app.mod_auth.api_controllers import ns as Auth_API  # noqa: E402
 # new xyz api resources
@@ -149,3 +150,13 @@ from app.mod_auth.api_controllers import ns as Auth_API  # noqa: E402
 # Build the database:
 # This will create the database file using SQLAlchemy
 db.create_all()
+
+
+# This MUST be the last route to allow for all API routes to be registered
+# Serve API to Postman collection
+@app.route('/api/postman')
+def postman():
+    urlvars = True  # Build query strings in URLs
+    swagger = True  # Export Swagger specifications
+    data = api.as_postman(urlvars=urlvars, swagger=swagger)
+    return data

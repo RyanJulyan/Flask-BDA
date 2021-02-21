@@ -9,10 +9,10 @@
 
 > Solutions like [Excel](https://www.microsoft.com/en-za/microsoft-365/excel) are accessable to everyone and give you all the flexibility you might need, but your data is scattered and does not easily allow for a shared source of truth for your team and clients, it is very easy for excel documents to be out of sync or even shared, opening your company up to a security risk.
 
-> Flask-BDA helps you by providing you control to deliver raplid, secure, Full-stack applications 3-5x (3-5 times) faster. With no vendor or environment lock-in, ever.
+> Flask-BDA helps you by providing you the control to deliver raplid, secure, Full-stack applications 3-5x (3-5 times) faster. With no vendor or environment lock-in, ever.
 
 > Automatically deal with the tedious aspects that slow down software development
-> * Creates & manages all database connections and complex queries.
+> * Create & manage all database connections and complex queries.
 > * Application security with user and role-based access control
 > * Automatic audits on every action
 
@@ -65,6 +65,8 @@
 * [Create new CRUD module](#create-new-crud-module)
 * [Environments](#environments)
 * [Installing Additional Python Packages](#installing-additional-python-packages)
+* [OpenAPI/Swagger API](#openapi-swagger-api)
+* [Import API to Postman](#import-api-to-postman)
 * [External API Requests](#external-api-requests)
 * [Ajax Requests](#ajax-requests)
 * [Testing](#testing)
@@ -511,6 +513,30 @@ npx expo-optimize --quality 0.9
 
 > **Note** It is suggested that you install and freeze Additional Python Packages from a virtual environment rather than globally. This keeps your `requirements.txt` small and limited to the packes you are using in your specific project.
 
+# OpenAPI/Swagger API
+
+> Flask BDA uses [SwaggerUI](https://swagger.io/tools/swagger-ui/) by default to assist and present the API to a user/client.
+> Swagger UI allows anyone — be it your development team or your end consumers — to visualize and interact with the API’s resources without having any of the implementation logic in place. It’s automatically generated from your OpenAPI (formerly known as Swagger) Specification, with the visual documentation making it easy for back end implementation and client side consumption.
+
+* Insert the URL `<base_URL>/api/docs` to access the SwaggerUI Api eg: [`http://localhost:5000/api/docs`](http://localhost:5000/api/docs)
+
+# Import API to Postman
+
+> Many developers will prefer [Postman](https://www.postman.com/) over [SwaggerUI](https://swagger.io/tools/swagger-ui/) to test and integrate API's with their code. We have assisted by providing a direct collection export for Postman.
+
+> To import the collection on Postman:
+* Ensure you have downloaded and installed [Postman](https://www.postman.com/downloads/)
+* Once installed, click on file (on the top left of the application menu bar)
+* Choose `Import...` (CTRL+O)
+* Select `Link` from the Tabs
+* Insert the URL `<base_URL>/api/postman` eg: [`http://localhost:5000/api/postman`](http://localhost:5000/api/postman)
+* Press `Continue`
+* This will show you the nameof the API as defined in the API config
+* Review and click `Import`
+
+> This will import a postman collection which will become availible on the left hand side as a folder (with sub folders from each of the endpoints you created).
+
+
 # External API Requests
 
 > Sometimes you need to make external requests (eg to an eexternal API). You could approach this by using [Ajax Requests](#ajax-requests), but sometimes you need to make these requests from the server side. To acheive this we use the [requests module](https://www.w3schools.com/python/module_requests.asp).
@@ -642,7 +668,6 @@ venv/bin/activate
 python -m unittest discover
 
 ```
-
 
 # Features List
 * Single file run and setup

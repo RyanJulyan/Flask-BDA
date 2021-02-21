@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "mobile_app",
-    "slug": "mobile_app",
+    "name": "Flask BDA",
+    "slug": "Flask BDA",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "primaryColor": "#ffffff",
-    "server_base_url": "https://www.kirupa.com/html5/accessing_your_webcam_in_html5.htm",
+    "server_base_url": "https://www.flaskbda.com/Flask BDA",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",

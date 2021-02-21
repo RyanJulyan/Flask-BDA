@@ -108,7 +108,7 @@ class Auth(Resource):
 @ns.route('/<int:id>')
 @ns.response(404, 'User not found')
 @ns.param('id', 'The User identifier')
-class XyzResource(Resource):
+class UserResource(Resource):
     '''Show and edit a single User item and lets you delete them'''
     @ns.doc(responses={200: 'OK', 422: 'Unprocessable Entity', 500: 'Internal Server Error'},
              description='get user')
@@ -153,7 +153,7 @@ class XyzResource(Resource):
 # UserList
 # shows a list of all User, and lets you POST to add new User
 @ns.route('/')
-class XyzListResource(Resource):
+class UserListResource(Resource):
     @ns.doc(responses={200: 'OK', 422: 'Unprocessable Entity', 500: 'Internal Server Error'},
              description='get user')
     @ns.expect(parser)
