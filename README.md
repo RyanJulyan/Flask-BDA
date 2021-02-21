@@ -65,7 +65,7 @@
 * [Create new CRUD module](#create-new-crud-module)
 * [Environments](#environments)
 * [Installing Additional Python Packages](#installing-additional-python-packages)
-* [OpenAPI/Swagger API](#openapi-swagger-api)
+* [OpenAPI/Swagger API](#openapiswagger-api)
 * [Import API to Postman](#import-api-to-postman)
 * [External API Requests](#external-api-requests)
 * [Ajax Requests](#ajax-requests)
@@ -516,9 +516,11 @@ npx expo-optimize --quality 0.9
 # OpenAPI/Swagger API
 
 > Flask BDA uses [SwaggerUI](https://swagger.io/tools/swagger-ui/) by default to assist and present the API to a user/client.
-> Swagger UI allows anyone — be it your development team or your end consumers — to visualize and interact with the API’s resources without having any of the implementation logic in place. It’s automatically generated from your OpenAPI (formerly known as Swagger) Specification, with the visual documentation making it easy for back end implementation and client side consumption.
 
-* Insert the URL `<base_URL>/api/docs` to access the SwaggerUI Api eg: [`http://localhost:5000/api/docs`](http://localhost:5000/api/docs)
+> SwaggerUI allows anyone — be it your development team or your end consumers — to visualize and interact with the API’s resources without having any of the implementation logic in place. It’s automatically generated from your OpenAPI (formerly known as Swagger) Specification, with the visual documentation making it easy for back end implementation and client side consumption.
+
+To Access the SwaggerUI:
+* Go to your browser and insert the URL `<base_URL>/api/docs` to access the SwaggerUI Api eg: [`http://localhost:5000/api/docs`](http://localhost:5000/api/docs)
 
 # Import API to Postman
 
@@ -535,6 +537,19 @@ npx expo-optimize --quality 0.9
 * Review and click `Import`
 
 > This will import a postman collection which will become availible on the left hand side as a folder (with sub folders from each of the endpoints you created).
+
+> You can [generate code](https://learning.postman.com/docs/sending-requests/generate-code-snippets/) for many different [lanuages and frameworks](https://learning.postman.com/docs/sending-requests/generate-code-snippets/#supported-languagesframeworks) using Postamn. These Languages include but are not limited to:
+* C
+* C#
+* Go
+* Java
+* Javascript
+* Node
+* PHP
+* Python
+* Powershell
+* Ruuby
+* Swift
 
 
 # External API Requests
