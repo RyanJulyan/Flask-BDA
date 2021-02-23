@@ -5,6 +5,9 @@ import secrets
 from flask_restx import Resource, fields, reqparse
 from flask import request
 
+# Import SQLAlchemy Error
+from flask_sqlalchemy import SQLAlchemy
+
 # Import the database object from the main app module
 from app import db, app, api, jwt, blacklist
 
@@ -55,7 +58,7 @@ def check_if_token_in_blacklist(decrypted_token):
     return jti in blacklist
 
 @ns.route('/login')
-class Auth(Resource):
+class Login(Resource):
 
     @ns.doc(responses={201: 'LOGGED IN', 422: 'Unprocessable Entity', 500: 'Internal Server Error'},
              description='Login user')
@@ -64,46 +67,68 @@ class Auth(Resource):
     @ns.doc(security=None)
     def post(self):
         if not request.is_json:
-            return {"msg": "Missing JSON in request"}, 400
+            return {"message": "Missing JSON in request"}, 400
 
         email = request.json.get('email', None)
         password = request.json.get('password', None)
         if not email:
-            return {"msg": "Missing email parameter"}, 400
+            return {"message": "Missing email parameter"}, 400
         if not password:
-            return {"msg": "Missing password parameter"}, 400
+            return {"message": "Missing password parameter"}, 400
 
-        data = User.query.filter(User.email.like(email), User.password.like(password)).first()
+        try:
+            data = User.query.filter(User.email.like(email), User.password.like(password)).first()
+        except SQLAlchemy.Error as e:
+            error = str(e.__dict__['orig'])
+            return error
 
-        # return data.email is None, 200
+        if data is None:
+            return {"message": "Incorrect username or password"}, 401
 
         if data.email is None:
-            return {"msg": "Incorrect username or password"}, 401
+            return {"message": "Incorrect username or password"}, 401
 
         # Identity can be any data that is json serializable
-        access_token = create_access_token(identity=data.email)
-        return access_token, 200
+        ret = {
+            'access_token': create_access_token(identity=data.email),
+            'refresh_token': create_refresh_token(identity=data.email)
+        }
+        return ret, 200
+
 
 # Refresh token endpoint. This will generate a new access token from
 # the refresh token, but will mark that access token as non-fresh,
 # as we do not actually verify a password in this endpoint.
-# @ns.route('/refresh', methods=['POST'])
-# @ns.doc(security='jwt')
-# # @jwt_refresh_token_required
-# def refresh():
-#     current_user = get_jwt_identity()
-#     new_token = create_access_token(identity=current_user, fresh=False)
-#     ret = {'access_token': new_token}
-#     return jsonify(ret), 200
+@ns.route('/refresh')
+class RefreshToken(Resource):
+
+    @ns.doc(responses={201: 'REFRESHED TOKEN', 422: 'Unprocessable Entity', 500: 'Internal Server Error'},
+             description='Login user')
+    @ns.doc(security='jwt')
+    @jwt_refresh_token_required
+    def post(self):
+        current_user = get_jwt_identity()
+        ret = {
+            'access_token': create_access_token(identity=current_user, fresh=False)
+        }
+        return ret, 200
 
 # # Endpoint for revoking the current users access token
-# @ns.route('/logout', methods=['DELETE'])
-# @ns.doc(security='jwt')
-# # @jwt_required
-# def logout():
-#     jti = get_raw_jwt()['jti']
-#     blacklist.add(jti)
-#     return jsonify({"msg": "Successfully logged out"}), 200
+@ns.route('/logout')
+class Logout(Resource):
+
+    @ns.doc(responses={201: 'LOGGED OUT', 422: 'Unprocessable Entity', 500: 'Internal Server Error'},
+             description='Login user')
+    @ns.doc(security='jwt')
+    @jwt_required
+    def post(self):
+        jti = get_raw_jwt()['jti']
+
+        blacklist.add(jti)
+
+        print ({"blacklist": blacklist})
+
+        return {"message": "Successfully logged in using the API"}, 200
 
 @ns.route('/<int:id>')
 @ns.response(404, 'User not found')
@@ -117,7 +142,7 @@ class UserResource(Resource):
     @jwt_required
     def get(self, id):  # /user/<id>
         '''Fetch a single User item given its identifier'''
-        data = User.query.get(id)
+        data = User.query.get_or_404(id)
 
         return data, 200
 
@@ -127,7 +152,7 @@ class UserResource(Resource):
     @jwt_required
     def delete(self, id):  # /user/<id>
         '''Delete a User given its identifier'''
-        data = User.query.get(id)
+        data = User.query.get_or_404(id)
 
         db.session.delete(data)
         db.session.commit()
@@ -141,7 +166,7 @@ class UserResource(Resource):
     @jwt_required
     def put(self, id):  # /user/<id>
         '''Update a User given its identifier'''
-        data = User.query.get(id)
+        data = User.query.get_or_404(id)
         # start update api_request feilds
         # this line should be removed and replaced with the updateApiRequestDefinitions variable
         # end update api_request feilds
