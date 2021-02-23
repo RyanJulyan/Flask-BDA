@@ -4,9 +4,9 @@ import os
 ##########################
 # Basic Site Information #
 ##########################
-SITE_TITLE = 'Flask-BDA'
-SITE_URL = 'http://www.Flask-BDA.com'
-SITE_DESCRIPTION = 'My awesome new Flask-BDA site.'
+SITE_TITLE = 'Flask BDA'
+SITE_URL = 'http://www.Flask BDA.com'
+SITE_DESCRIPTION = 'My awesome new Flask BDA site.'
 SITE_THEME_COLOR = '#3367D6'
 DEVELOPER_NAME = 'Ryan Julyan'
 
@@ -120,7 +120,7 @@ MAIL_PASSWORD = 'example password'
 MAIL_ENCRYPTION = None
 MAIL_USE_TLS = True
 MAIL_USE_SSL = False
-DEFAULT_MAIL_SENDER = 'Flask-BDA <me@example.com>'
+DEFAULT_MAIL_SENDER = 'Flask BDA <me@example.com>'
 
 ###############
 # File Upload #
@@ -139,8 +139,8 @@ SWAGGER_API_URL = 'swagger.json'  # Our API url (can of course be a local resour
 # Search Engine Optimization (SEO) #
 ####################################
 SEO_SUBJECT = 'Rapid Application Development.'
-SEO_SUBTITLE = 'Flask-BDA Site.'
-SEO_SUMMARY = 'This site was created using Flask-BDA.'
-SEO_ABSTRACT = 'This site was created using Flask-BDA.'
-SEO_KEYWORDS = 'Flask, PWA, Python, Rapid Application Development, RAD, Progressive Web App, Flask-BDA.'
+SEO_SUBTITLE = 'Flask BDA Site.'
+SEO_SUMMARY = 'This site was created using Flask BDA.'
+SEO_ABSTRACT = 'This site was created using Flask BDA.'
+SEO_KEYWORDS = 'Flask, PWA, Python, Rapid Application Development, RAD, Progressive Web App, Flask BDA.'
 SEO_REVISIT_AFTER = '7 days'

@@ -45,7 +45,7 @@ class XyzResource(Resource):
     @jwt_required
     def get(self, id):  # /xyz/<id>
         '''Fetch a single Xyz item given its identifier'''
-        data = Xyz.query.get(id)
+        data = Xyz.query.get_or_404(id)
 
         return data, 200
 
@@ -55,7 +55,7 @@ class XyzResource(Resource):
     @jwt_required
     def delete(self, id):  # /xyz/<id>
         '''Delete a Xyz given its identifier'''
-        data = Xyz.query.get(id)
+        data = Xyz.query.get_or_404(id)
 
         db.session.delete(data)
         db.session.commit()
@@ -69,7 +69,7 @@ class XyzResource(Resource):
     @jwt_required
     def put(self, id):  # /xyz/<id>
         '''Update a Xyz given its identifier'''
-        data = Xyz.query.get(id)
+        data = Xyz.query.get_or_404(id)
         # start update api_request feilds
         # this line should be removed and replaced with the updateApiRequestDefinitions variable
         # end update api_request feilds

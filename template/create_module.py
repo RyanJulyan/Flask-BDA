@@ -175,6 +175,8 @@ updateApiRequestDefinitions = ''
 argumentParser = ''
 instanceParams = ''
 renderFields = ''
+tableHeaders = ''
+tableValues = ''
 
 for key, value in fields.items():
     if value['relationship']:
@@ -185,7 +187,7 @@ for key, value in fields.items():
                                                                                                                     value['unique'],
                                                                                                                     value['relationship'])
 
-        columns += "    {}_{} = relationship('{}', backref = '{}', lazy='joined')\n".format(value['relationship'],
+        columns += "    {}_{} = db.relationship('{}', backref = '{}', lazy='joined')\n".format(value['relationship'],
                                                                                             secrets.token_urlsafe(3),
                                                                                             value['relationship'].capitalize(),
                                                                                             value['relationship'])
@@ -249,6 +251,16 @@ for key, value in fields.items():
                   <input type="text" name="{}" id="last_name" autocomplete="{}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                 </div>
     """.format(key, friendly_name,"{{", key, key, friendly_name, "}}", key, key)
+    tableHeaders += """
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        {}
+                    </th>
+    """.format(friendly_name)
+    tableValues += """
+                        <td scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider">
+                            {} value.{} {}
+                        </td>
+    """.format("{{", key, "}}")
     feildNames.append(key)
     newFormRequestDefinitionsArr.append("\n        {}=request.form.get('{}')".format(key, key))
     updateFormRequestDefinitionsArr.append("\n    data.{} = request.form.get('{}')".format(key, key))
@@ -271,6 +283,8 @@ instanceNames = instanceNames.rstrip('\n')
 friendly_name = friendly_name.rstrip('\n')
 formDefinitions = formDefinitions.lstrip('\n')
 renderFields = renderFields.rstrip('\n')
+tableHeaders = tableHeaders.rstrip('\n')
+tableValues = tableValues.rstrip('\n')
 
 #############
 #############
@@ -386,6 +400,9 @@ def customizeFileVariables(src, renameFrom='', renameTo=''):
             if('models.py' in s):
                 replaceTextBetweenTags(s, '# start new field definitions', '# end new field definitions', '    ', '')
                 replaceTextBetweenTags(s, '# start new instance fields', '# end new instance fields', '        ', '')
+            if('index.html' in s):
+                replaceTextBetweenTags(s, '<!-- start new table headers -->', '<!-- end new table headers -->', '                    ', '')
+                replaceTextBetweenTags(s, '<!-- start new table values -->', '<!-- end new table values -->', '                        ', '')
             if('create.html' in s):
                 replaceTextBetweenTags(s, '<!-- start new render fields -->', '<!-- end new render fields -->', '                ', '')
             ##############################################
@@ -425,6 +442,10 @@ def customizeFileVariables(src, renameFrom='', renameTo=''):
                     destination.write(instanceNames)
                 if "<!-- start new render fields -->" in line:
                     destination.write(renderFields)
+                if "<!-- start new table headers -->" in line:
+                    destination.write(tableHeaders)
+                if "<!-- start new table values -->" in line:
+                    destination.write(tableValues)
                 if "def __init__" in line and 'models.py' in s:
                     destination.write('    def __init__(self, ' + instanceParams + "):  # ,example_field):\n")
             source.close()
