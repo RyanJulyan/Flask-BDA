@@ -93,7 +93,7 @@ def copytree(src, dst, renameFrom='', renameTo='', symlinks=False, ignore=None):
 
 
 copytree(repo+'-main/template', dir_name, 'Flask BDA', projectName)
-copytree(repo+'-main/mobile_app', dir_name, 'Flask BDA', projectName)
+copytree(repo+'-main/mobile_app', dir_name + "_mobile_app", 'Flask BDA', projectName)
 
 shutil.rmtree(repo+'-main')
 

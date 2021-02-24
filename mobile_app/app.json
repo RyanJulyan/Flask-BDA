@@ -1,12 +1,12 @@
 {
+  "server_base_url": "https://github.com/RyanJulyan/Flask-BDA",
   "expo": {
     "name": "Flask BDA",
-    "slug": "Flask BDA",
+    "slug": "flask-bda",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "primaryColor": "#ffffff",
-    "server_base_url": "https://www.flaskbda.com/Flask BDA",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",

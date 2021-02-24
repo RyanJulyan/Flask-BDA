@@ -1,5 +1,5 @@
 # Flask Business Driven App (BDA)
-## A Multi-tenant, SAAS ready, Rapid Application Development (RAD) tool to assist with building flask python applications. Helping you build applications fast, right, and for the Future.
+## A Cross-platform, Multi-tenant, SAAS ready, Rapid Application Development (RAD) tool to assist with building flask python applications. Helping you build applications fast, right, and for the Future.
 
 > **Note:** Still under Development
 
@@ -117,6 +117,10 @@
 # Requirements
 * Download and install Python (https://www.python.org/downloads/) if you do not already have it installed.
     * Ensure pip is installed (pip should be installed already because it comes with the latest versions of python) in case it is not, please install it from here: https://pip.pypa.io/en/stable/installing/
+        * To check if pip is installed you can run the following command in your terminal
+```shell
+python -m pip --version
+```
 
 # Quickstart
 
@@ -456,7 +460,11 @@ npm install -g expo-cli
 
 cd <Path To>/my_awesome_project
 
+npm install expo
+
+expo install
 expo install react-native-webview
+expo install expo-status-bar
 
 ```
 
@@ -468,7 +476,11 @@ npm install -g expo-cli
 
 cd <Path To>/my_awesome_project
 
+npm install expo
+
+expo install
 expo install react-native-webview
+expo install expo-status-bar
 
 ```
 
@@ -476,6 +488,33 @@ expo install react-native-webview
 * Install the `expo` app by searching for "expo" on the Apple or Google Play Store:
     * `iOS` Go to: [https://apps.apple.com/app/apple-store/id982107779](https://apps.apple.com/app/apple-store/id982107779)
     * `Android` Go to: [https://play.google.com/store/apps/details?id=host.exp.exponent](https://play.google.com/store/apps/details?id=host.exp.exponent)
+
+> Once you have the app installed on your phone you can start a development server on your local machine.
+
+### Windows
+* Open new terminal
+    * "Windows-Key + R" will show you the 'RUN' box
+    * Type "cmd" to open the terminal
+```shell
+cd <Path To>/my_awesome_project
+
+expo start
+
+```
+
+### Linux / Mac
+* Open new terminal
+    * "Control + Option + Shift + T" to open the terminal
+```shell
+cd <Path To>/my_awesome_project
+
+expo start
+
+```
+
+> This will open a webpage with a QR code on it. This will allow you to use the Expo app if you are on Andriod or use the camera if you are on iOS to scan the code and open your app directly from the development server.
+
+> **Note** if you wish for people not on your network to be able to scan and test the App remotely; press the `tunnel` tab button above the QR code.
 
 ### Deploying to stores
 * Open browser and review expo's recomendations to ensure you are ready to deploy:
