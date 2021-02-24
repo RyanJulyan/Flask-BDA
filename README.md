@@ -458,8 +458,9 @@ serverless deploy
 ```shell
 npm install -g expo-cli
 
-cd <Path To>/my_awesome_project
+cd <Path To>/my_awesome_project_mobile_app
 
+npm install
 npm install expo
 
 expo install
@@ -474,8 +475,9 @@ expo install expo-status-bar
 ```shell
 npm install -g expo-cli
 
-cd <Path To>/my_awesome_project
+cd <Path To>/my_awesome_project_mobile_app
 
+npm install
 npm install expo
 
 expo install
@@ -484,8 +486,20 @@ expo install expo-status-bar
 
 ```
 
+### Changing the App URL
+
+> Because Flask BDA does not dictate where you should host your website, you will need to tell your Mobile App where to go.
+
+> In the quickstart example we created a project called `"My Awesome Project"`, however, you may have called the project something else.
+> This would have created a folder where the name is all in lower case and will have stripped out all of the special characters and replaced spaces with underscores eg: `my_awesome_project`.
+
+> For mobile we will have automaticallyed created a seperate `"_mobile_app"` folder where the prefix of the folder is your project name eg `my_awesome_project_mobile_app`. This is to prevent issues with Serverless and allow you to not have to deploy all the code for a mobile app onto your web-server.
+
+* Open the Mobile App folder `my_awesome_project_mobile_app`
+    * Once open, select the `app.json` file and edit line 2 `"server_base_url": "https://github.com/RyanJulyan/Flask-BDA"` by replacing `https://github.com/RyanJulyan/Flask-BDA` with your own server name.
+
 ### Run App
-* Install the `expo` app by searching for "expo" on the Apple or Google Play Store:
+* Install the `expo` App on your own mobile phone by searching for "expo" on the Apple or Google Play Store:
     * `iOS` Go to: [https://apps.apple.com/app/apple-store/id982107779](https://apps.apple.com/app/apple-store/id982107779)
     * `Android` Go to: [https://play.google.com/store/apps/details?id=host.exp.exponent](https://play.google.com/store/apps/details?id=host.exp.exponent)
 
@@ -496,7 +510,7 @@ expo install expo-status-bar
     * "Windows-Key + R" will show you the 'RUN' box
     * Type "cmd" to open the terminal
 ```shell
-cd <Path To>/my_awesome_project
+cd <Path To>/my_awesome_project_mobile_app
 
 expo start
 
@@ -506,7 +520,7 @@ expo start
 * Open new terminal
     * "Control + Option + Shift + T" to open the terminal
 ```shell
-cd <Path To>/my_awesome_project
+cd <Path To>/my_awesome_project_mobile_app
 
 expo start
 
@@ -522,13 +536,16 @@ expo start
 * Open browser and review expo's recomendations on building for the different platforms:
     * Go to:https://docs.expo.io/distribution/building-standalone-apps/
 
+> Part of the reccomendations is to ensure that images are optimized. To do this expo have reccomended the [expo-optimize package](https://github.com/expo/expo-cli/tree/master/packages/expo-optimize#-welcome-to-expo-optimize) which can assist with optimizing images. Optimizing images can noticeable improve your native app TTI (or time-to-interaction) which means less time on splash screens and quicker delivery over poor network connections
 
 ### Windows
 * Open new terminal
     * "Windows-Key + R" will show you the 'RUN' box
     * Type "cmd" to open the terminal
 ```shell
-cd <Path To>/my_awesome_project
+cd <Path To>/my_awesome_project_mobile_app
+
+npm install -g sharp-cli
 
 npx expo-optimize --quality 0.9
 
@@ -538,7 +555,9 @@ npx expo-optimize --quality 0.9
 * Open new terminal
     * "Control + Option + Shift + T" to open the terminal
 ```shell
-cd <Path To>/my_awesome_project
+cd <Path To>/my_awesome_project_mobile_app
+
+npm install -g sharp-cli
 
 npx expo-optimize --quality 0.9
 
@@ -547,8 +566,11 @@ npx expo-optimize --quality 0.9
 # Installing Additional Python Packages
 
 > If you include additional python packages in your project don't forget to run a `pip freeze` from your terminal to ensure you get that correct packages for your deployments
->
-> `pip freeze > requirements.txt`
+
+```shell
+pip freeze > requirements.txt
+
+```
 
 > **Note** It is suggested that you install and freeze Additional Python Packages from a virtual environment rather than globally. This keeps your `requirements.txt` small and limited to the packes you are using in your specific project.
 
@@ -590,10 +612,12 @@ To Access the SwaggerUI:
 * Ruuby
 * Swift
 
+> Allowing you to integrate your newly created API with existing projects
+
 
 # External API Requests
 
-> Sometimes you need to make external requests (eg to an eexternal API). You could approach this by using [Ajax Requests](#ajax-requests), but sometimes you need to make these requests from the server side. To acheive this we use the [requests module](https://www.w3schools.com/python/module_requests.asp).
+> Sometimes you need to make external requests (eg to an external API). You could approach this by using [Ajax Requests](#ajax-requests), but sometimes you need to make these requests from the server side fore example if you want to automatically update currency conversions. When you want to access external API's through the server, you do not want to have to rely on a user actively being on the webpage to send the command, instead you want the server to be able to activate this comment. To acheive this we use the [requests module](https://www.w3schools.com/python/module_requests.asp).
 
 * The structure of a requests is:
 ```python
@@ -636,7 +660,7 @@ print(x.text)
 
 # Ajax Requests
 
-> Ajax requests are made using [</> htmx](https://htmx.org/) by default.
+> Ajax requests, typically an HTTP request made by (browser-client) in Javascript that uses XML/JSON to request data and/or response data from either an internal or external system. Ajax requests are made using [</> htmx](https://htmx.org/) by default.
 
 > htmx is a dependency-free library that allows you to access AJAX, CSS Transitions, WebSockets and Server Sent Events directly in HTML, using attributes, so you can build modern user interfaces with the simplicity and power of hypertext. For a details on how to use htmx, please refer to the [docs](https://htmx.org/docs/) and for a full reference on the functionality, please refer to: [https://htmx.org/reference/](https://htmx.org/reference/)
 
@@ -654,9 +678,9 @@ This input named q will issue a request to `/trigger_delay` 500 milliseconds aft
 
 # Testing
 
-> 
+> Testing is a vital part to ensuring a project runs successfully
 
-There are 3 aspects of testing provided:
+There are 3 aspects of testing provided in Flask BDA:
 * CI/CD through [Github actions workflow](https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions) which is already set up to implement but can also be used independently from GitHub:
     * Python [flake8](https://flake8.pycqa.org/en/latest/) code [linting](#linting).
         * It displays the warnings in a per-file, merged output. Flake8 is a wrapper around these tools:

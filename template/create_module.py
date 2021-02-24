@@ -57,7 +57,7 @@ def getDataType(prompt):
             print("Invalid data type")
 
 
-def relationship(field):
+def relationships(field):
     has_relationship = getBool("Does " + field + " have a Relationship with another Data Model? ('True', 'False'): ")
     while has_relationship:
         model = input("Which Model does the Field " + field + " have a Relationship with: ")
@@ -138,7 +138,7 @@ def fields():
                 dataType = "Enum(" + str((', '.join('"' + item + '"' for item in parameters))) + ")"
             nullable = getBool("Is " + field + " nullable ('True', 'False'): ")
             unique = getBool("Is " + field + " unique ('True', 'False'): ")
-            relationship = relationship(field)
+            relationship = relationships(field)
             default = input("Default value: ") or False
             fields[field] = {
                 "dataType": dataType,
