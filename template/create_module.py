@@ -165,6 +165,7 @@ newFormRequestDefinitionsArr = []
 updateFormRequestDefinitionsArr = []
 newApiRequestDefinitionsArr = []
 updateApiRequestDefinitionsArr = []
+newApiAggregateDefinitions = ''
 argumentParserArr = []
 instanceNames = ''
 formDefinitions = ''
@@ -187,8 +188,8 @@ for key, value in fields.items():
                                                                                                                     value['unique'],
                                                                                                                     value['relationship'])
 
-        columns += "    {}_{} = db.relationship('{}', backref = '{}', lazy='joined')\n".format(value['relationship'],
-                                                                                            secrets.token_urlsafe(3),
+        columns += "    {} = db.relationship('{}', backref = '{}', lazy='joined')\n".format(value['relationship'],
+                                                                                            # secrets.token_urlsafe(3),
                                                                                             value['relationship'].capitalize(),
                                                                                             value['relationship'])
 
@@ -204,33 +205,25 @@ for key, value in fields.items():
                                                                                     value['default'],
                                                                                     value['unique'])
     if "Numeric" in value['dataType'] or "Integer" in value['dataType']:
-        columns += """
-    @aggregated('{}_sum', db.Column(db.Numeric(38, 19)))
-    def {}_sum(self):
-        return db.func.sum('{}.{}')\n""".format(key,
+        newApiAggregateDefinitions += """
+            func.count({}.{}).label('{}_count'),\n""".format(model,
                                             key,
-                                            model,
                                             key)
-        columns += """
-    @aggregated('{}_avg', db.Column(db.Numeric(38, 19)))
-    def {}_avg(self):
-        return db.func.avg('{}.{}')\n""".format(key,
+        newApiAggregateDefinitions += """
+            func.sum({}.{}).label('{}_sum'),\n""".format(model,
                                             key,
-                                            model,
                                             key)
-        columns += """
-    @aggregated('{}_min', db.Column(db.Numeric(38, 19)))
-    def {}_min(self):
-        return db.func.min('{}.{}')\n""".format(key,
+        newApiAggregateDefinitions += """
+            func.avg({}.{}).label('{}_avg'),\n""".format(model,
                                             key,
-                                            model,
                                             key)
-        columns += """
-    @aggregated('{}_max', db.Column(db.Numeric(38, 19)))
-    def {}_max(self):
-        return db.func.max('{}.{}')\n""".format(key,
+        newApiAggregateDefinitions += """
+            func.min({}.{}).label('{}_min'),\n""".format(model,
                                             key,
-                                            model,
+                                            key)
+        newApiAggregateDefinitions += """
+            func.max({}.{}).label('{}_max')""".format(model,
+                                            key,
                                             key)
 
     instanceNames += "        self.{} = {}\n".format(key, key)
@@ -392,6 +385,7 @@ def customizeFileVariables(src, renameFrom='', renameTo=''):
                 replaceTextBetweenTags(s, '# start new add_argument', '# end new add_argument', '    ', '')
                 replaceTextBetweenTags(s, '# start update api_request feilds', '# end update api_request feilds', '        ', '')
                 replaceTextBetweenTags(s, '# start new api_request feilds', '# end new api_request feilds', '            ', '')
+                replaceTextBetweenTags(s, '# start new api_aggregate feilds', '# end new api_aggregate feilds', '            ', '')
             if('controllers.py' in s):
                 replaceTextBetweenTags(s, '# start new request feilds', '# end new request feilds', '        ', '')
                 replaceTextBetweenTags(s, '# start update request feilds', '# end update request feilds', '    ','')
@@ -434,6 +428,8 @@ def customizeFileVariables(src, renameFrom='', renameTo=''):
                     destination.write(newApiRequestDefinitions)
                 if "# start update api_request feilds" in line:
                     destination.write(updateApiRequestDefinitions)
+                if "# start new api_aggregate feilds" in line:
+                    destination.write(newApiAggregateDefinitions)
                 if "# start new form definitions" in line:
                     destination.write(formDefinitions)
                 if "# start new field definitions" in line:

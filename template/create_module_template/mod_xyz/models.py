@@ -16,9 +16,9 @@ class Base(db.Model):
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
     deleted_at = db.Column(db.DateTime, nullable=True)
 
-    @aggregated('xyz_count', db.Column(db.Integer))
-    def xyz_count(self):
-        return db.func.count('1')
+    # @aggregated('xyz_count', db.Column(db.Integer))
+    # def xyz_count(self):
+    #     return db.func.count('1')
 
 
 # Define a Xyz model

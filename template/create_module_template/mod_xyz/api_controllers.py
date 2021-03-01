@@ -1,6 +1,8 @@
 
 # Import Flask Resource, fields from flask_restx for API and Swagger
 from flask_restx import Resource, fields, reqparse
+# Import sql functions (SUM,MIN,MAX,AVG)
+from sqlalchemy.sql import func
 
 # JWT for API
 from flask_jwt_extended import jwt_required
@@ -116,3 +118,29 @@ class XyzListResource(Resource):
         db.session.commit()
         db.session.refresh(data)
         return data, 201
+
+
+# XyzAggregate
+# shows a list of all Xyz, and lets you POST to add new Xyz
+@ns.route('/aggregate')
+class XyzAggregateResource(Resource):
+    @ns.doc(responses={200: 'OK', 422: 'Unprocessable Entity', 500: 'Internal Server Error'},
+             description='get xyz aggregates')
+    @ns.expect(parser)
+    @ns.marshal_list_with(xyz, code=200)
+    @ns.doc(security='jwt')
+    @jwt_required
+    def get(self):  # /xyz
+        '''Aggregate Xyz records '''
+        args = parser.parse_args()
+        page = args['page']
+
+        data = Xyz.query.with_entities.([
+            
+            # start new api_aggregate feilds
+            # this line should be removed and replaced with the newApiAggregateDefinitions variable
+            # end new api_aggregate feilds
+            
+        ]).all()
+
+        return data, 200

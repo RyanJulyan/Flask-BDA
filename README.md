@@ -456,16 +456,11 @@ serverless deploy
     * "Windows-Key + R" will show you the 'RUN' box
     * Type "cmd" to open the terminal
 ```shell
-npm install -g expo-cli
-
 cd <Path To>/my_awesome_project_mobile_app
 
-npm install
-npm install expo
+npm install -g expo-cli
 
-expo install
-expo install react-native-webview
-expo install expo-status-bar
+npm install
 
 ```
 
@@ -473,16 +468,11 @@ expo install expo-status-bar
 * Open new terminal
     * "Control + Option + Shift + T" to open the terminal
 ```shell
-npm install -g expo-cli
-
 cd <Path To>/my_awesome_project_mobile_app
 
-npm install
-npm install expo
+npm install -g expo-cli
 
-expo install
-expo install react-native-webview
-expo install expo-status-bar
+npm install
 
 ```
 
