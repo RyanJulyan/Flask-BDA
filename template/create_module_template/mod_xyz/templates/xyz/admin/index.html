@@ -132,8 +132,8 @@
                         <!-- start new table values -->
                         <!-- end new table values -->
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a> | 
-                          <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
+                          <a href="{{ url_for('xyz_admin.edit', id=value.id) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a> | 
+                          <a href="{{ url_for('xyz_admin.destroy', id=value.id) }}" class="text-red-600 hover:text-red-900">Delete</a>
                         </td>
                     </tr>
                 {% endfor %}
