@@ -14,7 +14,7 @@ web-build/
 
 venv/
 
-*.db
+# *.db
 
 *.pyc
 __pycache__/

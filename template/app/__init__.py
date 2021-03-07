@@ -1,6 +1,6 @@
 
 # Import flask and template operators
-from flask import Flask, render_template, make_response, send_from_directory
+from flask import Flask, render_template, make_response, send_from_directory, request, g
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 from flask_wtf.csrf import CSRFProtect
@@ -21,6 +21,7 @@ from flask_jwt_extended import JWTManager
 
 # Import SQLAlchemy
 from flask_sqlalchemy import SQLAlchemy
+from app.mod_tenancy.multi_tenant import MultiTenantSQLAlchemy
 
 # Import Mail
 from flask_mail import Mail
@@ -54,7 +55,22 @@ serializer = URLSafeTimedSerializer(app.secret_key)
 
 # Define the database object which is imported
 # by modules and controllers
-db = SQLAlchemy(app)
+db = MultiTenantSQLAlchemy(app)
+
+@app.before_request
+def before_request():
+    # Just use the query parameter "tenant"
+    # organization = tenant
+    g.organization = "core"
+    if 'organization' in request.args:
+        g.organization = request.args['organization']
+
+    # Set database to tenant
+    db.choose_tenant(g.organization)
+
+    # Build the database:
+    # This will create the database file using SQLAlchemy
+    db.create_all()
 
 # Mail
 mail = Mail(app)
@@ -146,10 +162,6 @@ api = Api(app, version='1.0',
 # Register api(s)
 from app.mod_auth.api_controllers import ns as Auth_API  # noqa: E402
 # new xyz api resources
-
-# Build the database:
-# This will create the database file using SQLAlchemy
-db.create_all()
 
 
 # This MUST be the last route to allow for all API routes to be registered

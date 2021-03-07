@@ -14,7 +14,8 @@ web-build/
 
 venv/
 
-*.db
+# *.db
+# template/databases/sqlite/*.db
 
 *.pyc
 __pycache__/

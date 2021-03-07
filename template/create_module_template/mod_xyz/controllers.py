@@ -89,7 +89,7 @@ def edit(id,template):
     return render_template(template, form=form, data=data)
 
 
-@mod_admin_xyz.route('/update/<id>', methods=['PUT', 'PATCH'])
+@mod_admin_xyz.route('/update/<id>', methods=['PUT', 'PATCH', 'POST'])
 @login_required
 def update(id):
     data = Xyz.query.get(id)
@@ -102,7 +102,7 @@ def update(id):
     return redirect(url_for('xyz_admin.index'))
 
 
-@mod_admin_xyz.route('/destroy/<id>', methods=['POST', 'DELETE'])
+@mod_admin_xyz.route('/destroy/<id>', methods=['POST', 'DELETE', 'GET'])
 @login_required
 def destroy(id):
     data = Xyz.query.get(id)

@@ -53,7 +53,7 @@ DATABASE_HOST = ''
 DATABASE_PORT = ''
 DATABASE_USERNAME = ''
 DATABASE_PASSWORD = ''
-DATABASE_NAME = os.path.join(BASE_DIR, 'app.db')
+DATABASE_NAME = os.path.join(BASE_DIR, 'databases/sqlite/default.db')
 
 
 ###################
@@ -67,7 +67,9 @@ DATABASE_NAME = os.path.join(BASE_DIR, 'app.db')
 
 SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_HOST + DATABASE_PORT + DATABASE_NAME
 
-DATABASE_CONNECT_OPTIONS = {}
+SQLALCHEMY_BINDS = {
+    "core": SQLALCHEMY_DATABASE_URI,
+}
 
 ########################
 # Application threads. #
