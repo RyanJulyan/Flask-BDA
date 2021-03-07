@@ -25,6 +25,13 @@ xyz = api.model('Xyz', {
     # 'task': fields.String(required=True, description='The task details')
 })
 
+xyz_agg = api.model('Xyz_agg', {
+    # start new add_agg_argument
+    # this line should be removed and replaced with the argumentAggParser variable
+    # end new add_agg_argument
+    # 'name_count': fields.String(required=True, description='The task count')
+})
+
 # Addtional query string arguements from URL
 parser = reqparse.RequestParser()
 parser.add_argument('page', type=int, help='page number for returned list. Must be an Integer. Used for dividing returned values from Xyz into pages. Returning up to ' + str(app.config['ROWS_PER_PAGE']) + 'records')
@@ -126,21 +133,25 @@ class XyzListResource(Resource):
 class XyzAggregateResource(Resource):
     @ns.doc(responses={200: 'OK', 422: 'Unprocessable Entity', 500: 'Internal Server Error'},
              description='get xyz aggregates')
-    @ns.expect(parser)
-    @ns.marshal_list_with(xyz, code=200)
+    @ns.marshal_with(xyz_agg, code=200)
     @ns.doc(security='jwt')
     @jwt_required
     def get(self):  # /xyz
         '''Aggregate Xyz records '''
-        args = parser.parse_args()
-        page = args['page']
 
-        data = Xyz.query.with_entities.([
+        data = Xyz.query.with_entities(
             
             # start new api_aggregate feilds
             # this line should be removed and replaced with the newApiAggregateDefinitions variable
             # end new api_aggregate feilds
             
-        ]).all()
+        ).first()
 
-        return data, 200
+        data_obj = {
+            
+            # start new api_aggregate_object feilds
+            # this line should be removed and replaced with the newApiAggregateObjectDefinitions variable
+            # end new api_aggregate_object feilds
+        }
+
+        return data_obj, 200

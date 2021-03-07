@@ -166,7 +166,9 @@ updateFormRequestDefinitionsArr = []
 newApiRequestDefinitionsArr = []
 updateApiRequestDefinitionsArr = []
 newApiAggregateDefinitions = ''
+newApiAggregateObjectDefinitions = ''
 argumentParserArr = []
+argumentAggParserArr = []
 instanceNames = ''
 formDefinitions = ''
 newFormRequestDefinitions = ''
@@ -174,12 +176,16 @@ updateFormRequestDefinitions = ''
 newApiRequestDefinitions = ''
 updateApiRequestDefinitions = ''
 argumentParser = ''
+argumentAggParser = ''
 instanceParams = ''
 renderFields = ''
 tableHeaders = ''
 tableValues = ''
 
 for key, value in fields.items():
+    friendly_name = (key.capitalize()).replace('_', ' ')
+    instanceNames += "        self.{} = {}\n".format(key, key)
+
     if value['relationship']:
         columns += "    {} = db.Column(db.{}, nullable={}, default={}, unique={}, db.ForeignKey('{}.id'))\n".format(key,
                                                                                                                     value['dataType'],
@@ -204,36 +210,66 @@ for key, value in fields.items():
                                                                                     value['nullable'],
                                                                                     value['default'],
                                                                                     value['unique'])
-    if "Numeric" in value['dataType'] or "Integer" in value['dataType']:
-        newApiAggregateDefinitions += """
+    
+    newApiAggregateDefinitions += """
             func.count({}.{}).label('{}_count'),\n""".format(model,
-                                            key,
-                                            key)
+                                        key,
+                                        key)
+    newApiAggregateObjectDefinitions += """
+            "{}_count":data.{}_count,\n""".format(key,
+                                        key)
+    
+    argumentAggParserArr.append("\n    '{}_count': fields.Integer(readonly=True, description='The {} {} count')".format(key, model, friendly_name))
+    
+    if "Numeric" in value['dataType'] or "Integer" in value['dataType']:
         newApiAggregateDefinitions += """
             func.sum({}.{}).label('{}_sum'),\n""".format(model,
                                             key,
                                             key)
+        newApiAggregateObjectDefinitions += """
+            "{}_sum":data.{}_sum,\n""".format(key,
+                                            key)
+        argumentAggParserArr.append("\n    '{}_sum': fields.Float(readonly=True, description='The {} {} sum')".format(key, model, friendly_name))
+
         newApiAggregateDefinitions += """
             func.avg({}.{}).label('{}_avg'),\n""".format(model,
                                             key,
                                             key)
+        newApiAggregateObjectDefinitions += """
+            "{}_avg":data.{}_avg,\n""".format(key,
+                                            key)
+        argumentAggParserArr.append("\n    '{}_avg': fields.Float(readonly=True, description='The {} {} avg')".format(key, model, friendly_name))
+
         newApiAggregateDefinitions += """
             func.min({}.{}).label('{}_min'),\n""".format(model,
                                             key,
                                             key)
+        newApiAggregateObjectDefinitions += """
+            "{}_min":data.{}_min,\n""".format(key,
+                                            key)
+        argumentAggParserArr.append("\n    '{}_min': fields.Float(readonly=True, description='The {} {} min')".format(key, model, friendly_name))
+
         newApiAggregateDefinitions += """
             func.max({}.{}).label('{}_max')""".format(model,
                                             key,
                                             key)
+        newApiAggregateObjectDefinitions += """
+            "{}_max":data.{}_max,\n""".format(key,
+                                            key)
+        argumentAggParserArr.append("\n    '{}_max': fields.Float(readonly=True, description='The {} {} max')".format(key, model, friendly_name))
 
-    instanceNames += "        self.{} = {}\n".format(key, key)
-    friendly_name = (key.capitalize()).replace('_', ' ')
     if fields[key]['nullable']:
         formDefinitionsArr.append("\n    {} = TextField('{}')".format(key, key))
-        argumentParserArr.append("\n    '{}': fields.String(description='The {} {}')".format(key, model, friendly_name))
+        if "Numeric" in value['dataType'] or "Integer" in value['dataType']:
+            argumentParserArr.append("\n    '{}': fields.Float(description='The {} {}')".format(key, model, friendly_name))
+        else:
+            argumentParserArr.append("\n    '{}': fields.String(description='The {} {}')".format(key, model, friendly_name))
     else:
         formDefinitionsArr.append("\n    {} = TextField('{}', [Required(message='Must provide a {}')])".format(key, key, friendly_name))
-        argumentParserArr.append("\n    '{}': fields.String(required=True, description='The {} {}')".format(key, model, friendly_name))
+        if "Numeric" in value['dataType'] or "Integer" in value['dataType']:
+            argumentParserArr.append("\n    '{}': fields.Float(required=True, description='The {} {}')".format(key, model, friendly_name))
+        else:
+            argumentParserArr.append("\n    '{}': fields.String(required=True, description='The {} {}')".format(key, model, friendly_name))
     newFormRequestDefinitions += "        {}=request.form.get('{}')\n".format(key, key)
     updateApiRequestDefinitions += "        data.{} = api.payload['{}']\n".format(key, key)
     updateFormRequestDefinitions += "    data.{} = request.form.get('{}')\n".format(key, key)
@@ -264,13 +300,17 @@ newFormRequestDefinitions = str((','.join(item for item in newFormRequestDefinit
 updateFormRequestDefinitions = str((','.join(item for item in updateFormRequestDefinitionsArr)))
 newApiRequestDefinitions = str((','.join(item for item in newApiRequestDefinitionsArr)))
 argumentParser = str((','.join(item for item in argumentParserArr)))
+argumentAggParser = str((','.join(item for item in argumentAggParserArr)))
 
 newFormRequestDefinitions = newFormRequestDefinitions.lstrip('\n')
 updateFormRequestDefinitions = updateFormRequestDefinitions.lstrip('\n')
 newApiRequestDefinitions = newApiRequestDefinitions.lstrip('\n')
 updateApiRequestDefinitions = updateApiRequestDefinitions.rstrip('\n')
 argumentParser = argumentParser.lstrip('\n')
+argumentAggParser = argumentAggParser.lstrip('\n')
 columns = columns.rstrip('\n')
+newApiAggregateDefinitions = newApiAggregateDefinitions.rstrip(',\n')
+newApiAggregateObjectDefinitions = newApiAggregateObjectDefinitions.rstrip(',\n')
 instanceNames = instanceNames.rstrip('\n')
 friendly_name = friendly_name.rstrip('\n')
 formDefinitions = formDefinitions.lstrip('\n')
@@ -385,6 +425,7 @@ def customizeFileVariables(src, renameFrom='', renameTo=''):
                 replaceTextBetweenTags(s, '# start update api_request feilds', '# end update api_request feilds', '        ', '')
                 replaceTextBetweenTags(s, '# start new api_request feilds', '# end new api_request feilds', '            ', '')
                 replaceTextBetweenTags(s, '# start new api_aggregate feilds', '# end new api_aggregate feilds', '            ', '')
+                replaceTextBetweenTags(s, '# start new api_aggregate_object feilds', '# end new api_aggregate_object feilds', '            ', '')
             if('controllers.py' in s):
                 replaceTextBetweenTags(s, '# start new request feilds', '# end new request feilds', '        ', '')
                 replaceTextBetweenTags(s, '# start update request feilds', '# end update request feilds', '    ','')
@@ -419,6 +460,8 @@ def customizeFileVariables(src, renameFrom='', renameTo=''):
                     destination.write((line.replace(renameFrom, renameTo)).replace(renameFrom.capitalize(), renameTo.capitalize()))
                 if "# start new add_argument" in line:
                     destination.write(argumentParser)
+                if "# start new add_agg_argument" in line:
+                    destination.write(argumentAggParser)
                 if "# start new request feilds" in line:
                     destination.write(newFormRequestDefinitions)
                 if "# start update request feilds" in line:
@@ -429,6 +472,8 @@ def customizeFileVariables(src, renameFrom='', renameTo=''):
                     destination.write(updateApiRequestDefinitions)
                 if "# start new api_aggregate feilds" in line:
                     destination.write(newApiAggregateDefinitions)
+                if "# start new api_aggregate_object feilds" in line:
+                    destination.write(newApiAggregateObjectDefinitions)
                 if "# start new form definitions" in line:
                     destination.write(formDefinitions)
                 if "# start new field definitions" in line:
