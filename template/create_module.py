@@ -179,6 +179,7 @@ argumentParser = ''
 argumentAggParser = ''
 instanceParams = ''
 renderFields = ''
+renderUpdateFields = ''
 tableHeaders = ''
 tableValues = ''
 
@@ -279,6 +280,12 @@ for key, value in fields.items():
                   <input type="text" name="{}" id="{}" placeholder="{}" autocomplete="{}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                 </div>
     """.format(key, friendly_name, key, key, friendly_name, key)
+    renderUpdateFields += """
+                <div class="col-span-6 sm:col-span-3">
+                  <label for="{}" class="block text-sm font-medium text-gray-700">{}</label>
+                  <input type="text" name="{}" id="{}" placeholder="{}" value="data.{}" autocomplete="{}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                </div>
+    """.format(key, friendly_name, key, key, friendly_name, key, key)
     tableHeaders += """
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         {}
@@ -315,6 +322,7 @@ instanceNames = instanceNames.rstrip('\n')
 friendly_name = friendly_name.rstrip('\n')
 formDefinitions = formDefinitions.lstrip('\n')
 renderFields = renderFields.rstrip('\n')
+renderUpdateFields = renderUpdateFields.rstrip('\n')
 tableHeaders = tableHeaders.rstrip('\n')
 tableValues = tableValues.rstrip('\n')
 
@@ -482,6 +490,8 @@ def customizeFileVariables(src, renameFrom='', renameTo=''):
                     destination.write(instanceNames)
                 if "<!-- start new render fields -->" in line:
                     destination.write(renderFields)
+                if "<!-- start new render_update fields -->" in line:
+                    destination.write(renderUpdateFields)
                 if "<!-- start new table headers -->" in line:
                     destination.write(tableHeaders)
                 if "<!-- start new table values -->" in line:

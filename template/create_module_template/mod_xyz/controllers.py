@@ -3,6 +3,7 @@
 from flask import Blueprint, request, render_template, flash, g, session, redirect, url_for
 from flask_login import login_required
 from sqlalchemy import event
+from sqlalchemy.exc import IntegrityError
 
 # Import mobile template
 from flask_mobility.decorators import mobile_template
@@ -15,6 +16,9 @@ from app.mod_xyz.forms import XyzForm
 
 # Import module models (e.g. User)
 from app.mod_xyz.models import Xyz
+
+# Import module models (Audit)
+from app.mod_audit.models import Audit
 
 # Define the blueprint: 'xyz', set its url prefix: app.url/xyz
 mod_public_xyz = Blueprint('xyz_public', __name__, template_folder='templates', url_prefix='/xyz')
@@ -62,7 +66,12 @@ def store():
         # title=request.form.get("title")
     )
     db.session.add(data)
-    db.session.commit()
+    try:
+        db.session.commit()
+    except IntegrityError as e:
+        db.session.rollback()
+        errorInfo = e.orig.args
+        flash(errorInfo[0], 'error')
 
     return redirect(url_for('xyz_admin.index'))
 
@@ -97,7 +106,12 @@ def update(id):
     # this line should be removed and replaced with the updateFormRequestDefinitions variable
     # end update request feilds
     # data.title = request.form.get("title")
-    db.session.commit()
+    try:
+        db.session.commit()
+    except IntegrityError as e:
+        db.session.rollback()
+        errorInfo = e.orig.args
+        flash(errorInfo[0], 'error')
 
     return redirect(url_for('xyz_admin.index'))
 
@@ -115,6 +129,19 @@ def destroy(id):
 # SQLAlchemy Events before and after insert, update and delete changes on a table
 @event.listens_for(Xyz, "before_insert")
 def before_insert(mapper, connection, target):
+    payload = '{'
+    for obj in request.form:
+        payload += '"' + obj + '": "' + request.form.get(obj) + '",'
+    payload = payload.rstrip(',')
+    payload += '}'
+    
+    data = Audit(
+        model_name="Xyz",
+        action="Before Insert",
+        context="Web Form",
+        payload=payload
+    )
+    db.session.add(data)
     pass
 
 
