@@ -31,7 +31,9 @@
 
 # Costs
 
-> Software development is always a costly exercise:
+> Flask-BDA is completely **FREE** to use for comercial and personal projects.
+
+> However, Software development is always a costly exercise:
 > * You will need to pay one or multiple Software Developers, Business Analysts, Designers, Project Managers and other team members to  build your product.
 > * Your product is never finished. A software project will always need continued development.
 >     * When you deliver a product, your competition is already working on new and improved features and you need to be able to stay ahead, or at least keep up or users will move to your competition.
@@ -112,7 +114,7 @@
 
 > Web & Mobile
 
-> Environements include: Docker / AWS / Shared hosting.
+> Environments include: Docker / AWS / Shared hosting.
 
 # Requirements
 * Download and install Python (https://www.python.org/downloads/) if you do not already have it installed.
@@ -720,7 +722,7 @@ flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statist
 ```shell
 cd <Path To>/my_awesome_project
 
-venv/bin/activate
+venv\Scripts\activate
 
 python -m unittest discover
 
@@ -799,7 +801,7 @@ python -m unittest discover
         * `Insert`
         * `Update`
         * `Delete` 
-    * URL's (prefixed by the module name)
+    * URL's (prefixed by the module name and replace xyz in the below details)
         * Web Routes:
             * Public
                 * View ../xyz/ [list elements] `public_list`
@@ -965,6 +967,7 @@ python -m unittest discover
 ## Python 3
 
 View license information for Python 3. (https://docs.python.org/3.8/license.html) and other legal agreements (https://www.python.org/about/legal/)
+
 ________________________________________
 
 ## Docker
@@ -982,6 +985,12 @@ ________________________________________
 ## Serverless Framework
 
 View license information for Serverless Framework and other legal agreements (https://app.serverless.com/legal/terms).
+
+________________________________________
+
+## Expo Framework
+
+View license information for the Expo Framework and other legal agreements (https://github.com/expo/expo/blob/master/LICENSE).
 
 It is the user's responsibility to ensure that adhere to the Acceptable Use Policy (https://app.serverless.com/legal/aup)
 
@@ -1019,6 +1028,7 @@ The Flask-BDA License requires that you must include the license and copyright n
 * Put the license and notice in a printed manual included with your application
 
 ________________________________________
+
 Copyright 2021 Flask-BDA, Ryan Julyan
 Licensed under the Flask-BDA License version 0.1 (the "License"); you may not use `Flask-BDA` except in compliance with the License.
 You may obtain a copy of the [License](https://github.com/RyanJulyan/Flask-BDA/blob/main/LICENSE), at

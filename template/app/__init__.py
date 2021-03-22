@@ -26,6 +26,9 @@ from app.mod_tenancy.multi_tenant import MultiTenantSQLAlchemy
 # Import Mail
 from flask_mail import Mail
 
+# Import SocketIO
+from flask_socketio import SocketIO
+
 # Define the WSGI application object
 app = Flask(__name__)
 Mobility(app)
@@ -56,6 +59,9 @@ serializer = URLSafeTimedSerializer(app.secret_key)
 # Define the database object which is imported
 # by modules and controllers
 db = MultiTenantSQLAlchemy(app)
+
+# SocketIO
+socketio = SocketIO(app)
 
 @app.before_request
 def before_request():
@@ -133,10 +139,16 @@ def landing(template):
 # from app.mod_xyz.controllers import mod_xyz as xyz_module
 from app.mod_auth.controllers import mod_auth as auth_module  # noqa: E402
 # import new xyz_module
+# organisations
+from app.mod_organisations.controllers import mod_public_organisations as organisations_public_module  # noqa: E402
+from app.mod_organisations.controllers import mod_admin_organisations as organisations_admin_module  # noqa: E402
 
 # Register blueprint(s)
 app.register_blueprint(auth_module)
 # register_blueprint new xyz_module
+# organisations
+app.register_blueprint(organisations_public_module)
+app.register_blueprint(organisations_admin_module)
 
 
 # Define the API
@@ -162,6 +174,8 @@ api = Api(app, version='1.0',
 # Register api(s)
 from app.mod_auth.api_controllers import ns as Auth_API  # noqa: E402
 # new xyz api resources
+# organisations
+from app.mod_organisations.api_controllers import ns as Organisations_API  # noqa: E402
 
 
 # This MUST be the last route to allow for all API routes to be registered

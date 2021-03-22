@@ -8,6 +8,7 @@ def cli(count, name):
     """Simple program that greets NAME for a total of COUNT times."""
     for x in range(count):
         click.echo('Hello %s!' % name)
+        click.echo(click.style('Hello %s!' % name, bg='blue', fg='white'))
 
 if __name__ == '__main__':
-    hello()
+    cli()
