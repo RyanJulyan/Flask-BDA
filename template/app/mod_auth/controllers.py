@@ -23,6 +23,9 @@ from app.mod_auth.forms import LoginForm
 # Import module models (i.e. User)
 from app.mod_auth.models import User
 
+# Import send_email
+from app.mod_email.controllers import send_email
+
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
 mod_auth = Blueprint('auth', __name__, url_prefix = '/auth')
 
@@ -70,8 +73,16 @@ def register():
         db.session.commit()
 
         token = generate_confirmation_token(user.email)
+        confirm_url = url_for('auth.confirm_email', token=token, _external=True)
+        html = render_template('email/activate.html', confirm_url=confirm_url)
+        subject = "Please confirm your email"
+        send_email(user.email, subject, html)
 
-        return redirect(url_for('dashboard.index'))
+        login_user(user)
+
+        flash('A confirmation email has been sent via email.', 'success')
+
+        return redirect(url_for('auth.unconfirmed'))
 
     return redirect(url_for('auth.signin'))
 
@@ -118,6 +129,18 @@ def signin():
             flash('Invalid email and/or password.', 'danger')
             return render_template('user/signin.html', form=form)
     return render_template("auth/signin.html", form=form)
+
+
+@mod_auth.route('/resend')
+@login_required
+def resend_confirmation():
+    token = generate_confirmation_token(current_user.email)
+    confirm_url = url_for('auth.confirm_email', token=token, _external=True)
+    html = render_template('email/activate.html', confirm_url=confirm_url)
+    subject = "Please confirm your email"
+    send_email(current_user.email, subject, html)
+    flash('A new confirmation email has been sent.', 'success')
+    return redirect(url_for('auth.unconfirmed'))
 
 
 @mod_auth.route('/logout')

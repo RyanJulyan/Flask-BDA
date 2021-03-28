@@ -1,9 +1,11 @@
 aniso8601==8.1.0
 appdirs==1.4.4
 attrs==20.3.0
+bcrypt==3.2.0
 bidict==0.21.2
 blinker==1.4
 certifi==2020.12.5
+cffi==1.14.5
 chardet==4.0.0
 click==7.1.2
 Deprecated==1.2.10
@@ -11,6 +13,7 @@ dnspython==1.16.0
 email-validator==1.1.2
 filelock==3.0.12
 Flask==1.1.2
+Flask-Bcrypt==0.7.1
 Flask-Cors==3.0.10
 Flask-DebugToolbar==0.11.0
 Flask-JWT-Extended==3.25.0
@@ -28,6 +31,7 @@ itsdangerous==1.1.0
 Jinja2==2.11.2
 jsonschema==3.2.0
 MarkupSafe==1.1.1
+pycparser==2.20
 PyJWT==1.7.1
 pyrsistent==0.17.3
 python-engineio==4.0.1

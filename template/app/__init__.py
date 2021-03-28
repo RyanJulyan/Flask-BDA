@@ -29,6 +29,9 @@ from flask_mail import Mail
 # Import SocketIO
 from flask_socketio import SocketIO
 
+# Import Bcrypt
+from flask.ext.bcrypt import Bcrypt
+
 # Define the WSGI application object
 app = Flask(__name__)
 Mobility(app)
@@ -62,6 +65,9 @@ db = MultiTenantSQLAlchemy(app)
 
 # SocketIO
 socketio = SocketIO(app)
+
+# Bcrypt
+bcrypt = Bcrypt(app)
 
 @app.before_request
 def before_request():

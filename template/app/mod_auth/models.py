@@ -3,6 +3,7 @@
 # We will define this inside /app/__init__.py in the next sections.
 from app import db
 from flask_login import UserMixin
+from app import bcrypt
 
 
 # Define a base model for other database tables to inherit
@@ -39,10 +40,10 @@ class User(UserMixin, Base):
         return self.session_token
 
     def __init__(self, name, email, password, role,
-                status, confirmed, confirmed_on, session_token):
+                status, confirmed, confirmed_on = None, session_token):
         self.name = name
         self.email = email
-        self.password = password
+        self.password = bcrypt.generate_password_hash(password)
         self.role = role
         self.status = status
         self.confirmed = confirmed
