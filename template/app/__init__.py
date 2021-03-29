@@ -30,7 +30,7 @@ from flask_mail import Mail
 from flask_socketio import SocketIO
 
 # Import Bcrypt
-from flask.ext.bcrypt import Bcrypt
+from flask_bcrypt import Bcrypt
 
 # Define the WSGI application object
 app = Flask(__name__)

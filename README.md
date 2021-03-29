@@ -257,10 +257,11 @@ There are 4 out of the box environments supported with instructions on how to co
 * [Docker](#docker-environment)
 * [AWS Serverless](#aws-serverless) (Still under Development)
 * [React Native](#react-native) (Still under Development)
+* [Desktop Native](#desktop-native) (Still under Development)
 
 ## Local Environment
 
-> To create and develop a local application we are using [virtualenv](https://pypi.org/project/virtualenv/) A tool for creating isolated virtual python environments.
+> To create and develop a local application we are using [virtualenv](https://pypi.org/project/virtualenv/). A tool for creating isolated virtual python environments.
 
 ### Windows
 * Open new terminal
@@ -554,6 +555,49 @@ npm install -g sharp-cli
 npx expo-optimize --quality 0.9
 
 ```
+
+## Desktop Native
+
+> To create and develop a desktop application we are using [flaskwebgui](https://github.com/ClimenteA/flaskwebgui). A tool for creating and running your flask web application in a chrome wrapper.
+
+### Windows
+* Open new terminal
+    * "Windows-Key + R" will show you the 'RUN' box
+    * Type "cmd" to open the terminal
+```shell
+cd <Path To>/my_awesome_project
+
+pip install virtualenv
+virtualenv venv
+
+venv\Scripts\activate
+
+pip install --no-cache-dir -r requirements.txt
+
+python run_desktop.py
+
+```
+
+### Linux / Mac
+* Open new terminal
+    * "Control + Option + Shift + T" to open the terminal
+```shell
+cd <Path To>/my_awesome_project
+
+pip install virtualenv
+virtualenv venv
+
+venv/bin/activate
+
+pip install --no-cache-dir -r requirements.txt
+
+python run_desktop.py
+
+```
+
+> This will open a maximized window that will run like a normal desktop application. This will use the locally installed chrome browser to serve the content.
+
+> By default this application will be served on port `7000`, if that conflicts with any existing applications, you can edit the port in the `run_desktop.py` file.
 
 # Installing Additional Python Packages
 

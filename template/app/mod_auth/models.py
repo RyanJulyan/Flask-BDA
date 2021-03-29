@@ -40,7 +40,7 @@ class User(UserMixin, Base):
         return self.session_token
 
     def __init__(self, name, email, password, role,
-                status, confirmed, confirmed_on = None, session_token):
+                status, confirmed, confirmed_on, session_token):
         self.name = name
         self.email = email
         self.password = bcrypt.generate_password_hash(password)
