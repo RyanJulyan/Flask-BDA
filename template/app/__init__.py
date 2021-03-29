@@ -28,6 +28,7 @@ from flask_mail import Mail
 
 # Import SocketIO
 from flask_socketio import SocketIO
+from engineio.async_drivers import gevent
 
 # Import Bcrypt
 from flask_bcrypt import Bcrypt

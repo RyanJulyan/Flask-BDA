@@ -13,8 +13,8 @@ DEVELOPER_NAME = 'Ryan Julyan'
 ######################################################
 # Statement for enabling the development environment #
 ######################################################
-DEBUG = True
-DEBUG_TB_PROFILER_ENABLED = True
+DEBUG = False
+DEBUG_TB_PROFILER_ENABLED = False
 DEBUG_TB_INTERCEPT_REDIRECTS = False
 
 ####################################
@@ -70,6 +70,8 @@ SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_HOST + DATABASE_PORT + DATA
 SQLALCHEMY_BINDS = {
     "core": SQLALCHEMY_DATABASE_URI,
 }
+
+SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 ########################
 # Application threads. #

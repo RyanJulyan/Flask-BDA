@@ -29,3 +29,5 @@ htmlcov/
 dist/
 build/
 *.egg-info/
+
+*.spec
