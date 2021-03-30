@@ -112,7 +112,7 @@
 ## Step 5:
 ### Deploy
 
-> Web & Mobile
+> Desktop, Web & Mobile
 
 > Environments include: Docker / AWS / Shared hosting.
 
