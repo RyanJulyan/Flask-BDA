@@ -23,7 +23,7 @@
 > 
 > Developers can build and deploy a full range of applications - from consumer apps to critical internal business systems - designed to help developers deliver secure applications quickly and efficiently so apps are delivered in weeks and even days.
 >
-> Flask-BDA provides Full-stack development from; UI, business processes, custom logic, and data models to create cross-platform apps out of the box. providing you a scaffold that you can add your code when needed. with no lock-in ever.
+> Flask-BDA provides Full-stack development from; UI, business processes, custom logic, and data models to create cross-platform apps out of the box. providing you a scaffold that you can add your own custom code when needed. with no lock-in ever.
 > 
 > With pre-configured development environments, we reduce the pain (and cost) of getting to market, giving you the flexibility to choose where and how to deploy.
 
@@ -57,7 +57,7 @@
 
 > With Flask-BDA you **DON'T LOOSE ANY of the flexibility of "Normal Development"** as it uses standardized development patterns and tried and tested technologies.
 
-> Flask-BDA uses many Open Source technologies and leverages existing technology stacks so that you can easily find other developers who use the same technologies, and you do not have to pay for costly license fees or environmental costs regardless of how much revenue your company makes, or where you are in your business.
+> Flask-BDA uses many Open Source technologies and leverages existing technology stacks so that you can easily find other developers who use the same technologies, and you do not have to pay for costly license fees or environment costs regardless of how much revenue your company makes, or where you are in your business.
 
 # Overview
 * [Why use Flask-BDA](#why-use-flask-bda)
@@ -108,7 +108,7 @@
 
 > Configure reports to your specific needs and share them with your team and clients.
 
-> Write custom code in an isolated module so you do not affect other modules.
+> Write your own custom code in an isolated module so you do not affect other modules.
 
 ## Step 5:
 ### Deploy
@@ -140,7 +140,7 @@ python -m pip --version
 * Copy, paste and run the following code in the terminal
     * This will download the required `create_project.py` python file and run it to help you start a project
 ```shell
-curl -L https://raw.githubusercontent.com/RyanJulyan/Flask-BDA/main/create_project_git.py --ssl-no-revoke -o create_project_git.py
+curl -L https://raw.githubusercontent.com/RyanJulyan/Flask-BDA/main/create_project_git.py --ssl-no-revok -o create_project_git.py
 
 python create_project_git.py
 
@@ -152,7 +152,7 @@ python create_project_git.py
 * Copy, paste and run the following code in the terminal
     * This will download the required `create_project.py` python file and run it to help you start a project
 ```shell
-curl -L https://raw.githubusercontent.com/RyanJulyan/Flask-BDA/main/create_project_git.py --ssl-no-revoke -o create_project_git.py
+curl -L https://raw.githubusercontent.com/RyanJulyan/Flask-BDA/main/create_project_git.py --ssl-no-revok -o create_project_git.py
 
 python create_project_git.py
 
@@ -487,7 +487,7 @@ npm install
 > In the quickstart example we created a project called `"My Awesome Project"`, however, you may have called the project something else.
 > This would have created a folder where the name is all in lower case and will have stripped out all of the special characters and replaced spaces with underscores eg: `my_awesome_project`.
 
-> For mobile we will have automatically created a separate `"_mobile_app"` folder where the prefix of the folder is your project name eg `my_awesome_project_mobile_app`. This is to prevent issues with Serverless and allow you to not have to deploy all the code for a mobile app onto your web server.
+> For mobile we will have automatically created a separate `"_mobile_app"` folder where the prefix of the folder is your project name eg `my_awesome_project_mobile_app`. This is to prevent issues with the `Serverless` configuration `package.json` and allow you to not have to deploy all the code for a mobile app onto your web server.
 
 * Open the Mobile App folder `my_awesome_project_mobile_app`
     * Once open, select the `app.json` file and edit line 2 `"server_base_url": "https://github.com/RyanJulyan/Flask-BDA"` by replacing `https://github.com/RyanJulyan/Flask-BDA` with your own server name.
@@ -530,7 +530,7 @@ expo start
 * Open browser and review expo's recommendations on building for the different platforms:
     * Go to:https://docs.expo.io/distribution/building-standalone-apps/
 
-> Part of the recommendations is to ensure that images are optimized. To do this expo has recommended the [expo-optimize package](https://github.com/expo/expo-cli/tree/master/packages/expo-optimize#-welcome-to-expo-optimize) which can assist with optimizing images. Optimizing images can noticeable improve your native app TTI (or time-to-interaction) which means less time on splash screens and quicker delivery over poor network connections
+> Part of the recommendations are to ensure that images are optimized. To do this expo has recommended the [expo-optimize package](https://github.com/expo/expo-cli/tree/master/packages/expo-optimize#-welcome-to-expo-optimize) which can assist with optimizing images. Optimizing images can noticeable improve your native app TTI (or time-to-interaction) which means less time on splash screens and quicker delivery over poor network connections
 
 ### Windows
 * Open new terminal
@@ -747,7 +747,7 @@ There are 3 aspects of testing provided in Flask BDA:
 
 # Python flake8
 
-> **Note:** To manually run Python unit tests, ensure that you have installed the [local environements](#local-environment)
+> **Note:** To manually run Python `unittest`, ensure that you have installed the [local environements](#local-environment)
 
 ### Windows
 * Open new terminal
@@ -775,9 +775,9 @@ flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statist
 
 ```
 
-# Python unit test
+# Python unittest
 
-> **Note:** To manually run Python unit tests, ensure that you have installed the [local environements](#local-environment)
+> **Note:** To manually run Python `unittest`, ensure that you have installed the [local environements](#local-environment)
 
 ### Windows
 * Open new terminal
@@ -811,7 +811,7 @@ python -m unittest discover
         * Ability to scale up
         * One of the most popular Python web application frameworks.
         * Doesn't enforce any dependencies or project layout.
-    * Progressive Web App (PWA) to make it more friendly towards desktop and allow native installs from the web, cache for offline support, page sharing and push notifications, etc
+    * Progressive Web App (PWA) to make it more friendly towards desktop and allow native installs from the web, cache for offline support, page sharing and push notifications, etc.
     * Responsive layouts
     * Mobile-specific views
     * SEO ready page index template file
@@ -865,7 +865,7 @@ python -m unittest discover
         * `Insert`
         * `Update`
         * `Delete` 
-    * URL's (prefixed by the module name and replace 'xyz' in the below details)
+    * URL's (prefixed by the module name and replace 'xyz' with the module name in the below details)
         * Web Routes:
             * Public
                 * View ../xyz/ [list elements] `public_list`
