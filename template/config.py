@@ -113,6 +113,17 @@ CORS_ORIGINS = '*'
 ##############################################
 ROWS_PER_PAGE = 20
 
+###############################
+# Default rate limit for site #
+###############################
+DEFAULT_LIMITS = [
+    # "200 per day",
+    # "100/day",
+    # "500/7days",
+    # "50 per hour",
+    '3/second',
+]
+
 #####################
 # Email Credentails #
 #####################

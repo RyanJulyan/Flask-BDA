@@ -18,7 +18,7 @@ import datetime
 from app import db, app
 
 # Import module forms
-from app.mod_auth.forms import LoginForm
+from app.mod_auth.forms import LoginForm, RegisterForm, ChangePasswordForm, ForgotForm
 
 # Import module models (i.e. User)
 from app.mod_auth.models import User
@@ -27,7 +27,7 @@ from app.mod_auth.models import User
 from app.mod_email.controllers import send_email
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
-mod_auth = Blueprint('auth', __name__, url_prefix = '/auth')
+mod_auth = Blueprint('auth', __name__, template_folder='templates', url_prefix = '/auth')
 
 
 def check_confirmed(func):
@@ -74,36 +74,36 @@ def register():
 
         token = generate_confirmation_token(user.email)
         confirm_url = url_for('auth.confirm_email', token=token, _external=True)
-        html = render_template('email/activate.html', confirm_url=confirm_url)
+        html = render_template('auth/activate.html', confirm_url=confirm_url)
         subject = "Please confirm your email"
         send_email(user.email, subject, html)
 
         login_user(user)
 
         flash('A confirmation email has been sent via email.', 'success')
+        return redirect(url_for("auth.unconfirmed"))
 
-        return redirect(url_for('auth.unconfirmed'))
-
-    return redirect(url_for('auth.signin'))
+    return render_template('auth/register.html', form=form)
 
 
 @mod_auth.route('/confirm/<token>')
+@mobile_template('{mobile/}public/index.html')
 @login_required
 def confirm_email(token):
-    try:
-        email = confirm_token(token)
-    except:
-        flash('The confirmation link is invalid or has expired.', 'danger')
-    user = User.query.filter_by(email=email).first_or_404()
-    if user.confirmed:
+    if current_user.confirmed:
         flash('Account already confirmed. Please login.', 'success')
-    else:
+        return render_template(template)
+    email = confirm_token(token)
+    user = User.query.filter_by(email=current_user.email).first_or_404()
+    if user.email == email:
         user.confirmed = True
         user.confirmed_on = datetime.datetime.now()
         db.session.add(user)
         db.session.commit()
         flash('You have confirmed your account. Thanks!', 'success')
-    return redirect(url_for('main.home'))
+    else:
+        flash('The confirmation link is invalid or has expired.', 'danger')
+    return render_template(template)
 
 
 @mod_auth.route('/unconfirmed')
@@ -115,8 +115,8 @@ def unconfirmed():
     return render_template('user/unconfirmed.html')
 
 
-@mod_auth.route('/signin', methods=['GET', 'POST'])
-def signin():
+@mod_auth.route('/login', methods=['GET', 'POST'])
+def login():
     form = LoginForm(request.form)
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
@@ -127,8 +127,8 @@ def signin():
             return redirect(url_for('main.home'))
         else:
             flash('Invalid email and/or password.', 'danger')
-            return render_template('user/signin.html', form=form)
-    return render_template("auth/signin.html", form=form)
+            return render_template('auth/login.html', form=form)
+    return render_template('auth/login.html', form=form)
 
 
 @mod_auth.route('/resend')
@@ -136,7 +136,7 @@ def signin():
 def resend_confirmation():
     token = generate_confirmation_token(current_user.email)
     confirm_url = url_for('auth.confirm_email', token=token, _external=True)
-    html = render_template('email/activate.html', confirm_url=confirm_url)
+    html = render_template('auth/activate.html', confirm_url=confirm_url)
     subject = "Please confirm your email"
     send_email(current_user.email, subject, html)
     flash('A new confirmation email has been sent.', 'success')
@@ -149,3 +149,4 @@ def logout():
     logout_user()
     flash('You were logged out.', 'success')
     return redirect(url_for('user.login'))
+

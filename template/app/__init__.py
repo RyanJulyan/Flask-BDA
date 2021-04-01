@@ -5,6 +5,10 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 from flask_wtf.csrf import CSRFProtect
 
+# Rate limiter
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+
 # flask-debugtoolbar
 from flask_debugtoolbar import DebugToolbarExtension
 
@@ -47,6 +51,13 @@ login_manager.init_app(app)
 
 # Configurations
 app.config.from_object('config')
+
+# Rate Limit
+limiter = Limiter(
+    app,
+    key_func=get_remote_address,
+    default_limits=app.config['DEFAULT_LIMITS']
+)
 
 # CORS
 CORS(app, resources={r"/api/*": {"origins": app.config['CORS_ORIGINS']}})

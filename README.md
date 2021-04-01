@@ -2,6 +2,7 @@
 ## A Cross-platform, Multi-tenant, SAAS ready, Rapid Application Development (RAD) tool to assist with building flask python applications. Helping you build applications fast, right, and for the Future.
 
 > **Note:** Still under Development
+> Current roadmap and high level project plan: https://trello.com/b/uu4HNPBh/flask-bda-features-roadmap
 
 # Why use Flask-BDA
 
@@ -257,7 +258,7 @@ There are 4 out of the box environments supported with instructions on how to co
 * [Docker](#docker-environment)
 * [AWS Serverless](#aws-serverless) (Still under Development)
 * [React Native](#react-native) (Still under Development)
-* [Desktop Native](#desktop-native) (Still under Development)
+* [Desktop Native](#desktop-native)
 
 ## Local Environment
 
@@ -560,6 +561,8 @@ npx expo-optimize --quality 0.9
 
 > To create and develop a desktop application we are using [flaskwebgui](https://github.com/ClimenteA/flaskwebgui). A tool for creating and running your flask web application in a chrome wrapper.
 
+> Each deployment needs to be created on the specific platform that you wish to run it. As such we have created scripts that will allow you to manage these deployments, by placing the `build` and `dist` folders into parent folders for the respective platform. These folders will be prefixed with `desktop_` followed by the platform. This is done purly to allow you to manage the distribution and build processes for the specific platforms and not overwrite them when building on different platforms.
+
 ### Windows
 * Open new terminal
     * "Windows-Key + R" will show you the 'RUN' box
@@ -574,11 +577,11 @@ venv\Scripts\activate
 
 pip install --no-cache-dir -r requirements.txt
 
-python run_desktop.py
+python create_desktop_installer_windows.py
 
 ```
 
-### Linux / Mac
+### Linux
 * Open new terminal
     * "Control + Option + Shift + T" to open the terminal
 ```shell
@@ -591,7 +594,24 @@ venv/bin/activate
 
 pip install --no-cache-dir -r requirements.txt
 
-python run_desktop.py
+python create_desktop_installer_lunix.py
+
+```
+
+### Mac
+* Open new terminal
+    * "Control + Option + Shift + T" to open the terminal
+```shell
+cd <Path To>/my_awesome_project
+
+pip install virtualenv
+virtualenv venv
+
+venv/bin/activate
+
+pip install --no-cache-dir -r requirements.txt
+
+python create_desktop_installer_mac.py
 
 ```
 
