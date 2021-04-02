@@ -1,0 +1,6 @@
+{
+    "hierarchies":{ 
+        "model": "Hierarchies",
+        "fields": {"organisation_id": {"dataType": "Integer", "nullable": False, "unique": False, "relationship": "organisations", "default": False}, "name": {"dataType": "String(256)", "nullable": False, "unique": False, "relationship": None, "default": False}, "path": {"dataType": "Text", "nullable": False, "unique": False, "relationship": None, "default": False}, "rank": {"dataType": "Integer", "nullable": True, "unique": False, "relationship": None, "default": False}, "parent_id": {"dataType": "Integer", "nullable": True, "unique": False, "relationship": "hierarchies", "default": False}, "key_value": {"dataType": "Text", "nullable": True, "unique": False, "relationship": None, "default": False}}
+    }
+}

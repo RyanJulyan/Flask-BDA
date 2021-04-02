@@ -463,7 +463,7 @@ def customizeFileVariables(src, renameFrom='', renameTo=''):
                 if "def __init__" in line and 'models.py' in s:
                     pass
                 elif "fields" in line and 'models.json' in s:
-                    destination.write('        "fields": ' + str(fields).replace("'",'"')+'\n    }\n')
+                    destination.write('        "fields": ' + str(fields).replace("'",'"')+'\n')
                 else:
                     destination.write((line.replace(renameFrom, renameTo)).replace(renameFrom.capitalize(), renameTo.capitalize()))
                 if "# start new add_argument" in line:
