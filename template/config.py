@@ -127,12 +127,10 @@ DEFAULT_LIMITS = [
 #####################
 # Email Credentails #
 #####################
-MAIL_MAILER = 'smtp'
-MAIL_HOST = 'smtp.mailtrap.io'
+MAIL_SERVER = 'smtp.mailtrap.io'
 MAIL_PORT = 2525
 MAIL_USERNAME = 'email@example.com'
 MAIL_PASSWORD = 'example password'
-MAIL_ENCRYPTION = None
 MAIL_USE_TLS = True
 MAIL_USE_SSL = False
 DEFAULT_MAIL_SENDER = 'Flask BDA <me@example.com>'

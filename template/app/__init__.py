@@ -38,7 +38,7 @@ from engineio.async_drivers import gevent
 from flask_bcrypt import Bcrypt
 
 # Define the WSGI application object
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates')
 Mobility(app)
 
 # JWT

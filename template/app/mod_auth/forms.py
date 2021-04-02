@@ -8,6 +8,9 @@ from wtforms import TextField, PasswordField  # BooleanField
 # Import Form validators
 from wtforms.validators import Required, DataRequired, Email, Length, EqualTo
 
+# Import module models (i.e. User)
+from app.mod_auth.models import User
+
 class LoginForm(Form):
     email = TextField('Email Address', [Email(), Required(message='Email required.')])
     password = PasswordField('Password', [Required(message='Password required.')])

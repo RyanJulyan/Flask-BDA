@@ -85,7 +85,7 @@
 
 > Start your development with a quick and easy download of a pre-configured development environment up and running in minutes.
 
-> No complex setup required, only python is required.
+> No complex setup required, only python (suggested 3.8.6) is required.
 
 ## Step 2:
 ### Rapidly develop custom modules
@@ -118,7 +118,7 @@
 > Environments include: Docker / AWS / Shared hosting.
 
 # Requirements
-* Download and install Python (https://www.python.org/downloads/) if you do not already have it installed.
+* Download and install [Python](https://www.python.org/downloads/) (suggested 3.8.6) if you do not already have it installed.
     * Ensure pip is installed (pip should be installed already because it comes with the latest versions of python) in case it is not, please install it from here: https://pip.pypa.io/en/stable/installing/
         * To check if pip is installed you can run the following command in your terminal
 ```shell

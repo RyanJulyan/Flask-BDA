@@ -14,6 +14,9 @@ from werkzeug.security import check_password_hash, generate_password_hash
 # Import date time
 import datetime
 
+# Import mobile template
+from flask_mobility.decorators import mobile_template
+
 # Import the database object from the main app module
 from app import db, app
 
@@ -65,18 +68,30 @@ def register():
     form = RegisterForm(request.form)
     if form.validate_on_submit():
         user = User(
-            email=form.email.data,
-            password=form.password.data,
-            confirmed=False
+            name = form.email.data,
+            email = form.email.data,
+            password = form.password.data,
+            role = 1,
+            status = 1,
+            confirmed = False,
+            confirmed_on = None,
+            session_token = None
         )
         db.session.add(user)
         db.session.commit()
+        
+        subject = "Please confirm your email"
+        html = 'email/activate.html'
 
         token = generate_confirmation_token(user.email)
         confirm_url = url_for('auth.confirm_email', token=token, _external=True)
-        html = render_template('auth/activate.html', confirm_url=confirm_url)
-        subject = "Please confirm your email"
-        send_email(user.email, subject, html)
+
+        data = {
+            "confirm_url":confirm_url
+        }
+
+
+        send_email(user.email, subject, html, data)
 
         login_user(user)
 
@@ -89,7 +104,7 @@ def register():
 @mod_auth.route('/confirm/<token>')
 @mobile_template('{mobile/}public/index.html')
 @login_required
-def confirm_email(token):
+def confirm_email(template,token):
     if current_user.confirmed:
         flash('Account already confirmed. Please login.', 'success')
         return render_template(template)
