@@ -179,6 +179,11 @@ Project Name:
 * To create your own custom modules, Open and run the file: `<Path To>/<my_awesome_project>/create_module.py`
     * Fill in the instructions eg:
 ```python
+python <Path To>/<my_awesome_project>/create_module.py
+```
+* To create your own custom modules, Open and run the file: `<Path To>/<my_awesome_project>/create_module.py`
+    * Fill in the instructions eg:
+```python
 Module Name:
 "Projects"
 ```
