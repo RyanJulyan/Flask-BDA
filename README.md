@@ -260,6 +260,7 @@ Default value:
 # Environments
 There are 4 out of the box environments supported with instructions on how to configure each for  `Windows / Linux / Mac` and you could run them at the same time if you want.
 * [Local python venv](#local-environment)
+* [Shared Hosting](#shared-hosting) (Still Testing)
 * [Docker](#docker-environment)
 * [AWS Serverless](#aws-serverless) (Still under Development)
 * [React Native](#react-native) (Still under Development)
@@ -276,11 +277,13 @@ There are 4 out of the box environments supported with instructions on how to co
 ```shell
 cd <Path To>/my_awesome_project
 
+pip install --upgrade pip
 pip install virtualenv
 virtualenv venv
 
 venv\Scripts\activate
 
+pip install --upgrade pip
 pip install --no-cache-dir -r requirements.txt
 
 set FLASK_APP=app
@@ -296,11 +299,13 @@ flask run
 ```shell
 cd <Path To>/my_awesome_project
 
+pip install --upgrade pip
 pip install virtualenv
 virtualenv venv
 
 venv/bin/activate
 
+pip install --upgrade pip
 pip install --no-cache-dir -r requirements.txt
 
 export FLASK_APP=app
@@ -309,6 +314,22 @@ export FLASK_ENV=development
 flask run
 
 ```
+
+## Shared Hosting
+
+> Some shared hosting services offer the ability to run python applications on their servers. I personally have used [A2hosting](http://www.a2hosting.com/refer/171923) their support has been amazing and the price to features are one of the best I have come accross.
+
+> **Note:** You are not limited to A2 as a shared hosting option, this is however where I have tested Flask-BDA and have my experience in uploading and running a shared hosting option. If your shared hosting option offers a similar set of features please feel free to use them.
+
+> For A2 you will need to set up your server to run a python application which may require some configuration for [example](https://www.a2hosting.co.za/kb/developer-corner/python/installing-and-configuring-flask-on-linux-shared-hosting).
+
+> To get your custom application to work:
+* You will first need to upload your files (I find this easiest to zip and then upload them to the required location).
+* Unzip them on the server and ensure they are in the folder location you require
+* Log in to cPanel again to update the python configuration
+    * Click the `Setup Python App` again
+    * Edit the existing application
+    * Change the `Application startup file` to `shared_server_run.py`
 
 ## Docker Environment
 
@@ -575,11 +596,13 @@ npx expo-optimize --quality 0.9
 ```shell
 cd <Path To>/my_awesome_project
 
+pip install --upgrade pip
 pip install virtualenv
 virtualenv venv
 
 venv\Scripts\activate
 
+pip install --upgrade pip
 pip install --no-cache-dir -r requirements.txt
 
 python create_desktop_installer_windows.py
@@ -592,11 +615,13 @@ python create_desktop_installer_windows.py
 ```shell
 cd <Path To>/my_awesome_project
 
+pip install --upgrade pip
 pip install virtualenv
 virtualenv venv
 
 venv/bin/activate
 
+pip install --upgrade pip
 pip install --no-cache-dir -r requirements.txt
 
 python create_desktop_installer_lunix.py
@@ -609,11 +634,13 @@ python create_desktop_installer_lunix.py
 ```shell
 cd <Path To>/my_awesome_project
 
+pip install --upgrade pip
 pip install virtualenv
 virtualenv venv
 
 venv/bin/activate
 
+pip install --upgrade pip
 pip install --no-cache-dir -r requirements.txt
 
 python create_desktop_installer_mac.py
