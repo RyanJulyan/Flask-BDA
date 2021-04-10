@@ -1,0 +1,141 @@
+model_fields = {
+    "groups":[
+        {
+            "title":"New Model",
+            "name":"model",
+            "elements":[
+                {
+                    "type": "input_text",
+                    "title": "Model Name: *",
+                    "attributes": {
+                        "type": "text",
+                        "class": "form-input",
+                        "name": "model",
+                        "required": true,
+                        "disabled": false,
+                    }
+                },
+            ]
+        },
+        {
+            "title":"Fields",
+            "name":"fields",
+            "elements":[
+                {
+                    "type": "table_input_text",
+                    "title": "Field Name: *",
+                    "attributes": {
+                        "type": "text",
+                        "class": "form-input",
+                        "name": "name",
+                        "placeholder": "Field Name",
+                        "required": true,
+                        "disabled": false,
+                    }
+                },
+                {
+                    "type": "table_input_select",
+                    "title": "Type: *",
+                    "attributes": {
+                        "type": "select",
+                        "class": "form-input",
+                        "name": "type",
+                        "required": true,
+                        "disabled": false,
+                    },
+                    "options":[
+                        "Integer",
+                        "BigInteger",
+                        "Float",
+                        "Numeric",
+                        "String",
+                        "Enum",
+                        "Text",
+                        "JSON",
+                        "LargeBinary",
+                        "Date",
+                        "DateTime",
+                        "Boolean"
+                    ]
+                },
+                {
+                    "type": "table_input_text",
+                    "title": "Length: ",
+                    "attributes": {
+                        "type": "number",
+                        "class": "form-input",
+                        "name": "length",
+                        "placeholder": "Field Type Length",
+                        "required": false,
+                        "disabled": false,
+                        "min": 1,
+                        "max": 256,
+                    }
+                },
+                {
+                    "type": "table_input_text",
+                    "title": "Options: ",
+                    "attributes": {
+                        "type": "text",
+                        "class": "form-input",
+                        "name": "options",
+                        "placeholder": "Options Comma Separated List",
+                        "required": false,
+                        "disabled": false,
+                    }
+                },
+                {
+                    "type": "table_input_checkbox",
+                    "title": "Nullable: *",
+                    "attributes": {
+                        "type": "checkbox",
+                        "class": "form-input",
+                        "name": "nullable",
+                        "required": false,
+                        "disabled": false,
+                        "checked": true
+                    }
+                },
+                {
+                    "type": "table_input_checkbox",
+                    "title": "Unique: *",
+                    "attributes": {
+                        "type": "checkbox",
+                        "class": "form-input",
+                        "name": "unique",
+                        "required": false,
+                        "disabled": false,
+                        "checked": false
+                    }
+                },
+                {
+                    "type": "table_input_selectdynamic",
+                    "title": "Relationship: ",
+                    "attributes": {
+                        "type": "select",
+                        "class": "form-input",
+                        "name": "relationship",
+                        "required": false,
+                        "disabled": false,
+                    },
+                    "variable_name":"current_models",
+                    "options":[
+                        "False"
+                    ]
+                },
+                {
+                    "type": "table_input_text",
+                    "title": "Default: ",
+                    "attributes": {
+                        "type": "text",
+                        "class": "form-input",
+                        "name": "default",
+                        "placeholder": "Default Value",
+                        "required": false,
+                        "disabled": false,
+                    }
+                },
+            ]
+        }
+    ]
+}

@@ -148,9 +148,9 @@ def create_module(json_module):
         renderUpdateFields += """
                     <div class="col-span-6 sm:col-span-3">
                     <label for="{}" class="block text-sm font-medium text-gray-700">{}</label>
-                    <input type="text" name="{}" id="{}" placeholder="{}" value="data.{}" autocomplete="{}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    <input type="text" name="{}" id="{}" placeholder="{}" value="{}data.{}{}" autocomplete="{}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                     </div>
-        """.format(key, friendly_name, key, key, friendly_name, key, key)
+        """.format(key, friendly_name, key, key, friendly_name, "{{", key, "}}", key)
         tableHeaders += """
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             {}
@@ -256,10 +256,13 @@ def create_module(json_module):
                 copytree(s, d, renameFrom, renameTo, symlinks, ignore)
             else:
                 if not os.path.exists(d) or os.stat(s).st_mtime - os.stat(d).st_mtime > 1:
-                    shutil.copy2(s, d)
+                    if 'models.json' in s:
+                        pass
+                    else:
+                        shutil.copy2(s, d)
 
 
-    copytree('create_module_template', 'app/', 'xyz', module)
+    copytree('create_module_template/mod_xyz', 'app/mod_xyz', 'xyz', module)
 
     ##############################
     ##############################
@@ -327,7 +330,7 @@ def create_module(json_module):
                     ####################
                     if "def __init__" in line and 'models.py' in s:
                         pass
-                    elif "fields" in line and 'models.json' in s:
+                    elif 'models.json' in s:
                         pass
                     else:
                         destination.write((line.replace(renameFrom, renameTo)).replace(renameFrom.capitalize(), renameTo.capitalize()))
@@ -374,7 +377,7 @@ def create_module(json_module):
 
 
     customizeFileVariables('app/mod_'+module, 'xyz', module)
-    customizeFileVariables('app/generated_config/models/'+module, 'xyz', module)
+    # customizeFileVariables('app/generated_config/models/'+module, 'xyz', module)
 
 # if __name__ == "__main__":
 #     create_module(json_module)

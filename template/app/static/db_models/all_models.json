@@ -127,17 +127,5 @@
             }
         },
         "model": "Organisations"
-    },
-    "test": {
-        "fields": {
-            "name": {
-                "dataType": "String(256)",
-                "default": false,
-                "nullable": false,
-                "relationship": null,
-                "unique": false
-            }
-        },
-        "model": "Test"
     }
 }

@@ -176,14 +176,11 @@ Project Name:
 
 ## How to create a new module
 
-* To create your own custom modules, Open and run the file: `<Path To>/<my_awesome_project>/create_module.py`
+* To create your own custom modules, Open and run the file: `<Path To>/<my_awesome_project>/create_module_json.py`
     * Fill in the instructions eg:
 ```python
-python <Path To>/<my_awesome_project>/create_module.py
-```
-* To create your own custom modules, Open and run the file: `<Path To>/<my_awesome_project>/create_module.py`
-    * Fill in the instructions eg:
-```python
+python <Path To>/<my_awesome_project>/create_module_json.py
+
 Module Name:
 "Projects"
 ```
@@ -207,13 +204,31 @@ What datatype is name
 String Length (1-256): 256
 Is name nullable ('True', 'False'): False
 Is name unique ('True', 'False'): True
+Does name have a Relationship with another Data Model? ('True', 'False'): False
 Default value: 
 
 ```
 
-> **Note:** This will keep looping until you type and submit the words: "STOP_CREATING_FIELDS". 
+> **Note:** This will keep looping until you type and submit the exact words: "STOP_CREATING_FIELDS". 
 > 
 > This allows you to create multiple fields for your module quickly and easily.
+
+* Try create a few more fields like:
+    * "Start Date" as a 'Date' field type
+    * "Budget" as a 'Float'
+    * "Status" as an 'Enum' with the options: 'Pitch', 'Active' and 'Completed'
+
+> The above fields should show you have different feild types interact and how you can create multiple fields.
+
+* When you have finished creating all the fields you want to create type and submit the words: "STOP_CREATING_FIELDS". 
+```python
+Create new field Name (type the string: 'STOP_CREATING_FIELDS' to exit): STOP_CREATING_FIELDS
+```
+* You will then be propted if you would like to create this module logic from the data model, if you want to create all the views type and submit "True"
+```python
+Create module logic from Data Model? ('True', 'False'): True
+```
+This will then create the required files and folders as described below in the [App changes](#app-changes)
 
 ### App changes
 
@@ -329,7 +344,8 @@ flask run
 * Log in to cPanel again to update the python configuration
     * Click the `Setup Python App` again
     * Edit the existing application
-    * Change the `Application startup file` to `shared_server_run.py`
+    * Change the `Application startup file` to `run_shared_server.py`
+    * Restart the server and your application should now be working as expected.
 
 ## Docker Environment
 

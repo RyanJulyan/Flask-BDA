@@ -9,7 +9,7 @@ from flask import request
 from flask_sqlalchemy import SQLAlchemy
 
 # Import the database object from the main app module
-from app import db, app, api, jwt, blacklist
+from app import db, app, api, jwt, blacklist, bcrypt
 
 # JWT for API
 from flask_jwt_extended import get_raw_jwt, jwt_required, create_access_token, \
@@ -71,16 +71,22 @@ class Login(Resource):
 
         email = request.json.get('email', None)
         password = request.json.get('password', None)
+
         if not email:
             return {"message": "Missing email parameter"}, 400
         if not password:
             return {"message": "Missing password parameter"}, 400
 
         try:
-            data = User.query.filter(User.email.like(email), User.password.like(password)).first()
-        except SQLAlchemy.Error as e:
-            error = str(e.__dict__['orig'])
-            return error
+            # user = User.query.filter_by(User.email.like(email)).first()
+            user = User.query.filter_by(email = email).first()
+            
+            if user and bcrypt.check_password_hash(user.password, password):
+                data = user
+            else:
+                return {"message": "Incorrect username or password"}, 401
+        except AttributeError:
+            return {"message": "Incorrect username or password"}
 
         if data is None:
             return {"message": "Incorrect username or password"}, 401
