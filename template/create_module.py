@@ -379,5 +379,12 @@ def create_module(json_module):
     customizeFileVariables('app/mod_'+module, 'xyz', module)
     # customizeFileVariables('app/generated_config/models/'+module, 'xyz', module)
 
-# if __name__ == "__main__":
-#     create_module(json_module)
+if __name__ == "__main__":
+
+    module = input('What module do you want to generate?')
+
+    file = 'app/generated_config/models/'+module + "/models.json"
+    
+    with open(file, 'r') as json_file:
+        data = json.load(json_file)
+        create_module(data[module])

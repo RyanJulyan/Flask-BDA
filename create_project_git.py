@@ -62,6 +62,8 @@ JWT_SECRET_KEY = secrets.token_urlsafe(256)
 ########################
 
 os.system('pip install virtualenv')
+os.system('pip install click')
+os.system('pip install pyinstaller')
 
 ########################
 ########################
