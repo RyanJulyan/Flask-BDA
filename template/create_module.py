@@ -10,6 +10,7 @@ import shutil
 import re
 import secrets
 import json
+import click
 
 #######################
 #######################
@@ -17,7 +18,22 @@ import json
 #######################
 #######################
 
-def create_module(json_module):
+@click.command()
+@click.option('--module', 
+                    help='Name of module to create. It must have a JSON file to create from')
+def cmd_create_module(module):
+    """Generate a module from a JSON file in "app/generated_config/models/<module>/models.json", where <module> is the name of the module you input"""
+
+    create_module(module)
+
+def create_module(module):
+    
+    file = 'app/generated_config/models/'+ module + "/models.json"
+    
+    with open(file, 'r') as json_file:
+        data = json.load(json_file)
+        json_module = data[module]
+    
     model = json_module['model']
     fields = json_module['fields']
 
@@ -380,11 +396,4 @@ def create_module(json_module):
     # customizeFileVariables('app/generated_config/models/'+module, 'xyz', module)
 
 if __name__ == "__main__":
-
-    module = input('What module do you want to generate?')
-
-    file = 'app/generated_config/models/'+module + "/models.json"
-    
-    with open(file, 'r') as json_file:
-        data = json.load(json_file)
-        create_module(data[module])
+    cmd_create_module()

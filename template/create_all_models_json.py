@@ -19,6 +19,12 @@ def create_models_json():
     with open('app/static/db_models/all_models.json', 'w') as outfile:
         json.dump(models, outfile, indent=4, sort_keys=True)
 
+    with open('app/static/db_models/all_models.js', 'w') as outfile:
+        variable_models = 'let all_models = ' + json.dumps(models)
+        # variable_models = variable_models.replace('\"','')
+        # variable_models = variable_models.replace('"','')
+        outfile.write(variable_models)
+
 if __name__ == "__main__":
     create_models_json()
 
