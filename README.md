@@ -179,10 +179,8 @@ Project Name:
 * To create your own custom modules, Open and run the file: `<Path To>/<my_awesome_project>/create_module_json.py`
     * Fill in the instructions eg:
 ```python
-python <Path To>/<my_awesome_project>/create_module_json.py
+python <Path To>/<my_awesome_project>/create_module_json.py --module=Projects
 
-Module Name:
-"Projects"
 ```
 * You can then create a table with columns by following the prompts eg:
 ```python
@@ -228,10 +226,18 @@ Default value:
 ```python
 Create new field Name (type the string: 'STOP_CREATING_FIELDS' to exit): STOP_CREATING_FIELDS
 ```
-* You will then be propted if you would like to create this module logic from the data model, if you want to create all the views type and submit "True"
+* You will then be propted if you would like to create this module logic from the data model. Generate a module from a JSON file in "app/generated_config/models/<module>/models.json", where <module> is the name of the module you input. if you want to create all the views type and submit "True"
 ```python
 Create module logic from Data Model? ('True', 'False'): True
 ```
+
+> **Note:** you can also generate a module from a JSON file in "app/generated_config/models/<module>/models.json", where <module> is the name of the module you input to do this you can, Open and run the file: `<Path To>/<my_awesome_project>/create_module.py`
+    * Fill in the instructions eg:
+```python
+python <Path To>/<my_awesome_project>/create_module.py --module=projects
+
+```
+
 This will then create the required files and folders as described below in the [App changes](#app-changes)
 
 ### App changes
