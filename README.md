@@ -220,6 +220,10 @@ Default value:
 
 > The above fields should show you have different feild types interact and how you can create multiple fields.
 
+> **Note:** Relationships will always be made on the `id` of the model provided.
+> 
+> A ForeignKey is created on the field, as well as a lazy relationship between the model provided `id` field
+
 * When you have finished creating all the fields you want to create type and submit the words: "STOP_CREATING_FIELDS". 
 ```python
 Create new field Name (type the string: 'STOP_CREATING_FIELDS' to exit): STOP_CREATING_FIELDS

@@ -53,12 +53,12 @@ def create_module(json_module):
         instanceNames += "        self.{} = {}\n".format(key, key)
 
         if value['relationship']:
-            columns += "    {} = db.Column(db.{}, nullable={}, default={}, unique={}, db.ForeignKey('{}.id'))\n".format(key,
+            columns += "    {} = db.Column(db.{}, db.ForeignKey('{}.id'), nullable={}, default={}, unique={})\n".format(key,
                                                                                                                         value['dataType'],
+                                                                                                                        value['relationship'],
                                                                                                                         value['nullable'],
                                                                                                                         value['default'],
-                                                                                                                        value['unique'],
-                                                                                                                        value['relationship'])
+                                                                                                                        value['unique'])
 
             columns += "    {} = db.relationship('{}', backref = '{}', lazy='joined')\n".format(value['relationship'],
                                                                                                 # secrets.token_urlsafe(3),
@@ -66,9 +66,9 @@ def create_module(json_module):
                                                                                                 value['relationship'])
 
             columns += """
-        @aggregated('{}_count', db.Column(db.Integer))
-        def {}_count(self):
-            return db.func.count('1')\n""".format(value['relationship'],
+    @aggregated('{}_count', db.Column(db.Integer))
+    def {}_count(self):
+        return db.func.count('1')\n""".format(value['relationship'],
                                                 value['relationship'])
         else:
             columns += "    {} = db.Column(db.{}, nullable={}, default={}, unique={})\n".format(key,
@@ -116,7 +116,7 @@ def create_module(json_module):
             argumentAggParserArr.append("\n    '{}_min': fields.Float(readonly=True, description='The {} {} min')".format(key, model, friendly_name))
 
             newApiAggregateDefinitions += """
-                func.max({}.{}).label('{}_max')""".format(model,
+                func.max({}.{}).label('{}_max'),""".format(model,
                                                 key,
                                                 key)
             newApiAggregateObjectDefinitions += """
