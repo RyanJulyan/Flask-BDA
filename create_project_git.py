@@ -63,6 +63,8 @@ JWT_SECRET_KEY = secrets.token_urlsafe(256)
 
 os.system('pip install virtualenv')
 os.system('pip install click')
+os.system('pip install flaskwebgui')
+os.system('pip install tinyaes')
 os.system('pip install pyinstaller')
 
 ########################
@@ -148,6 +150,7 @@ os.remove(dir_name + '/config.py~')
 ######################
 ######################
 
+os.system('cd "' + dir_name + '" && pip install --no-cache-dir -r requirements.txt')
 os.system('cd "' + dir_name + '" && virtualenv venv')
 os.system('cd "' + dir_name + '" && venv/bin/activate && pip install --no-cache-dir -r requirements.txt && export FLASK_APP=app && export FLASK_ENV=development')
 os.system('cd "' + dir_name + '" && venv\\Scripts\\activate && pip install --no-cache-dir -r requirements.txt && set FLASK_APP=app && set FLASK_ENV=development')
