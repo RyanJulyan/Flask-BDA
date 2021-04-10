@@ -183,7 +183,8 @@ class HierarchiesAggregateResource(Resource):
 
             func.min(Hierarchies.organisation_id).label('organisation_id_min'),
 
-            func.max(Hierarchies.organisation_id).label('organisation_id_max')
+            func.max(Hierarchies.organisation_id).label('organisation_id_max'),
+
             func.count(Hierarchies.name).label('name_count'),
 
             func.count(Hierarchies.path).label('path_count'),
@@ -196,7 +197,8 @@ class HierarchiesAggregateResource(Resource):
 
             func.min(Hierarchies.rank).label('rank_min'),
 
-            func.max(Hierarchies.rank).label('rank_max')
+            func.max(Hierarchies.rank).label('rank_max'),
+
             func.count(Hierarchies.parent_id).label('parent_id_count'),
 
             func.sum(Hierarchies.parent_id).label('parent_id_sum'),
@@ -205,7 +207,8 @@ class HierarchiesAggregateResource(Resource):
 
             func.min(Hierarchies.parent_id).label('parent_id_min'),
 
-            func.max(Hierarchies.parent_id).label('parent_id_max')
+            func.max(Hierarchies.parent_id).label('parent_id_max'),
+            
             func.count(Hierarchies.key_value).label('key_value_count')
             # end new api_aggregate feilds
             
