@@ -10,6 +10,7 @@ import shutil
 import re
 import secrets
 import json
+import click
 
 #######################
 #######################
@@ -17,7 +18,22 @@ import json
 #######################
 #######################
 
-def create_module(json_module):
+@click.command()
+@click.option('--module', 
+                    help='Name of module to create. It must have a JSON file to create from')
+def cmd_create_module(module):
+    """Generate a module from a JSON file in "app/generated_config/models/<module>/models.json", where <module> is the name of the module you input"""
+
+    create_module(module)
+
+def create_module(module):
+    
+    file = 'app/generated_config/models/'+ module + "/models.json"
+    
+    with open(file, 'r') as json_file:
+        data = json.load(json_file)
+        json_module = data[module]
+    
     model = json_module['model']
     fields = json_module['fields']
 
@@ -53,12 +69,12 @@ def create_module(json_module):
         instanceNames += "        self.{} = {}\n".format(key, key)
 
         if value['relationship']:
-            columns += "    {} = db.Column(db.{}, nullable={}, default={}, unique={}, db.ForeignKey('{}.id'))\n".format(key,
+            columns += "    {} = db.Column(db.{}, db.ForeignKey('{}.id'), nullable={}, default={}, unique={})\n".format(key,
                                                                                                                         value['dataType'],
+                                                                                                                        value['relationship'],
                                                                                                                         value['nullable'],
                                                                                                                         value['default'],
-                                                                                                                        value['unique'],
-                                                                                                                        value['relationship'])
+                                                                                                                        value['unique'])
 
             columns += "    {} = db.relationship('{}', backref = '{}', lazy='joined')\n".format(value['relationship'],
                                                                                                 # secrets.token_urlsafe(3),
@@ -66,9 +82,9 @@ def create_module(json_module):
                                                                                                 value['relationship'])
 
             columns += """
-        @aggregated('{}_count', db.Column(db.Integer))
-        def {}_count(self):
-            return db.func.count('1')\n""".format(value['relationship'],
+    @aggregated('{}_count', db.Column(db.Integer))
+    def {}_count(self):
+        return db.func.count('1')\n""".format(value['relationship'],
                                                 value['relationship'])
         else:
             columns += "    {} = db.Column(db.{}, nullable={}, default={}, unique={})\n".format(key,
@@ -116,7 +132,7 @@ def create_module(json_module):
             argumentAggParserArr.append("\n    '{}_min': fields.Float(readonly=True, description='The {} {} min')".format(key, model, friendly_name))
 
             newApiAggregateDefinitions += """
-                func.max({}.{}).label('{}_max')""".format(model,
+                func.max({}.{}).label('{}_max'),""".format(model,
                                                 key,
                                                 key)
             newApiAggregateObjectDefinitions += """
@@ -379,5 +395,5 @@ def create_module(json_module):
     customizeFileVariables('app/mod_'+module, 'xyz', module)
     # customizeFileVariables('app/generated_config/models/'+module, 'xyz', module)
 
-# if __name__ == "__main__":
-#     create_module(json_module)
+if __name__ == "__main__":
+    cmd_create_module()
