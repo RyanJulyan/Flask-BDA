@@ -1,0 +1,222 @@
+field_templates = {
+    group_title:function(element){
+        return `
+        <div class="form-group row">
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <div class="col-6">
+                      <h3>${element.title}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `
+    },
+    input_text:function(element){
+    return `
+    <div class="form-group row">
+        <label for="streetName" class="col-sm-2 col-form-label">${element.title}</label>
+        <div class="col-sm-10">
+            <input type="${element.attributes.type}" class="form-control ${element.attributes.class}" id="${element.attributes.id}" name="${element.attributes.name}" placeholder="${element.attributes.placeholder}" >
+        </div>
+    </div>
+    `
+    },
+    input_radiogroup:function(element){
+        var choices = ``
+        for (option in element.options){
+            choices += `
+            
+            <div class="form-check icon-check">
+                <input class="form-check-input" type="radio" name="${element.attributes.name}" value="${element.options[option]}" id="${element.attributes.name}_${element.options[option]}"  >
+                <label class="form-check-label" for="${element.attributes.name}_${element.options[option]}">${element.options[option]}</label>
+                <i class="icon-check-1 fa fa-circle color-gray-dark font-16"></i>
+                <i class="icon-check-2 fa fa-check-circle font-16 color-highlight"></i>
+            </div>
+            `
+        }
+
+        return `
+
+        <div class="form-group row">
+            <label for="streetName" class="col-sm-2 col-form-label">${element.title}</label>
+            <div class="col-sm-10">
+                <!-- radio -->
+                <div class="form-group">
+                
+                    <div class="col-6">
+                        ${choices}
+                    </div>
+                </div>
+            </div>
+        </div>
+        `
+    },
+    input_checkbox:function(element){
+        let checked = ''
+        if(element.attributes.checked){
+            checked = 'checked="True"';
+        }
+
+        return `
+
+        <div class="form-group row">
+            <label for="streetName" class="col-sm-2 col-form-label">${element.title}</label>
+            <div class="col-sm-10">
+                <!-- radio -->
+                <div class="form-group">
+                    <div class="col-6">
+                        <div class="form-check icon-check">
+                            <input class="form-check-input" type="checkbox" name="${element.attributes.name}" ${checked} id="${element.attributes.name}"  >
+                            <label class="form-check-label" for="${element.attributes.name}">${element.attributes.name}</label>
+                            <i class="icon-check-1 fa fa-circle color-gray-dark font-16"></i>
+                            <i class="icon-check-2 fa fa-check-circle font-16 color-highlight"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `
+    },
+    input_select:function(element){
+        var choices = ``
+        for (option in element.options){
+            choices += `
+            <option value="${element.options[option]}">${element.options[option]}</option>
+            `
+        }
+
+        return `
+
+        <div class="form-group row">
+            <label for="streetName" class="col-sm-2 col-form-label">${element.title}</label>
+            <div class="col-sm-10">
+                <!-- Select -->
+                <div class="form-group">
+                
+                    <div class="col-6">
+                        <select style="width:100%;" name="${element.attributes.name}" id="${element.attributes.name}">
+                            ${choices}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `
+    },
+    input_selectdynamic:function(element){
+        var choices = ``
+        for (option in element.options){
+            choices += `
+            <option value="${element.options[option]}">${element.options[option]}</option>
+            `
+        }
+
+        let obj = eval(element.variable_name)
+        
+        for (el in obj){
+            choices += `
+            <option value="${obj[el]}">${obj[el]}</option>
+            `
+        }
+
+        return `
+
+        <div class="form-group row">
+            <label for="streetName" class="col-sm-2 col-form-label">${element.title}</label>
+            <div class="col-sm-10">
+                <!-- Select -->
+                <div class="form-group">
+                
+                    <div class="col-6">
+                        <select style="width:100%;" name="${element.attributes.name}" id="${element.attributes.name}">
+                            ${choices}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `
+    },
+    table_input_text:function(element){
+    return `
+        <td>
+            <input type="${element.attributes.type}" class="form-control ${element.attributes.class}" id="${element.attributes.id}" name="${element.attributes.name}" placeholder="${element.attributes.placeholder}" >
+        </td>
+    `
+    },
+    table_input_radiogroup:function(element){
+        var choices = ``
+        for (option in element.options){
+            choices += `
+            
+            <div class="form-check icon-check">
+                <input class="form-check-input" type="radio" name="${element.attributes.name}" value="${element.options[option]}" id="${element.attributes.name}_${element.options[option]}"  >
+                <label class="form-check-label" for="${element.attributes.name}_${element.options[option]}">${element.options[option]}</label>
+                <i class="icon-check-1 fa fa-circle color-gray-dark font-16"></i>
+                <i class="icon-check-2 fa fa-check-circle font-16 color-highlight"></i>
+            </div>
+            `
+        }
+
+        return `
+            <td>
+                ${choices}
+            </td>
+        `
+    },
+    table_input_checkbox:function(element){
+        let checked = ''
+        if(element.attributes.checked){
+            checked = 'checked="True"';
+        }
+
+        return `
+            <td>
+                <div class="form-check icon-check">
+                    <input class="form-check-input" type="checkbox" name="${element.attributes.name}" ${checked} id="${element.attributes.name}"  >
+                </div>
+            </td>
+        `
+    },
+    table_input_select:function(element){
+        var choices = ``
+        for (option in element.options){
+            choices += `
+            <option value="${element.options[option]}">${element.options[option]}</option>
+            `
+        }
+
+        return `
+            <td>
+                <select style="width:100%;" name="${element.attributes.name}" id="${element.attributes.name}">
+                    ${choices}
+                </select>
+            </td>
+        `
+    },
+    table_input_selectdynamic:function(element){
+        var choices = ``
+        for (option in element.options){
+            choices += `
+            <option value="${element.options[option]}">${element.options[option]}</option>
+            `
+        }
+
+        let obj = eval(element.variable_name)
+        
+        for (el in obj){
+            choices += `
+            <option value="${obj[el]}">${obj[el]}</option>
+            `
+        }
+
+        return `
+            <td>
+                <select style="width:100%;" name="${element.attributes.name}" id="${element.attributes.name}">
+                    ${choices}
+                </select>
+            </td>
+        `
+    }
+}

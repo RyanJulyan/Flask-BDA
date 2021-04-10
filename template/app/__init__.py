@@ -157,6 +157,9 @@ def landing(template):
 # from app.mod_xyz.controllers import mod_xyz as xyz_module
 from app.mod_auth.controllers import mod_auth as auth_module  # noqa: E402
 # import new xyz_module
+# hierarchies
+from app.mod_hierarchies.controllers import mod_public_hierarchies as hierarchies_public_module  # noqa: E402
+from app.mod_hierarchies.controllers import mod_admin_hierarchies as hierarchies_admin_module  # noqa: E402
 # organisations
 from app.mod_organisations.controllers import mod_public_organisations as organisations_public_module  # noqa: E402
 from app.mod_organisations.controllers import mod_admin_organisations as organisations_admin_module  # noqa: E402
@@ -164,6 +167,9 @@ from app.mod_organisations.controllers import mod_admin_organisations as organis
 # Register blueprint(s)
 app.register_blueprint(auth_module)
 # register_blueprint new xyz_module
+# hierarchies
+app.register_blueprint(hierarchies_public_module)
+app.register_blueprint(hierarchies_admin_module)
 # organisations
 app.register_blueprint(organisations_public_module)
 app.register_blueprint(organisations_admin_module)
@@ -192,6 +198,8 @@ api = Api(app, version='1.0',
 # Register api(s)
 from app.mod_auth.api_controllers import ns as Auth_API  # noqa: E402
 # new xyz api resources
+# hierarchies
+from app.mod_hierarchies.api_controllers import ns as Hierarchies_API  # noqa: E402
 # organisations
 from app.mod_organisations.api_controllers import ns as Organisations_API  # noqa: E402
 

@@ -24,6 +24,8 @@ PyInstaller.__main__.run([
     '--add-data', 'app;app',
     '--add-data', 'databases;databases',
     '--add-data', 'config.py;./',
+    '--add-data', 'FLASK-BDA LICENSE;./',
+    '--add-data', 'LICENSE;./',
     '--hidden-import', 'engineio.async_drivers',
     '--key', '1234567890123456',
     '--icon', './app/static/images/icon.ico',
