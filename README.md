@@ -145,10 +145,11 @@ python -m pip --version
     * Type "cmd" to open the terminal
 * Copy, paste and run the following code in the terminal
     * This will download the required `create_project.py` python file and run it to help you start a project
+    * Please ensure you put quotes around your project name to prevent errors eg: `"My Awesome Project"`
 ```shell
 curl -L https://raw.githubusercontent.com/RyanJulyan/Flask-BDA/main/create_project_git.py --ssl-no-revok -o create_project_git.py
 
-python create_project_git.py
+python create_project_git.py --project="My Awesome Project"
 
 ```
 
@@ -157,18 +158,21 @@ python create_project_git.py
     * "Control + Option + Shift + T" to open the terminal
 * Copy, paste and run the following code in the terminal
     * This will download the required `create_project.py` python file and run it to help you start a project
+    * Please ensure you put quotes around your project name to prevent errors eg: `"My Awesome Project"`
 ```shell
 curl -L https://raw.githubusercontent.com/RyanJulyan/Flask-BDA/main/create_project_git.py --ssl-no-revok -o create_project_git.py
 
-python create_project_git.py
+python create_project_git.py --project="My Awesome Project"
 
 ```
 ---
 
-* Fill in your project name when prompted eg:
-    * Please ensure you put quotes around your project name to prevent errors eg: `"My Awesome Project"`
+> **Note:** If you did not fill in a valid project name you will get prompted to do so:
+> * Fill in your project name when prompted eg:
+>    * Please ensure you put quotes around your project name to prevent errors eg: `"My Awesome Project"`
 ```python
-Project Name:
+Invalid Project Name!
+Please enter a valid project name!
 "My Awesome Project"
 ```
 > **Note:** You will notice this creates a folder in the same path as the file: "create_project_git.py".
