@@ -1,6 +1,6 @@
 
 # Import Form and RecaptchaField (optional)
-from flask_wtf import Form  # , RecaptchaField
+from flask_wtf import FlaskForm as Form  # , RecaptchaField
 
 # Import Form elements such as TextField and BooleanField (optional)
 from wtforms import TextField, PasswordField  # BooleanField

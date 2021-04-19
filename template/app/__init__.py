@@ -48,6 +48,8 @@ jwt.init_app(app)
 # Login_manager
 login_manager = LoginManager()
 login_manager.init_app(app)
+login_manager.login_view = 'auth.login'
+login_manager.login_message_category = "danger"
 
 # Configurations
 app.config.from_object('config')
@@ -107,17 +109,8 @@ from app.mod_auth.models import User  # noqa: E402
 
 # User_loader
 @login_manager.user_loader
-def load_user(session_token):
-    user = User.query.filter_by(session_token=session_token).first()
-
-    try:
-        serializer.loads(session_token, max_age=app.config['TIME_TO_EXPIRE'])
-    except SignatureExpired:
-        user.session_token = None
-        db.session.commit()
-        return None
-
-    return user
+def load_user(_user_id):
+    return Users.query.get_or_404(_user_id)
 
 
 # Sample HTTP error handling
