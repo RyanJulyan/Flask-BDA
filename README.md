@@ -10,8 +10,14 @@
 
 > Solutions like [Excel](https://www.microsoft.com/en-za/microsoft-365/excel) are accessible to everyone and give you all the flexibility you might need, but your data is scattered and does not easily allow for a shared source of truth for your team and clients, it is very easy for excel documents to be out of sync or even shared, opening your company up to a security risk.
 
-> Flask-BDA helps you by providing you the control to deliver rapid, secure, Full-stack applications 3-5x (3-5 times) faster. With no vendor or environment lock-in, ever.
+> Flask-BDA helps you by providing you the control to deliver rapid, secure, Full-stack applications 2-5x (2-5 times) faster. With no vendor or environment lock-in, ever.
 
+> [Flask](https://palletsprojects.com/p/flask/) is an open source "micro-framework", written by Armin Ronacher,that allows you to build web applications in Python. Shipping only a small core set of features and provides an extensible base that allows developers to choose what additional tools they will need for their application.
+>
+> Despite being called a micro-framework, Flask is well suited to build both small and large web applications. Flask has been used in production systems by large companies such as Twilio, Pinterest, Lyft, LinkedIn, and Uber.
+
+> Flask-BDA helps you develop faster by providing you with a pre-exisitng flask application structure allowing you to:
+> 
 > Automatically deal with the tedious aspects that slow down software development
 > * Create & manage all database connections and complex queries.
 > * Application security with user and role-based access control
@@ -139,10 +145,11 @@ python -m pip --version
     * Type "cmd" to open the terminal
 * Copy, paste and run the following code in the terminal
     * This will download the required `create_project.py` python file and run it to help you start a project
+    * Please ensure you put quotes around your project name to prevent errors eg: `"My Awesome Project"`
 ```shell
 curl -L https://raw.githubusercontent.com/RyanJulyan/Flask-BDA/main/create_project_git.py --ssl-no-revok -o create_project_git.py
 
-python create_project_git.py
+python create_project_git.py --project="My Awesome Project"
 
 ```
 
@@ -151,18 +158,21 @@ python create_project_git.py
     * "Control + Option + Shift + T" to open the terminal
 * Copy, paste and run the following code in the terminal
     * This will download the required `create_project.py` python file and run it to help you start a project
+    * Please ensure you put quotes around your project name to prevent errors eg: `"My Awesome Project"`
 ```shell
 curl -L https://raw.githubusercontent.com/RyanJulyan/Flask-BDA/main/create_project_git.py --ssl-no-revok -o create_project_git.py
 
-python create_project_git.py
+python create_project_git.py --project="My Awesome Project"
 
 ```
 ---
 
-* Fill in your project name when prompted eg:
-    * Please ensure you put quotes around your project name to prevent errors eg: `"My Awesome Project"`
+> **Note:** If you did not fill in a valid project name you will get prompted to do so:
+> * Fill in your project name when prompted eg:
+>    * Please ensure you put quotes around your project name to prevent errors eg: `"My Awesome Project"`
 ```python
-Project Name:
+Invalid Project Name!
+Please enter a valid project name!
 "My Awesome Project"
 ```
 > **Note:** You will notice this creates a folder in the same path as the file: "create_project_git.py".
@@ -406,6 +416,10 @@ docker run -it -p 5000:5000 flask_app
 > 
 > The Serverless framework is an open-source tool that provides an easy YAML + CLI development and deployment to AWS, Azure, Google Cloud, Knative & more.
 
+> **Note:** You may need to adjust the defult database strings before del=polying as serverless does not support "SQLite" as the function does not keep state.
+> 
+> To update the database strings, please refer to: [Config]
+
 ## Via npm
 * Open browser and install node.js:
     * Go to: [https://nodejs.org/en/download/](https://nodejs.org/en/download/)
@@ -611,9 +625,28 @@ npx expo-optimize --quality 0.9
 
 ## Desktop Native
 
-> To create and develop a desktop application we are using [flaskwebgui](https://github.com/ClimenteA/flaskwebgui). A tool for creating and running your flask web application in a chrome wrapper.
+> To create and develop a desktop application we are using [flaskwebgui](https://github.com/ClimenteA/flaskwebgui). A tool for creating and running your flask web application in a chrome wrapper. To distribute the desktop application we are using [PyInstaller](http://www.pyinstaller.org/). PyInstaller freezes (packages) Python applications into stand-alone executables, under Windows, GNU/Linux, Mac OS X, FreeBSD, Solaris and AIX.
 
 > Each deployment needs to be created on the specific platform that you wish to run it. As such we have created scripts that will allow you to manage these deployments, by placing the `build` and `dist` folders into parent folders for the respective platform. These folders will be prefixed with `desktop_` followed by the platform. This is done purly to allow you to manage the distribution and build processes for the specific platforms and not overwrite them when building on different platforms.
+
+> To allow for the export to desktop to work correctly, we require some code changes. This is because by default Flask-BDA is intended for web and mobile development, and we have implemented a rate-limiter on the site. Unfortunately to rate limit, you require a server, and since you are exporting the system to a desktop application, it is not running a server.
+>
+> as such you need to remove all references to the limiter these can be found at `app/__init__.py`. To do this open the file in a text editor and comment out the following lines:
+```python
+# from flask_limiter import Limiter
+# from flask_limiter.util import get_remote_address
+
+# limiter = Limiter(
+#     app,
+#     key_func=get_remote_address,
+#     default_limits=app.config['DEFAULT_LIMITS']
+# )
+
+```
+
+> **Note:** if you added custom limiter, search for `@limiter.limit` which would be found in your controllers. You will need to comment out all of those references and the import references e.g.: `from app import limiter`
+
+> This will allow you to export the application as a desktop executable file without errors.
 
 ### Windows
 * Open new terminal

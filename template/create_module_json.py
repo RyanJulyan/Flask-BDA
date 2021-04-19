@@ -20,15 +20,15 @@ from create_all_models_json import create_models_json
 ###################
 
 @click.command()
-@click.option('--module_name', 
+@click.option('--module', 
                     help='Name of module to create. It must have a JSON file to create from')
-@click.pass_context
+# @click.pass_context
 def cmd_create_module_json(module):
     """Generate module JSON file in "app/generated_config/models/<module>/models.json", where <module> is the name of the module you input. This JSON file is used to create a module"""
 
     create_module_json(module)
 
-def create_module_json(module):
+def create_module_json(module_name):
     """Generate module JSON file in "app/generated_config/models/<module>/models.json", where <module> is the name of the module you input. This JSON file is used to create a module"""
 
     def getBool(prompt):
@@ -165,7 +165,7 @@ def create_module_json(module):
 
 
     # Prompt user
-    module = module(module)
+    module = module(module_name)
     model = module.capitalize()
     fields = fields()
 

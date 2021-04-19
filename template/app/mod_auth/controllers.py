@@ -137,9 +137,15 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(
                 user.password, request.form['password']):
-            login_user(user)
+            
+            login_user(user,remember=True)
+            session['_user_id'] = user.id 
+
             flash('Welcome.', 'success')
-            return redirect(url_for('main.home'))
+            
+            next = request.args.get('next')
+
+            return redirect(next or url_for('users_admin.index'))
         else:
             flash('Invalid email and/or password.', 'danger')
             return render_template('auth/login.html', form=form)
@@ -163,5 +169,5 @@ def resend_confirmation():
 def logout():
     logout_user()
     flash('You were logged out.', 'success')
-    return redirect(url_for('user.login'))
+    return redirect(url_for('auth.login'))
 
