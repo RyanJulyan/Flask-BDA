@@ -28,18 +28,12 @@ class Hierarchies(Base):
     organisation_id = db.Column(db.Integer, db.ForeignKey('organisations.id'), nullable=False, default=False, unique=False)
     organisations = db.relationship('Organisations', backref = 'organisations', lazy='joined')
 
-    @aggregated('organisations_count', db.Column(db.Integer))
-    def organisations_count(self):
-        return db.func.count('1')
     name = db.Column(db.String(256), nullable=False, default=False, unique=False)
     path = db.Column(db.Text, nullable=False, default=False, unique=False)
     rank = db.Column(db.Integer, nullable=True, default=False, unique=False)
     parent_id = db.Column(db.Integer, db.ForeignKey('hierarchies.id'), nullable=True, default=False, unique=False)
-    hierarchies = db.relationship('Hierarchies', backref = 'hierarchies', lazy='joined')
+    parent_hierarchy = db.relationship('Hierarchies', backref = 'children', remote_side='Hierarchies.id', lazy='joined')
 
-    @aggregated('hierarchies_count', db.Column(db.Integer))
-    def hierarchies_count(self):
-        return db.func.count('1')
     key_value = db.Column(db.Text, nullable=True, default=False, unique=False)
     # end new field definitions
     # example_field = db.Column(db.String(256), nullable=False,default=False, unique=False)
