@@ -76,10 +76,11 @@ def create_module(module):
                                                                                                                         value['default'],
                                                                                                                         value['unique'])
 
-            columns += "    {} = db.relationship('{}', backref = '{}', lazy='joined')\n".format(value['relationship'],
+            columns += "    {} = db.relationship('{}', backref = '{}', remote_side='{}.id', lazy='joined')\n".format(value['relationship'],
                                                                                                 # secrets.token_urlsafe(3),
                                                                                                 value['relationship'].capitalize(),
-                                                                                                value['relationship'])
+                                                                                                value['relationship'],
+                                                                                                value['relationship'].capitalize())
 
             columns += """
     @aggregated('{}_count', db.Column(db.Integer))
