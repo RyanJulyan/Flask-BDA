@@ -153,7 +153,7 @@ def create_module(module):
                 argumentParserArr.append("\n    '{}': fields.Float(required=True, description='The {} {}')".format(key, model, friendly_name))
             else:
                 argumentParserArr.append("\n    '{}': fields.String(required=True, description='The {} {}')".format(key, model, friendly_name))
-        newFormRequestDefinitions += "        {}=request.form.get('{}')\n".format(key, key)
+        newFormRequestDefinitions += "        {} = request.form.get('{}')\n".format(key, key)
         updateApiRequestDefinitions += "        data.{} = api.payload['{}']\n".format(key, key)
         updateFormRequestDefinitions += "    data.{} = request.form.get('{}')\n".format(key, key)
         renderFields += """
@@ -165,7 +165,7 @@ def create_module(module):
         renderUpdateFields += """
                     <div class="col-span-6 sm:col-span-3">
                     <label for="{}" class="block text-sm font-medium text-gray-700">{}</label>
-                    <input type="text" name="{}" id="{}" placeholder="{}" value="{}data.{}{}" autocomplete="{}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    <input type = "text" name = "{}" id="{}" placeholder = "{}" value = "{}data.{}{}" autocomplete="{}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                     </div>
         """.format(key, friendly_name, key, key, friendly_name, "{{", key, "}}", key)
         tableHeaders += """

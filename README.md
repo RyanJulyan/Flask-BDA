@@ -1,8 +1,28 @@
 # Flask Business Driven App (BDA)
 ## A Cross-platform, Multi-tenant, SAAS-ready, Rapid Application Development (RAD) tool to assist with building flask python applications. Helping you build applications fast, right, and for the Future.
 
-> **Note:** Still under Development
+> **Note:** Still under Development!
+> 
 > Current roadmap and high level project plan: https://trello.com/b/uu4HNPBh/flask-bda-features-roadmap
+
+# Overview
+* [Why use Flask-BDA](#why-use-flask-bda)
+* [Costs](#costs)
+* [Process](#process)
+* [Requirements](#requirements)
+* [Quickstart](#quickstart)
+* [Create new CRUD module](#create-new-crud-module)
+* [Environments](#environments)
+* [Installing Additional Python Packages](#installing-additional-python-packages)
+* [OpenAPI/Swagger API](#openapiswagger-api)
+* [Import API to Postman](#import-api-to-postman)
+* [External API Requests](#external-api-requests)
+* [Ajax Requests](#ajax-requests)
+* [Testing](#testing)
+* [Features List](#features-list)
+* [Project Structure](#project-structure)
+* [Glossary](#glossary)
+* [License](#license)
 
 # Why use Flask-BDA
 
@@ -64,25 +84,6 @@
 > With Flask-BDA you **DON'T LOOSE ANY of the flexibility of "Normal Development"** as it uses standardized development patterns and tried and tested technologies.
 
 > Flask-BDA uses many Open Source technologies and leverages existing technology stacks so that you can easily find other developers who use the same technologies, and you do not have to pay for costly license fees or environment costs regardless of how much revenue your company makes, or where you are in your business.
-
-# Overview
-* [Why use Flask-BDA](#why-use-flask-bda)
-* [Costs](#costs)
-* [Process](#process)
-* [Requirements](#requirements)
-* [Quickstart](#quickstart)
-* [Create new CRUD module](#create-new-crud-module)
-* [Environments](#environments)
-* [Installing Additional Python Packages](#installing-additional-python-packages)
-* [OpenAPI/Swagger API](#openapiswagger-api)
-* [Import API to Postman](#import-api-to-postman)
-* [External API Requests](#external-api-requests)
-* [Ajax Requests](#ajax-requests)
-* [Testing](#testing)
-* [Features List](#features-list)
-* [Project Structure](#project-structure)
-* [Glossary](#glossary)
-* [License](#license)
 
 # Process
 
@@ -189,7 +190,9 @@ Please enter a valid project name!
 * To create your own custom modules, Open and run the file: `<Path To>/<my_awesome_project>/create_module_json.py`
     * Fill in the instructions eg:
 ```python
-python <Path To>/<my_awesome_project>/create_module_json.py --module=Projects
+cd <Path To>/<my_awesome_project>/
+
+python create_module_json.py --module=Projects
 
 ```
 * You can then create a table with columns by following the prompts eg:
@@ -244,7 +247,9 @@ Create module logic from Data Model? ('True', 'False'): True
 > **Note:** you can also generate a module from a JSON file in "app/generated_config/models/<module>/models.json", where <module> is the name of the module you input to do this you can, Open and run the file: `<Path To>/<my_awesome_project>/create_module.py`
     * Fill in the instructions eg:
 ```python
-python <Path To>/<my_awesome_project>/create_module.py --module=projects
+cd <Path To>/<my_awesome_project>/
+
+python create_module.py --module=projects
 
 ```
 
@@ -1038,9 +1043,14 @@ python -m unittest discover
        │    │     └── sw.js
        │    ├── templates
        │    │     ├── admin
-       │    │     ├── auth
+       │    │     │     └── index.html
+       │    │     ├── email
+       │    │     │     └── auth
+       │    │     │         ├── activate.html
+       │    │     │         └── reset.html
        │    │     ├── mobile
        │    │     ├── public
+       │    │     │     └── index.html
        │    │     ├── 403.html
        │    │     ├── 404.html
        │    │     └── index.html
@@ -1073,16 +1083,31 @@ python -m unittest discover
        │          ├── controllers.py
        │          ├── forms.py
        │          └── models.py
+       ├── databases
+       │    └── sqlite
+       │          ├── core.db
+       │          └── default.db
        ├── .dockerignore
        ├── .gitignore
        ├── app.db
        ├── config.py
+       ├── create_all_models_json.py
+       ├── create_desktop_installer_lunix.py
+       ├── create_desktop_installer_mac.py
+       ├── create_desktop_installer_windows.py
        ├── create_module.py
+       ├── create_module_json.py
        ├── Dockerfile
+       ├── FLASK-BDA LICENSE
        ├── LICENSE
+       ├── package.json
+       ├── package-lock.json
+       ├── Procfile
        ├── README.md
        ├── requirements.txt
        ├── run.py
+       ├── run_desktop.py
+       ├── run_shared_server.py
        └── serverless.yml
 ```
 
