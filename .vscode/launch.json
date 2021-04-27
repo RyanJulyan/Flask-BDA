@@ -1,0 +1,27 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+    
+        {
+            "name": "Flask (For Debugger)",
+            "type": "python",
+            "request": "launch",
+            "stopOnEntry": false,
+            "pythonPath": "${workspaceFolder}/venv/bin/python",
+            "module": "flask.cli",
+            "cwd": "${workspaceRoot}",
+            "env": {
+                "FLASK_APP": "app",
+                "FLASK_ENV": "development",
+                "FLASK_DEBUG": "0",
+                "LC_ALL": "en_US.utf-8",
+                "LANG": "en_US.utf-8"
+            },
+            "args": [
+                "run",
+                "--no-debugger"
+            ],
+            "envFile": "${workspaceRoot}/.venv",
+        },
+    ]
+}
