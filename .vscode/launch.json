@@ -7,7 +7,7 @@
             "type": "python",
             "request": "launch",
             "stopOnEntry": false,
-            "pythonPath": "${workspaceFolder}/venv/bin/python",
+            "python": "${workspaceFolder}/venv/bin/python",
             "module": "flask.cli",
             "cwd": "${workspaceRoot}",
             "env": {

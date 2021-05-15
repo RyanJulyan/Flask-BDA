@@ -1,0 +1,111 @@
+body {
+    line-height: 26px !important;
+}
+
+.svg-icon path{
+    fill: #007bff;
+}
+
+.menu-hider.menu-active {
+    transition: all 350ms ease;
+    opacity: 1;
+    pointer-events: all;
+}
+
+.menu-active {
+    opacity: 1 !important;
+}
+
+.menu-hider {
+    position: fixed;
+    top: -100px;
+    bottom: -100px;
+    left: 0px;
+    right: 0px;
+    background-color: rgba(0, 0, 0, 0.35);
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0;
+    transition: all 350ms ease;
+}
+
+#mobile-footer-bar {
+    position: fixed;
+    bottom: -1px;
+    left: 0px;
+    right: 0px;
+    z-index: 98;
+    background-color: rgba(249, 249, 249, 0.98);
+    box-shadow: 0 -5px 10px 0 rgb(0 0 0 / 6%);
+    min-height: 60px;
+    min-height: calc(60px + (constant(safe-area-inset-bottom))*1.1);
+    min-height: calc(60px + (env(safe-area-inset-bottom))*1.1);
+    display: flex;
+    text-align: center;
+}
+
+#mobile-footer-bar a {
+    color: #1f1f1f;
+    padding-top: 8px;
+    position: relative;
+    flex: 1 1 auto;
+}
+
+#mobile-footer-bar a i {
+    font-size: 18px;
+    position: relative;
+    z-index: 2;
+}
+
+#mobile-footer-bar a span {
+    position: relative;
+    z-index: 2;
+    display: block;
+    font-size: 10px;
+    font-weight: 500;
+    margin-top: -4px;
+    opacity: 0.7;
+    font-family: "Roboto", sans-serif !important;
+}
+
+#mobile-footer-bar .active-nav span, #mobile-footer-bar .active-nav i {
+    color: #007bff;
+}
+
+.menu {
+    display: none;
+    position: fixed;
+    background-color: #FFF;
+    z-index: 101;
+    overflow: scroll;
+    transition: all 350ms ease;
+    -webkit-overflow-scrolling: touch;
+}
+
+.menu-box-bottom {
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    height: 300px;
+    transform: translate3d(0, 110%, 0);
+}
+
+.menu-active {
+    opacity: 1 !important;
+}
+
+.menu-box-bottom.menu-box-detached {
+    bottom: 20px;
+    left: 10px;
+    right: 10px;
+}
+
+.menu-box-bottom.menu-active {
+    transform: translate3d(0%, 0, 0) !important;
+}
+
+.menu-active.menu {
+    opacity: 1 !important;
+    transition: all 350ms ease;
+    pointer-events: all !important;
+}

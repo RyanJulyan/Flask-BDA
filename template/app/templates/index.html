@@ -61,7 +61,7 @@
   <!-- Security -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <script async src="https://unpkg.com/pwacompat" crossorigin="anonymous" defer></script>
+  <script async src="{{ url_for('static', filename='js/pwacompat.min.js') }}" crossorigin="anonymous" defer></script>
 
   <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}" />
 
@@ -71,10 +71,26 @@
   <!-- Helper Functions -->
   <script src="{{ url_for('static', filename='js/helper_functions.js') }}" defer></script>
 
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+  
+  <!-- Font Awesome CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
   <!-- Site CSS -->
-  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <!-- <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet"> -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}"/>
+  
+  <!-- Bootstrap Javascript -->
+  <!-- JavaScript Bundle with Popper -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
   
   <!-- Site Javascript -->
+  <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/js/adminlte.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/js/adminlte.min.js" defer></script>
   
   <!-- Register Service Worker -->
   <script src="{{ url_for('static', filename='js/register_sw.js') }}" defer></script>
@@ -88,33 +104,174 @@
   
 </head>
 <body>
-      
-    <!-- Install Button -->
-    <button type="button" id="installButton" class="btn btn-success">Install</button>
-    <!-- Install Javascript -->
-    <script src="{{ url_for('static', filename='js/install_prompt.js') }}" defer></script>
+    <div class="menu-hider" style="transform: translate(0px, 0px);">
+        <div></div>
+    </div>
+    <div class="callout callout-info m-2">
+        <p>
+            <!-- Install Button -->
+            <button type="button" id="installButton" class="btn btn-success">Install</button>
+            <!-- Install Javascript -->
+            <script src="{{ url_for('static', filename='js/install_prompt.js') }}" defer></script>
+            
+            <!-- Web Push Notification Button -->
+            <button type="button" id="webPushButton" class="btn btn-success">Allow Notifications</button>
+            <!-- Web Push Javascript -->
+            <script src="{{ url_for('static', filename='js/web_push.js') }}" defer></script>
+            
+            <!-- Share Buttons -->
+            <button type="button" class="btn btn-primary shareButton" data-title="Share 1">Share</button>
+            <button type="button" class="btn btn-primary shareButton" data-title="Share 2">Share</button>
+            <!-- Share Javascript -->
+            <script src="{{ url_for('static', filename='js/web_share.js') }}" defer></script>
+        </p>
+    </div>
+    <div class="wrapper">
+        
+        <!-- Flash Messages -->
+        {{ flash.render() }}
+
+        <!-- Page Content -->
+        {% block page_content %}
+            
+        {% endblock page_content %}
+        
+        {% if request.MOBILE %}
+            <div id="mobile-footer-bar" class="footer-bar-1" style="transform: translateX(0px);">
+                <a href="#">
+                    <i class="fa fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="#">
+                    <i class="fa fa-cubes"></i>
+                    <span>Features</span>
+                </a>
+                <a href="#">
+                    <i class="fa fa-comments"></i>
+                    <span>Messages</span>
+                </a>
+                <a href="#" class="active-nav">
+                    <i class="fa fa-envelope"></i>
+                    <span>Contact</span>
+                </a>
+                <a href="#">
+                    <i class="fa fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </div>
+        {% endif %}
+        
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                <h1 class="m-0">Starter Page</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Starter Page</li>
+                </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
     
-    <!-- Web Push Notification Button -->
-    <button type="button" id="webPushButton" class="btn btn-success">Allow Notifications</button>
-    <!-- Web Push Javascript -->
-    <script src="{{ url_for('static', filename='js/web_push.js') }}" defer></script>
+        <!-- Main content -->
+        <div class="content">
+            <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
     
-    <!-- Share Buttons -->
-    <button type="button" class="btn btn-primary shareButton" data-title="Share 1">Share</button>
-    <button type="button" class="btn btn-primary shareButton" data-title="Share 2">Share</button>
-    <!-- Share Javascript -->
-    <script src="{{ url_for('static', filename='js/web_share.js') }}" defer></script>
+                    <p class="card-text">
+                        Some quick example text to build on the card title and make up the bulk of the card's
+                        content.
+                    </p>
+    
+                    <a href="#" class="card-link">Card link</a>
+                    <a href="#" class="card-link">Another link</a>
+                    </div>
+                </div>
+    
+                <div class="card card-primary card-outline">
+                    <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+    
+                    <p class="card-text">
+                        Some quick example text to build on the card title and make up the bulk of the card's
+                        content.
+                    </p>
+                    <a href="#" class="card-link">Card link</a>
+                    <a href="#" class="card-link">Another link</a>
+                    </div>
+                </div><!-- /.card -->
+                </div>
+                <!-- /.col-md-6 -->
+                <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                    <h5 class="m-0">Featured</h5>
+                    </div>
+                    <div class="card-body">
+                    <h6 class="card-title">Special title treatment</h6>
+    
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+    
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                    <h5 class="m-0">Featured</h5>
+                    </div>
+                    <div class="card-body">
+                    <h6 class="card-title">Special title treatment</h6>
+    
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+                </div>
+                <!-- /.col-md-6 -->
+            </div>
+            <!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+    
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+        <div class="p-3">
+            <h5>Title</h5>
+            <p>Sidebar content</p>
+        </div>
+        </aside>
+        <!-- /.control-sidebar -->
+    
+        <!-- Main Footer -->
+        <footer class="main-footer">
+            <!-- To the right -->
+            <div class="float-right d-none d-sm-inline">
+                Build something awesome
+            </div>
+            <!-- Default to the left -->
+            <strong>&copy; 2021 <a href="https://github.com/RyanJulyan/Flask-BDA/tree/main">Flask-BDA</a>.</strong> All rights reserved.
+        </footer>
+    </div>
+    <!-- ./wrapper -->
 
     <!-- htmx Javascript -->
     <script src="https://unpkg.com/htmx.org@1.2.1" defer></script>
-
-    <!-- Flash Messages -->
-    {{ flash.render() }}
-
-    <!-- Page Content -->
-    {% block page_content %}
-        
-    {% endblock page_content %}
     
 </body>
 </html>

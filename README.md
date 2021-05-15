@@ -11,6 +11,7 @@
 * [Process](#process)
 * [Requirements](#requirements)
 * [Quickstart](#quickstart)
+* [Update Database](#update-database)
 * [Create new CRUD module](#create-new-crud-module)
 * [Environments](#environments)
 * [Installing Additional Python Packages](#installing-additional-python-packages)
@@ -178,6 +179,79 @@ Please enter a valid project name!
 ```
 > **Note:** You will notice this creates a folder in the same path as the file: "create_project_git.py".
 > This folder will be lower case and will have stripped out all of the special characters and replaced spaces with underscores eg: `my_awesome_project`
+
+
+# Update Database
+
+> **Note:** Still to be tested for all connection types!
+
+> Database connections are quick and easy in Flask-BDA. You can have 1 more multiple databases, and different tenants can have their own database connections as well as their own database type (SQLite, MySQL, SQL Server, PostgreSQL)
+
+> By default, Flask-BDA has a SQLite database set up. This is really because then you do not require addtional infistructure to set it up and get going.
+
+* Open the file `config.py`
+* You can quickly comment out the `DATABASE_ENGINE` for SQLite, and for example comment in the mysql `DATABASE_ENGINE`.
+
+```python
+
+##########
+# SQLite #
+##########
+# DATABASE_ENGINE = 'sqlite:///'
+
+#########
+# MySQL #
+#########
+DATABASE_ENGINE = 'mysql://'
+
+##############
+# PostgreSQL #
+##############
+# DATABASE_ENGINE = 'postgresql://'
+
+#############
+# SQLServer #
+#############
+# DATABASE_ENGINE = 'mssql+pymssql://'
+# TRUSTED_CONNECTION = 'yes'  # for windows authentication.
+
+```
+
+* You will then need to update the database connection details with your own details:
+    * `DATABASE_HOST`
+    * `DATABASE_PORT`
+    * `DATABASE_USERNAME`
+    * `DATABASE_PASSWORD`
+    * `DATABASE_NAME`
+
+```python
+
+DATABASE_HOST = 'localhost'
+DATABASE_PORT = '3306'
+DATABASE_USERNAME = 'flaskbda_user'
+DATABASE_PASSWORD = 'password'
+DATABASE_NAME = 'flaskbda'
+
+```
+
+> By default Flask-BDA connects to a tenant called `core`. this is done using the `SQLALCHEMY_BINDS` object, the above details are combined into a string called `SQLALCHEMY_DATABASE_URI` which was meant to allow for quick and easy single tenant setup.
+
+> You can use this same structure however to have multiple tenants. To add a new tenant, simple:
+* Create a new line in the  `SQLALCHEMY_BINDS` object, with the name of the tenant and the connection string details
+    * Remember to create the database before trying to connect to it.
+    * The database types do not have to be the same in the same application 
+
+```python
+
+SQLALCHEMY_BINDS = {
+    "core": SQLALCHEMY_DATABASE_URI,
+    "client1": 'sqlite:///databases/sqlite/client1.db',
+}
+
+```
+
+> You can now interact with an isolated tenant database by adding the argument `organization=` to your url eg:
+`example.com?organization=client1` where `client1` is the name that you added in the `SQLALCHEMY_BINDS` object.
 
 # Create new [CRUD](#crud) module
 
@@ -927,11 +1001,11 @@ python -m unittest discover
             * Removes tons of headaches when setting up your dev environment
             * Prevents issues such as "well, it worked on my machine!"
         * [AWS Serverless yml config](#aws-serverless)
-    * Great UI by default with [Tailwind](https://tailwindcss.com/)
+    * Great UI by default with [AdminLTE](https://adminlte.io/) specifically [v3](https://adminlte.io/themes/v3/)
         * Highly customizable and flexible
         * Pre-setup via CDN
         * Versatile
-        * There is no JavaScript. And because of that, you can easily bind it with any JavaScript framework of your choice
+        * Widely used and easy to pick up as it is based on [Bootstrap 4.6](https://getbootstrap.com/docs/4.6/getting-started/introduction/)
 
 
 * Create custom [module](#Modules) files and folders that fit into the flask project structure from the `create_module.py` file with prompts to create the following:
@@ -996,6 +1070,13 @@ python -m unittest discover
        │          ├── docker-image.yml
        │          └── run_tests.yml
        ├── app
+       │    ├── generated_config
+       │    │     ├── model_editor
+       │    │     └── models
+       │    │           ├── hierarchies
+       │    │           │   └── models.json
+       │    │           └── organisations
+       │    │               └── models.json
        │    ├── mod_audit
        │    │     ├── __init__.py
        │    │     ├── controllers.py
@@ -1063,7 +1144,7 @@ python -m unittest discover
        │    └── mod_xyz
        │          ├── templates
        │          │     ├── mobile
-       │          │     │    └── `projects`
+       │          │     │    └── xyz
        │          │     │         ├── admin
        │          │     │         │    ├── create.html
        │          │     │         │    ├── edit.html
@@ -1071,7 +1152,7 @@ python -m unittest discover
        │          │     │         │    └── show.html
        │          │     │         └── public
        │          │     │              └── public_list.html
-       │          │     └── `projects`
+       │          │     └── xyz
        │          │          ├── admin
        │          │          │    ├── create.html
        │          │          │    ├── edit.html
@@ -1089,7 +1170,6 @@ python -m unittest discover
        │          └── default.db
        ├── .dockerignore
        ├── .gitignore
-       ├── app.db
        ├── config.py
        ├── create_all_models_json.py
        ├── create_desktop_installer_lunix.py
