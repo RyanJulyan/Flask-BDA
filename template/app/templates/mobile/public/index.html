@@ -53,8 +53,10 @@
 
     {% block content %}
         
+    {% if request.MOBILE %}
         request.MOBILE:
         <strong>True</strong>
+    {% endif %}
         
     {% endblock content %}
   

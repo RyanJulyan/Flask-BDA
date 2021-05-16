@@ -135,31 +135,29 @@
         {% block page_content %}
             
         {% endblock page_content %}
-        
-        {% if request.MOBILE %}
-            <div id="mobile-footer-bar" class="footer-bar-1" style="transform: translateX(0px);">
-                <a href="#">
-                    <i class="fa fa-home"></i>
-                    <span>Home</span>
-                </a>
-                <a href="#">
-                    <i class="fa fa-cubes"></i>
-                    <span>Features</span>
-                </a>
-                <a href="#">
-                    <i class="fa fa-comments"></i>
-                    <span>Messages</span>
-                </a>
-                <a href="#" class="active-nav">
-                    <i class="fa fa-envelope"></i>
-                    <span>Contact</span>
-                </a>
-                <a href="#">
-                    <i class="fa fa-cog"></i>
-                    <span>Settings</span>
-                </a>
-            </div>
-        {% endif %}
+
+        <nav class="bottom">
+            <a class="active" href="#">
+                <i class="fa fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="#">
+                <i class="fa fa-cubes"></i>
+                <span>Features</span>
+            </a> 
+            <a href="#">
+                <i class="fa fa-comments"></i>
+                <span>Messages</span>
+            </a>
+            <a href="#">
+                <i class="fa fa-cog"></i>
+                <span>Settings</span>
+            </a>
+            <a href="#">
+                <i class="fa fa-bars"></i>
+                <span>More</span>
+            </a>
+         </nav>
         
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
@@ -265,7 +263,9 @@
                 Build something awesome
             </div>
             <!-- Default to the left -->
-            <strong>&copy; 2021 <a href="https://github.com/RyanJulyan/Flask-BDA/tree/main">Flask-BDA</a>.</strong> All rights reserved.
+            <span>
+                <strong>&copy; 2021 <a href="https://github.com/RyanJulyan/Flask-BDA/tree/main">Flask-BDA</a>.</strong> All rights reserved.
+            </span>
         </footer>
     </div>
     <!-- ./wrapper -->
