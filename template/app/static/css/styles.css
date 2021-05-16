@@ -5,6 +5,9 @@ body {
 .svg-icon path{
     fill: #007bff;
 }
+.navbar-light .navbar-toggler {
+    border: none;
+}
 
 .main-footer{
     height: 60px !important;
@@ -33,7 +36,7 @@ nav.bottom a {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 14px 0 12px;
+    padding: 5px 0 12px;
     text-decoration: none;
     color: #576071;
 }
@@ -76,6 +79,12 @@ nav.bottom a.active, nav.bottom a:active, nav.bottom a:focus, nav.bottom a:hover
         left: calc(50% - 180px);
         right: calc(50% - 180px);
     }
+}
+
+.bottom a .badge{
+    position: relative;
+    top: 3px;
+    left: 25px;
 }
 
 .menu-hider.menu-active {

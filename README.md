@@ -239,7 +239,7 @@ DATABASE_NAME = 'flaskbda'
 > You can use this same structure however to have multiple tenants. To add a new tenant, simple:
 * Create a new line in the  `SQLALCHEMY_BINDS` object, with the name of the tenant and the connection string details
     * Remember to create the database before trying to connect to it.
-    * The database types do not have to be the same in the same application 
+    * The database connection types do not have to be the same in the same application 
 
 ```python
 
@@ -312,10 +312,12 @@ Default value:
 * When you have finished creating all the fields you want to create type and submit the words: "STOP_CREATING_FIELDS". 
 ```python
 Create new field Name (type the string: 'STOP_CREATING_FIELDS' to exit): STOP_CREATING_FIELDS
+
 ```
 * You will then be propted if you would like to create this module logic from the data model. Generate a module from a JSON file in "app/generated_config/models/<module>/models.json", where <module> is the name of the module you input. if you want to create all the views type and submit "True"
 ```python
 Create module logic from Data Model? ('True', 'False'): True
+
 ```
 
 > **Note:** you can also generate a module from a JSON file in "app/generated_config/models/<module>/models.json", where <module> is the name of the module you input to do this you can, Open and run the file: `<Path To>/<my_awesome_project>/create_module.py`
@@ -517,6 +519,7 @@ npm update -g serverless
     * "Control + Option + Shift + T" to open the terminal
 ```shell
 npm update -g serverless
+
 ```
 
 ## Via terminal/console
@@ -983,7 +986,13 @@ python -m unittest discover
         * Doesn't enforce any dependencies or project layout.
     * Progressive Web App (PWA) to make it more friendly towards desktop and allow native installs from the web, cache for offline support, page sharing and push notifications, etc.
     * Responsive layouts
-    * Mobile-specific views
+    * Mobile-specific views through [Flask-Mobility](https://github.com/rehandalal/flask-mobility)
+        * Responsive bottom menu for tablet and mobile devices
+            * Centered for tablet at under `992px`
+            * Centered for mobile at under `500px`
+            * Badges for notifications are included to allow for driving user behaviour
+        * Controllers use the `@mobile_template` decorator, allowing template views to be tailered for a better mobile experience if needed.
+        * Mobile view identification meaning specific mobile logic can be added with `{% if request.MOBILE %}True{% else %}False{% endif %}`
     * SEO ready page index template file
     * Isolated module code and templates
     * Configuration file `config.py` for quick access and management of the environment and environment variables and default SEO
@@ -1270,7 +1279,7 @@ The Flask-BDA License is the legal requirement for you or your company to use an
 * You are given a license to any patent that covers Flask-BDA
 
 ### The license prevents you from doing the following:
-* You can not commercialize original or modified (derivative) versions of the Flask-BDA editor and/or engine
+* You can not commercialize original or modified (derivative) versions of the Flask-BDA editor, creator and/or engine
 * You can not hold Flask-BDA or Ryan Julyan liable for damages caused by the use of Flask-BDA
 * You can not bring any warranty claims to Flask-BDA or Ryan Julyan
 * You can not use the Flask-BDA trademark unless express permission has been given (see exceptions and additional information)

@@ -8,7 +8,7 @@ installButton.style.display = "none";
 window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault();
   // show the installButton if it makes sense
-  installButton.style.display = "block";
+  installButton.style.display = "inline-block";
   installPrompt = e;
 });
 

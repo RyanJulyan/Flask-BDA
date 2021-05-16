@@ -3,9 +3,9 @@ const shareButtons = document.querySelectorAll('.shareButton');
 
 if (navigator.share) {
   
-  const defaultTitle = 'Default Example PWA';
-  const defaultText = 'This is a bare bones example of a PWA with all the features I want to include';
-  const defaultUrl = 'https://pwadvent.dev/';
+  const defaultTitle = $('title')[0].innerText;
+  const defaultText = $('meta[name="summary"]')[0].content;
+  const defaultUrl = $('meta[name="url"]')[0].content;
   
   for (i = 0; i < shareButtons.length; i++) {
 
