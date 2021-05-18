@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable = yes">
   <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
   
@@ -34,7 +34,7 @@
   <meta name="og:title" content="{{ config.SITE_TITLE }}"/>
   <meta name="og:type" content="website"/>
   <meta name="og:url" content="{{ config.SITE_URL }}"/>
-  <meta name="og:image" content="http://ia.media-imdb.com/rock.jpg"/>
+  <meta name="og:image" content="{{ url_for('static', filename='images/icon-512.png') }}"/>
   <meta name="og:site_name" content="{{ config.SITE_TITLE }}"/>
   <meta name="og:description" content="{{ config.SITE_DESCRIPTION }}"/>
 
@@ -79,7 +79,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <!-- Site CSS -->
-  <!-- <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet"> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/css/adminlte.min.css">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}"/>
   
@@ -98,173 +97,182 @@
         <div></div>
     </div>
     <div class="wrapper">
-
+        <!-- Preloader -->
+        <div class="preloader">
+            <div class="mx-auto my-auto text-center">
+                <img class="mx-auto my-auto text-center" src="{{ url_for('static', filename='images/icon-512.png') }}" alt="Flask-BDA" height="60" width="60">
+                <div class="mx-auto my-auto text-center">
+                    <p class="my-3 text-center" >Loading...</p>
+                </div>
+            </div>
+        </div>
+        
         <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand navbar-light navbar-white">
-          <div class="container">
-            <a href="#" class="navbar-brand">
-              <img src="{{ url_for('static', filename='images/icon-512.png') }}" alt="Flask-BDA Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-              <span class="brand-text font-weight-light">Flask-BDA</span>
+        <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
+            <div class="container">
+            <a href="../../index3.html" class="navbar-brand">
+                <img src="{{ url_for('static', filename='images/icon-512.png') }}" alt="Flask-BDA Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <span class="brand-text font-weight-light">Flask BDA</span>
             </a>
-      
+
             <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-      
+
             <div class="collapse navbar-collapse order-3" id="navbarCollapse">
-              <!-- Left navbar links -->
-              <ul class="navbar-nav">
-                <li class="nav-item">
-                  <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fa fa-ellipsis-v"></i></a>
+                <!-- Left navbar links -->
+                <ul class="navbar-nav">
+                <li class="nav-item mx-1">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fa fa-ellipsis-v"></i></a>
                 </li>
                 <li class="nav-item">
-                  <a href="index3.html" class="nav-link">Home</a>
+                    <a href="index3.html" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item">
-                  <a href="#" class="nav-link">Contact</a>
+                    <a href="#" class="nav-link">Contact</a>
                 </li>
                 <li class="nav-item dropdown">
-                  <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Dropdown</a>
-                  <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                    <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Dropdown</a>
+                    <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
                     <li><a href="#" class="dropdown-item">Some action </a></li>
                     <li><a href="#" class="dropdown-item">Some other action</a></li>
-      
+
                     <li class="dropdown-divider"></li>
-      
+
                     <!-- Level two dropdown-->
                     <li class="dropdown-submenu dropdown-hover">
-                      <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Hover for action</a>
-                      <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">
+                        <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Hover for action</a>
+                        <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">
                         <li>
-                          <a tabindex="-1" href="#" class="dropdown-item">level 2</a>
+                            <a tabindex="-1" href="#" class="dropdown-item">level 2</a>
                         </li>
-      
+
                         <!-- Level three dropdown-->
                         <li class="dropdown-submenu">
-                          <a id="dropdownSubMenu3" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">level 2</a>
-                          <ul aria-labelledby="dropdownSubMenu3" class="dropdown-menu border-0 shadow">
+                            <a id="dropdownSubMenu3" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">level 2</a>
+                            <ul aria-labelledby="dropdownSubMenu3" class="dropdown-menu border-0 shadow">
                             <li><a href="#" class="dropdown-item">3rd level</a></li>
                             <li><a href="#" class="dropdown-item">3rd level</a></li>
-                          </ul>
+                            </ul>
                         </li>
                         <!-- End Level three -->
-      
+
                         <li><a href="#" class="dropdown-item">level 2</a></li>
                         <li><a href="#" class="dropdown-item">level 2</a></li>
-                      </ul>
+                        </ul>
                     </li>
                     <!-- End Level two -->
-                  </ul>
+                    </ul>
                 </li>
-              </ul>
-      
-              <!-- SEARCH FORM -->
-              <form class="form-inline ml-0 ml-md-3">
+                </ul>
+
+                <!-- SEARCH FORM -->
+                <form class="form-inline ml-0 ml-md-3">
                 <div class="input-group input-group-sm">
-                  <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-                  <div class="input-group-append">
+                    <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                    <div class="input-group-append">
                     <button class="btn btn-navbar" type="submit">
-                      <i class="fa fa-search"></i>
+                        <i class="fa fa-search"></i>
                     </button>
-                  </div>
+                    </div>
                 </div>
-              </form>
+                </form>
             </div>
-      
+
             <!-- Right navbar links -->
             <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-              <!-- Messages Dropdown Menu -->
-              <li class="nav-item dropdown">
+                <!-- Messages Dropdown Menu -->
+                <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
-                  <i class="fa fa-comments"></i>
-                  <span class="badge badge-danger navbar-badge">3</span>
+                    <i class="fa fa-comments"></i>
+                    <span class="badge badge-danger navbar-badge">3</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                  <a href="#" class="dropdown-item">
+                    <a href="#" class="dropdown-item">
                     <!-- Message Start -->
                     <div class="media">
-                      <img src="../../dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-                      <div class="media-body">
+                        <img src="../../dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                        <div class="media-body">
                         <h3 class="dropdown-item-title">
-                          Brad Diesel
-                          <span class="float-right text-sm text-danger"><i class="fa fa-star"></i></span>
+                            Brad Diesel
+                            <span class="float-right text-sm text-danger"><i class="fa fa-star"></i></span>
                         </h3>
                         <p class="text-sm">Call me whenever you can...</p>
                         <p class="text-sm text-muted"><i class="fa fa-clock mr-1"></i> 4 Hours Ago</p>
-                      </div>
+                        </div>
                     </div>
                     <!-- Message End -->
-                  </a>
-                  <div class="dropdown-divider"></div>
-                  <a href="#" class="dropdown-item">
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
                     <!-- Message Start -->
                     <div class="media">
-                      <img src="../../dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-                      <div class="media-body">
+                        <img src="../../dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                        <div class="media-body">
                         <h3 class="dropdown-item-title">
-                          John Pierce
-                          <span class="float-right text-sm text-muted"><i class="fa fa-star"></i></span>
+                            John Pierce
+                            <span class="float-right text-sm text-muted"><i class="fa fa-star"></i></span>
                         </h3>
                         <p class="text-sm">I got your message bro</p>
                         <p class="text-sm text-muted"><i class="fa fa-clock mr-1"></i> 4 Hours Ago</p>
-                      </div>
+                        </div>
                     </div>
                     <!-- Message End -->
-                  </a>
-                  <div class="dropdown-divider"></div>
-                  <a href="#" class="dropdown-item">
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
                     <!-- Message Start -->
                     <div class="media">
-                      <img src="../../dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-                      <div class="media-body">
+                        <img src="../../dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                        <div class="media-body">
                         <h3 class="dropdown-item-title">
-                          Nora Silvester
-                          <span class="float-right text-sm text-warning"><i class="fa fa-star"></i></span>
+                            Nora Silvester
+                            <span class="float-right text-sm text-warning"><i class="fa fa-star"></i></span>
                         </h3>
                         <p class="text-sm">The subject goes here</p>
                         <p class="text-sm text-muted"><i class="fa fa-clock mr-1"></i> 4 Hours Ago</p>
-                      </div>
+                        </div>
                     </div>
                     <!-- Message End -->
-                  </a>
-                  <div class="dropdown-divider"></div>
-                  <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
                 </div>
-              </li>
-              <!-- Notifications Dropdown Menu -->
-              <li class="nav-item dropdown">
+                </li>
+                <!-- Notifications Dropdown Menu -->
+                <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
-                  <i class="fa fa-bell"></i>
-                  <span class="badge badge-warning navbar-badge">15</span>
+                    <i class="fa fa-bell"></i>
+                    <span class="badge badge-warning navbar-badge">15</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                  <span class="dropdown-header">15 Notifications</span>
-                  <div class="dropdown-divider"></div>
-                  <a href="#" class="dropdown-item">
+                    <span class="dropdown-header">15 Notifications</span>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
                     <i class="fa fa-envelope mr-2"></i> 4 new messages
                     <span class="float-right text-muted text-sm">3 mins</span>
-                  </a>
-                  <div class="dropdown-divider"></div>
-                  <a href="#" class="dropdown-item">
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
                     <i class="fa fa-users mr-2"></i> 8 friend requests
                     <span class="float-right text-muted text-sm">12 hours</span>
-                  </a>
-                  <div class="dropdown-divider"></div>
-                  <a href="#" class="dropdown-item">
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
                     <i class="fa fa-file mr-2"></i> 3 new reports
                     <span class="float-right text-muted text-sm">2 days</span>
-                  </a>
-                  <div class="dropdown-divider"></div>
-                  <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
                 </div>
-              </li>
-              <li class="nav-item">
+                </li>
+                <li class="nav-item">
                 <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-                  <i class="fa fa-th-large"></i>
+                    <i class="fa fa-th-large"></i>
                 </a>
-              </li>
+                </li>
             </ul>
-          </div>
+            </div>
         </nav>
 
         <nav class="bottom">
@@ -1116,11 +1124,10 @@
     <!-- htmx Javascript -->
     <script src="https://unpkg.com/htmx.org@1.2.1" defer></script>
     
+    <!-- JQuery Javascript -->
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}" crossorigin="anonymous"></script>
     <!-- Bootstrap Javascript -->
-    <!-- JavaScript Bundle with Popper -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}" crossorigin="anonymous"></script>
     
     <!-- Site Javascript -->
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/js/adminlte.min.js"></script>
