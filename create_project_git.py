@@ -86,8 +86,9 @@ def create_project(project_name):
 
     owner = "RyanJulyan"
     repo = "Flask-BDA"
+    branch = "main"
 
-    os.system('curl -L https://codeload.github.com/{}/{}/zip/main --ssl-no-revok -o {}.zip'.format(owner, repo, repo))
+    os.system('curl -L https://codeload.github.com/{}/{}/zip/{} --ssl-no-revok -o {}.zip'.format(owner, repo, branch, repo))
 
     with zipfile.ZipFile(repo+'.zip', 'r') as zip_ref:
         zip_ref.extractall('./')
@@ -107,10 +108,10 @@ def create_project(project_name):
                     shutil.copy2(s, d)
 
 
-    copytree(repo+'-main/template', dir_name, 'Flask BDA', projectName)
-    copytree(repo+'-main/mobile_app', dir_name + "_mobile_app", 'Flask BDA', projectName)
+    copytree(repo+'-'+branch+'/template', dir_name, 'Flask BDA', projectName)
+    copytree(repo+'-'+branch+'/mobile_app', dir_name + "_mobile_app", 'Flask BDA', projectName)
 
-    shutil.rmtree(repo+'-main')
+    shutil.rmtree(repo+'-'+branch)
 
     os.remove(repo+'.zip')
 
