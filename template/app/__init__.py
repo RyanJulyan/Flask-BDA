@@ -5,6 +5,9 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 from flask_wtf.csrf import CSRFProtect
 
+# Import logging
+import logging
+
 # Rate limiter
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -37,6 +40,17 @@ from engineio.async_drivers import gevent
 # Import Bcrypt
 from flask_bcrypt import Bcrypt
 
+# Import APScheduler
+from flask_apscheduler import APScheduler
+from apscheduler.events import (
+    EVENT_JOB_ADDED,
+    EVENT_JOB_ERROR,
+    EVENT_JOB_EXECUTED,
+    EVENT_JOB_MISSED,
+    EVENT_JOB_REMOVED,
+    EVENT_JOB_SUBMITTED,
+)
+
 # Define the WSGI application object
 app = Flask(__name__, template_folder='templates')
 Mobility(app)
@@ -53,6 +67,9 @@ login_manager.login_message_category = "danger"
 
 # Configurations
 app.config.from_object('config')
+
+# Logging
+logging.basicConfig(filename=app.config['LOG_FILENAME'], level=app.config['LOG_LEVEL'], format=app.config['LOG_FORMAT'])
 
 # Rate Limit
 limiter = Limiter(
@@ -83,13 +100,68 @@ socketio = SocketIO(app)
 # Bcrypt
 bcrypt = Bcrypt(app)
 
+# Mail
+mail = Mail(app)
+
+# JWT blacklist 
+blacklist = set()
+
+# initialize scheduler
+scheduler = APScheduler()
+def job_missed(event):
+    """Job missed event."""
+    with scheduler.app.app_context():
+        app.logger.warning('Job missed for organisation: ' + g.organization + '. Event details: ' + event)
+
+
+def job_error(event):
+    """Job error event."""
+    with scheduler.app.app_context():
+        app.logger.error('Job error for organisation: ' + g.organization + '. Event details: ' + event)
+
+
+def job_executed(event):
+    """Job executed event."""
+    with scheduler.app.app_context():
+        app.logger.info('Job executed for organisation: ' + g.organization + '. Event details: ' + event)
+
+
+def job_added(event):
+    """Job added event."""
+    with scheduler.app.app_context():
+        app.logger.info('Job added for organisation: ' + g.organization + '. Event details: ' + event)
+
+
+def job_removed(event):
+    """Job removed event."""
+    with scheduler.app.app_context():
+        app.logger.info('Job removed for organisation: ' + g.organization + '. Event details: ' + event)
+
+
+def job_submitted(event):
+    """Job scheduled to run event."""
+    with scheduler.app.app_context():
+        app.logger.info('Job scheduled to run for organisation: ' + g.organization + '. Event details: ' + event)
+
+
+scheduler.add_listener(job_missed, EVENT_JOB_MISSED)
+scheduler.add_listener(job_error, EVENT_JOB_ERROR)
+scheduler.add_listener(job_executed, EVENT_JOB_EXECUTED)
+scheduler.add_listener(job_added, EVENT_JOB_ADDED)
+scheduler.add_listener(job_removed, EVENT_JOB_REMOVED)
+scheduler.add_listener(job_submitted, EVENT_JOB_SUBMITTED)
+
+scheduler.init_app(app)
+scheduler.start()
+
 @app.before_request
 def before_request():
     # Just use the query parameter "tenant"
     # organization = tenant
-    g.organization = "core"
+    g.organization = "default"
     if 'organization' in request.args:
         g.organization = request.args['organization']
+        app.logger.info('Organisation changed: '+ g.organization)
 
     # Set database to tenant
     db.choose_tenant(g.organization)
@@ -98,11 +170,6 @@ def before_request():
     # This will create the database file using SQLAlchemy
     db.create_all()
 
-# Mail
-mail = Mail(app)
-
-# JWT blacklist 
-blacklist = set()
 
 # Import module models (i.e. User)
 from app.mod_auth.models import User  # noqa: E402
@@ -116,16 +183,19 @@ def load_user(_user_id):
 # Sample HTTP error handling
 @app.errorhandler(404)
 def not_found(error):
+    app.logger.warning('Organisation error 404 for: '+ g.organization)
     return render_template('./errors/404.html'), 404
 
 
 @app.errorhandler(403)
 def not_allowed(error):
+    app.logger.error('Organisation error 403 for: '+ g.organization)
     return render_template('./errors/403.html'), 403
 
 
 @app.errorhandler(500)
 def internal_server_error(error):
+    app.logger.warning('Organisation error 500 for: '+ g.organization)
     return render_template('./errors/500.html'), 500
 
 

@@ -1,6 +1,12 @@
 
 import os
 
+# Import logging
+import logging
+
+# Import SQLAlchemyJobStore
+from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
+
 ##########################
 # Basic Site Information #
 ##########################
@@ -9,6 +15,13 @@ SITE_URL = 'http://www.Flask BDA.com'
 SITE_DESCRIPTION = 'My awesome new Flask BDA site.'
 SITE_THEME_COLOR = '#3367D6'
 DEVELOPER_NAME = 'Ryan Julyan'
+
+###############################
+# Logging for the environment #
+###############################
+LOG_FILENAME = 'logs/system.log'
+LOG_LEVEL = logging.DEBUG
+LOG_FORMAT = f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s'
 
 ######################################################
 # Statement for enabling the development environment #
@@ -68,7 +81,7 @@ DATABASE_NAME = os.path.join(BASE_DIR, 'databases/sqlite/default.db')
 SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_HOST + DATABASE_PORT + DATABASE_NAME
 
 SQLALCHEMY_BINDS = {
-    "core": SQLALCHEMY_DATABASE_URI,
+    "default": SQLALCHEMY_DATABASE_URI,
 }
 
 SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -140,6 +153,15 @@ DEFAULT_MAIL_SENDER = 'Flask BDA <me@example.com>'
 ###############
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = set(['txt', 'rtf', 'docx', 'doc', 'docm', 'dotx', 'odt', 'xlsx', 'xlsm', 'xlsb', 'xls', 'xltx', 'ods', 'csv', 'xml', 'json', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+
+#######################
+# APScheduler Enabled #
+#######################
+SCHEDULER_API_ENABLED = True
+SCHEDULER_JOBSTORES = {"default": SQLAlchemyJobStore(url=SQLALCHEMY_DATABASE_URI)}
+SCHEDULER_EXECUTORS = {"default": {"type": "threadpool", "max_workers": 20}}
+SCHEDULER_JOB_DEFAULTS = {"coalesce": False, "max_instances": 3}
+
 
 ###########
 # Swagger #

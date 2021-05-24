@@ -22,16 +22,22 @@ import click
 ###################
 
 @click.command()
-@click.option('--project', 
+@click.option('--project', required=True, 
                     help='Name of project to create.')
+@click.option('--owner', default='RyanJulyan',
+                    help='Name of GitHub owner to use.')
+@click.option('--repo', default='Flask-BDA',
+                    help='Name of GitHub repository to use (must be linked to owner).')
+@click.option('--branch', default='main',
+                    help='Name of branch to use.')
 # @click.pass_context
-def cmd_create_project(project):
+def cmd_create_project(project, owner, repo, branch):
     """Generate a new project"""
 
-    create_project(project)
+    create_project(project, owner, repo, branch)
 
 
-def create_project(project_name):
+def create_project(project_name, owner = "RyanJulyan", repo = "Flask-BDA", branch="main"):
     """Generate a new project"""
 
     while True:
@@ -83,10 +89,6 @@ def create_project(project_name):
     # Download GitHub Repo #
     ########################
     ########################
-
-    owner = "RyanJulyan"
-    repo = "Flask-BDA"
-    branch = "main"
 
     os.system('curl -L https://codeload.github.com/{}/{}/zip/{} --ssl-no-revok -o {}.zip'.format(owner, repo, branch, repo))
 

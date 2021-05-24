@@ -180,6 +180,12 @@ Please enter a valid project name!
 > **Note:** You will notice this creates a folder in the same path as the file: "create_project_git.py".
 > This folder will be lower case and will have stripped out all of the special characters and replaced spaces with underscores eg: `my_awesome_project`
 
+> **Note:** During development, you may wish to use another branch or repo entirely. This can help with testing, or if you have broken away from the core Flask-BDA prooject.
+> * You can specify the `Owner`, `Repo` and `Branch` when you create a new project.
+```python
+python create_project_git.py --project="My Awesome Project" --owner="RyanJulyan" --repo="Flask-BDA" --branch="RyanJulyan-Dev"
+
+```
 
 # Update Database
 
