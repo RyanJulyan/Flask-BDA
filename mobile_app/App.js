@@ -180,7 +180,35 @@ function OfflineScreen({navigation}) {
     );
 }
 
+function ErrorScreen({navigation}) {
+    return (
+        <>
+            <StatusBar style="dark" />
+            <View style={styles.container}>
+                <Image
+                    style={styles.icon_image}
+                    source={require('./assets/offline.png')} />
+                <Text style={styles.heading}>ERROR</Text>
+                <Text style={styles.text}>Please check your internet connection to proceed</Text>
+                <View style={styles.bottom}>
+                    <TouchableHighlight
+                        style={styles.button}
+                        onPress={() => loadScreenByName({navigation},'Web')}
+                        underlayColor='#d7d7d7'>
+                        <Text style={styles.submitText}>Retry</Text>
+                    </TouchableHighlight>
+                </View>
+            </View>
+        </>
+    );
+}
+
 function WebScreen({navigation}) {
+    
+    const runFirst = `
+      window.isNativeApp = true;
+      true; // note: this is required, or you'll sometimes get silent failures
+    `;
     return (
         <>
             <StatusBar style="dark" />
@@ -194,6 +222,7 @@ function WebScreen({navigation}) {
                         return LoadingIndicator();
                     }}
                     // onMessage={(event)=> dx.receiveMessageFromWeb(event)}
+                    injectedJavaScriptBeforeContentLoaded={runFirst}
                 />
             </SafeAreaView>
         </>
@@ -225,6 +254,11 @@ class FlaskBDAWebAppWrapper extends Component{
                             name="Offline" 
                             component={OfflineScreen}
                             options={{title: 'Offline',animationEnabled: false}}
+                        />
+                        <Stack.Screen
+                            name="Error"
+                            component={ErrorScreen}
+                            options={{title: 'Error'}}
                         />
                         <Stack.Screen 
                             name="Web"
