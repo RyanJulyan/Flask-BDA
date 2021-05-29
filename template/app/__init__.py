@@ -24,7 +24,7 @@ from flask_restx import Api, Resource
 from flask_cors import CORS
 
 # JWT for API
-from flask_jwt_extended import JWTManager
+from flask_jwt_extended import JWTManager, create_access_token
 
 # Import SQLAlchemy
 from flask_sqlalchemy import SQLAlchemy
@@ -50,6 +50,10 @@ from apscheduler.events import (
     EVENT_JOB_REMOVED,
     EVENT_JOB_SUBMITTED,
 )
+
+# Import module models (i.e. User)
+from app.mod_api_keys.models import Api_keys  # noqa: E402
+from app.mod_auth.models import User  # noqa: E402
 
 # Define the WSGI application object
 app = Flask(__name__, template_folder='templates')
@@ -166,18 +170,23 @@ def before_request():
     # Set database to tenant
     db.choose_tenant(g.organization)
 
+    # Set User JWT token if API key Used
+    if("ApiKey" in request.headers):
+        ApiKey = request.headers.get('ApiKey')
+        api_key = Api_keys.query.filter_by(_and(api_key = ApiKey,and_(Api_keys.birthday <= '1988-01-17', Api_keys.birthday >= '1985-01-17'))).first()
+        data = User.query.get_or_404(api_key.created_user_id)
+
+        request.headers['Authorization'] = "Bearer "+ create_access_token(identity=data.email)
+
     # Build the database:
     # This will create the database file using SQLAlchemy
     db.create_all()
 
 
-# Import module models (i.e. User)
-from app.mod_auth.models import User  # noqa: E402
-
 # User_loader
 @login_manager.user_loader
 def load_user(_user_id):
-    return Users.query.get_or_404(_user_id)
+    return User.query.get_or_404(_user_id)
 
 
 # Sample HTTP error handling
@@ -220,6 +229,9 @@ def landing(template):
 # from app.mod_xyz.controllers import mod_xyz as xyz_module
 from app.mod_auth.controllers import mod_auth as auth_module  # noqa: E402
 # import new xyz_module
+# api_keys
+from app.mod_api_keys.controllers import mod_public_api_keys as api_keys_public_module  # noqa: E402
+from app.mod_api_keys.controllers import mod_admin_api_keys as api_keys_admin_module  # noqa: E402
 # hierarchies
 from app.mod_hierarchies.controllers import mod_public_hierarchies as hierarchies_public_module  # noqa: E402
 from app.mod_hierarchies.controllers import mod_admin_hierarchies as hierarchies_admin_module  # noqa: E402
@@ -230,6 +242,9 @@ from app.mod_organisations.controllers import mod_admin_organisations as organis
 # Register blueprint(s)
 app.register_blueprint(auth_module)
 # register_blueprint new xyz_module
+# api_keys
+app.register_blueprint(api_keys_public_module)
+app.register_blueprint(api_keys_admin_module)
 # hierarchies
 app.register_blueprint(hierarchies_public_module)
 app.register_blueprint(hierarchies_admin_module)
@@ -245,14 +260,19 @@ authorizations = {
         'type': 'apiKey',
         'in': 'header',
         'name': 'Authorization'
+    },
+    'apikey': {
+        'type': 'apiKey',
+        'in': 'header',
+        'name': 'ApiKey'
     }
 }
-api = Api(app, version='1.0',
+api = Api(app, version='3.0',
     title=app.config['SITE_TITLE'] + ' API',
     description=app.config['SITE_DESCRIPTION'] + ' API',
     # base_url='/api',  # this did not work when set so moved to docs
     doc=app.config['SWAGGER_URL'],
-    security='jwt',
+    security=['jwt','apikey'],
     decorators=[csrf_protect.exempt],
     authorizations=authorizations
 )
@@ -261,6 +281,8 @@ api = Api(app, version='1.0',
 # Register api(s)
 from app.mod_auth.api_controllers import ns as Auth_API  # noqa: E402
 # new xyz api resources
+# api_keys
+from app.mod_api_keys.api_controllers import ns as Api_keys_API  # noqa: E402
 # hierarchies
 from app.mod_hierarchies.api_controllers import ns as Hierarchies_API  # noqa: E402
 # organisations
