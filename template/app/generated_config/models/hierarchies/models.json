@@ -1,6 +1,49 @@
 {
-    "hierarchies":{ 
-        "model": "Hierarchies",
-        "fields": {"organisation_id": {"dataType": "Integer", "nullable": false, "unique": false, "relationship": "organisations", "default": false}, "name": {"dataType": "String(256)", "nullable": false, "unique": false, "relationship": null, "default": false}, "path": {"dataType": "Text", "nullable": false, "unique": false, "relationship": null, "default": false}, "rank": {"dataType": "Integer", "nullable": true, "unique": false, "relationship": null, "default": false}, "parent_id": {"dataType": "Integer", "nullable": true, "unique": false, "relationship": "hierarchies", "default": false}, "key_value": {"dataType": "Text", "nullable": true, "unique": false, "relationship": null, "default": false}}
-    }
+	"hierarchies": {
+		"model": "Hierarchies",
+		"fields": {
+			"organisation_id": {
+				"dataType": "Integer",
+				"nullable": false,
+				"unique": false,
+				"relationship": "organisations",
+				"default": false
+			},
+			"name": {
+				"dataType": "String(256)",
+				"nullable": false,
+				"unique": false,
+				"relationship": null,
+				"default": false
+			},
+			"path": {
+				"dataType": "Text",
+				"nullable": false,
+				"unique": false,
+				"relationship": null,
+				"default": false
+			},
+			"rank": {
+				"dataType": "Integer",
+				"nullable": true,
+				"unique": false,
+				"relationship": null,
+				"default": false
+			},
+			"parent_id": {
+				"dataType": "Integer",
+				"nullable": true,
+				"unique": false,
+				"relationship": "hierarchies",
+				"default": false
+			},
+			"key_value": {
+				"dataType": "Text",
+				"nullable": true,
+				"unique": false,
+				"relationship": null,
+				"default": false
+			}
+		}
+	}
 }
