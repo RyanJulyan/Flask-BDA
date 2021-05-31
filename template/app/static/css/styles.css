@@ -104,7 +104,7 @@ nav.bottom a.active, nav.bottom a:active, nav.bottom a:focus, nav.bottom a:hover
     left: 0px;
     right: 0px;
     background-color: rgba(0, 0, 0, 0.35);
-    z-index: 100;
+    z-index: 1035;
     pointer-events: none;
     opacity: 0;
     transition: all 350ms ease;
@@ -114,7 +114,7 @@ nav.bottom a.active, nav.bottom a:active, nav.bottom a:focus, nav.bottom a:hover
     display: none;
     position: fixed;
     background-color: #FFF;
-    z-index: 101;
+    z-index: 1036;
     overflow: scroll;
     transition: all 350ms ease;
     -webkit-overflow-scrolling: touch;

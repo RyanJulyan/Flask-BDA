@@ -51,10 +51,6 @@ from apscheduler.events import (
     EVENT_JOB_SUBMITTED,
 )
 
-# Import module models (i.e. User)
-from app.mod_api_keys.models import Api_keys  # noqa: E402
-from app.mod_auth.models import User  # noqa: E402
-
 # Define the WSGI application object
 app = Flask(__name__, template_folder='templates')
 Mobility(app)
@@ -158,6 +154,10 @@ scheduler.add_listener(job_submitted, EVENT_JOB_SUBMITTED)
 scheduler.init_app(app)
 scheduler.start()
 
+# Import module models (i.e. User)
+from app.mod_auth.models import User  # noqa: E402
+from app.mod_api_keys.models import Api_keys  # noqa: E402
+
 @app.before_request
 def before_request():
     # Just use the query parameter "tenant"
@@ -173,7 +173,8 @@ def before_request():
     # Set User JWT token if API key Used
     if("ApiKey" in request.headers):
         ApiKey = request.headers.get('ApiKey')
-        api_key = Api_keys.query.filter_by(_and(api_key = ApiKey,and_(Api_keys.birthday <= '1988-01-17', Api_keys.birthday >= '1985-01-17'))).first()
+        # api_key = Api_keys.query.filter_by(_and(api_key = ApiKey,and_(Api_keys.birthday <= '1988-01-17', Api_keys.birthday >= '1985-01-17'))).first()
+        api_key = Api_keys.query.filter_by(api_key = ApiKey).first()
         data = User.query.get_or_404(api_key.created_user_id)
 
         request.headers['Authorization'] = "Bearer "+ create_access_token(identity=data.email)
