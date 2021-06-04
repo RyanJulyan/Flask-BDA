@@ -177,7 +177,9 @@ def before_request():
         api_key = Api_keys.query.filter_by(api_key = ApiKey).first()
         data = User.query.get_or_404(api_key.created_user_id)
 
-        request.headers['Authorization'] = "Bearer "+ create_access_token(identity=data.email)
+        # request.headers['Authorization'] = "Bearer "+ create_access_token(identity=data.email)
+        if api_key:
+            request.headers['Authorization'] = "Bearer "+ create_access_token(identity=ApiKey)
 
     # Build the database:
     # This will create the database file using SQLAlchemy

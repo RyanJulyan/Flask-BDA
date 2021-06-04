@@ -59,7 +59,8 @@ DATABASE_ENGINE = 'sqlite:///'
 #############
 # SQLServer #
 #############
-# DATABASE_ENGINE = 'mssql+pymssql://'
+# import pyodbc   # noqa: E402
+# DATABASE_ENGINE = 'mssql+pyodbc://'
 # TRUSTED_CONNECTION = 'yes'  # for windows authentication.
 
 DATABASE_HOST = ''
