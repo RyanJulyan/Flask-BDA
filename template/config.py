@@ -45,11 +45,20 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 # SQLite #
 ##########
 DATABASE_ENGINE = 'sqlite:///'
+DATABASE_NAME = os.path.join(BASE_DIR, 'databases/sqlite/default.db')
+
+SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_NAME
 
 #########
 # MySQL #
 #########
 # DATABASE_ENGINE = 'mysql://'
+# DATABASE_HOST = ''
+# DATABASE_PORT = '1433'
+# DATABASE_USERNAME = ''
+# DATABASE_PASSWORD = ''
+# DATABASE_NAME = ''
+# SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_USERNAME + ':' + DATABASE_PASSWORD + '@' + DATABASE_HOST + ':' + DATABASE_PORT + '/' + DATABASE_NAME
 
 ##############
 # PostgreSQL #
@@ -61,14 +70,28 @@ DATABASE_ENGINE = 'sqlite:///'
 #############
 # import pyodbc   # noqa: E402
 # DATABASE_ENGINE = 'mssql+pyodbc://'
+# SQLEXPRESS = '\\SQLEXPRESS'  # for SQLEXPRESS
 # TRUSTED_CONNECTION = 'yes'  # for windows authentication.
-
-DATABASE_HOST = ''
-DATABASE_PORT = ''
-DATABASE_USERNAME = ''
-DATABASE_PASSWORD = ''
-DATABASE_NAME = os.path.join(BASE_DIR, 'databases/sqlite/default.db')
-
+# DATABASE_DRIVER = 'ODBC+Driver+17+for+SQL+Server'  # for windows authentication.
+# DATABASE_HOST = ''
+# DATABASE_PORT = '1433'
+# DATABASE_USERNAME = 'test'
+# DATABASE_PASSWORD = 'test'
+# DATABASE_NAME = 'test'
+# try:
+#     if SQLEXPRESS == '\\SQLEXPRESS':
+#         if TRUSTED_CONNECTION == 'yes':
+#             SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_HOST + ':' + DATABASE_PORT + SQLEXPRESS + '/' + DATABASE_NAME+ '?trusted_connection=' + TRUSTED_CONNECTION + '&driver=' + DATABASE_DRIVER
+#         else:
+#             SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_USERNAME + ':' + DATABASE_PASSWORD + '@' + DATABASE_HOST + ':' + DATABASE_PORT  + SQLEXPRESS + '/' + DATABASE_NAME
+# except NameError:
+#     try:
+#         if TRUSTED_CONNECTION == 'yes':
+#             SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_HOST + ':' + DATABASE_PORT + '/' + DATABASE_NAME+ '?trusted_connection=' + TRUSTED_CONNECTION + '&driver=' + DATABASE_DRIVER
+#         else:
+#             SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_USERNAME + ':' + DATABASE_PASSWORD + '@' + DATABASE_HOST + ':' + DATABASE_PORT  + SQLEXPRESS + '/' + DATABASE_NAME
+#     except NameError:
+#         SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_USERNAME + ':' + DATABASE_PASSWORD + '@' + DATABASE_HOST + ':' + DATABASE_PORT + '/' + DATABASE_NAME
 
 ###################
 # Amazon DynamoDB #
@@ -78,8 +101,6 @@ DATABASE_NAME = os.path.join(BASE_DIR, 'databases/sqlite/default.db')
 # DYNAMODB_SECRET_KEY = ''
 # DYNAMODB_DOMAIN = 'amazonaws.com'
 # DYNAMODB_REGION = 'us-east-1'
-
-SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_HOST + DATABASE_PORT + DATABASE_NAME
 
 SQLALCHEMY_BINDS = {
     "default": SQLALCHEMY_DATABASE_URI,
