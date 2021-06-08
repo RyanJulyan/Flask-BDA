@@ -286,7 +286,7 @@ import pyodbc   # noqa: E402
 DATABASE_ENGINE = 'mssql+pyodbc://'
 # SQLEXPRESS = '\\SQLEXPRESS'  # for SQLEXPRESS
 # TRUSTED_CONNECTION = 'yes'  # for windows authentication.
-DATABASE_DRIVER = 'ODBC+Driver+17+for+SQL+Server'  # for windows authentication.
+DATABASE_DRIVER = 'SQL+Server+Native+Client+11.0'  # for windows authentication.
 DATABASE_HOST = ''
 DATABASE_PORT = '1433'
 DATABASE_USERNAME = ''
@@ -329,6 +329,25 @@ DATABASE_PASSWORD = 'password'
 DATABASE_NAME = 'flaskbda'
 
 ```
+
+Ensure that your MS-SQL instance has remote connection rights set up and enabled reference (here)[https://knowledgebase.apexsql.com/configure-remote-access-connect-remote-sql-server-instance-apexsql-tools/]:
+* Right – click on the server 
+* Select the Properties option.
+    * In the Server Properties dialog select the Connections tab (on the left)
+        * Check the "Allow remote connections to this server" checkbox
+
+Ensure that the "SQL server configuration management" settings are configured correctly
+* Start-> Programs -> Microsoft SQL Server <Version eg: 2019>
+    * Select "SQL Server Configuration Manager"
+        * In the left pane of SQL Server Configuration Manager select the "SQL Server Network Configuration"
+            * select Protocols for <your server name eg: MSSQLSERVER>
+                * Make sure that TCP/IP protocol is enabled and right click on TCP/IP and select the Properties option. In the TCP/IP Properties dialog select the IP Addresses tab and scroll down to IPAII. If the TCP Dynamic Ports dialog box contains 0, which indicates that the Database Engine is listening on dynamic ports, delete the 0 and set the TCP Dynamic Ports to blank and TCP Port to 1433. Port 1433 is the default instance that SQL Server uses.
+                * When you click the OK button you will be prompted with a message to restart the service
+* In the left pane of SQL Server Configuration Manager select "SQL Server Services"
+    * right-click SQL Server<instance_name eg: MSSQLSERVER>
+        * click Restart
+
+# Multi Tenants
 
 > By default Flask-BDA connects to a tenant called `core`. this is done using the `SQLALCHEMY_BINDS` object which should have the specific connection details you require for each tenant. By default the above default connection details are combined into a string called `SQLALCHEMY_DATABASE_URI` which was meant to allow for quick and easy single tenant setup.
 
