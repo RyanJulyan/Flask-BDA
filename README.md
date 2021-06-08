@@ -183,6 +183,8 @@ Please enter a valid project name!
 > **Note:** During development, you may wish to use another branch or repo entirely. This can help with testing, or if you have broken away from the core Flask-BDA prooject.
 > * You can specify the `Owner`, `Repo` and `Branch` when you create a new project.
 ```python
+curl -L https://raw.githubusercontent.com/RyanJulyan/Flask-BDA/RyanJulyan-Dev/create_project_git.py --ssl-no-revok -o create_project_git.py
+
 python create_project_git.py --project="My Awesome Project" --owner="RyanJulyan" --repo="Flask-BDA" --branch="RyanJulyan-Dev"
 
 ```
