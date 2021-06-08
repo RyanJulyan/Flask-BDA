@@ -197,8 +197,16 @@ python create_project_git.py --project="My Awesome Project" --owner="RyanJulyan"
 
 ## MySQL
 To change the default database:
+* Create a new MySQL Database (`flaskbda`), User (`flaskbda_user`) and Password (`password`)
 * Open the file `config.py`
-* You can quickly comment out the `DATABASE_ENGINE` for SQLite, and for example comment in the mysql `DATABASE_ENGINE`.
+* Comment out the `DATABASE_ENGINE` for SQLite, and comment in the mysql `DATABASE_ENGINE`.
+* Comment out the `DATABASE_NAME` for SQLite, and comment in the mysql:
+    * `DATABASE_HOST`
+    * `DATABASE_PORT`
+    * `DATABASE_USERNAME`
+    * `DATABASE_PASSWORD`
+    * `DATABASE_NAME`
+* Comment out the `SQLALCHEMY_DATABASE_URI` for SQLite, and comment in the mysql `SQLALCHEMY_DATABASE_URI`.
 
 ```python
 
@@ -206,23 +214,22 @@ To change the default database:
 # SQLite #
 ##########
 # DATABASE_ENGINE = 'sqlite:///'
+# DATABASE_NAME = os.path.join(BASE_DIR, 'databases/sqlite/default.db')
+
+# SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_NAME
 
 #########
 # MySQL #
 #########
 DATABASE_ENGINE = 'mysql://'
+DATABASE_HOST = ''
+DATABASE_PORT = '1433'
+DATABASE_USERNAME = ''
+DATABASE_PASSWORD = ''
+DATABASE_NAME = ''
 
-##############
-# PostgreSQL #
-##############
-# DATABASE_ENGINE = 'postgresql://'
+SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_USERNAME + ':' + DATABASE_PASSWORD + '@' + DATABASE_HOST + ':' + DATABASE_PORT + '/' + DATABASE_NAME
 
-#############
-# SQLServer #
-#############
-# DATABASE_ENGINE = 'mssql+pymssql://'
-# SQLEXPRESS = '\\SQLEXPRESS'  # for SQLEXPRESS
-# TRUSTED_CONNECTION = 'yes'  # for windows authentication.
 
 ```
 
@@ -243,6 +250,85 @@ DATABASE_NAME = 'flaskbda'
 ```
 
 ## SQL Server
+To change the default database:
+* Create a new MySQL Database (`flaskbda`), User (`flaskbda_user`) and Password (`password`)
+* Open the file `config.py`
+* Comment in the SQLServer `import pyodbc`.
+* Comment in the SQLServer `DATABASE_DRIVER`.
+* Comment out the `DATABASE_ENGINE` for SQLite, and for example comment in the SQLServer `DATABASE_ENGINE`.
+* Comment out the `DATABASE_NAME` for SQLite, and comment in the SQLServer:
+    * `DATABASE_HOST`
+    * `DATABASE_PORT`
+    * `DATABASE_USERNAME`
+    * `DATABASE_PASSWORD`
+    * `DATABASE_NAME`
+* Comment out the `SQLALCHEMY_DATABASE_URI` for SQLite, and comment in the `try` and `except` for the SQLServer `SQLALCHEMY_DATABASE_URI`.
+
+> **Note:** if you are running and trying to connect to `SQLEXPRESS`. please comment in the SQLServer `SQLEXPRESS`. This will be handeled in the `try` and `except` to create the correct `SQLALCHEMY_DATABASE_URI`
+
+> **Note:** if you are want  windows authentication. please comment in the SQLServer `TRUSTED_CONNECTION`. This will be handeled in the `try` and `except` to create the correct `SQLALCHEMY_DATABASE_URI`
+
+
+```python
+
+##########
+# SQLite #
+##########
+# DATABASE_ENGINE = 'sqlite:///'
+# DATABASE_NAME = os.path.join(BASE_DIR, 'databases/sqlite/default.db')
+
+# SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_NAME
+
+#############
+# SQLServer #
+#############
+import pyodbc   # noqa: E402
+DATABASE_ENGINE = 'mssql+pyodbc://'
+# SQLEXPRESS = '\\SQLEXPRESS'  # for SQLEXPRESS
+# TRUSTED_CONNECTION = 'yes'  # for windows authentication.
+DATABASE_DRIVER = 'ODBC+Driver+17+for+SQL+Server'  # for windows authentication.
+DATABASE_HOST = ''
+DATABASE_PORT = '1433'
+DATABASE_USERNAME = ''
+DATABASE_PASSWORD = ''
+DATABASE_NAME = ''
+
+try:
+    if SQLEXPRESS == '\\SQLEXPRESS':
+        try:
+            if TRUSTED_CONNECTION == 'yes':
+                SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_HOST + ':' + DATABASE_PORT + SQLEXPRESS + '/' + DATABASE_NAME + '?trusted_connection=' + TRUSTED_CONNECTION + '&driver=' + DATABASE_DRIVER
+            else:
+                SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_USERNAME + ':' + DATABASE_PASSWORD + '@' + DATABASE_HOST + ':' + DATABASE_PORT  + SQLEXPRESS + '/' + DATABASE_NAME + '&driver=' + DATABASE_DRIVER
+        except NameError:
+            SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_USERNAME + ':' + DATABASE_PASSWORD + '@' + DATABASE_HOST + ':' + DATABASE_PORT  + SQLEXPRESS + '/' + DATABASE_NAME + '&driver=' + DATABASE_DRIVER
+except NameError:
+    try:
+        if TRUSTED_CONNECTION == 'yes':
+            SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_HOST + ':' + DATABASE_PORT + '/' + DATABASE_NAME+ '?trusted_connection=' + TRUSTED_CONNECTION + '&driver=' + DATABASE_DRIVER
+        else:
+            SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_USERNAME + ':' + DATABASE_PASSWORD + '@' + DATABASE_HOST + ':' + DATABASE_PORT  + SQLEXPRESS + '/' + DATABASE_NAME + '&driver=' + DATABASE_DRIVER
+    except NameError:
+        SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_USERNAME + ':' + DATABASE_PASSWORD + '@' + DATABASE_HOST + ':' + DATABASE_PORT + '/' + DATABASE_NAME + '&driver=' + DATABASE_DRIVER
+
+
+```
+
+* You will then need to update the database connection details with your own details:
+    * `DATABASE_HOST`
+    * `DATABASE_PORT`
+    * `DATABASE_USERNAME`
+    * `DATABASE_PASSWORD`
+    * `DATABASE_NAME`
+
+```python
+DATABASE_HOST = 'MSSQLSERVER'
+DATABASE_PORT = '1433'
+DATABASE_USERNAME = 'flaskbda_user'
+DATABASE_PASSWORD = 'password'
+DATABASE_NAME = 'flaskbda'
+
+```
 
 > By default Flask-BDA connects to a tenant called `core`. this is done using the `SQLALCHEMY_BINDS` object which should have the specific connection details you require for each tenant. By default the above default connection details are combined into a string called `SQLALCHEMY_DATABASE_URI` which was meant to allow for quick and easy single tenant setup.
 
