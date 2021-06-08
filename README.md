@@ -191,10 +191,12 @@ python create_project_git.py --project="My Awesome Project" --owner="RyanJulyan"
 
 > **Note:** Still to be tested for all connection types!
 
-> Database connections are quick and easy in Flask-BDA. You can have 1 more multiple databases, and different tenants can have their own database connections as well as their own database type (SQLite, MySQL, SQL Server, PostgreSQL)
+> Database connections are quick and easy in Flask-BDA. You can have 1 or multiple databases, and different tenants can have their own database connections as well as their own database type (SQLite, MySQL, SQL Server, PostgreSQL)
 
-> By default, Flask-BDA has a SQLite database set up. This is really because then you do not require addtional infistructure to set it up and get going.
+> By default, Flask-BDA has a SQLite database set up. This is really because then you do not require addtional infistructure to set it up and get going, so makes SQLite a fast and easy choice.
 
+## MySQL
+To change the default database:
 * Open the file `config.py`
 * You can quickly comment out the `DATABASE_ENGINE` for SQLite, and for example comment in the mysql `DATABASE_ENGINE`.
 
@@ -219,6 +221,7 @@ DATABASE_ENGINE = 'mysql://'
 # SQLServer #
 #############
 # DATABASE_ENGINE = 'mssql+pymssql://'
+# SQLEXPRESS = '\\SQLEXPRESS'  # for SQLEXPRESS
 # TRUSTED_CONNECTION = 'yes'  # for windows authentication.
 
 ```
@@ -231,7 +234,6 @@ DATABASE_ENGINE = 'mysql://'
     * `DATABASE_NAME`
 
 ```python
-
 DATABASE_HOST = 'localhost'
 DATABASE_PORT = '3306'
 DATABASE_USERNAME = 'flaskbda_user'
@@ -240,15 +242,16 @@ DATABASE_NAME = 'flaskbda'
 
 ```
 
-> By default Flask-BDA connects to a tenant called `core`. this is done using the `SQLALCHEMY_BINDS` object, the above details are combined into a string called `SQLALCHEMY_DATABASE_URI` which was meant to allow for quick and easy single tenant setup.
+## SQL Server
 
-> You can use this same structure however to have multiple tenants. To add a new tenant, simple:
+> By default Flask-BDA connects to a tenant called `core`. this is done using the `SQLALCHEMY_BINDS` object which should have the specific connection details you require for each tenant. By default the above default connection details are combined into a string called `SQLALCHEMY_DATABASE_URI` which was meant to allow for quick and easy single tenant setup.
+
+> You can use this same structure however to have multiple tenants quickly. To add a new tenant, simply:
 * Create a new line in the  `SQLALCHEMY_BINDS` object, with the name of the tenant and the connection string details
     * Remember to create the database before trying to connect to it.
-    * The database connection types do not have to be the same in the same application 
+    * The database connection types do not have to be the same per tenant in the same application (meaning different tenants can use different databases)
 
 ```python
-
 SQLALCHEMY_BINDS = {
     "core": SQLALCHEMY_DATABASE_URI,
     "client1": 'sqlite:///databases/sqlite/client1.db',
