@@ -15,7 +15,7 @@ web-build/
 venv/
 
 # *.db
-# template/databases/sqlite/*
+template/databases/sqlite/*
 
 *.pyc
 __pycache__/
@@ -32,4 +32,4 @@ build/
 
 *.spec
 
-# template/logs/*
+template/logs/*
