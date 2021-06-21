@@ -757,7 +757,7 @@ npm install
 
 #### run local instance on Public URL with ngrok
 
-> If you are still in development and have not chosen a service provider for hosting yet, you could use: [ngrok](https://ngrok.com/) to create a temporary public development URL that tunnels to your local environment.
+> If you are still in development and/or have not chosen a service provider for hosting yet, you could use: [Ngrok](https://ngrok.com/) to create a temporary public development URL that tunnels to your local environment. Ngrok exposes local servers behind NATs and firewalls to the public internet over secure tunnels. This allows you to demo websites on a public URL and test mobile apps connected to your locally running backend, without deploying.
 
 * Start the local development server by following the [Local Environment](#local-environment) instructions
 
