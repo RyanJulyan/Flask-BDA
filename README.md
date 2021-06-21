@@ -715,24 +715,12 @@ serverless deploy
 
 > Build one project that runs natively on all your users' devices.
 
-### ngrok
-
-> If you are still in development and have not chosen a service provider for hosting yet, you could use: [ngrok](https://ngrok.com/) to create a temporary public development URL that tunnels to your local environment.
-
-* If you have not registered for ngrok before:
-    * Open a browser and register for ngrok:
-        * Go to: [https://dashboard.ngrok.com/signup](https://dashboard.ngrok.com/signup)
-        * Follow the installation instructions and then continue to the next steps
-* If you have already registerd:
-    * Open a browser and register for ngrok:
-        * Go to: [https://dashboard.ngrok.com/get-started/setup](https://dashboard.ngrok.com/get-started/setup)
-
-### Install Expo
+## Install Expo
 * Open a browser and install node.js:
     * Go to: [https://nodejs.org/en/download/](https://nodejs.org/en/download/)
     * Follow the installation instructions and then continue to the next steps
 
-#### Windows
+### Windows
 * Open new terminal
     * "Windows-Key + R" will show you the 'RUN' box
     * Type "cmd" to open the terminal
@@ -745,7 +733,7 @@ npm install
 
 ```
 
-#### Linux / Mac
+### Linux / Mac
 * Open new terminal
     * "Control + Option + Shift + T" to open the terminal
 ```shell
@@ -765,6 +753,41 @@ npm install
 > This would have created a folder where the name is all in lower case and will have stripped out all of the special characters and replaced spaces with underscores eg: `my_awesome_project`.
 
 > For mobile we will have automatically created a separate `"_mobile_app"` folder where the prefix of the folder is your project name eg `my_awesome_project_mobile_app`. This is to prevent issues with the `Serverless` configuration `package.json` and allow you to not have to deploy all the code for a mobile app onto your web server.
+
+
+#### run local instance on Public URL with ngrok
+
+> If you are still in development and have not chosen a service provider for hosting yet, you could use: [ngrok](https://ngrok.com/) to create a temporary public development URL that tunnels to your local environment.
+
+* Start the local development server by following the [Local Environment](#local-environment) instructions
+
+* If you have not registered for ngrok before:
+    * Open a browser and register for ngrok:
+        * Go to: [https://dashboard.ngrok.com/signup](https://dashboard.ngrok.com/signup)
+        * Follow the installation instructions and then continue to the next steps
+* If you have already registerd but do not have it installed:
+    * Open a browser and register for ngrok:
+        * Go to: [https://dashboard.ngrok.com/get-started/setup](https://dashboard.ngrok.com/get-started/setup)
+        * download the correct version for your OS and run the application.
+* Once the ngrok terminal is open, create a tunnel from your local server to ngrok
+    * create the tunnel to ngrok from the:
+        * If you have changed the port number from the default `5000`, then replace ths number after `http` to allow for the correct tunnel to be created.
+    
+```shell
+ngrok http 5000
+
+```
+
+* This should return a randomly generated URL that you can now use for testing eg:
+```shell
+ngrok by @inconshreveable                                                                               (Ctrl+C to quit)                                                                                                                        Session Status                online                                                                                    Session Expires               1 hour, 59 minutes                                                                        Version                       2.3.40                                                                                    Region                        United States (us)                                                                        Web Interface                 http://127.0.0.1:4040                                                                     Forwarding                    http://573d4ec93267.ngrok.io -> http://localhost:5000                                     Forwarding                    https://573d4ec93267.ngrok.io -> http://localhost:5000                                                                                                                                                            Connections                   ttl     opn     rt1     rt5     p50     p90                                                                             0       0       0.00    0.00    0.00    0.00
+
+```
+
+> ** Note: ** the free version only keeps this server alive for 2 hours, so you may need to follow this process in the future.
+
+
+#### Update the mobile App URL
 
 * Open the Mobile App folder `my_awesome_project_mobile_app`
     * Once open, select the `app.json` file and edit line 2 `"server_base_url": "https://github.com/RyanJulyan/Flask-BDA"` by replacing `https://github.com/RyanJulyan/Flask-BDA` with your own server name.
