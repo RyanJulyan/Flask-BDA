@@ -796,7 +796,7 @@ ttl     opn     rt1     rt5     p50     p90
 
 ```
 
-> ** Note: ** the free version only keeps this server alive for 2 hours, so you may need to follow this process in the future.
+> **Note:** the free version only keeps this server alive for 2 hours, so you may need to follow this process in the future and if you push this URL to your "Repo", it may not work for the next person.
 
 
 #### Update the mobile App URL
