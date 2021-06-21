@@ -116,7 +116,7 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 ########################
 # Application threads. #
 ########################
-THREADS_PER_PAGE = 2
+THREADS_PER_PAGE = 3
 
 ############################
 # Time for session expirey #

@@ -1,1 +1,1 @@
-web: gunicorn --bind 0.0.0.0:$PORT run_shared_server:application --log-level "debug"
+web: gunicorn --bind 0.0.0.0:$PORT run_shared_server:application --workers=3 --log-level "debug"

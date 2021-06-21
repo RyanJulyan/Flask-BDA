@@ -535,7 +535,7 @@ pip install --upgrade pip
 pip install virtualenv
 virtualenv venv
 
-venv/bin/activate
+source venv/bin/activate
 
 pip install --upgrade pip
 pip install --no-cache-dir -r requirements.txt
@@ -715,11 +715,24 @@ serverless deploy
 
 > Build one project that runs natively on all your users' devices.
 
+### ngrok
+
+> If you are still in development and have not chosen a service provider for hosting yet, you could use: [ngrok](https://ngrok.com/) to create a temporary public development URL that tunnels to your local environment.
+
+* If you have not registered for ngrok before:
+    * Open a browser and register for ngrok:
+        * Go to: [https://dashboard.ngrok.com/signup](https://dashboard.ngrok.com/signup)
+        * Follow the installation instructions and then continue to the next steps
+* If you have already registerd:
+    * Open a browser and register for ngrok:
+        * Go to: [https://dashboard.ngrok.com/get-started/setup](https://dashboard.ngrok.com/get-started/setup)
+
+### Install Expo
 * Open a browser and install node.js:
     * Go to: [https://nodejs.org/en/download/](https://nodejs.org/en/download/)
     * Follow the installation instructions and then continue to the next steps
 
-### Windows
+#### Windows
 * Open new terminal
     * "Windows-Key + R" will show you the 'RUN' box
     * Type "cmd" to open the terminal
@@ -732,7 +745,7 @@ npm install
 
 ```
 
-### Linux / Mac
+#### Linux / Mac
 * Open new terminal
     * "Control + Option + Shift + T" to open the terminal
 ```shell
