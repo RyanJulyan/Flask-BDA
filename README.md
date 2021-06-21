@@ -780,7 +780,19 @@ ngrok http 5000
 
 * This should return a randomly generated URL that you can now use for testing eg:
 ```shell
-ngrok by @inconshreveable                                                                               (Ctrl+C to quit)                                                                                                                        Session Status                online                                                                                    Session Expires               1 hour, 59 minutes                                                                        Version                       2.3.40                                                                                    Region                        United States (us)                                                                        Web Interface                 http://127.0.0.1:4040                                                                     Forwarding                    http://573d4ec93267.ngrok.io -> http://localhost:5000                                     Forwarding                    https://573d4ec93267.ngrok.io -> http://localhost:5000                                                                                                                                                            Connections                   ttl     opn     rt1     rt5     p50     p90                                                                             0       0       0.00    0.00    0.00    0.00
+ngrok by @inconshreveable
+(Ctrl+C to quit) 
+Session Status                online
+Session Expires               1 hour, 59 minutes
+Version                       2.3.40
+Region                        United States (us)
+Web Interface                 http://127.0.0.1:4040
+Forwarding                    http://573d4ec93267.ngrok.io -> http://localhost:5000
+Forwarding                    https://573d4ec93267.ngrok.io -> http://localhost:5000
+
+Connections
+ttl     opn     rt1     rt5     p50     p90
+0       0       0.00    0.00    0.00    0.00
 
 ```
 
