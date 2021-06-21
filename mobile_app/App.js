@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import { 
     StyleSheet,
     View,
@@ -232,9 +232,8 @@ function LoadingScreen({navigation}) {
 
 function LoadingIndicator() {
     return <ActivityIndicator
-        //visibility of Overlay Loading Spinner
+        color="#3367D6"
         visible = {true}
-        //Text with the Spinner
         textContent={'Loading...'}
         style={{ position: 'absolute', left: 0, right: 0, bottom: 0, top: 0, }}
         size="large"
@@ -330,7 +329,7 @@ function ErrorScreen({navigation}) {
 }
 
 function WebScreen({navigation}) {
-    
+    const [visible, setVisible] = useState(false);
     const runFirst = `
       window.isNativeApp = true;
       true; // note: this is required, or you'll sometimes get silent failures
@@ -344,12 +343,20 @@ function WebScreen({navigation}) {
                     style={{ marginTop: 5 }}
                     startInLoadingState={true}
                     source={{ uri: server_final_url }}
-                    renderLoading={() => {
-                        return LoadingIndicator();
-                    }}
+                    // renderLoading={() => {
+                    //     return LoadingIndicator();
+                    // }}
                     // onMessage={(event)=> receiveMessageFromWeb(event)}
+                    onLoadStart={() => (setVisible(true))}
+                    onLoad={() => setVisible(false)}
+                    
+                    //Enable Javascript support
+                    javaScriptEnabled={true}
+                    //For the Cache
+                    domStorageEnabled={true}
                     injectedJavaScriptBeforeContentLoaded={runFirst}
                 />
+                {visible ? LoadingIndicator() : null}
             </SafeAreaView>
         </>
     );

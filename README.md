@@ -2,8 +2,21 @@
 ## A Cross-platform, Multi-tenant, SAAS-ready, Rapid Application Development (RAD) tool to assist with building flask python applications. Helping you build applications fast, right, and for the Future.
 
 > **Note:** Still under Development!
-> 
+
+# Status of the project
+Current version: `0.0.0` Beta 
+
+Flask-BDA is still under inital development and is being tested with Python 3.8.6 version.
+
 > Current roadmap and high level project plan: https://trello.com/b/uu4HNPBh/flask-bda-features-roadmap
+
+Flask-BDA will follow a semantic versioning for its releases, with a `{major}.{minor}.{patch}` scheme for versions numbers, where:
+
+- major versions might introduce breaking changes
+- minor versions usually introduce new features and might introduce deprecations
+- patch versions only introduce bug fixes
+
+Deprecations will be kept in place for at least 3 minor versions, after version `0.0.1`
 
 # Overview
 * [Why use Flask-BDA](#why-use-flask-bda)
@@ -23,6 +36,7 @@
 * [Features List](#features-list)
 * [Project Structure](#project-structure)
 * [Glossary](#glossary)
+* [How can I help?](#how-can-i-help?)
 * [License](#license)
 
 # Why use Flask-BDA
@@ -1394,6 +1408,18 @@ python -m unittest discover
 ## Low-code platform
 ### Definition
 > A low-code development platform provides a development environment used to create application software through programmatic or graphical user interfaces and configurations instead of traditional hand-coded computer programming.
+
+________________________________________
+
+# How can I help?
+
+We would be very glad if you contributed to the project in one or all of these ways:
+
+* Talking about Emmett with friends and on the web
+* Adding issues and features requests here on GitHub
+* Participating in discussions about new features and issues here on GitHub
+* Improving the documentation
+* Forking the project and writing beautiful code
 
 # License
 
