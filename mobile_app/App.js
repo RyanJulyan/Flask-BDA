@@ -1,3 +1,5 @@
+import Constants from 'expo-constants';
+import * as Notifications from 'expo-notifications';
 import React, {Component, useState} from 'react';
 import { 
     StyleSheet,
@@ -17,12 +19,22 @@ import {server_base_url} from './app.json';
 // import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
+import { Permissions, Notifications } from 'expo';
 
 let current_screen = 'Init';
 let is_connected = true;
 const dimensions = Dimensions.get('window');
 // const imageHeight_3_6x1 = Math.round(dimensions.width * 1 / 3.6);
 // const imageWidth_3_6x1 = dimensions.width;
+
+
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: true,
+        shouldSetBadge: true,
+    }),
+});
 
 const Stack = createStackNavigator();
 
@@ -130,10 +142,61 @@ async function registerDevice(success_callback,failed_callback) {
     }
 }
 
+
+async function registerForPushNotificationsAsync() {
+    let token;
+    if (Constants.isDevice) {
+        const { status: existingStatus } = await Notifications.getPermissionsAsync();
+        let finalStatus = existingStatus;
+        if (existingStatus !== 'granted') {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+        }
+        if (finalStatus !== 'granted') {
+        alert('Failed to get push token for push notification!');
+        return;
+        }
+        token = (await Notifications.getExpoPushTokenAsync()).data;
+        console.log(token);
+    } else {
+        alert('Must use physical device for Push Notifications');
+    }
+
+    if (Platform.OS === 'android') {
+        Notifications.setNotificationChannelAsync('default', {
+        name: 'default',
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: '#FF231F7C',
+        });
+    }
+
+    return token;
+}
+
 async function registerPushNotifications(success_callback,failed_callback) {
-    console.log("TODO: Put your code that asks for push notification permissions here. Once a successful Push" +
-        " registration ID is received, send it to the server with");
-    //this.createPushRegistration("The ID received from the push service",success_callback,failed_callback);
+    let token = await registerForPushNotificationsAsync();
+}
+
+// Can use this function below, OR use Expo's Push Notification Tool-> https://expo.io/notifications
+async function sendPushNotification(expoPushToken) {
+  const message = {
+    to: expoPushToken,
+    sound: 'default',
+    title: 'Original Title',
+    body: 'And here is the body!',
+    data: { someData: 'goes here' },
+  };
+
+  await fetch('https://exp.host/--/api/v2/push/send', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Accept-encoding': 'gzip, deflate',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(message),
+  });
 }
 
 const setFirstLaunchTag = async first_launch_tag => {

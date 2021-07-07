@@ -64,6 +64,9 @@ SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_NAME
 ##############
 # PostgreSQL #
 ##############
+###################
+# NOT WORKING YET #
+###################
 # DATABASE_ENGINE = 'postgresql://'
 
 #############
@@ -73,7 +76,7 @@ SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_NAME
 # DATABASE_ENGINE = 'mssql+pyodbc://'
 # SQLEXPRESS = '\\SQLEXPRESS'  # for SQLEXPRESS
 # TRUSTED_CONNECTION = 'yes'  # for windows authentication.
-# DATABASE_DRIVER = 'SQL+Server+Native+Client+11.0'  # for windows authentication.
+# DATABASE_DRIVER = 'SQL+Server+Native+Client+11.0'
 # DATABASE_HOST = ''
 # DATABASE_PORT = '1433'
 # DATABASE_USERNAME = ''
@@ -100,6 +103,8 @@ SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_NAME
 
 ###################
 # Amazon DynamoDB #
+###################
+# NOT WORKING YET #
 ###################
 # DATABASE_ENGINE = 'amazondynamodb///?'
 # DYNAMODB_ACCESS_KEY = ''

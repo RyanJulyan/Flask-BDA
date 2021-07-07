@@ -28,7 +28,9 @@ PyInstaller.__main__.run([
     '--add-data', 'LICENSE;./',
     '--hidden-import', 'engineio.async_drivers',
     '--hidden-import', 'pyodbc',
-    '--key', '1234567890123456',
     '--icon', './app/static/images/icon.ico',
+    '--debug','False',
+    '--log-level','WARN', # LEVEL may be one of TRACE, DEBUG, INFO, WARN, ERROR, CRITICAL (default: INFO).
+    '--key', '1234567890123456', # The key used to encrypt Python bytecode.
     '--name', 'Flask BDA',
     ])

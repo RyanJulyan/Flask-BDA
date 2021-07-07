@@ -6,14 +6,30 @@
 ###########
 ###########
 
-import os
-import platform
-import subprocess
-import re
-import shutil
-import zipfile
-import secrets
-import click
+import sys
+
+
+def check_installation(rv):
+    current_version = sys.version_info
+    if current_version[0] == rv[0] and current_version[1] >= rv[1]:
+        pass
+    else:
+        sys.stderr.write( "[%s] - Error: Your Python interpreter must be %d.%d or greater (within major version %d)\n" % (sys.argv[0], rv[0], rv[1], rv[0]) )
+        sys.exit(-1)
+    return 0
+
+
+required_version = (3,8)
+check_installation(required_version)
+
+import os  # noqa: E402
+import platform  # noqa: E402
+import subprocess  # noqa: E402
+import re  # noqa: E402
+import shutil  # noqa: E402
+import zipfile  # noqa: E402
+import secrets  # noqa: E402
+import click  # noqa: E402
 
 ###################
 ###################
@@ -78,6 +94,7 @@ def create_project(project_name, owner = "RyanJulyan", repo = "Flask-BDA", branc
     ########################
     ########################
 
+    os.system('pip install --upgrade pip')
     os.system('pip install virtualenv')
     os.system('pip install click')
     os.system('pip install flaskwebgui')

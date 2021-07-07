@@ -19,20 +19,32 @@ Flask-BDA will follow a semantic versioning for its releases, with a `{major}.{m
 Deprecations will be kept in place for at least 3 minor versions, after version `0.0.1`
 
 # Overview
+* [Status of the project](#status-of-the-project)
 * [Why use Flask-BDA](#why-use-flask-bda)
 * [Costs](#costs)
 * [Process](#process)
 * [Requirements](#requirements)
 * [Quickstart](#quickstart)
+    * [Update Database](#update-database)
+    * [Multi Tenants](#multi-tenants)
+    * [Create new module](#create-new-module)
 * [Update Database](#update-database)
 * [Create new CRUD module](#create-new-crud-module)
 * [Environments](#environments)
+    * [Local Environment](#local-environment)
+    * [Shared Hosting](#shared-hosting)
+    * [Docker Environment](#docker-environment)
+    * [AWS Serverless](#aws-serverless)
+    * [React Native](#react-native)
+    * [Desktop Native](#desktop-native)
 * [Installing Additional Python Packages](#installing-additional-python-packages)
 * [OpenAPI/Swagger API](#openapiswagger-api)
 * [Import API to Postman](#import-api-to-postman)
 * [External API Requests](#external-api-requests)
 * [Ajax Requests](#ajax-requests)
 * [Testing](#testing)
+    * [Python flake8](#python-flake8)
+    * [Python unittest](#python-unittest)
 * [Features List](#features-list)
 * [Project Structure](#project-structure)
 * [Glossary](#glossary)
@@ -383,11 +395,11 @@ SQLALCHEMY_BINDS = {
 > You can now interact with an isolated tenant database by adding the argument `organization=` to your url eg:
 `example.com?organization=client1` where `client1` is the name that you added in the `SQLALCHEMY_BINDS` object.
 
-# Create new [CRUD](#crud) module
+# Create new module
 
 > A module is a self-contained component, making it easier to manage as the program grows. Modules in Flask-BDA help you create: a Data Model, Routes and associated functions for controlling the logic and Views
 > 
-> When you create a new CRUD module, all the elements from the folder `create_module_template` are copied into the app directory and renamed to the module name you provide by replacing all `xyz` values with your module name and adding additional data model information as described below
+> When you create a new [CRUD](#crud) module, all the elements from the folder `create_module_template` are copied into the app directory and renamed to the module name you provide by replacing all `xyz` values with your module name and adding additional data model information as described below
 
 ## How to create a new module
 
@@ -535,7 +547,7 @@ pip install --no-cache-dir -r requirements.txt
 set FLASK_APP=app
 set FLASK_ENV=development
 
-flask run
+flask run --port 5000
 
 ```
 
@@ -557,7 +569,7 @@ pip install --no-cache-dir -r requirements.txt
 export FLASK_APP=app
 export FLASK_ENV=development
 
-flask run
+flask run --port 5000
 
 ```
 
@@ -1042,6 +1054,7 @@ params = {"model": "Mustang"}
 x = requests.get('https://w3schools.com/python/demopage.php', params = params)
 print(x.status_code)
 print(x.text)
+
 ```
 
 ### Post Request Method
@@ -1054,6 +1067,54 @@ headers = {"Authorization": "Bearer <token>"}
 x = requests.post('https://w3schools.com/python/demopage.php', data = data, headers = headers)
 print(x.status_code)
 print(x.text)
+
+```
+
+### Post JSON Request Method
+```python
+import requests
+import json
+
+data = {"Name":"Example"}
+headers = {"Authorization": "Bearer <token>"}
+
+x = requests.post('https://w3schools.com/python/demopage.php', json = data, headers = headers)
+print(x.status_code)
+print(x.text)
+
+# use this to load JSON returned as a python dictionary
+return_data = json.loads(x.text)
+
+```
+
+### Put Request Method
+```python
+import requests
+
+data = {"Name":"Example"}
+headers = {"Authorization": "Bearer <token>"}
+
+x = requests.put('https://w3schools.com/python/demopage.php', data = data, headers = headers)
+print(x.status_code)
+print(x.text)
+
+```
+
+### Put JSON Request Method
+```python
+import requests
+import json
+
+data = {"Name":"Example"}
+headers = {"Authorization": "Bearer <token>"}
+
+x = requests.put('https://w3schools.com/python/demopage.php', json = data, headers = headers)
+print(x.status_code)
+print(x.text)
+
+# use this to load JSON returned as a python dictionary
+return_data = json.loads(x.text)
+
 ```
 
 ### Delete Request Method
@@ -1063,6 +1124,7 @@ import requests
 x = requests.delete('https://w3schools.com/python/demopage.php')
 print(x.status_code)
 print(x.text)
+
 ```
 
 # Ajax Requests
@@ -1195,7 +1257,7 @@ python -m unittest discover
         * Widely used and easy to pick up as it is based on [Bootstrap 4.6](https://getbootstrap.com/docs/4.6/getting-started/introduction/)
 
 
-* Create custom [module](#Modules) files and folders that fit into the flask project structure from the `create_module.py` file with prompts to create the following:
+* Create custom [module](#modules) files and folders that fit into the flask project structure from the `create_module.py` file with prompts to create the following:
     * Model
         * Dynamically create a table data model 
     * Web Controller
@@ -1240,6 +1302,9 @@ python -m unittest discover
             * GET URL ../api/xyz/{id} [single element] `get`
             * PUT URL ../api/xyz/{id} [single element] `update`
             * DELETE URL ../api/xyz/{id} [single element]`delete`
+            * POST URL ../api/xyz/bulk [multiple elements] `post`
+            * PUT URL ../api/xyz/bulk [multiple elements] `update`
+            * GET URL ../api/xyz/aggregate [single return, of multiple elements aggregated] `get`
     * Views for:
         * Public
             * `public_list.html` (list elements)
@@ -1248,6 +1313,8 @@ python -m unittest discover
             * `create.html` (single element form)
             * `show.html` (single element)
             * `edit.html` (single element form)
+        * API
+            * `api/docs` (URL)
 
 ## Project Structure
 ```
