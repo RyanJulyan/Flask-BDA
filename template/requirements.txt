@@ -13,6 +13,7 @@ click==7.1.2
 Deprecated==1.2.10
 dnspython==1.16.0
 email-validator==1.1.2
+exponent-server-sdk==2.0.0
 filelock==3.0.12
 Flask==1.1.2
 Flask-APScheduler==1.12.2

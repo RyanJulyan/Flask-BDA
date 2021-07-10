@@ -1,6 +1,11 @@
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
-import React, {Component, useState} from 'react';
+import React, {
+    Component,
+    useState,
+    useEffect,
+    useRef
+} from 'react';
 import { 
     StyleSheet,
     View,
@@ -8,7 +13,9 @@ import {
     Image,
     Dimensions,
     ActivityIndicator,
-    TouchableHighlight
+    TouchableHighlight,
+    Button,
+    Platform
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -19,9 +26,10 @@ import {server_base_url} from './app.json';
 // import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import { Permissions, Notifications } from 'expo';
+import { Permissions } from 'expo';
 
-let current_screen = 'Init';
+// let current_screen = 'Init';
+let current_screen = 'PushNotification';
 let is_connected = true;
 const dimensions = Dimensions.get('window');
 // const imageHeight_3_6x1 = Math.round(dimensions.width * 1 / 3.6);
@@ -182,10 +190,10 @@ async function registerPushNotifications(success_callback,failed_callback) {
 async function sendPushNotification(expoPushToken) {
   const message = {
     to: expoPushToken,
-    sound: 'default',
-    title: 'Original Title',
-    body: 'And here is the body!',
-    data: { someData: 'goes here' },
+    sound: "default",
+    title: "Original Title",
+    body: "And here is the body!",
+    data: { data: "goes here" },
   };
 
   await fetch('https://exp.host/--/api/v2/push/send', {
@@ -196,6 +204,17 @@ async function sendPushNotification(expoPushToken) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(message),
+  });
+}
+
+async function schedulePushNotification() {
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: "You've got mail! 📬",
+      body: 'Here is the notification body',
+      data: { data: 'goes here' },
+    },
+    trigger: { seconds: 2 },
   });
 }
 
@@ -301,6 +320,65 @@ function LoadingIndicator() {
         style={{ position: 'absolute', left: 0, right: 0, bottom: 0, top: 0, }}
         size="large"
     />
+}
+
+function PushNotificationScreen({navigation}) {
+        
+    const [expoPushToken, setExpoPushToken] = useState('');
+    const [notification, setNotification] = useState(false);
+    const notificationListener = useRef();
+    const responseListener = useRef();
+  
+    useEffect(() => {
+      registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+  
+      // This listener is fired whenever a notification is received while the app is foregrounded
+      notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+        setNotification(notification);
+      });
+  
+      // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+      responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+        console.log(response);
+      });
+  
+      return () => {
+        Notifications.removeNotificationSubscription(notificationListener.current);
+        Notifications.removeNotificationSubscription(responseListener.current);
+      };
+    }, []);
+
+    return (
+        <>
+            <StatusBar style="dark" />
+            <View
+                style={{
+                    flex: 1,
+                    alignItems: 'center',
+                    justifyContent: 'space-around',
+                }}
+            >
+            <Text>Your expo push token: {expoPushToken}</Text>
+            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                <Text>Title: {notification && notification.request.content.title} </Text>
+                <Text>Body: {notification && notification.request.content.body}</Text>
+                <Text>Data: {notification && JSON.stringify(notification.request.content.data)}</Text>
+            </View>
+            <Button
+                title="Press to Send Notification"
+                onPress={async () => {
+                await sendPushNotification(expoPushToken);
+                }}
+            />
+            <Button
+              title="Press to schedule a notification"
+              onPress={async () => {
+                await schedulePushNotification();
+              }}
+            />
+            </View>
+        </>
+    );
 }
 
 function WelcomeScreen({navigation}) {
@@ -428,6 +506,7 @@ function WebScreen({navigation}) {
 class FlaskBDAWebAppWrapper extends Component{
 
     render() {
+
         return (
             <NavigationContainer>
                 <Stack.Navigator
@@ -440,6 +519,11 @@ class FlaskBDAWebAppWrapper extends Component{
                             name="Init" 
                             component={InitScreen}
                             options={{title: 'Init', animationEnabled: true}}
+                        />
+                        <Stack.Screen
+                            name="PushNotification"
+                            component={PushNotificationScreen}
+                            options={{title: 'PushNotification'}}
                         />
                         <Stack.Screen
                             name="Welcome"

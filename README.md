@@ -735,6 +735,8 @@ serverless deploy
 
 > For native mobile apps we are using react native, specifically we are using [expo](https://expo.io/) a framework and a platform for universal React applications. It is a set of tools and services built around React Native and native platforms that help you develop, build, deploy, and quickly iterate on iOS, Android, and web apps from the same JavaScript/TypeScript codebase.
 
+> We have pre-sett up push notifications, so you don't have to. This means that it is faster and easier for you to get started, and up and running. to do this in a standardized way, we are leveraging the default [expo-notifications](https://github.com/expo/expo/tree/master/packages/expo-notifications) package, as it allows for a simplified implementation and approach.
+
 > Advantages include faster build and testing workflows/processes, remote testing while developing with Over The Air (OTA) updates with changes visible on save during development.
 
 > However there are some disadvantages and [Limitations](https://docs.expo.io/introduction/why-not-expo/) Expo is aware of these and describes them quite well. we suggest reviewing these limitations before using our pre-built method.

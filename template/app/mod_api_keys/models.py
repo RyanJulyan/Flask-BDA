@@ -29,9 +29,9 @@ class Api_keys(Base):
     created_user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False, default=False, unique=False)
     user = db.relationship('User', backref = 'user', remote_side='User.id', lazy='joined')
 
-    @aggregated('user_count', db.Column(db.Integer))
-    def user_count(self):
-        return db.func.count('1')
+    # @aggregated('user_count', db.Column(db.Integer))
+    # def user_count(self):
+    #     return db.func.count('1')
     valid_from = db.Column(db.Date, nullable=False, default=False, unique=False)
     valid_to = db.Column(db.Date, nullable=False, default=False, unique=False)
     # end new field definitions
