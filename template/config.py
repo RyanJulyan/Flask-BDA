@@ -1,6 +1,12 @@
 
 import os
 
+# Import logging
+import logging
+
+# Import SQLAlchemyJobStore
+from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
+
 ##########################
 # Basic Site Information #
 ##########################
@@ -9,6 +15,13 @@ SITE_URL = 'http://www.Flask BDA.com'
 SITE_DESCRIPTION = 'My awesome new Flask BDA site.'
 SITE_THEME_COLOR = '#3367D6'
 DEVELOPER_NAME = 'Ryan Julyan'
+
+###############################
+# Logging for the environment #
+###############################
+LOG_FILENAME = 'logs/system.log'
+LOG_LEVEL = logging.DEBUG
+LOG_FORMAT = f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s'
 
 ######################################################
 # Statement for enabling the development environment #
@@ -32,32 +45,66 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 # SQLite #
 ##########
 DATABASE_ENGINE = 'sqlite:///'
+DATABASE_NAME = os.path.join(BASE_DIR, 'databases/sqlite/default.db')
+
+SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_NAME
 
 #########
 # MySQL #
 #########
 # DATABASE_ENGINE = 'mysql://'
+# DATABASE_HOST = ''
+# DATABASE_PORT = '3306'
+# DATABASE_USERNAME = ''
+# DATABASE_PASSWORD = ''
+# DATABASE_NAME = ''
+
+# SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_USERNAME + ':' + DATABASE_PASSWORD + '@' + DATABASE_HOST + ':' + DATABASE_PORT + '/' + DATABASE_NAME
 
 ##############
 # PostgreSQL #
 ##############
+###################
+# NOT WORKING YET #
+###################
 # DATABASE_ENGINE = 'postgresql://'
 
 #############
 # SQLServer #
 #############
-# DATABASE_ENGINE = 'mssql+pymssql://'
+# import pyodbc   # noqa: E402
+# DATABASE_ENGINE = 'mssql+pyodbc://'
+# SQLEXPRESS = '\\SQLEXPRESS'  # for SQLEXPRESS
 # TRUSTED_CONNECTION = 'yes'  # for windows authentication.
+# DATABASE_DRIVER = 'SQL+Server+Native+Client+11.0'
+# DATABASE_HOST = ''
+# DATABASE_PORT = '1433'
+# DATABASE_USERNAME = ''
+# DATABASE_PASSWORD = ''
+# DATABASE_NAME = ''
 
-DATABASE_HOST = ''
-DATABASE_PORT = ''
-DATABASE_USERNAME = ''
-DATABASE_PASSWORD = ''
-DATABASE_NAME = os.path.join(BASE_DIR, 'databases/sqlite/default.db')
-
+# try:
+#     if SQLEXPRESS == '\\SQLEXPRESS':
+#         try:
+#             if TRUSTED_CONNECTION == 'yes':
+#                 SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_HOST + ':' + DATABASE_PORT + SQLEXPRESS + '/' + DATABASE_NAME + '?trusted_connection=' + TRUSTED_CONNECTION + '&driver=' + DATABASE_DRIVER
+#             else:
+#                 SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_USERNAME + ':' + DATABASE_PASSWORD + '@' + DATABASE_HOST + ':' + DATABASE_PORT  + SQLEXPRESS + '/' + DATABASE_NAME + '?driver=' + DATABASE_DRIVER
+#         except NameError:
+#             SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_USERNAME + ':' + DATABASE_PASSWORD + '@' + DATABASE_HOST + ':' + DATABASE_PORT  + SQLEXPRESS + '/' + DATABASE_NAME + '?driver=' + DATABASE_DRIVER
+# except NameError:
+#     try:
+#         if TRUSTED_CONNECTION == 'yes':
+#             SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_HOST + ':' + DATABASE_PORT + '/' + DATABASE_NAME+ '?trusted_connection=' + TRUSTED_CONNECTION + '&driver=' + DATABASE_DRIVER
+#         else:
+#             SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_USERNAME + ':' + DATABASE_PASSWORD + '@' + DATABASE_HOST + ':' + DATABASE_PORT  + SQLEXPRESS + '/' + DATABASE_NAME + '?driver=' + DATABASE_DRIVER
+#     except NameError:
+#         SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_USERNAME + ':' + DATABASE_PASSWORD + '@' + DATABASE_HOST + ':' + DATABASE_PORT + '/' + DATABASE_NAME + '?driver=' + DATABASE_DRIVER
 
 ###################
 # Amazon DynamoDB #
+###################
+# NOT WORKING YET #
 ###################
 # DATABASE_ENGINE = 'amazondynamodb///?'
 # DYNAMODB_ACCESS_KEY = ''
@@ -65,10 +112,8 @@ DATABASE_NAME = os.path.join(BASE_DIR, 'databases/sqlite/default.db')
 # DYNAMODB_DOMAIN = 'amazonaws.com'
 # DYNAMODB_REGION = 'us-east-1'
 
-SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_HOST + DATABASE_PORT + DATABASE_NAME
-
 SQLALCHEMY_BINDS = {
-    "core": SQLALCHEMY_DATABASE_URI,
+    "default": SQLALCHEMY_DATABASE_URI,
 }
 
 SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -76,7 +121,7 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 ########################
 # Application threads. #
 ########################
-THREADS_PER_PAGE = 2
+THREADS_PER_PAGE = 3
 
 ############################
 # Time for session expirey #
@@ -140,6 +185,15 @@ DEFAULT_MAIL_SENDER = 'Flask BDA <me@example.com>'
 ###############
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = set(['txt', 'rtf', 'docx', 'doc', 'docm', 'dotx', 'odt', 'xlsx', 'xlsm', 'xlsb', 'xls', 'xltx', 'ods', 'csv', 'xml', 'json', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+
+#######################
+# APScheduler Enabled #
+#######################
+SCHEDULER_API_ENABLED = True
+SCHEDULER_JOBSTORES = {"default": SQLAlchemyJobStore(url=SQLALCHEMY_DATABASE_URI)}
+SCHEDULER_EXECUTORS = {"default": {"type": "threadpool", "max_workers": 20}}
+SCHEDULER_JOB_DEFAULTS = {"coalesce": False, "max_instances": 3}
+
 
 ###########
 # Swagger #

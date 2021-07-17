@@ -15,6 +15,7 @@ web-build/
 venv/
 
 # *.db
+databases/sqlite/*
 
 *.pyc
 __pycache__/
@@ -33,3 +34,5 @@ build/
 node_modules/
 
 *.spec
+
+logs/*

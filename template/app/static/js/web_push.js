@@ -12,7 +12,7 @@ if(window.Notification){
   webPushPrompt = window.Notification;
   
   if (webPushPrompt.permission !== 'granted') {
-    webPushButton.style.display = "block";
+    webPushButton.style.display = "inline-block";
   }
   else{
     webPushButton.style.display = "none";
@@ -36,7 +36,7 @@ function requestWebPushPermission(){
   webPushPrompt.requestPermission().then(permission => {
     if (permission !== 'granted') {
       alert('you need to allow push notifications');
-      webPushButton.style.display = "block";
+      webPushButton.style.display = "inline-block";
     }
     else{
       webPushButton.style.display = "none";

@@ -37,7 +37,7 @@ def public_list(template):
 
 @mod_admin_hierarchies.route('/', methods=['GET'])
 @mobile_template('{mobile/}hierarchies/admin/index.html')
-@login_required
+# @login_required
 def index(template):
     page = request.args.get('page', 1, type=int)
     data = Hierarchies.query.paginate(page=page, per_page=app.config['ROWS_PER_PAGE'])
@@ -47,7 +47,7 @@ def index(template):
 
 @mod_admin_hierarchies.route('/create', methods=['GET'])
 @mobile_template('{mobile/}hierarchies/admin/create.html')
-@login_required
+# @login_required
 def create(template):
 
     # If in form is submitted
@@ -57,20 +57,43 @@ def create(template):
 
 
 @mod_admin_hierarchies.route('/store', methods=['POST'])
-@login_required
+# @login_required
 def store():
+
+    delim = '/'
+
+    parent_id = request.form.get('parent_id')
+
+    if not parent_id:
+        parent_id = 1
+
+    parent = Hierarchies.query.get(parent_id)
+
+    if parent:
+        rank = parent.path.count(delim)
+        path = parent.path
+    else:
+        rank = 1
+        path = '/1/'
+    
     data = Hierarchies(
         # start new request feilds
-        organisation_id=request.form.get('organisation_id'),
-        name=request.form.get('name'),
-        path=request.form.get('path'),
-        rank=request.form.get('rank'),
-        parent_id=request.form.get('parent_id'),
-        key_value=request.form.get('key_value')
+        organisation_id = request.form.get('organisation_id'),
+        name = request.form.get('name'),
+        path = path,
+        rank = rank,
+        parent_id = parent_id,
+        key_value = request.form.get('key_value')
         # end new request feilds
         # title=request.form.get("title")
     )
     db.session.add(data)
+    curr_id = data.inserted_primary_key
+    
+    data.path = data.path + curr_id + delim
+
+    data.rank = data.path.count(delim)
+
     try:
         db.session.commit()
     except IntegrityError as e:

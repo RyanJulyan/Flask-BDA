@@ -1,8 +1,55 @@
 # Flask Business Driven App (BDA)
 ## A Cross-platform, Multi-tenant, SAAS-ready, Rapid Application Development (RAD) tool to assist with building flask python applications. Helping you build applications fast, right, and for the Future.
 
-> **Note:** Still under Development
+> **Note:** Still under Development!
+
+# Status of the project
+Current version: `0.0.0` Beta 
+
+Flask-BDA is still under inital development and is being tested with Python 3.8.6 version.
+
 > Current roadmap and high level project plan: https://trello.com/b/uu4HNPBh/flask-bda-features-roadmap
+
+Flask-BDA will follow a semantic versioning for its releases, with a `{major}.{minor}.{patch}` scheme for versions numbers, where:
+
+- major versions might introduce breaking changes
+- minor versions usually introduce new features and might introduce deprecations
+- patch versions only introduce bug fixes
+
+Deprecations will be kept in place for at least 3 minor versions, after version `0.0.1`
+
+# Overview
+* [Status of the project](#status-of-the-project)
+* [Why use Flask-BDA](#why-use-flask-bda)
+* [Costs](#costs)
+* [Process](#process)
+* [Requirements](#requirements)
+* [Quickstart](#quickstart)
+    * [Update Database](#update-database)
+    * [Multi Tenants](#multi-tenants)
+    * [Create new module](#create-new-module)
+* [Update Database](#update-database)
+* [Create new CRUD module](#create-new-crud-module)
+* [Environments](#environments)
+    * [Local Environment](#local-environment)
+    * [Shared Hosting](#shared-hosting)
+    * [Docker Environment](#docker-environment)
+    * [AWS Serverless](#aws-serverless)
+    * [React Native](#react-native)
+    * [Desktop Native](#desktop-native)
+* [Installing Additional Python Packages](#installing-additional-python-packages)
+* [OpenAPI/Swagger API](#openapiswagger-api)
+* [Import API to Postman](#import-api-to-postman)
+* [External API Requests](#external-api-requests)
+* [Ajax Requests](#ajax-requests)
+* [Testing](#testing)
+    * [Python flake8](#python-flake8)
+    * [Python unittest](#python-unittest)
+* [Features List](#features-list)
+* [Project Structure](#project-structure)
+* [Glossary](#glossary)
+* [How can I help?](#how-can-i-help?)
+* [License](#license)
 
 # Why use Flask-BDA
 
@@ -64,25 +111,6 @@
 > With Flask-BDA you **DON'T LOOSE ANY of the flexibility of "Normal Development"** as it uses standardized development patterns and tried and tested technologies.
 
 > Flask-BDA uses many Open Source technologies and leverages existing technology stacks so that you can easily find other developers who use the same technologies, and you do not have to pay for costly license fees or environment costs regardless of how much revenue your company makes, or where you are in your business.
-
-# Overview
-* [Why use Flask-BDA](#why-use-flask-bda)
-* [Costs](#costs)
-* [Process](#process)
-* [Requirements](#requirements)
-* [Quickstart](#quickstart)
-* [Create new CRUD module](#create-new-crud-module)
-* [Environments](#environments)
-* [Installing Additional Python Packages](#installing-additional-python-packages)
-* [OpenAPI/Swagger API](#openapiswagger-api)
-* [Import API to Postman](#import-api-to-postman)
-* [External API Requests](#external-api-requests)
-* [Ajax Requests](#ajax-requests)
-* [Testing](#testing)
-* [Features List](#features-list)
-* [Project Structure](#project-structure)
-* [Glossary](#glossary)
-* [License](#license)
 
 # Process
 
@@ -178,18 +206,209 @@ Please enter a valid project name!
 > **Note:** You will notice this creates a folder in the same path as the file: "create_project_git.py".
 > This folder will be lower case and will have stripped out all of the special characters and replaced spaces with underscores eg: `my_awesome_project`
 
-# Create new [CRUD](#crud) module
+> **Note:** During development, you may wish to use another branch or repo entirely. This can help with testing, or if you have broken away from the core Flask-BDA prooject.
+> * You can specify the `Owner`, `Repo` and `Branch` when you create a new project.
+```python
+curl -L https://raw.githubusercontent.com/RyanJulyan/Flask-BDA/RyanJulyan-Dev/create_project_git.py --ssl-no-revok -o create_project_git.py
+
+python create_project_git.py --project="My Awesome Project" --owner="RyanJulyan" --repo="Flask-BDA" --branch="RyanJulyan-Dev"
+
+```
+
+# Update Database
+
+> **Note:** Still to be tested for all connection types!
+
+> Database connections are quick and easy in Flask-BDA. You can have 1 or multiple databases, and different tenants can have their own database connections as well as their own database type (SQLite, MySQL, SQL Server, PostgreSQL)
+
+> By default, Flask-BDA has a SQLite database set up. This is really because then you do not require addtional infistructure to set it up and get going, so makes SQLite a fast and easy choice.
+
+## MySQL
+To change the default database:
+* Create a new MySQL Database (`flaskbda`), User (`flaskbda_user`) and Password (`password`)
+* Open the file `config.py`
+* Comment out the `DATABASE_ENGINE` for SQLite, and comment in the mysql `DATABASE_ENGINE`.
+* Comment out the `DATABASE_NAME` for SQLite, and comment in the mysql:
+    * `DATABASE_HOST`
+    * `DATABASE_PORT`
+    * `DATABASE_USERNAME`
+    * `DATABASE_PASSWORD`
+    * `DATABASE_NAME`
+* Comment out the `SQLALCHEMY_DATABASE_URI` for SQLite, and comment in the mysql `SQLALCHEMY_DATABASE_URI`.
+
+```python
+
+##########
+# SQLite #
+##########
+# DATABASE_ENGINE = 'sqlite:///'
+# DATABASE_NAME = os.path.join(BASE_DIR, 'databases/sqlite/default.db')
+
+# SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_NAME
+
+#########
+# MySQL #
+#########
+DATABASE_ENGINE = 'mysql://'
+DATABASE_HOST = ''
+DATABASE_PORT = '1433'
+DATABASE_USERNAME = ''
+DATABASE_PASSWORD = ''
+DATABASE_NAME = ''
+
+SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_USERNAME + ':' + DATABASE_PASSWORD + '@' + DATABASE_HOST + ':' + DATABASE_PORT + '/' + DATABASE_NAME
+
+
+```
+
+* You will then need to update the database connection details with your own details:
+    * `DATABASE_HOST`
+    * `DATABASE_PORT`
+    * `DATABASE_USERNAME`
+    * `DATABASE_PASSWORD`
+    * `DATABASE_NAME`
+
+```python
+DATABASE_HOST = 'localhost'
+DATABASE_PORT = '3306'
+DATABASE_USERNAME = 'flaskbda_user'
+DATABASE_PASSWORD = 'password'
+DATABASE_NAME = 'flaskbda'
+
+```
+
+## SQL Server
+To change the default database:
+* Create a new MySQL Database (`flaskbda`), User (`flaskbda_user`) and Password (`password`)
+* Open the file `config.py`
+* Comment in the SQLServer `import pyodbc`.
+* Comment in the SQLServer `DATABASE_DRIVER`.
+* Comment out the `DATABASE_ENGINE` for SQLite, and for example comment in the SQLServer `DATABASE_ENGINE`.
+* Comment out the `DATABASE_NAME` for SQLite, and comment in the SQLServer:
+    * `DATABASE_HOST`
+    * `DATABASE_PORT`
+    * `DATABASE_USERNAME`
+    * `DATABASE_PASSWORD`
+    * `DATABASE_NAME`
+* Comment out the `SQLALCHEMY_DATABASE_URI` for SQLite, and comment in the `try` and `except` for the SQLServer `SQLALCHEMY_DATABASE_URI`.
+
+> **Note:** if you are running and trying to connect to `SQLEXPRESS`. please comment in the SQLServer `SQLEXPRESS`. This will be handeled in the `try` and `except` to create the correct `SQLALCHEMY_DATABASE_URI`
+
+> **Note:** if you are want  windows authentication. please comment in the SQLServer `TRUSTED_CONNECTION`. This will be handeled in the `try` and `except` to create the correct `SQLALCHEMY_DATABASE_URI`
+
+
+```python
+
+##########
+# SQLite #
+##########
+# DATABASE_ENGINE = 'sqlite:///'
+# DATABASE_NAME = os.path.join(BASE_DIR, 'databases/sqlite/default.db')
+
+# SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_NAME
+
+#############
+# SQLServer #
+#############
+import pyodbc   # noqa: E402
+DATABASE_ENGINE = 'mssql+pyodbc://'
+# SQLEXPRESS = '\\SQLEXPRESS'  # for SQLEXPRESS
+# TRUSTED_CONNECTION = 'yes'  # for windows authentication.
+DATABASE_DRIVER = 'SQL+Server+Native+Client+11.0'  # for windows authentication.
+DATABASE_HOST = ''
+DATABASE_PORT = '1433'
+DATABASE_USERNAME = ''
+DATABASE_PASSWORD = ''
+DATABASE_NAME = ''
+
+try:
+    if SQLEXPRESS == '\\SQLEXPRESS':
+        try:
+            if TRUSTED_CONNECTION == 'yes':
+                SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_HOST + ':' + DATABASE_PORT + SQLEXPRESS + '/' + DATABASE_NAME + '?trusted_connection=' + TRUSTED_CONNECTION + '&driver=' + DATABASE_DRIVER
+            else:
+                SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_USERNAME + ':' + DATABASE_PASSWORD + '@' + DATABASE_HOST + ':' + DATABASE_PORT  + SQLEXPRESS + '/' + DATABASE_NAME + '&driver=' + DATABASE_DRIVER
+        except NameError:
+            SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_USERNAME + ':' + DATABASE_PASSWORD + '@' + DATABASE_HOST + ':' + DATABASE_PORT  + SQLEXPRESS + '/' + DATABASE_NAME + '&driver=' + DATABASE_DRIVER
+except NameError:
+    try:
+        if TRUSTED_CONNECTION == 'yes':
+            SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_HOST + ':' + DATABASE_PORT + '/' + DATABASE_NAME+ '?trusted_connection=' + TRUSTED_CONNECTION + '&driver=' + DATABASE_DRIVER
+        else:
+            SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_USERNAME + ':' + DATABASE_PASSWORD + '@' + DATABASE_HOST + ':' + DATABASE_PORT  + SQLEXPRESS + '/' + DATABASE_NAME + '&driver=' + DATABASE_DRIVER
+    except NameError:
+        SQLALCHEMY_DATABASE_URI = DATABASE_ENGINE + DATABASE_USERNAME + ':' + DATABASE_PASSWORD + '@' + DATABASE_HOST + ':' + DATABASE_PORT + '/' + DATABASE_NAME + '&driver=' + DATABASE_DRIVER
+
+
+```
+
+* You will then need to update the database connection details with your own details:
+    * `DATABASE_HOST`
+    * `DATABASE_PORT`
+    * `DATABASE_USERNAME`
+    * `DATABASE_PASSWORD`
+    * `DATABASE_NAME`
+
+```python
+DATABASE_HOST = 'MSSQLSERVER'
+DATABASE_PORT = '1433'
+DATABASE_USERNAME = 'flaskbda_user'
+DATABASE_PASSWORD = 'password'
+DATABASE_NAME = 'flaskbda'
+
+```
+
+Ensure that your MS-SQL instance has remote connection rights set up and enabled reference (here)[https://knowledgebase.apexsql.com/configure-remote-access-connect-remote-sql-server-instance-apexsql-tools/]:
+* Right – click on the server 
+* Select the Properties option.
+    * In the Server Properties dialog select the Connections tab (on the left)
+        * Check the "Allow remote connections to this server" checkbox
+
+Ensure that the "SQL server configuration management" settings are configured correctly
+* Start-> Programs -> Microsoft SQL Server <Version eg: 2019>
+    * Select "SQL Server Configuration Manager"
+        * In the left pane of SQL Server Configuration Manager select the "SQL Server Network Configuration"
+            * select Protocols for <your server name eg: MSSQLSERVER>
+                * Make sure that TCP/IP protocol is enabled and right click on TCP/IP and select the Properties option. In the TCP/IP Properties dialog select the IP Addresses tab and scroll down to IPAII. If the TCP Dynamic Ports dialog box contains 0, which indicates that the Database Engine is listening on dynamic ports, delete the 0 and set the TCP Dynamic Ports to blank and TCP Port to 1433. Port 1433 is the default instance that SQL Server uses.
+                * When you click the OK button you will be prompted with a message to restart the service
+* In the left pane of SQL Server Configuration Manager select "SQL Server Services"
+    * right-click SQL Server<instance_name eg: MSSQLSERVER>
+        * click Restart
+
+# Multi Tenants
+
+> By default Flask-BDA connects to a tenant called `core`. this is done using the `SQLALCHEMY_BINDS` object which should have the specific connection details you require for each tenant. By default the above default connection details are combined into a string called `SQLALCHEMY_DATABASE_URI` which was meant to allow for quick and easy single tenant setup.
+
+> You can use this same structure however to have multiple tenants quickly. To add a new tenant, simply:
+* Create a new line in the  `SQLALCHEMY_BINDS` object, with the name of the tenant and the connection string details
+    * Remember to create the database before trying to connect to it.
+    * The database connection types do not have to be the same per tenant in the same application (meaning different tenants can use different databases)
+
+```python
+SQLALCHEMY_BINDS = {
+    "core": SQLALCHEMY_DATABASE_URI,
+    "client1": 'sqlite:///databases/sqlite/client1.db',
+}
+
+```
+
+> You can now interact with an isolated tenant database by adding the argument `organization=` to your url eg:
+`example.com?organization=client1` where `client1` is the name that you added in the `SQLALCHEMY_BINDS` object.
+
+# Create new module
 
 > A module is a self-contained component, making it easier to manage as the program grows. Modules in Flask-BDA help you create: a Data Model, Routes and associated functions for controlling the logic and Views
 > 
-> When you create a new CRUD module, all the elements from the folder `create_module_template` are copied into the app directory and renamed to the module name you provide by replacing all `xyz` values with your module name and adding additional data model information as described below
+> When you create a new [CRUD](#crud) module, all the elements from the folder `create_module_template` are copied into the app directory and renamed to the module name you provide by replacing all `xyz` values with your module name and adding additional data model information as described below
 
 ## How to create a new module
 
 * To create your own custom modules, Open and run the file: `<Path To>/<my_awesome_project>/create_module_json.py`
     * Fill in the instructions eg:
 ```python
-python <Path To>/<my_awesome_project>/create_module_json.py --module=Projects
+cd <Path To>/<my_awesome_project>/
+
+python create_module_json.py --module=Projects
 
 ```
 * You can then create a table with columns by following the prompts eg:
@@ -235,16 +454,20 @@ Default value:
 * When you have finished creating all the fields you want to create type and submit the words: "STOP_CREATING_FIELDS". 
 ```python
 Create new field Name (type the string: 'STOP_CREATING_FIELDS' to exit): STOP_CREATING_FIELDS
+
 ```
 * You will then be propted if you would like to create this module logic from the data model. Generate a module from a JSON file in "app/generated_config/models/<module>/models.json", where <module> is the name of the module you input. if you want to create all the views type and submit "True"
 ```python
 Create module logic from Data Model? ('True', 'False'): True
+
 ```
 
 > **Note:** you can also generate a module from a JSON file in "app/generated_config/models/<module>/models.json", where <module> is the name of the module you input to do this you can, Open and run the file: `<Path To>/<my_awesome_project>/create_module.py`
     * Fill in the instructions eg:
 ```python
-python <Path To>/<my_awesome_project>/create_module.py --module=projects
+cd <Path To>/<my_awesome_project>/
+
+python create_module.py --module=projects
 
 ```
 
@@ -324,7 +547,7 @@ pip install --no-cache-dir -r requirements.txt
 set FLASK_APP=app
 set FLASK_ENV=development
 
-flask run
+flask run --port 5000
 
 ```
 
@@ -338,7 +561,7 @@ pip install --upgrade pip
 pip install virtualenv
 virtualenv venv
 
-venv/bin/activate
+source venv/bin/activate
 
 pip install --upgrade pip
 pip install --no-cache-dir -r requirements.txt
@@ -346,7 +569,7 @@ pip install --no-cache-dir -r requirements.txt
 export FLASK_APP=app
 export FLASK_ENV=development
 
-flask run
+flask run --port 5000
 
 ```
 
@@ -438,6 +661,7 @@ npm update -g serverless
     * "Control + Option + Shift + T" to open the terminal
 ```shell
 npm update -g serverless
+
 ```
 
 ## Via terminal/console
@@ -511,12 +735,15 @@ serverless deploy
 
 > For native mobile apps we are using react native, specifically we are using [expo](https://expo.io/) a framework and a platform for universal React applications. It is a set of tools and services built around React Native and native platforms that help you develop, build, deploy, and quickly iterate on iOS, Android, and web apps from the same JavaScript/TypeScript codebase.
 
+> We have pre-sett up push notifications, so you don't have to. This means that it is faster and easier for you to get started, and up and running. to do this in a standardized way, we are leveraging the default [expo-notifications](https://github.com/expo/expo/tree/master/packages/expo-notifications) package, as it allows for a simplified implementation and approach.
+
 > Advantages include faster build and testing workflows/processes, remote testing while developing with Over The Air (OTA) updates with changes visible on save during development.
 
 > However there are some disadvantages and [Limitations](https://docs.expo.io/introduction/why-not-expo/) Expo is aware of these and describes them quite well. we suggest reviewing these limitations before using our pre-built method.
 
 > Build one project that runs natively on all your users' devices.
 
+## Install Expo
 * Open a browser and install node.js:
     * Go to: [https://nodejs.org/en/download/](https://nodejs.org/en/download/)
     * Follow the installation instructions and then continue to the next steps
@@ -554,6 +781,53 @@ npm install
 > This would have created a folder where the name is all in lower case and will have stripped out all of the special characters and replaced spaces with underscores eg: `my_awesome_project`.
 
 > For mobile we will have automatically created a separate `"_mobile_app"` folder where the prefix of the folder is your project name eg `my_awesome_project_mobile_app`. This is to prevent issues with the `Serverless` configuration `package.json` and allow you to not have to deploy all the code for a mobile app onto your web server.
+
+
+#### run local instance on Public URL with ngrok
+
+> If you are still in development and/or have not chosen a service provider for hosting yet, you could use: [Ngrok](https://ngrok.com/) to create a temporary public development URL that tunnels to your local environment. Ngrok exposes local servers behind NATs and firewalls to the public internet over secure tunnels. This allows you to demo websites on a public URL and test mobile apps connected to your locally running backend, without deploying.
+
+* Start the local development server by following the [Local Environment](#local-environment) instructions
+
+* If you have not registered for ngrok before:
+    * Open a browser and register for ngrok:
+        * Go to: [https://dashboard.ngrok.com/signup](https://dashboard.ngrok.com/signup)
+        * Follow the installation instructions and then continue to the next steps
+* If you have already registerd but do not have it installed:
+    * Open a browser and register for ngrok:
+        * Go to: [https://dashboard.ngrok.com/get-started/setup](https://dashboard.ngrok.com/get-started/setup)
+        * download the correct version for your OS and run the application.
+* Once the ngrok terminal is open, create a tunnel from your local server to ngrok
+    * create the tunnel to ngrok from the:
+        * If you have changed the port number from the default `5000`, then replace ths number after `http` to allow for the correct tunnel to be created.
+    
+```shell
+ngrok http 5000
+
+```
+
+* This should return a randomly generated URL that you can now use for testing eg:
+```shell
+ngrok by @inconshreveable
+(Ctrl+C to quit) 
+Session Status                online
+Session Expires               1 hour, 59 minutes
+Version                       2.3.40
+Region                        United States (us)
+Web Interface                 http://127.0.0.1:4040
+Forwarding                    http://573d4ec93267.ngrok.io -> http://localhost:5000
+Forwarding                    https://573d4ec93267.ngrok.io -> http://localhost:5000
+
+Connections
+ttl     opn     rt1     rt5     p50     p90
+0       0       0.00    0.00    0.00    0.00
+
+```
+
+> **Note:** the free version only keeps this server alive for 2 hours, so you may need to follow this process in the future and if you push this URL to your "Repo", it may not work for the next person.
+
+
+#### Update the mobile App URL
 
 * Open the Mobile App folder `my_awesome_project_mobile_app`
     * Once open, select the `app.json` file and edit line 2 `"server_base_url": "https://github.com/RyanJulyan/Flask-BDA"` by replacing `https://github.com/RyanJulyan/Flask-BDA` with your own server name.
@@ -782,6 +1056,7 @@ params = {"model": "Mustang"}
 x = requests.get('https://w3schools.com/python/demopage.php', params = params)
 print(x.status_code)
 print(x.text)
+
 ```
 
 ### Post Request Method
@@ -794,6 +1069,54 @@ headers = {"Authorization": "Bearer <token>"}
 x = requests.post('https://w3schools.com/python/demopage.php', data = data, headers = headers)
 print(x.status_code)
 print(x.text)
+
+```
+
+### Post JSON Request Method
+```python
+import requests
+import json
+
+data = {"Name":"Example"}
+headers = {"Authorization": "Bearer <token>"}
+
+x = requests.post('https://w3schools.com/python/demopage.php', json = data, headers = headers)
+print(x.status_code)
+print(x.text)
+
+# use this to load JSON returned as a python dictionary
+return_data = json.loads(x.text)
+
+```
+
+### Put Request Method
+```python
+import requests
+
+data = {"Name":"Example"}
+headers = {"Authorization": "Bearer <token>"}
+
+x = requests.put('https://w3schools.com/python/demopage.php', data = data, headers = headers)
+print(x.status_code)
+print(x.text)
+
+```
+
+### Put JSON Request Method
+```python
+import requests
+import json
+
+data = {"Name":"Example"}
+headers = {"Authorization": "Bearer <token>"}
+
+x = requests.put('https://w3schools.com/python/demopage.php', json = data, headers = headers)
+print(x.status_code)
+print(x.text)
+
+# use this to load JSON returned as a python dictionary
+return_data = json.loads(x.text)
+
 ```
 
 ### Delete Request Method
@@ -803,6 +1126,7 @@ import requests
 x = requests.delete('https://w3schools.com/python/demopage.php')
 print(x.status_code)
 print(x.text)
+
 ```
 
 # Ajax Requests
@@ -904,7 +1228,13 @@ python -m unittest discover
         * Doesn't enforce any dependencies or project layout.
     * Progressive Web App (PWA) to make it more friendly towards desktop and allow native installs from the web, cache for offline support, page sharing and push notifications, etc.
     * Responsive layouts
-    * Mobile-specific views
+    * Mobile-specific views through [Flask-Mobility](https://github.com/rehandalal/flask-mobility)
+        * Responsive bottom menu for tablet and mobile devices
+            * Centered for tablet at under `992px`
+            * Centered for mobile at under `500px`
+            * Badges for notifications are included to allow for driving user behaviour
+        * Controllers use the `@mobile_template` decorator, allowing template views to be tailered for a better mobile experience if needed.
+        * Mobile view identification meaning specific mobile logic can be added with `{% if request.MOBILE %}True{% else %}False{% endif %}`
     * SEO ready page index template file
     * Isolated module code and templates
     * Configuration file `config.py` for quick access and management of the environment and environment variables and default SEO
@@ -922,14 +1252,14 @@ python -m unittest discover
             * Removes tons of headaches when setting up your dev environment
             * Prevents issues such as "well, it worked on my machine!"
         * [AWS Serverless yml config](#aws-serverless)
-    * Great UI by default with [Tailwind](https://tailwindcss.com/)
+    * Great UI by default with [AdminLTE](https://adminlte.io/) specifically [v3](https://adminlte.io/themes/v3/)
         * Highly customizable and flexible
         * Pre-setup via CDN
         * Versatile
-        * There is no JavaScript. And because of that, you can easily bind it with any JavaScript framework of your choice
+        * Widely used and easy to pick up as it is based on [Bootstrap 4.6](https://getbootstrap.com/docs/4.6/getting-started/introduction/)
 
 
-* Create custom [module](#Modules) files and folders that fit into the flask project structure from the `create_module.py` file with prompts to create the following:
+* Create custom [module](#modules) files and folders that fit into the flask project structure from the `create_module.py` file with prompts to create the following:
     * Model
         * Dynamically create a table data model 
     * Web Controller
@@ -974,6 +1304,9 @@ python -m unittest discover
             * GET URL ../api/xyz/{id} [single element] `get`
             * PUT URL ../api/xyz/{id} [single element] `update`
             * DELETE URL ../api/xyz/{id} [single element]`delete`
+            * POST URL ../api/xyz/bulk [multiple elements] `post`
+            * PUT URL ../api/xyz/bulk [multiple elements] `update`
+            * GET URL ../api/xyz/aggregate [single return, of multiple elements aggregated] `get`
     * Views for:
         * Public
             * `public_list.html` (list elements)
@@ -982,6 +1315,8 @@ python -m unittest discover
             * `create.html` (single element form)
             * `show.html` (single element)
             * `edit.html` (single element form)
+        * API
+            * `api/docs` (URL)
 
 ## Project Structure
 ```
@@ -991,6 +1326,13 @@ python -m unittest discover
        │          ├── docker-image.yml
        │          └── run_tests.yml
        ├── app
+       │    ├── generated_config
+       │    │     ├── model_editor
+       │    │     └── models
+       │    │           ├── hierarchies
+       │    │           │   └── models.json
+       │    │           └── organisations
+       │    │               └── models.json
        │    ├── mod_audit
        │    │     ├── __init__.py
        │    │     ├── controllers.py
@@ -1038,9 +1380,14 @@ python -m unittest discover
        │    │     └── sw.js
        │    ├── templates
        │    │     ├── admin
-       │    │     ├── auth
+       │    │     │     └── index.html
+       │    │     ├── email
+       │    │     │     └── auth
+       │    │     │         ├── activate.html
+       │    │     │         └── reset.html
        │    │     ├── mobile
        │    │     ├── public
+       │    │     │     └── index.html
        │    │     ├── 403.html
        │    │     ├── 404.html
        │    │     └── index.html
@@ -1053,7 +1400,7 @@ python -m unittest discover
        │    └── mod_xyz
        │          ├── templates
        │          │     ├── mobile
-       │          │     │    └── `projects`
+       │          │     │    └── xyz
        │          │     │         ├── admin
        │          │     │         │    ├── create.html
        │          │     │         │    ├── edit.html
@@ -1061,7 +1408,7 @@ python -m unittest discover
        │          │     │         │    └── show.html
        │          │     │         └── public
        │          │     │              └── public_list.html
-       │          │     └── `projects`
+       │          │     └── xyz
        │          │          ├── admin
        │          │          │    ├── create.html
        │          │          │    ├── edit.html
@@ -1073,16 +1420,30 @@ python -m unittest discover
        │          ├── controllers.py
        │          ├── forms.py
        │          └── models.py
+       ├── databases
+       │    └── sqlite
+       │          ├── core.db
+       │          └── default.db
        ├── .dockerignore
        ├── .gitignore
-       ├── app.db
        ├── config.py
+       ├── create_all_models_json.py
+       ├── create_desktop_installer_lunix.py
+       ├── create_desktop_installer_mac.py
+       ├── create_desktop_installer_windows.py
        ├── create_module.py
+       ├── create_module_json.py
        ├── Dockerfile
+       ├── FLASK-BDA LICENSE
        ├── LICENSE
+       ├── package.json
+       ├── package-lock.json
+       ├── Procfile
        ├── README.md
        ├── requirements.txt
        ├── run.py
+       ├── run_desktop.py
+       ├── run_shared_server.py
        └── serverless.yml
 ```
 
@@ -1116,6 +1477,18 @@ python -m unittest discover
 ## Low-code platform
 ### Definition
 > A low-code development platform provides a development environment used to create application software through programmatic or graphical user interfaces and configurations instead of traditional hand-coded computer programming.
+
+________________________________________
+
+# How can I help?
+
+We would be very glad if you contributed to the project in one or all of these ways:
+
+* Talking about Emmett with friends and on the web
+* Adding issues and features requests here on GitHub
+* Participating in discussions about new features and issues here on GitHub
+* Improving the documentation
+* Forking the project and writing beautiful code
 
 # License
 
@@ -1165,7 +1538,7 @@ The Flask-BDA License is the legal requirement for you or your company to use an
 * You are given a license to any patent that covers Flask-BDA
 
 ### The license prevents you from doing the following:
-* You can not commercialize original or modified (derivative) versions of the Flask-BDA editor and/or engine
+* You can not commercialize original or modified (derivative) versions of the Flask-BDA editor, creator and/or engine
 * You can not hold Flask-BDA or Ryan Julyan liable for damages caused by the use of Flask-BDA
 * You can not bring any warranty claims to Flask-BDA or Ryan Julyan
 * You can not use the Flask-BDA trademark unless express permission has been given (see exceptions and additional information)

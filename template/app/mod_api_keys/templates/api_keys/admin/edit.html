@@ -1,0 +1,73 @@
+
+{% extends "admin/index.html" %}
+
+{% block content %}
+
+  <div class="lg:flex lg:items-center lg:justify-between">
+    <div class="flex-1 min-w-0">
+      <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
+        Edit Api_keys
+      </h2>
+    </div>
+  </div>
+    
+  <div class="hidden sm:block" aria-hidden="true">
+    <div class="py-5">
+      <div class="border-t border-gray-200"></div>
+    </div>
+  </div>
+  
+  <div class="mt-10 sm:mt-0">
+    <div class="md:grid md:grid-cols-2 md:gap-6">
+      <div class="mt-5 md:mt-0 md:col-span-2">
+        <form method="POST" action="{{ url_for('api_keys_admin.update', id=data.id) }}" accept-charset="UTF-8" role="form">
+          {{ form.csrf_token }}
+          <div class="shadow overflow-hidden sm:rounded-md">
+            <div class="px-4 py-5 bg-white sm:p-6">
+              <div class="grid grid-cols-2 gap-6">
+                <!-- start new render_update fields -->
+
+                    <div class="col-span-6 sm:col-span-3">
+                    <label for="api_key" class="block text-sm font-medium text-gray-700">Api key</label>
+                    <input type = "text" name = "api_key" id="api_key" placeholder = "Api key" value = "{{data.api_key}}" autocomplete="api_key" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    </div>
+        
+                    <div class="col-span-6 sm:col-span-3">
+                    <label for="api_key_notes" class="block text-sm font-medium text-gray-700">Api key notes</label>
+                    <input type = "text" name = "api_key_notes" id="api_key_notes" placeholder = "Api key notes" value = "{{data.api_key_notes}}" autocomplete="api_key_notes" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    </div>
+        
+                    <div class="col-span-6 sm:col-span-3">
+                    <label for="created_user_id" class="block text-sm font-medium text-gray-700">Created user id</label>
+                    <input type = "text" name = "created_user_id" id="created_user_id" placeholder = "Created user id" value = "{{data.created_user_id}}" autocomplete="created_user_id" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    </div>
+        
+                    <div class="col-span-6 sm:col-span-3">
+                    <label for="valid_from" class="block text-sm font-medium text-gray-700">Valid from</label>
+                    <input type = "text" name = "valid_from" id="valid_from" placeholder = "Valid from" value = "{{data.valid_from}}" autocomplete="valid_from" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    </div>
+        
+                    <div class="col-span-6 sm:col-span-3">
+                    <label for="valid_to" class="block text-sm font-medium text-gray-700">Valid to</label>
+                    <input type = "text" name = "valid_to" id="valid_to" placeholder = "Valid to" value = "{{data.valid_to}}" autocomplete="valid_to" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    </div>
+                        <!-- this line should be removed and replaced with the renderFields variable -->
+                <!-- end new render_update fields -->
+              </div>
+            </div>
+            <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+              <a href="{{ url_for('api_keys_admin.index') }}" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                Cancel
+              </a>
+              <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Update Api_keys
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+
+{% endblock content %}

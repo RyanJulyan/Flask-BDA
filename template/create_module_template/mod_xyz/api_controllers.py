@@ -13,6 +13,12 @@ from app import db, app, api
 # Import module models (i.e. User)
 from app.mod_xyz.models import Xyz
 
+# Import json for consuming payload and for payload data type transformations
+import json
+
+# Import read_json from pandas for payload data type transformations
+from pandas import read_json
+
 # Swagger namespace
 ns = api.namespace('api/xyz', description='Database model "Xyz", resource based, Api. \
     This API should have 2 endpoints from the name of the model prefixed by "api".')
@@ -82,6 +88,7 @@ class XyzResource(Resource):
         # start update api_request feilds
         # this line should be removed and replaced with the updateApiRequestDefinitions variable
         # end update api_request feilds
+        # data.title = api.payload['title']
         db.session.commit()
         db.session.refresh(data)
         return data, 201
@@ -114,14 +121,52 @@ class XyzListResource(Resource):
     @jwt_required
     def post(self):  # /xyz
         '''Create a new Xyz record'''
-        args = parser.parse_args()
         data = Xyz(
             # start new api_request feilds
             # this line should be removed and replaced with the newApiRequestDefinitions variable
             # end new api_request feilds
-            # title=args['title']
+            # title = api.payload['title']
         )
         db.session.add(data)
+        db.session.commit()
+        db.session.refresh(data)
+        return data, 201
+
+
+# XyzBulk
+# Inserts and updates in Bulk of Xyz, and lets you POST to add and put to update new Xyz
+@ns.route('/bulk')
+class XyzListResource(Resource):
+    @ns.doc(responses={201: 'UPDATED', 422: 'Unprocessable Entity', 500: 'Internal Server Error'},
+             description='update xyz')
+    @ns.expect(xyz)
+    @ns.marshal_list_with(xyz, code=201)
+    @ns.doc(security='jwt')
+    @jwt_required
+    def put(self):  # /xyz/bulk
+        '''Bulk update Xyz given their identifiers'''
+        data = json.dumps(api.payload)
+        # data = read_json(data, convert_dates=['start_date'])
+        data = read_json(data)
+        data = data.to_dict(orient="records")
+        db.session.bulk_update_mappings(Xyz,data)
+        db.session.commit()
+        db.session.refresh(data)
+        return data, 201
+
+    @ns.doc(responses={201: 'INSERTED', 422: 'Unprocessable Entity', 500: 'Internal Server Error'},
+             description='insert xyz')
+    @ns.expect(xyz)
+    @ns.marshal_with(xyz, code=201)
+    @ns.doc(security='jwt')
+    @jwt_required
+    def post(self):  # /xyz/bulk
+        '''Bulk create new Xyz records'''
+        data = json.dumps(api.payload)
+        # data = read_json(data, convert_dates=['start_date'])
+        data = read_json(data)
+        data = data.to_dict(orient="records")
+        db.session.bulk_insert_mappings(Xyz,data)
         db.session.commit()
         db.session.refresh(data)
         return data, 201

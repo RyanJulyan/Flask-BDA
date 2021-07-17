@@ -240,7 +240,7 @@ def create_module_json(module_name):
                     # Rename Variables #
                     ####################
                     if "fields" in line and 'models.json' in s:
-                        destination.write('        "fields": ' + str(json.dumps(fields, indent=4, sort_keys=True)).replace("'",'"')+'\n')
+                        destination.write('        "fields": ' + str(json.dumps(fields, indent=12, sort_keys=True)).replace("'",'"')+'\n')
                     else:
                         destination.write((line.replace(renameFrom, renameTo)).replace(renameFrom.capitalize(), renameTo.capitalize()))
                 source.close()

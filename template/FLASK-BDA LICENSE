@@ -37,7 +37,7 @@ The license grants you the following permissions:
 • You are given a license to any patent that covers Flask-BDA
 
 The license prevents you from doing the following:
-• You can not commercialise original or modified (derivative) versions of the Flask-BDA editor and/or engine
+• You can not commercialise original or modified (derivative) versions of the Flask-BDA editor, creator and/or engine
 • You can not hold Flask-BDA or Ryan Julyan liable for damages caused by the use of Flask-BDA
 • You can not bring any warranty claims to Flask-BDA or Ryan Julyan
 • You can not use the Flask-BDA trademark unless express permission has been given (see exceptions and additional information)
@@ -110,7 +110,7 @@ You may add Your own copyright statement to Your modifications and may provide a
 
 ________________________________________
 Copyright 2021 Flask-BDA, Ryan Julyan
-Licensed under the Flask-BDA License version 0.1 (the "License"); you may not use this file except in compliance with the License.
-You may obtain a copy of the License, `together with FAQs` at
-`https://github.com/RyanJulyan/Flask-BDA`
+Licensed under the Flask-BDA License version 0.1 (the "License"); you may not use `Flask-BDA` except in compliance with the License.
+You may obtain a copy of the License, at
+`https://github.com/RyanJulyan/Flask-BDA/blob/main/LICENSE`
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.

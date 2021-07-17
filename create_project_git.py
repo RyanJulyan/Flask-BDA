@@ -6,14 +6,30 @@
 ###########
 ###########
 
-import os
-import platform
-import subprocess
-import re
-import shutil
-import zipfile
-import secrets
-import click
+import sys
+
+
+def check_installation(rv):
+    current_version = sys.version_info
+    if current_version[0] == rv[0] and current_version[1] >= rv[1]:
+        pass
+    else:
+        sys.stderr.write( "[%s] - Error: Your Python interpreter must be %d.%d or greater (within major version %d)\n" % (sys.argv[0], rv[0], rv[1], rv[0]) )
+        sys.exit(-1)
+    return 0
+
+
+required_version = (3,8)
+check_installation(required_version)
+
+import os  # noqa: E402
+import platform  # noqa: E402
+import subprocess  # noqa: E402
+import re  # noqa: E402
+import shutil  # noqa: E402
+import zipfile  # noqa: E402
+import secrets  # noqa: E402
+import click  # noqa: E402
 
 ###################
 ###################
@@ -22,16 +38,22 @@ import click
 ###################
 
 @click.command()
-@click.option('--project', 
+@click.option('--project', required=True, 
                     help='Name of project to create.')
+@click.option('--owner', default='RyanJulyan',
+                    help='Name of GitHub owner to use.')
+@click.option('--repo', default='Flask-BDA',
+                    help='Name of GitHub repository to use (must be linked to owner).')
+@click.option('--branch', default='main',
+                    help='Name of branch to use.')
 # @click.pass_context
-def cmd_create_project(project):
+def cmd_create_project(project, owner, repo, branch):
     """Generate a new project"""
 
-    create_project(project)
+    create_project(project, owner, repo, branch)
 
 
-def create_project(project_name):
+def create_project(project_name, owner = "RyanJulyan", repo = "Flask-BDA", branch="main"):
     """Generate a new project"""
 
     while True:
@@ -72,6 +94,7 @@ def create_project(project_name):
     ########################
     ########################
 
+    os.system('pip install --upgrade pip')
     os.system('pip install virtualenv')
     os.system('pip install click')
     os.system('pip install flaskwebgui')
@@ -84,10 +107,7 @@ def create_project(project_name):
     ########################
     ########################
 
-    owner = "RyanJulyan"
-    repo = "Flask-BDA"
-
-    os.system('curl -L https://codeload.github.com/{}/{}/zip/main --ssl-no-revok -o {}.zip'.format(owner, repo, repo))
+    os.system('curl -L https://codeload.github.com/{}/{}/zip/{} --ssl-no-revok -o {}.zip'.format(owner, repo, branch, repo))
 
     with zipfile.ZipFile(repo+'.zip', 'r') as zip_ref:
         zip_ref.extractall('./')
@@ -107,10 +127,10 @@ def create_project(project_name):
                     shutil.copy2(s, d)
 
 
-    copytree(repo+'-main/template', dir_name, 'Flask BDA', projectName)
-    copytree(repo+'-main/mobile_app', dir_name + "_mobile_app", 'Flask BDA', projectName)
+    copytree(repo+'-'+branch+'/template', dir_name, 'Flask BDA', projectName)
+    copytree(repo+'-'+branch+'/mobile_app', dir_name + "_mobile_app", 'Flask BDA', projectName)
 
-    shutil.rmtree(repo+'-main')
+    shutil.rmtree(repo+'-'+branch)
 
     os.remove(repo+'.zip')
 

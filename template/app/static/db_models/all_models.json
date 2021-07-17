@@ -1,4 +1,44 @@
 {
+    "api_keys": {
+        "fields": {
+            "api_key": {
+                "dataType": "String(256)",
+                "default": false,
+                "nullable": false,
+                "relationship": null,
+                "unique": true
+            },
+            "api_key_notes": {
+                "dataType": "Text",
+                "default": false,
+                "nullable": true,
+                "relationship": null,
+                "unique": false
+            },
+            "created_user_id": {
+                "dataType": "Integer",
+                "default": false,
+                "nullable": false,
+                "relationship": "user",
+                "unique": false
+            },
+            "valid_from": {
+                "dataType": "Date",
+                "default": false,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            },
+            "valid_to": {
+                "dataType": "Date",
+                "default": false,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            }
+        },
+        "model": "Api_keys"
+    },
     "hierarchies": {
         "fields": {
             "key_value": {

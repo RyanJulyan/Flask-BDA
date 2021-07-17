@@ -153,28 +153,34 @@ def create_module(module):
                 argumentParserArr.append("\n    '{}': fields.Float(required=True, description='The {} {}')".format(key, model, friendly_name))
             else:
                 argumentParserArr.append("\n    '{}': fields.String(required=True, description='The {} {}')".format(key, model, friendly_name))
-        newFormRequestDefinitions += "        {}=request.form.get('{}')\n".format(key, key)
+        newFormRequestDefinitions += "        {} = request.form.get('{}')\n".format(key, key)
         updateApiRequestDefinitions += "        data.{} = api.payload['{}']\n".format(key, key)
         updateFormRequestDefinitions += "    data.{} = request.form.get('{}')\n".format(key, key)
         renderFields += """
-                    <div class="col-span-6 sm:col-span-3">
-                    <label for="{}" class="block text-sm font-medium text-gray-700">{}</label>
-                    <input type="text" name="{}" id="{}" placeholder="{}" autocomplete="{}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    <div class="form-group">
+                        <label for="{}" class="col-sm-2 control-label">{}</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="{}" id="{}" placeholder="{}" autocomplete="{}" >
+                        </div>
                     </div>
         """.format(key, friendly_name, key, key, friendly_name, key)
         renderUpdateFields += """
-                    <div class="col-span-6 sm:col-span-3">
-                    <label for="{}" class="block text-sm font-medium text-gray-700">{}</label>
-                    <input type="text" name="{}" id="{}" placeholder="{}" value="{}data.{}{}" autocomplete="{}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    <div class="form-group">
+                        <label for="{}" class="col-sm-2 control-label">{}</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="{}" id="{}" placeholder="{}" value="{}data.{}{}"  autocomplete="{}" >
+                        </div>
                     </div>
         """.format(key, friendly_name, key, key, friendly_name, "{{", key, "}}", key)
         tableHeaders += """
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th>
                             {}
                         </th>
         """.format(friendly_name)
         tableValues += """
-                            <td scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider">
+                            <td>
                                 {} value.{} {}
                             </td>
         """.format("{{", key, "}}")
