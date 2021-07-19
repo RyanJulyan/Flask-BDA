@@ -55,6 +55,10 @@ from apscheduler.events import (
 app = Flask(__name__, template_folder='templates')
 Mobility(app)
 
+# Default Orgnaization name
+with app.app_context():
+    g.organization = "default"
+
 # JWT
 jwt = JWTManager(app)
 jwt.init_app(app)

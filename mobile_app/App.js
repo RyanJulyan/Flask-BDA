@@ -28,8 +28,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { Permissions } from 'expo';
 
-// let current_screen = 'Init';
-let current_screen = 'PushNotification';
+let current_screen = 'Init';
+// let current_screen = 'PushNotification';
 let is_connected = true;
 const dimensions = Dimensions.get('window');
 // const imageHeight_3_6x1 = Math.round(dimensions.width * 1 / 3.6);

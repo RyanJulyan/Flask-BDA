@@ -191,8 +191,9 @@ ALLOWED_EXTENSIONS = set(['txt', 'rtf', 'docx', 'doc', 'docm', 'dotx', 'odt', 'x
 #######################
 SCHEDULER_API_ENABLED = True
 SCHEDULER_JOBSTORES = {"default": SQLAlchemyJobStore(url=SQLALCHEMY_DATABASE_URI)}
-SCHEDULER_EXECUTORS = {"default": {"type": "threadpool", "max_workers": 20}}
-SCHEDULER_JOB_DEFAULTS = {"coalesce": False, "max_instances": 3}
+# Comment out due to errors
+# SCHEDULER_EXECUTORS = {"default": {"type": "threadpool", "max_workers": 20}}
+# SCHEDULER_JOB_DEFAULTS = {"coalesce": False, "max_instances": 3}
 
 
 ###########
