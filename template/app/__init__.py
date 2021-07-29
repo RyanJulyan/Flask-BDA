@@ -1,6 +1,8 @@
 
+from datetime import date
+
 # Import flask and template operators
-from flask import Flask, render_template, make_response, send_from_directory, request, g
+from flask import Flask, render_template, make_response, send_from_directory, request, g, jsonify, redirect
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 from flask_wtf.csrf import CSRFProtect
@@ -40,6 +42,12 @@ from engineio.async_drivers import gevent
 # Import Bcrypt
 from flask_bcrypt import Bcrypt
 
+# Import request for API calls 
+import requests
+
+# Import json for consuming payload and for payload data type transformations
+import json
+
 # Import APScheduler
 from flask_apscheduler import APScheduler
 from apscheduler.events import (
@@ -54,6 +62,7 @@ from apscheduler.events import (
 # Define the WSGI application object
 app = Flask(__name__, template_folder='templates')
 Mobility(app)
+
 
 # Default Orgnaization name
 with app.app_context():
@@ -162,9 +171,35 @@ scheduler.start()
 from app.mod_auth.models import User  # noqa: E402
 from app.mod_api_keys.models import Api_keys  # noqa: E402
 
+#################################################################################
+## NOT GOOD, CHANGES THE SERVER TO ALWAYS HAVE AUTH AND NOT JUST SINGLE REQUEST##
+#################################################################################
+# BearerToken = ''
+
+# class InterceptRequestMiddleware:
+#     global BearerToken
+#     def __init__(self, wsgi_app):
+#         self.wsgi_app = wsgi_app
+
+#     def __call__(self, environ, start_response):
+#         global BearerToken
+#         # print("BearerToken: ",BearerToken)
+#         environ['HTTP_AUTHORIZATION'] = BearerToken
+#         return self.wsgi_app(environ, start_response)
+
+# app.wsgi_app = InterceptRequestMiddleware(app.wsgi_app)
+#################################################################################
+## NOT GOOD, CHANGES THE SERVER TO ALWAYS HAVE AUTH AND NOT JUST SINGLE REQUEST##
+#################################################################################
+
+# @app.before_first_request
+# def before_first_request():
+#     global BearerToken
+#     BearerToken = ''
+
 @app.before_request
 def before_request():
-    # Just use the query parameter "tenant"
+    # Just use the query parameter "?organization=tenant_name"
     # organization = tenant
     g.organization = "default"
     if 'organization' in request.args:
@@ -177,18 +212,72 @@ def before_request():
     # Set User JWT token if API key Used
     if("ApiKey" in request.headers):
         ApiKey = request.headers.get('ApiKey')
-        # api_key = Api_keys.query.filter_by(_and(api_key = ApiKey,and_(Api_keys.birthday <= '1988-01-17', Api_keys.birthday >= '1985-01-17'))).first()
-        api_key = Api_keys.query.filter_by(api_key = ApiKey).first()
-        data = User.query.get_or_404(api_key.created_user_id)
+        current_date =date.today()
 
-        # request.headers['Authorization'] = "Bearer "+ create_access_token(identity=data.email)
+        api_key = Api_keys.query.filter(Api_keys.api_key == ApiKey).filter(Api_keys.valid_from <= current_date).filter(current_date <= Api_keys.valid_to).first()
+
         if api_key:
-            request.headers['Authorization'] = "Bearer "+ create_access_token(identity=ApiKey)
+            BearerToken = "Bearer " + create_access_token(identity=ApiKey)
+
+            params = request.args
+            headers = dict(request.headers)
+            headers['Authorization'] = BearerToken
+            data = request.data.decode("UTF-8")
+            if len(data) > 0:
+                data = json.loads(data)
+
+            if(request.method == 'GET'):
+
+                url = request.url
+
+                x = requests.get(url,params=params, headers=headers, json=data)
+
+                # return_data = json.loads(x.text)
+
+                # print("return_data: ", return_data)
+
+            # if(request.method == 'post'):
+
+            #     url = api_endpoint
+
+            #     x = requests.post(url,params=params, headers=headers, json=data)
+
+            #     data = json.loads(x.text)
+
+            # if(request.method == 'put'):
+
+            #     url = api_endpoint
+
+            #     x = requests.put(url,params=params, headers=headers, json=data)
+
+            #     data = json.loads(x.text)
+
+            # if(request.method == 'delete'):
+
+            #     url = api_endpoint
+
+            #     x = requests.put(url,params=params, headers=headers, json=data)
+
+            #     data = json.loads(x.text)
+            
 
     # Build the database:
     # This will create the database file using SQLAlchemy
     db.create_all()
 
+# @app.after_request
+# def after_request(response):
+#     print("response",dict(response))
+#     return response
+
+# @app.teardown_request
+# def teardown_request(error=None):
+#     global BearerToken
+#     BearerToken = ''
+
+@app.route('/header_check')
+def index():
+    return jsonify({'headers': {k: v for k, v in request.headers}})
 
 # User_loader
 @login_manager.user_loader
@@ -283,7 +372,6 @@ api = Api(app, version='3.0',
     decorators=[csrf_protect.exempt],
     authorizations=authorizations
 )
-
 
 # Register api(s)
 from app.mod_auth.api_controllers import ns as Auth_API  # noqa: E402

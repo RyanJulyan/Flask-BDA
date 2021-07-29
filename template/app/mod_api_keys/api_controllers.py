@@ -1,11 +1,12 @@
 
 # Import Flask Resource, fields from flask_restx for API and Swagger
+from flask import g, request
 from flask_restx import Resource, fields, reqparse
 # Import sql functions (SUM,MIN,MAX,AVG)
 from sqlalchemy.sql import func
 
 # JWT for API
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, create_access_token
 
 # Import the database object from the main app module
 from app import db, app, api
@@ -17,8 +18,7 @@ from app.mod_api_keys.models import Api_keys
 import json
 
 # Swagger namespace
-ns = api.namespace('api/api_keys', description='Database model "Api_keys", resource based, Api. \
-    This API should have 2 endpoints from the name of the model prefixed by "api".')
+ns = api.namespace('api/api_keys', description='Database model "Api_keys", resource based, Api. This API should have 2 endpoints from the name of the model prefixed by "api".')
 
 api_keys = api.model('Api_keys', {
     'id': fields.Integer(readonly=True, description='The Api_keys unique identifier'),
@@ -56,6 +56,18 @@ parser.add_argument('page', type=int, help='page number for returned list. Must 
 # https://flask-restful.readthedocs.io/en/latest/quickstart.html
 # https://github.com/python-restx/flask-restx#quick-start for API and Swagger
 # shows a single api_keys item, updates a single api_keys item and lets you delete a api_keys item
+
+@ns.route('/header_check')
+class Api_keysTestResource(Resource):
+    '''Show a single Api_keys item and lets you delete them'''
+    @ns.doc(responses={200: 'OK', 422: 'Unprocessable Entity', 500: 'Internal Server Error'},
+             description='get api_keys')
+    # @ns.marshal_list_with(api_keys, code=200)
+    @ns.doc(security='jwt')
+    @jwt_required
+    def get(self):  # /api_keys/<id>
+        '''Fetch a single Api_keys item given its identifier'''
+        return {'headers': {k: v for k, v in request.headers}}
 
 @ns.route('/<int:id>')
 @ns.response(404, 'Api_keys not found')

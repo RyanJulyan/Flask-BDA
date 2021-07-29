@@ -19,6 +19,33 @@ import json
 # Import read_json from pandas for payload data type transformations
 from pandas import read_json
 
+# import multiple bindings
+from app.mod_tenancy.multi_bind import MultiBindSQLAlchemy
+###################################################################
+#### Uncomment the following enable the use different bindings ####
+###################################################################
+
+########################################################################################################################
+## change db.first to db.<binding> name as needed where <binding> is the name you want to reference when making calls ##
+########################################################################################################################
+
+# db.first = MultiBindSQLAlchemy('first')
+##################################################
+## this will only work for the execute function ##
+##################################################
+# db.first.execute(...)
+
+#########################################################################################################################
+## change db.second to db.<binding> name as needed where <binding> is the name you want to reference when making calls ##
+#########################################################################################################################
+
+# db.second = MultiBindSQLAlchemy('second')
+##################################################
+## this will only work for the execute function ##
+##################################################
+# db.second.execute(...)
+
+
 # Swagger namespace
 ns = api.namespace('api/xyz', description='Database model "Xyz", resource based, Api. \
     This API should have 2 endpoints from the name of the model prefixed by "api".')

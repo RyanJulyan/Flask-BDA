@@ -19,6 +19,32 @@ from app.mod_xyz.models import Xyz
 
 # Import module models (Audit)
 from app.mod_audit.models import Audit
+# import multiple bindings
+from app.mod_tenancy.multi_bind import MultiBindSQLAlchemy
+###################################################################
+#### Uncomment the following enable the use different bindings ####
+###################################################################
+
+########################################################################################################################
+## change db.first to db.<binding> name as needed where <binding> is the name you want to reference when making calls ##
+########################################################################################################################
+
+# db.first = MultiBindSQLAlchemy('first')
+##################################################
+## this will only work for the execute function ##
+##################################################
+# db.first.execute(...)
+
+#########################################################################################################################
+## change db.second to db.<binding> name as needed where <binding> is the name you want to reference when making calls ##
+#########################################################################################################################
+
+# db.second = MultiBindSQLAlchemy('second')
+##################################################
+## this will only work for the execute function ##
+##################################################
+# db.second.execute(...)
+
 
 # Define the blueprint: 'xyz', set its url prefix: app.url/xyz
 mod_public_xyz = Blueprint('xyz_public', __name__, template_folder='templates', url_prefix='/xyz')
