@@ -1,4 +1,6 @@
 
+import sys, os
+
 from datetime import date
 
 # Import flask and template operators
@@ -79,7 +81,19 @@ login_manager.login_view = 'auth.login'
 login_manager.login_message_category = "danger"
 
 # Configurations
-app.config.from_object('config')
+# app.config.from_object('config') # Removed to allow for external config file
+
+# Load Config depending on where it comes from
+if getattr(sys, 'frozen', False):
+    # running as bundle (aka frozen)
+    # bundle_dir = sys._MEIPASS
+    # application_path = getattr(sys, '_MEIPASS', os.path.dirname(sys.executable))
+    bundle_dir = os.path.dirname(sys.executable)
+else:
+    # running live
+    bundle_dir = os.path.dirname(os.path.join(os.path.dirname( __file__ ), '..','..'))
+
+app.config.from_pyfile(os.path.join(bundle_dir, 'config.py'))
 
 # Logging
 logging.basicConfig(filename=app.config['LOG_FILENAME'], level=app.config['LOG_LEVEL'], format=app.config['LOG_FORMAT'])

@@ -365,6 +365,10 @@ Ensure that your MS-SQL instance has remote connection rights set up and enabled
         * Check the "Allow remote connections to this server" checkbox
 
 Ensure that the "SQL server configuration management" settings are configured correctly
+> **NOTE:** Your installation will require `Client Tools Connectivity`, if you cannot find "SQL server configuration management", then you may need to modify your installation to include `Client Tools Connectivity`
+> * if you cannot find the "" you may need to use the "Use the Computer Management"  tool instead. to access it.
+>   * this seems to be a Windows 10 issue
+
 * Start-> Programs -> Microsoft SQL Server <Version eg: 2019>
     * Select "SQL Server Configuration Manager"
         * In the left pane of SQL Server Configuration Manager, select the "SQL Server Network Configuration."
@@ -532,6 +536,10 @@ There are currently 7 out of the box environments supported (with plans for more
 * Open new terminal
     * "Windows-Key + R" will show you the 'RUN' box
     * Type "cmd" to open the terminal
+        * You may need to run "cmd" as administrator to run `pip install --upgrade pip`
+            * To do this, you can search for "cmd" in your windows search
+            * Right-click on the icon, and click on the "Run as administrator" option
+                * You may need to navigate to your project when running as administrator `cd <Path To>/my_awesome_project`
 ```shell
 cd <Path To>/my_awesome_project
 
@@ -554,6 +562,8 @@ flask run --port 5000
 ### Linux / Mac
 * Open new terminal
     * "Control + Option + Shift + T" to open the terminal
+        * You may need to run "cmd" as administrator to run `pip install --upgrade pip`
+            * To do this, you run the command as `sudo` eg: `sudo pip install --upgrade pip`
 ```shell
 cd <Path To>/my_awesome_project
 
@@ -926,6 +936,10 @@ npx expo-optimize --quality 0.9
 * Open new terminal
     * "Windows-Key + R" will show you the 'RUN' box
     * Type "cmd" to open the terminal
+        * You may need to run "cmd" as administrator to run `pip install --upgrade pip`
+            * To do this, you can search for "cmd" in your windows search
+            * Right-click on the icon, and click on the "Run as administrator" option
+                * You may need to navigate to your project when running as administrator `cd <Path To>/my_awesome_project`
 ```shell
 cd <Path To>/my_awesome_project
 
@@ -945,6 +959,8 @@ python create_desktop_installer_windows.py
 ### Linux
 * Open new terminal
     * "Control + Option + Shift + T" to open the terminal
+        * You may need to run "cmd" as administrator to run `pip install --upgrade pip`
+            * To do this, you run the command as `sudo` eg: `sudo pip install --upgrade pip`
 ```shell
 cd <Path To>/my_awesome_project
 
@@ -964,6 +980,8 @@ python create_desktop_installer_lunix.py
 ### Mac
 * Open new terminal
     * "Control + Option + Shift + T" to open the terminal
+        * You may need to run "cmd" as administrator to run `pip install --upgrade pip`
+            * To do this, you run the command as `sudo` eg: `sudo pip install --upgrade pip`
 ```shell
 cd <Path To>/my_awesome_project
 

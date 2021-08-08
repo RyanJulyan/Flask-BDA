@@ -8,8 +8,9 @@ workdir = os.getcwd()
 
 # define the "dev\dist" and "dev\build" dirs
 # os.chdir("..")
+name = 'Flask BDA'
 devdir = os.getcwd()
-distdir = os.path.join(devdir, '../desktop_mac/dist')
+distdir = os.path.join(devdir, '../desktop_mac/dist', name)
 builddir = os.path.join(devdir, '../desktop_mac/build')
 
 # call pyinstaller directly
@@ -32,5 +33,5 @@ PyInstaller.__main__.run([
     '--debug','False',
     '--log-level','WARN', # LEVEL may be one of TRACE, DEBUG, INFO, WARN, ERROR, CRITICAL (default: INFO).
     '--key', '1234567890123456', # The key used to encrypt Python bytecode.
-    '--name', 'Flask BDA',
+    '--name', name,
     ])

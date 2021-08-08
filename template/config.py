@@ -1,5 +1,5 @@
 
-import os
+import sys, os
 
 # Import logging
 import logging
@@ -33,7 +33,13 @@ DEBUG_TB_INTERCEPT_REDIRECTS = False
 ####################################
 # Define the application directory #
 ####################################
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+
+if getattr(sys, 'frozen', False):
+    # running as bundle (aka frozen)
+    BASE_DIR = os.path.dirname(sys.executable)
+else:
+    # running live
+    BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 ####################################################
 ####################################################
