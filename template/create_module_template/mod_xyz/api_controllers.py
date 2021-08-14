@@ -163,7 +163,7 @@ class XyzListResource(Resource):
 # XyzBulk
 # Inserts and updates in Bulk of Xyz, and lets you POST to add and put to update new Xyz
 @ns.route('/bulk')
-class XyzListResource(Resource):
+class XyzBulkListResource(Resource):
     @ns.doc(responses={201: 'UPDATED', 422: 'Unprocessable Entity', 500: 'Internal Server Error'},
              description='update xyz')
     @ns.expect(xyz)

@@ -59,10 +59,14 @@ def create_module(module):
     argumentParser = ''
     argumentAggParser = ''
     instanceParams = ''
+    publicHeaderRenderFields = ''
+    publicRenderFields = ''
     renderFields = ''
     renderUpdateFields = ''
     tableHeaders = ''
     tableValues = ''
+
+    count = 0
 
     for key, value in fields.items():
         friendly_name = (key.capitalize()).replace('_', ' ')
@@ -165,6 +169,18 @@ def create_module(module):
                         </div>
                     </div>
         """.format(key, friendly_name, key, key, friendly_name, key)
+
+        if count == 0:
+            publicHeaderRenderFields += """
+                                                    <h3 class="card-title">{}value.{}{}</h3>
+            """.format("{{", key, "}}")
+            count = 1
+
+        publicRenderFields += """
+                                                    <p>
+                                                        {}value.{}{}
+                                                    </p>
+        """.format("{{", key, "}}")
         renderUpdateFields += """
                     <div class="form-group">
                         <label for="{}" class="col-sm-2 control-label">{}</label>
@@ -210,6 +226,8 @@ def create_module(module):
     friendly_name = friendly_name.rstrip('\n')
     formDefinitions = formDefinitions.lstrip('\n')
     renderFields = renderFields.rstrip('\n')
+    publicHeaderRenderFields = publicHeaderRenderFields.rstrip('\n')
+    publicRenderFields = publicRenderFields.rstrip('\n')
     renderUpdateFields = renderUpdateFields.rstrip('\n')
     tableHeaders = tableHeaders.rstrip('\n')
     tableValues = tableValues.rstrip('\n')
@@ -336,6 +354,8 @@ def create_module(module):
                 if('index.html' in s):
                     replaceTextBetweenTags(s, '<!-- start new table headers -->', '<!-- end new table headers -->', '                    ', '')
                     replaceTextBetweenTags(s, '<!-- start new table values -->', '<!-- end new table values -->', '                        ', '')
+                    replaceTextBetweenTags(s, '<!-- start new publicHeaderRenderFields -->', '<!-- end new publicHeaderRenderFields -->', '                                                    ', '')
+                    replaceTextBetweenTags(s, '<!-- start new publicRenderFields -->', '<!-- end new publicRenderFields -->', '                                                    ', '')
                 if('create.html' in s):
                     replaceTextBetweenTags(s, '<!-- start new render fields -->', '<!-- end new render fields -->', '                ', '')
                 ##############################################
@@ -383,6 +403,10 @@ def create_module(module):
                         destination.write(renderFields)
                     if "<!-- start new render_update fields -->" in line:
                         destination.write(renderUpdateFields)
+                    if "<!-- start new publicHeaderRenderFields -->" in line:
+                        destination.write(publicHeaderRenderFields)
+                    if "<!-- start new publicRenderFields -->" in line:
+                        destination.write(publicRenderFields)
                     if "<!-- start new table headers -->" in line:
                         destination.write(tableHeaders)
                     if "<!-- start new table values -->" in line:

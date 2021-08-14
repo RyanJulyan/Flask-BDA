@@ -202,7 +202,43 @@ def create_project(project_name, owner = "RyanJulyan", repo = "Flask-BDA", branc
         else:
             subprocess.Popen(["xdg-open", path])
 
+    def customizeFileVariables(src, renameFrom='', renameTo=''):
+            for item in os.listdir(src):
+                s = os.path.join(src, item)
+                if os.path.isdir(s):
+                    customizeFileVariables(s, renameFrom, renameTo)
+                else:
+                    ##############################################
+                    # Copy temp for manage source -> destination #
+                    ##############################################
+                    shutil.copy2(s, s+'~')
+                    ################################
+                    # manage source -> destination #
+                    ################################
+                    source = open(s+'~', "r")
+                    destination = open(s, "w")
+                    for line in source:
+                        ####################
+                        # Rename Variables #
+                        ####################
+                        if "def __init__" in line and 'models.py' in s:
+                            pass
+                        elif 'models.json' in s:
+                            pass
+                        else:
+                            destination.write((line.replace(renameFrom, renameTo)).replace(renameFrom.capitalize(), renameTo.capitalize()))
+                    source.close()
+                    destination.close()
 
+                    #################
+                    # remove source #
+                    #################
+
+                    os.remove(s+'~')
+
+    customizeFileVariables('./', 'Falsk BDA', project_name)
+    customizeFileVariables('./', 'Falsk-BDA', project_name)
+    
     abs_folder_path = os.path.abspath(os.path.dirname(__file__)) + "/" + dir_name
 
     open_file(abs_folder_path)

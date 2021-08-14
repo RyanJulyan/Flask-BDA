@@ -27,7 +27,8 @@ Deprecations will be kept in place for at least 3 minor versions, after version 
 * [Quickstart](#quickstart)
     * [Update Database](#update-database)
     * [Multi Tenants](#multi-tenants)
-    * [Create new module](#create-new-module)
+    * [Create a new module](#create-a-new-module)
+    * [Module Functionality](#module-functionality)
 * [Update Database](#update-database)
 * [Create new CRUD module](#create-new-crud-module)
 * [Environments](#environments)
@@ -122,7 +123,9 @@ Deprecations will be kept in place for at least 3 minor versions, after version 
 > No complex setup required. Only python (suggested 3.8.6) is required.
 
 ## Step 2:
-### Rapidly develop custom modules
+### Update config and rapidly develop custom modules
+
+> Udate your configurations: Database, Application Settings.
 
 > Create your own modules and data structures.
 
@@ -149,7 +152,7 @@ Deprecations will be kept in place for at least 3 minor versions, after version 
 
 > Desktop, Web & Mobile
 
-> Environments include: Docker / AWS / Shared hosting.
+> Environments include: Docker / AWS Serverless / Heroku / Shared hosting.
 
 # Requirements
 * Download and install [Python](https://www.python.org/downloads/) (suggested 3.8.6) if you do not already have it installed.
@@ -292,9 +295,9 @@ To change the default database:
     * `DATABASE_NAME`
 * Comment out the `SQLALCHEMY_DATABASE_URI` for SQLite, and comment in the `try` and `except` for the SQLServer `SQLALCHEMY_DATABASE_URI`.
 
-> **Note:** if you are running and trying to connect to `SQLEXPRESS`. Please comment in the SQLServer `SQLEXPRESS`. This will be handled in the `try` and `except` to create the correct `SQLALCHEMY_DATABASE_URI`
+> **Note:** if you are running and trying to connect to `SQLEXPRESS`. Please uncomment the SQLServer `SQLEXPRESS` variable. This will be handled in the `try` and `except` to create the correct `SQLALCHEMY_DATABASE_URI`
 
-> **Note:** if you want windows authentication. Please comment in the SQLServer `TRUSTED_CONNECTION`. This will be handled in the `try` and `except` to create the correct `SQLALCHEMY_DATABASE_URI`
+> **Note:** if you want windows authentication. Please uncomment the SQLServer `TRUSTED_CONNECTION` variable. This will be handled in the `try` and `except` to create the correct `SQLALCHEMY_DATABASE_URI`
 
 
 ```python
@@ -381,16 +384,20 @@ Ensure that the "SQL server configuration management" settings are configured co
 
 # Multi Tenants
 
-> By default, Flask-BDA connects to a tenant called `default`. This is done using the `SQLALCHEMY_BINDS` object, which should have the specific connection details you require for each tenant. The default connection details are combined into a string called `SQLALCHEMY_DATABASE_URI`, which was meant to allow for a quick and easy single tenant setup.
+## Isolated Databases with the same functionality
 
-> You can use this same structure, however, to have multiple tenants quickly. To add a new tenant, simply:
-* Create a new line in the  `SQLALCHEMY_BINDS` object, with the name of the tenant and the connection string details
+> Multitenancy is a software architecture in which a single instance of software runs on a server and serves multiple tenants (clients). Multitenant software allows multiple independent instances of one or multiple applications operate in a shared environment.
+
+> By default, Flask-BDA connects to a tenant called `default`. This is done using the `SQLALCHEMY_BINDS` object (found in `config.py`), which should have the specific connection details you require for each tenant. The default connection details are combined into a string called `SQLALCHEMY_DATABASE_URI`, which was meant to allow for a quick and easy single tenant setup.
+
+> You can use this same structure, however, to have multiple tenants you can quickly add them to the `SQLALCHEMY_BINDS` object. To add a new tenant, simply:
+* Create a new line in the `SQLALCHEMY_BINDS` object, with the name of the tenant and the connection string details
     * Remember to create the database before trying to connect to it.
-    * The database connection types do not have to be the same per tenant in the same application (meaning different tenants can use different databases)
+    * The database connection types (SQLite, MySQL, SQL Server, PostgreSQL) do not have to be the same. each tenant in the same application can have different connection types (meaning different tenants can use different databases and different engines)
 
 ```python
 SQLALCHEMY_BINDS = {
-    "core": SQLALCHEMY_DATABASE_URI,
+    "default": SQLALCHEMY_DATABASE_URI,
     "client1": 'sqlite:///databases/sqlite/client1.db',
 }
 
@@ -398,6 +405,34 @@ SQLALCHEMY_BINDS = {
 
 > You can now interact with an isolated tenant database by adding the argument `organization=` to your URL, e.g.:
 `example.com?organization=client1` where `client1` is the name that you added in the `SQLALCHEMY_BINDS` object.
+
+> This works by intercepting the `@app.before_request` in `app/_init_.py` and changing the db engine binding by using `db.choose_tenant(g.organization)` from the `app/mod_tenancy/multi_tenant.py` by using the global variable `g.organization` which gets set by fetching the URL argument `organization`. This allows the same code in the app, to be used by every tenant's database while keeping the data seperated.
+
+## Interacting with different Databases in the same function
+
+> Sometimes you need to interact with different databases in a single function (especially when integrating systems, or reading data from different sources).
+
+> By default all controllers will have `MultiBindSQLAlchemy` imported. 
+``` python
+
+# import multiple bindings
+from app.mod_tenancy.multi_bind import MultiBindSQLAlchemy
+```
+> Under the import there is commented out code intended to assist you with quickly implementing linking to different databases in a single function. Firstly the database binding needs to be added to the `SQLALCHEMY_BINDS` object. Reference the [Isolated Databases with the same functionality](#isolated-databases-with-the-same-functionality) to better understand how to add new databases to the `SQLALCHEMY_BINDS` object.
+
+> You can then create a new object attached to the `db` object following the stucture of `db.<binding>` e.g.: `db.first` where `first` is the name you want to reference the binding in the rest of the code. You can then assign this variable to the `MultiBindSQLAlchemy` e.g.: `db.first = MultiBindSQLAlchemy('first')`.
+
+> This now allows you to call custom code that will allow you to access the new database binding as well as the main tenant in a single function e.g.: `db.first.execute(...)`, where you can execute raw SQL code.
+
+```python
+db.first = MultiBindSQLAlchemy('first')
+##################################################
+## this will only work for the execute function ##
+##################################################
+db.first.execute(...)
+```
+
+> **Note: ** this will only work for the `execute` function, there are some advanced techniques to still use the SQLAlchemy ORM that can be found here: [SQLAlchemy execute tutorial](https://docs.sqlalchemy.org/en/14/core/tutorial.html)
 
 # Create a new module
 
@@ -519,12 +554,99 @@ This will then create the required files and folders as described below in the [
                   └── models.py
 ```
 
+# Module Functionality
+> Creating a new module will provide you with 3 ways to interact with your new system `Public`, `Admin` and `API`.
+
+> To access these, they will require the app to be running on an [environment](#environments).
+
+## Public View
+> The `Public` view is a **non-authenticated** view of the data provided in the module.
+### It can be accessed from (where `xyz` is the name of the module):
+* `../xyz/`
+    * Returns: [list elements]
+    * Function name: `public_list`
+
+## Admin View
+> The `Admin` views are **authenticated** view of the data provided in the module.
+### It can be accessed from (where `xyz` is the name of the module):
+* `../admin/xyz/`
+    * Type: View
+    * Returns: [list elements]
+    * Function name: `index`
+* `../admin/xyz/create` 
+    * Type: View
+    * Returns: [single element]
+    * Function name: `create`
+* `../admin/xyz/store` 
+    * Type: POST URL
+    * Returns: [single element]
+    * Function name: `store`
+* `../admin/xyz/show/{id}`
+    * Type: View
+    * Returns: [single element]
+    * Function name: `show`
+* `../admin/xyz/edit/{id}`
+    * Type: View
+    * Returns: [single element]
+    * Function name: `edit`
+* `../admin/xyz/update/{id}`
+    * Type: PUT URL
+    * Returns: [single element]
+    * Function name: `update`
+* `../admin/xyz/destroy/{id}`
+    * Type: DELETE URL
+    * Returns: [single element]
+    * Function name: `destroy`
+## API
+> The `API` views are a list of REST API endpoints.
+
+> Flask BDA uses [SwaggerUI](https://swagger.io/tools/swagger-ui/) to present the API to a user/client.
+
+To access the SwaggerUI:
+* Go to your browser and insert the URL `<base_URL>/api/docs` to access the SwaggerUI API, e.g.: [`http://localhost:5000/api/docs`](http://localhost:5000/api/docs).
+
+To access the api without SwaggerUI:
+* Go to your browser and insert the URL `<base_URL>/`
+    *  `../api/xyz`
+        * Method: GET
+        * Returns: [list elements]
+        * Function name: `XyzListResource` > `get`
+    * `../api/xyz`
+        * Method: POST
+        * Returns: [single element]
+        * Function name: `XyzListResource` > `post`
+    * `../api/xyz/{id}`
+        * Method: GET
+        * Returns: [single element]
+        * Function name: `XyzResource` > `get`
+    * `../api/xyz/{id}`
+        * Method: PUT
+        * Returns: [single element]
+        * Function name: `XyzResource` > `update`
+    * `../api/xyz/{id}`
+        * Method: DELETE
+        * Returns: [single element]
+        * Function name: `XyzResource` > `delete`
+    * `../api/xyz/bulk`
+        * Method: POST
+        * Returns: [multiple elements]
+        * Function name: `XyzBulkListResource` > `post`
+    *  `../api/xyz/bulk`
+        * Method: PUT
+        * Returns: [multiple elements]
+        * Function name: `XyzBulkListResource` > `update`
+    * `../api/xyz/aggregate`
+        * Method: GET
+        * Returns: [single return, of multiple elements aggregated]
+        * Function name: `XyzAggregateResource` > `get`
+
 # Environments
 There are currently 7 out of the box environments supported (with plans for more to be supported soon) with instructions on how to configure each for  `Windows / Linux / Mac`, and you could run them at the same time if you want.
 * [Local python venv](#local-environment)
 * [Shared Hosting](#shared-hosting) (Still Testing)
 * [Docker](#docker-environment)
 * [AWS Serverless](#aws-serverless) (Still under Development)
+* [Heroku](#heroku) (Still under Development)
 * [React Native](#react-native) (Still under Development)
 * [Desktop Native](#desktop-native)
 
@@ -740,6 +862,87 @@ serverless deploy
 ```
 
 * Open a browser and go to [https://app.serverless.com/](https://app.serverless.com/) to see the deployed application
+
+## Heroku
+
+> **Note:** Still under development
+
+> [Heroku](https://www.heroku.com/) is a platform as a service (PaaS). Heroku allows you to start with zero commitment, pay as you go with no lock in. Developers, teams, and businesses of all sizes can use Heroku to deploy, manage, and scale apps. Whether you're building a simple prototype or a business-critical product, Heroku's fully-managed platform gives you a simple path to delivering apps quickly.
+
+> To create and deploy an application to Heroku from the terminal you will need to download and install the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli).
+to verify the installation, you can check the Heroku version from the terminal:
+```script
+heroku --version
+
+```
+
+> **Note:** Make sure you have changed your database connection, as Heroku does not suggest using SQLite, since the data may be lost on the files. Heroku does offer a free Postgres Database. see their [plans](https://elements.heroku.com/addons/heroku-postgresql) and choose the right plan for you as there are limits on the different plans.
+
+### Windows
+* Download the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) 
+* Open new terminal
+    * "Windows-Key + R" will show you the 'RUN' box
+    * Type "cmd" to open the terminal
+```shell
+cd <Path To>/my_awesome_project
+
+heroku login
+
+```
+* Follow the prompts to log into the Heroku system from the CLI
+* Next, create a unique name for your Web app `<my_awesome_project-flask-bda-app>`, where `<my_awesome_project-flask-bda-app>` is the name you gave your project.
+* Push your code to Heroku with git
+
+```shell
+heroku create my_awesome_project-flask-bda-app
+git push heroku master
+
+```
+* Finally, web app will be deployed on [http://my_awesome_project-flask-bda-app.herokuapp.com](http://my_awesome_project-flask-bda-app.herokuapp.com) where `<my_awesome_project-flask-bda-app>` is the name you gave your project.
+
+### Linux
+* Open new terminal
+    * "Control + Option + Shift + T" to open the terminal
+```shell
+cd <Path To>/my_awesome_project
+
+sudo snap install --classic heroku
+
+heroku login
+
+```
+* Follow the prompts to log into the Heroku system from the CLI
+* Next, create a unique name for your Web app `<my_awesome_project-flask-bda-app>`, where `<my_awesome_project-flask-bda-app>` is the name you gave your project.
+* Push your code to Heroku with git
+
+```shell
+heroku create my_awesome_project-flask-bda-app
+git push heroku master
+
+```
+* Finally, web app will be deployed on [http://my_awesome_project-flask-bda-app.herokuapp.com](http://my_awesome_project-flask-bda-app.herokuapp.com) where `<my_awesome_project-flask-bda-app>` is the name you gave your project.
+
+### Mac
+* Open new terminal
+    * "Control + Option + Shift + T" to open the terminal
+```shell
+cd <Path To>/my_awesome_project
+
+brew tap heroku/brew && brew install heroku
+
+heroku login
+
+```
+* Follow the prompts to log into the Heroku system from the CLI
+* Next, create a unique name for your Web app `<my_awesome_project-flask-bda-app>`, where `<my_awesome_project-flask-bda-app>` is the name you gave your project.
+* Push your code to Heroku with git
+
+```shell
+heroku create my_awesome_project-flask-bda-app
+git push heroku master
+
+```
+* Finally, web app will be deployed on [http://my_awesome_project-flask-bda-app.herokuapp.com](http://my_awesome_project-flask-bda-app.herokuapp.com) where `<my_awesome_project-flask-bda-app>` is the name you gave your project.
 
 ## React Native
 
