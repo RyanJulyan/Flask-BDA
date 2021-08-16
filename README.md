@@ -6,7 +6,7 @@
 # Status of the project
 Current version: `0.0.0` Beta 
 
-Flask-BDA is still under initial development and is being tested with Python 3.8.6 version.
+Flask-BDA is still under initial development and is being tested with [Python 3.8.6](https://www.python.org/downloads/release/python-386/) version.
 
 > Current roadmap and high-level project plan: https://trello.com/b/uu4HNPBh/flask-bda-features-roadmap
 
@@ -120,7 +120,7 @@ Deprecations will be kept in place for at least 3 minor versions, after version 
 
 > Start your development with a quick and easy download of a pre-configured development environment up and running in minutes.
 
-> No complex setup required. Only python (suggested 3.8.6) is required.
+> No complex setup required. Only python (suggested [3.8.6](https://www.python.org/downloads/release/python-386/)) is required.
 
 ## Step 2:
 ### Update config and rapidly develop custom modules
@@ -155,7 +155,7 @@ Deprecations will be kept in place for at least 3 minor versions, after version 
 > Environments include: Docker / AWS Serverless / Heroku / Shared hosting.
 
 # Requirements
-* Download and install [Python](https://www.python.org/downloads/) (suggested 3.8.6) if you do not already have it installed.
+* Download and install [Python](https://www.python.org/downloads/) (suggested [3.8.6](https://www.python.org/downloads/release/python-386/)) if you do not already have it installed.
     * Ensure pip is installed (pip should be installed already because it comes with the latest versions of python) in case it is not, please install it from here: https://pip.pypa.io/en/stable/installing/
         * To check if pip is installed, you can run the following command in your terminal
 ```shell
@@ -214,7 +214,7 @@ Please enter a valid project name!
 ```python
 curl -L https://raw.githubusercontent.com/RyanJulyan/Flask-BDA/RyanJulyan-Dev/create_project_git.py --ssl-no-revok -o create_project_git.py
 
-python create_project_git.py --project="My Awesome Project" --owner="RyanJulyan" --repo="Flask-BDA" --branch="RyanJulyan-Dev"
+python create_project_git.py --project="My Awesome Project" --owner="RyanJulyan" --repo="Flask-BDA" --branch="RyanJulyan-Dev" --create_venv=True
 
 ```
 

@@ -127,7 +127,7 @@ def unconfirmed():
     if current_user.confirmed:
         return redirect('main.home')
     flash('Please confirm your account!', 'warning')
-    return render_template('user/unconfirmed.html')
+    return render_template('auth/unconfirmed.html')
 
 
 @mod_auth.route('/login', methods=['GET', 'POST'])
@@ -170,4 +170,10 @@ def logout():
     logout_user()
     flash('You were logged out.', 'success')
     return redirect(url_for('auth.login'))
+
+
+@mod_auth.route('/forgot')
+def forgot():
+    form = ForgotForm(request.form)
+    return render_template('auth/forgot.html', form=form)
 

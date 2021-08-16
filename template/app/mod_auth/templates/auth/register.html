@@ -3,7 +3,89 @@
 
 {% extends "public/index.html" %}
 
-{% block content %}
+{% block page_content %}
+
+<div class="register-page">
+    <div class="register-box">
+        <div class="register-logo">
+            <a href="{{ url_for('landing') }}"><b>{{config.SITE_TITLE}}</b></a>
+        </div>
+    
+        <div class="card">
+            <div class="card-body register-card-body">
+                <p class="login-box-msg">Register a new membership</p>
+        
+                <form action="../../index.html" method="post">
+                    {{ form.csrf_token }}
+                    <div class="input mb-3">
+                        <input type="text" class="form-control" placeholder="Full name">
+                    </div>
+                    <div class="input mb-3">
+                        <input type="email" name="email" id="email" class="form-control" placeholder="Email" required="true">
+                        <span class="error">
+                        {% if form.email.errors %}
+                            {% for error in form.email.errors %}
+                            {{ error }}
+                            {% endfor %}
+                        {% endif %}
+                        </span>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" id="password" class="form-control" placeholder="Password" required="true">
+                        <div class="input-group-append" onclick="toggle_password_visibility('password');" style="cursor:pointer;">
+                            <div class="input-group-text">
+                                <span id="password_icon" class="fa fa-eye"></span>
+                            </div>
+                        </div>
+                        {{ form.password(placeholder="password") }}
+                        <span class="error">
+                        {% if form.password.errors %}
+                            {% for error in form.password.errors %}
+                            {{ error }}
+                            {% endfor %}
+                        {% endif %}
+                        </span>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" id="retype_password" class="form-control" placeholder="Retype password" required="true">
+                        <div class="input-group-append" onclick="toggle_password_visibility('retype_password');" style="cursor:pointer;">
+                            <div class="input-group-text">
+                                <span id="retype_password_icon" class="fa fa-eye"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                        <div class="icheck-primary">
+                            <input type="checkbox" id="agreeTerms" name="terms" value="agree">
+                            <label for="agreeTerms">
+                            I agree to the <a href="#">terms</a>
+                            </label>
+                        </div>
+                        </div>
+                        <div class="col-12">
+                        <button type="submit" class="btn btn-primary btn-block">Register</button>
+                        </div>
+                    </div>
+                </form>
+        
+                <div class="social-auth-links text-center">
+                <p>- OR -</p>
+                <a href="#" class="btn btn-block btn-primary">
+                    <i class="fa fa-facebook mr-2"></i>
+                    Sign up using Facebook
+                </a>
+                <a href="#" class="btn btn-block btn-danger">
+                    <i class="fa fa-google mr-2"></i>
+                    Sign up using Google
+                </a>
+                </div>
+        
+                Already Registered? <a href="{{ url_for('auth.login') }}">Login</a>
+            </div>
+        </div>
+    </div>
+  </div>
 
 
 <div class="lg:flex lg:items-center lg:justify-between">
@@ -224,4 +306,4 @@
     </div>
 </div>
 
-{% endblock content %}
+{% endblock page_content %}

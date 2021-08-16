@@ -37,6 +37,9 @@ import click  # noqa: E402
 ###################
 ###################
 
+def str2bool(v):
+  return v.lower() in ("yes", "true", "t", "1")
+
 @click.command()
 @click.option('--project', required=True, 
                     help='Name of project to create.')
@@ -46,14 +49,18 @@ import click  # noqa: E402
                     help='Name of GitHub repository to use (must be linked to owner).')
 @click.option('--branch', default='main',
                     help='Name of branch to use.')
+@click.option('--create_venv', default='True',
+                    help='Automatically Create venv and install requirements')
 # @click.pass_context
-def cmd_create_project(project, owner, repo, branch):
+def cmd_create_project(project, owner, repo, branch, create_venv):
     """Generate a new project"""
 
-    create_project(project, owner, repo, branch)
+    create_venv = str2bool(create_venv)
+
+    create_project(project, owner, repo, branch, create_venv)
 
 
-def create_project(project_name, owner = "RyanJulyan", repo = "Flask-BDA", branch="main"):
+def create_project(project_name, owner = "RyanJulyan", repo = "Flask-BDA", branch="main", create_venv=True):
     """Generate a new project"""
 
     while True:
@@ -180,12 +187,12 @@ def create_project(project_name, owner = "RyanJulyan", repo = "Flask-BDA", branc
     # Install virtualenv #
     ######################
     ######################
-
-    os.system('cd "' + dir_name + '" && pip install --upgrade pip')
-    os.system('cd "' + dir_name + '" && pip install --no-cache-dir -r requirements.txt')
-    os.system('cd "' + dir_name + '" && virtualenv venv')
-    os.system('cd "' + dir_name + '" && venv/bin/activate && pip install --no-cache-dir -r requirements.txt && export FLASK_APP=app && export FLASK_ENV=development')
-    os.system('cd "' + dir_name + '" && venv\\Scripts\\activate && pip install --no-cache-dir -r requirements.txt && set FLASK_APP=app && set FLASK_ENV=development')
+    if create_venv:
+        os.system('cd "' + dir_name + '" && pip install --upgrade pip')
+        os.system('cd "' + dir_name + '" && pip install --no-cache-dir -r requirements.txt')
+        os.system('cd "' + dir_name + '" && virtualenv venv')
+        os.system('cd "' + dir_name + '" && venv/bin/activate && pip install --no-cache-dir -r requirements.txt && export FLASK_APP=app && export FLASK_ENV=development')
+        os.system('cd "' + dir_name + '" && venv\\Scripts\\activate && pip install --no-cache-dir -r requirements.txt && set FLASK_APP=app && set FLASK_ENV=development')
 
     #####################################################
     #####################################################
@@ -203,46 +210,71 @@ def create_project(project_name, owner = "RyanJulyan", repo = "Flask-BDA", branc
             subprocess.Popen(["xdg-open", path])
 
     def customizeFileVariables(src, renameFrom='', renameTo=''):
-            for item in os.listdir(src):
-                s = os.path.join(src, item)
-                if os.path.isdir(s):
-                    customizeFileVariables(s, renameFrom, renameTo)
-                else:
-                    ##############################################
-                    # Copy temp for manage source -> destination #
-                    ##############################################
-                    shutil.copy2(s, s+'~')
-                    ################################
-                    # manage source -> destination #
-                    ################################
-                    source = open(s+'~', "r")
-                    destination = open(s, "w")
-                    for line in source:
-                        ####################
-                        # Rename Variables #
-                        ####################
-                        if "def __init__" in line and 'models.py' in s:
-                            pass
-                        elif 'models.json' in s:
-                            pass
-                        else:
-                            destination.write((line.replace(renameFrom, renameTo)).replace(renameFrom.capitalize(), renameTo.capitalize()))
-                    source.close()
-                    destination.close()
 
-                    #################
-                    # remove source #
-                    #################
+        # print("src: ",src)
+        # print("renameFrom: ",renameFrom)
+        # print("renameTo: ",renameTo)
 
-                    os.remove(s+'~')
+        ignore_list = [
+            ## Files
+            'FLASK-BDA LICENSE',
+            ## Folders
+            '.github',
+            '.vscode',
+            '__pycache__',
+            'app',
+            'cli',
+            'create_module_template',
+            'databases',
+        ]
 
-    customizeFileVariables('./', 'Falsk BDA', project_name)
-    customizeFileVariables('./', 'Falsk-BDA', project_name)
-    
+        for item in os.listdir(src):
+            s = os.path.join(src, item)
+            if (any(map(s.__contains__, ignore_list))):
+                pass
+            elif os.path.isdir(s):
+                customizeFileVariables(s, renameFrom, renameTo)
+            else:
+                ##############################################
+                # Copy temp for manage source -> destination #
+                ##############################################
+                shutil.copy2(s, s+'~')
+                ################################
+                # manage source -> destination #
+                ################################
+                source = open(s+'~', "r")
+                destination = open(s, "w")
+                for line in source:
+                    ####################
+                    # Rename Variables #
+                    ####################
+                    if "def __init__" in line and 'models.py' in s:
+                        pass
+                    elif 'models.json' in s:
+                        pass
+                    else:
+                        # print("line: ",line)
+                        destination.write((line.replace(renameFrom, renameTo)).replace(renameFrom.capitalize(), renameTo.capitalize()))
+                source.close()
+                destination.close()
+
+                #################
+                # remove source #
+                #################
+
+                os.remove(s+'~')
+
+
+    #############
+    ## FAILING ##
+    #############
+    # customizeFileVariables(dir_name, 'Falsk BDA', project_name)
+    # customizeFileVariables(dir_name, 'Falsk-BDA', project_name)
+
     abs_folder_path = os.path.abspath(os.path.dirname(__file__)) + "/" + dir_name
-
     open_file(abs_folder_path)
 
 
 if __name__ == "__main__":
     cmd_create_project()
+

@@ -1,6 +1,45 @@
-{% extends "public/index.html" %}
 
-{% block content %}
+{% import 'macros/flash.html' as flash with context %}
+
+{% extends "index.html" %}
+
+{% block page_content %}
+
+<div class="login-page">
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="{{ url_for('landing') }}"><b>{{config.SITE_TITLE}}</b></a>
+        </div>
+        <div class="card">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">You forgot your password? Here you can easily retrieve a new password.</p>
+        
+                <form action="recover-password.html" method="post">
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="Email">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fa fa-envelope"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                        <button type="submit" class="btn btn-primary btn-block">Request new password</button>
+                        </div>
+                    </div>
+                </form>
+            
+                <p class="mb-1">
+                    <a href="{{ url_for('auth.login') }}">Login</a>
+                </p>
+                <p class="mb-0">
+                    <a href="{{ url_for('auth.register') }}" class="text-center">Register</a>
+                </p>
+            </div>
+        </div>
+    </div>
+  </div>
 
 <h1>Forgot Your Password?</h1>
 <br />
@@ -21,4 +60,5 @@
 <li>Back to <a href="/login">login</a></li>
 <li>Need to <a href="/register">register</a>?</li>
 </ul>
-{% endblock %}
+
+{% endblock page_content %}
