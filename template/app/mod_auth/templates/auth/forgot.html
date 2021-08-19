@@ -15,13 +15,9 @@
                 <p class="login-box-msg">You forgot your password? Here you can easily retrieve a new password.</p>
         
                 <form action="recover-password.html" method="post">
-                    <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Email">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fa fa-envelope"></span>
-                            </div>
-                        </div>
+                    {{ form.csrf_token }}
+                    <div class="input mb-3">
+                        <input type="email" name="email" id="email" class="form-control" placeholder="Email" required="true">
                     </div>
                     <div class="row">
                         <div class="col-12">

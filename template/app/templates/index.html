@@ -135,9 +135,6 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fa fa-ellipsis-v"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a href="index3.html" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item">
                     <a href="#" class="nav-link">Contact</a>
                 </li>
                 <li class="nav-item dropdown">
@@ -274,6 +271,12 @@
                     <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
                 </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('auth.register') }}">Register</a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">

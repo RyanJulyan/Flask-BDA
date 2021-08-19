@@ -13,9 +13,9 @@
     
         <div class="card">
             <div class="card-body register-card-body">
-                <p class="login-box-msg">Register a new membership</p>
+                <p class="login-box-msg">Register a new user</p>
         
-                <form action="../../index.html" method="post">
+                <form action="{{ url_for('auth.register') }}" method="post">
                     {{ form.csrf_token }}
                     <div class="input mb-3">
                         <input type="text" class="form-control" placeholder="Full name">
@@ -63,24 +63,26 @@
                         </div>
                         </div>
                         <div class="col-12">
-                        <button type="submit" class="btn btn-primary btn-block">Register</button>
+                            <button type="submit" class="btn btn-primary btn-block">Register</button>
                         </div>
                     </div>
                 </form>
         
-                <div class="social-auth-links text-center">
-                <p>- OR -</p>
-                <a href="#" class="btn btn-block btn-primary">
-                    <i class="fa fa-facebook mr-2"></i>
-                    Sign up using Facebook
-                </a>
-                <a href="#" class="btn btn-block btn-danger">
-                    <i class="fa fa-google mr-2"></i>
-                    Sign up using Google
-                </a>
+                <div class="social-auth-links text-center mb-3">
+                    <p>- OR -</p>
+                    <a href="#" class="btn btn-block btn-primary">
+                        <i class="fa fa-facebook mr-2"></i>
+                        Sign up using Facebook
+                    </a>
+                    <a href="#" class="btn btn-block btn-danger">
+                        <i class="fa fa-google mr-2"></i>
+                        Sign up using Google
+                    </a>
                 </div>
         
-                Already Registered? <a href="{{ url_for('auth.login') }}">Login</a>
+                <p class="mb-0">
+                    Already Registered? <a href="{{ url_for('auth.login') }}">Login</a>
+                </p>
             </div>
         </div>
     </div>
