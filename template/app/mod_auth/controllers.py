@@ -18,7 +18,7 @@ import datetime
 from flask_mobility.decorators import mobile_template
 
 # Import the database object from the main app module
-from app import db, app
+from app import db, app, bcrypt
 
 # Import module forms
 from app.mod_auth.forms import LoginForm, RegisterForm, ChangePasswordForm, ForgotForm
@@ -68,7 +68,7 @@ def register():
     form = RegisterForm(request.form)
     if form.validate_on_submit():
         user = User(
-            name = form.email.data,
+            name = form.name.data,
             email = form.email.data,
             password = form.password.data,
             role = 1,
@@ -92,6 +92,7 @@ def register():
 
 
         send_email(user.email, subject, html, data)
+        # send_email(user.email, subject, html_template, data)
 
         login_user(user)
 
