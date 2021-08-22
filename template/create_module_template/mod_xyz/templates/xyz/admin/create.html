@@ -3,6 +3,51 @@
 
 {% block content %}
 
+<div class="content-wrapper">
+        
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Xyz</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="content">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col">
+                    <div class="card card-outline card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Create Xyz</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <form class="form-horizontal" method="POST" action="{{ url_for('xyz_admin.store') }}" accept-charset="UTF-8" role="form">
+                        {{ form.csrf_token }}
+                            <div class="card-body">
+                                <div class="row">
+                                    <!-- start new render fields -->
+                                    <!-- this line should be removed and replaced with the renderFields variable -->
+                                    <!-- end new render fields -->
+                                </div>
+                            </div>
+                            <div class="box-footer">
+                                <a href="{{ url_for('xyz_admin.index') }}"class="btn btn-default">Cancel</a>
+                                <button type="submit" class="btn btn-info pull-right">Create Xyz</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
     <div class="box box-info">
         <div class="box-header with-border">
             <h3 class="box-title">Create Xyz</h3>
@@ -49,5 +94,11 @@
             <!-- /.box-footer -->
         </form>
     </div>
+
+        </div>
+    </div>
+
+</div>
+
   
 {% endblock content %}

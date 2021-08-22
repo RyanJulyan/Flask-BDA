@@ -54,6 +54,11 @@ BASE_DIR = env('BASE_DIR', BASE_DIR)
 ####################################################
 ####################################################
 
+##############################################
+# Run db.create_all() in @app.before_request #
+##############################################
+AUTO_CREATE_TABLES_FROM_MODELS = env('AUTO_CREATE_TABLES_FROM_MODELS', True)
+
 ##########
 # SQLite #
 ##########

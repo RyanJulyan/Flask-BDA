@@ -80,16 +80,15 @@ def create_module(module):
                                                                                                                         value['default'],
                                                                                                                         value['unique'])
 
-            columns += "    {} = db.relationship('{}', backref = '{}', remote_side='{}.id', lazy='joined')\n".format(value['relationship'],
+            columns += "    {} = db.relationship('{}', remote_side='{}.id', lazy='joined')\n".format(value['relationship'],
                                                                                                 # secrets.token_urlsafe(3),
                                                                                                 value['relationship'].capitalize(),
-                                                                                                value['relationship'],
                                                                                                 value['relationship'].capitalize())
 
             columns += """
-    @aggregated('{}_count', db.Column(db.Integer))
-    def {}_count(self):
-        return db.func.count('1')\n""".format(value['relationship'],
+    # @aggregated('{}_count', db.Column(db.Integer))
+    # def {}_count(self):
+    #     return db.func.count('1')\n""".format(value['relationship'],
                                                 value['relationship'])
         else:
             columns += "    {} = db.Column(db.{}, nullable={}, default={}, unique={})\n".format(key,
@@ -172,7 +171,7 @@ def create_module(module):
 
         if count == 0:
             publicHeaderRenderFields += """
-                                                    <h3 class="card-title">{}value.{}{}</h3>
+                                                    <h3 class="card-title text-capitalize">{}value.{}{}</h3>
             """.format("{{", key, "}}")
             count = 1
 

@@ -3,75 +3,196 @@
 
 {% block content %}
 
-  <div class="lg:flex lg:items-center lg:justify-between">
-    <div class="flex-1 min-w-0">
-      <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
-        Create Hierarchies
-      </h2>
-    </div>
-  </div>
-    
-  <div class="hidden sm:block" aria-hidden="true">
-    <div class="py-5">
-      <div class="border-t border-gray-200"></div>
-    </div>
-  </div>
-  
-  <div class="mt-10 sm:mt-0">
-    <div class="md:grid md:grid-cols-2 md:gap-6">
-      <div class="mt-5 md:mt-0 md:col-span-2">
-        <form method="POST" action="{{ url_for('hierarchies_admin.store') }}" accept-charset="UTF-8" role="form">
-          {{ form.csrf_token }}
-          <div class="shadow overflow-hidden sm:rounded-md">
-            <div class="px-4 py-5 bg-white sm:p-6">
-              <div class="grid grid-cols-2 gap-6">
+<div class="content-wrapper">
+        
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Hierarchies</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="content">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col">
+                    <div class="card card-outline card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Create Hierarchies</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <form class="form-horizontal" method="POST" action="{{ url_for('hierarchies_admin.store') }}" accept-charset="UTF-8" role="form">
+                        {{ form.csrf_token }}
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <!-- start new render fields -->
+
+                                    <div class="form-group row">
+                                        <label for="organisation_id" class="col-sm-2 control-label">Organisation id</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" name="organisation_id" id="organisation_id" placeholder="Organisation id" autocomplete="organisation_id" >
+                                        </div>
+                                    </div>
+                        
+                                    <div class="form-group row">
+                                        <label for="name" class="col-sm-2 control-label">Name</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" name="name" id="name" placeholder="Name" autocomplete="name" >
+                                        </div>
+                                    </div>
+                        
+                                    <div class="form-group row">
+                                        <label for="path" class="col-sm-2 control-label">Path</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" name="path" id="path" placeholder="Path" autocomplete="path" >
+                                        </div>
+                                    </div>
+                        
+                                    <div class="form-group row">
+                                        <label for="rank" class="col-sm-2 control-label">Rank</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" name="rank" id="rank" placeholder="Rank" autocomplete="rank" >
+                                        </div>
+                                    </div>
+                        
+                                    <div class="form-group row">
+                                        <label for="parent_id" class="col-sm-2 control-label">Parent id</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" name="parent_id" id="parent_id" placeholder="Parent id" autocomplete="parent_id" >
+                                        </div>
+                                    </div>
+                        
+                                    <div class="form-group row">
+                                        <label for="key_value" class="col-sm-2 control-label">Key value</label>
+
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" name="key_value" id="key_value" placeholder="Key value" autocomplete="key_value" >
+                                        </div>
+                                    </div>
+                        
+                                    <!-- end new render fields -->
+                                </div>
+                                <a href="{{ url_for('hierarchies_admin.index') }}"class="btn btn-default">Cancel</a>
+                                <button type="submit" class="btn btn-info pull-right">Create Hierarchies</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title">Create Hierarchies</h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form class="form-horizontal" method="POST" action="{{ url_for('hierarchies_admin.store') }}" accept-charset="UTF-8" role="form">
+            {{ form.csrf_token }}
+            <div class="box-body">
                 <!-- start new render fields -->
 
-                <div class="col-span-6 sm:col-span-3">
-                  <label for="organisation_id" class="block text-sm font-medium text-gray-700">Organisation id</label>
-                  <input type="text" name="organisation_id" id="organisation_id" placeholder="Organisation id" autocomplete="organisation_id" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                </div>
-    
-                <div class="col-span-6 sm:col-span-3">
-                  <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                  <input type="text" name="name" id="name" placeholder="Name" autocomplete="name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                </div>
-    
-                <div class="col-span-6 sm:col-span-3">
-                  <label for="path" class="block text-sm font-medium text-gray-700">Path</label>
-                  <input type="text" name="path" id="path" placeholder="Path" autocomplete="path" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                </div>
-    
-                <div class="col-span-6 sm:col-span-3">
-                  <label for="rank" class="block text-sm font-medium text-gray-700">Rank</label>
-                  <input type="text" name="rank" id="rank" placeholder="Rank" autocomplete="rank" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                </div>
-    
-                <div class="col-span-6 sm:col-span-3">
-                  <label for="parent_id" class="block text-sm font-medium text-gray-700">Parent id</label>
-                  <input type="text" name="parent_id" id="parent_id" placeholder="Parent id" autocomplete="parent_id" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                </div>
-    
-                <div class="col-span-6 sm:col-span-3">
-                  <label for="key_value" class="block text-sm font-medium text-gray-700">Key value</label>
-                  <input type="text" name="key_value" id="key_value" placeholder="Key value" autocomplete="key_value" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                </div>
-    
+                    <div class="form-group">
+                        <label for="organisation_id" class="col-sm-2 control-label">Organisation id</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="organisation_id" id="organisation_id" placeholder="Organisation id" autocomplete="organisation_id" >
+                        </div>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="name" class="col-sm-2 control-label">Name</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="name" id="name" placeholder="Name" autocomplete="name" >
+                        </div>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="path" class="col-sm-2 control-label">Path</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="path" id="path" placeholder="Path" autocomplete="path" >
+                        </div>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="rank" class="col-sm-2 control-label">Rank</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="rank" id="rank" placeholder="Rank" autocomplete="rank" >
+                        </div>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="parent_id" class="col-sm-2 control-label">Parent id</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="parent_id" id="parent_id" placeholder="Parent id" autocomplete="parent_id" >
+                        </div>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="key_value" class="col-sm-2 control-label">Key value</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="key_value" id="key_value" placeholder="Key value" autocomplete="key_value" >
+                        </div>
+                    </div>
+        
                 <!-- end new render fields -->
-              </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+
+                    <div class="col-sm-10">
+                    <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+
+                    <div class="col-sm-10">
+                    <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                    <div class="checkbox">
+                        <label>
+                        <input type="checkbox"> Remember me
+                        </label>
+                    </div>
+                    </div>
+                </div>
             </div>
-            <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-              <a href="{{ url_for('hierarchies_admin.index') }}" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-                Cancel
-              </a>
-              <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                Create Hierarchies
-              </button>
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <a href="{{ url_for('hierarchies_admin.index') }}"class="btn btn-default">Cancel</a>
+                <button type="submit" class="btn btn-info pull-right">Create Hierarchies</button>
             </div>
-          </div>
+            <!-- /.box-footer -->
         </form>
-      </div>
     </div>
-  </div>
+
+        </div>
+    </div>
+
+</div>
+
   
 {% endblock content %}

@@ -19,6 +19,32 @@ from app.mod_hierarchies.models import Hierarchies
 
 # Import module models (Audit)
 from app.mod_audit.models import Audit
+# import multiple bindings
+from app.mod_tenancy.multi_bind import MultiBindSQLAlchemy
+###################################################################
+#### Uncomment the following enable the use different bindings ####
+###################################################################
+
+########################################################################################################################
+## change db.first to db.<binding> name as needed where <binding> is the name you want to reference when making calls ##
+########################################################################################################################
+
+# db.first = MultiBindSQLAlchemy('first')
+##################################################
+## this will only work for the execute function ##
+##################################################
+# db.first.execute(...)
+
+#########################################################################################################################
+## change db.second to db.<binding> name as needed where <binding> is the name you want to reference when making calls ##
+#########################################################################################################################
+
+# db.second = MultiBindSQLAlchemy('second')
+##################################################
+## this will only work for the execute function ##
+##################################################
+# db.second.execute(...)
+
 
 # Define the blueprint: 'hierarchies', set its url prefix: app.url/hierarchies
 mod_public_hierarchies = Blueprint('hierarchies_public', __name__, template_folder='templates', url_prefix='/hierarchies')
@@ -59,41 +85,18 @@ def create(template):
 @mod_admin_hierarchies.route('/store', methods=['POST'])
 # @login_required
 def store():
-
-    delim = '/'
-
-    parent_id = request.form.get('parent_id')
-
-    if not parent_id:
-        parent_id = 1
-
-    parent = Hierarchies.query.get(parent_id)
-
-    if parent:
-        rank = parent.path.count(delim)
-        path = parent.path
-    else:
-        rank = 1
-        path = '/1/'
-    
     data = Hierarchies(
         # start new request feilds
-        organisation_id = request.form.get('organisation_id'),
-        name = request.form.get('name'),
-        path = path,
-        rank = rank,
-        parent_id = parent_id,
-        key_value = request.form.get('key_value')
+        organisation_id=request.form.get('organisation_id'),
+        name=request.form.get('name'),
+        path=request.form.get('path'),
+        rank=request.form.get('rank'),
+        parent_id=request.form.get('parent_id'),
+        key_value=request.form.get('key_value')
         # end new request feilds
         # title=request.form.get("title")
     )
     db.session.add(data)
-    curr_id = data.inserted_primary_key
-    
-    data.path = data.path + curr_id + delim
-
-    data.rank = data.path.count(delim)
-
     try:
         db.session.commit()
     except IntegrityError as e:
@@ -106,7 +109,7 @@ def store():
 
 @mod_admin_hierarchies.route('/show/<id>', methods=['GET'])
 @mobile_template('{mobile/}hierarchies/admin/show.html')
-@login_required
+# @login_required
 def show(id,template):
     data = Hierarchies.query.get(id)
 
@@ -115,7 +118,7 @@ def show(id,template):
 
 @mod_admin_hierarchies.route('/edit/<id>', methods=['GET'])
 @mobile_template('{mobile/}hierarchies/admin/edit.html')
-@login_required
+# @login_required
 def edit(id,template):
 
     # If in form is submitted
@@ -127,7 +130,7 @@ def edit(id,template):
 
 
 @mod_admin_hierarchies.route('/update/<id>', methods=['PUT', 'PATCH', 'POST'])
-@login_required
+# @login_required
 def update(id):
     data = Hierarchies.query.get(id)
     # start update request feilds
@@ -150,7 +153,7 @@ def update(id):
 
 
 @mod_admin_hierarchies.route('/destroy/<id>', methods=['POST', 'DELETE', 'GET'])
-@login_required
+# @login_required
 def destroy(id):
     data = Hierarchies.query.get(id)
     db.session.delete(data)

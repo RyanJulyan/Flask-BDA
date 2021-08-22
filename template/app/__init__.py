@@ -276,8 +276,9 @@ def before_request():
             
 
     # Build the database:
-    # This will create the database file using SQLAlchemy
-    db.create_all()
+    if app.config['AUTO_CREATE_TABLES_FROM_MODELS']:
+        # This will create the database tables using SQLAlchemy
+        db.create_all()
 
 # @app.after_request
 # def after_request(response):
