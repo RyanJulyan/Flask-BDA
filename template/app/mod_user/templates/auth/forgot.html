@@ -16,21 +16,28 @@
         
                 <form action="recover-password.html" method="post">
                     {{ form.csrf_token }}
+                    <div class="p-1 text-danger" style="{% if not form.email.errors %} display:none; {% endif %}">
+                        {% if form.email.errors %}
+                            {% for error in form.email.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
                     <div class="input mb-3">
                         <input type="email" name="email" id="email" class="form-control" placeholder="Email" required="true">
                     </div>
                     <div class="row">
                         <div class="col-12">
-                        <button type="submit" class="btn btn-primary btn-block">Request new password</button>
+                            <button type="submit" class="btn btn-primary btn-block">Request new password</button>
                         </div>
                     </div>
                 </form>
             
                 <p class="mb-1">
-                    <a href="{{ url_for('auth.login') }}">Login</a>
+                    <a href="{{ url_for('user.login') }}">Login</a>
                 </p>
                 <p class="mb-0">
-                    <a href="{{ url_for('auth.register') }}" class="text-center">Register</a>
+                    <a href="{{ url_for('user.register') }}" class="text-center">Register</a>
                 </p>
             </div>
         </div>

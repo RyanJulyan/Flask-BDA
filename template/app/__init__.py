@@ -77,7 +77,7 @@ jwt.init_app(app)
 # Login_manager
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = 'auth.login'
+login_manager.login_view = 'user.login'
 login_manager.login_message_category = "danger"
 
 # Configurations
@@ -182,7 +182,7 @@ scheduler.init_app(app)
 scheduler.start()
 
 # Import module models (i.e. User)
-from app.mod_auth.models import User  # noqa: E402
+from app.mod_user.models import User  # noqa: E402
 from app.mod_api_keys.models import Api_keys  # noqa: E402
 
 #################################################################################
@@ -335,9 +335,9 @@ def landing(template):
     return render_template(template)
 
 
-# Import a module / component using its blueprint handler variable (mod_auth)
+# Import a module / component using its blueprint handler variable (mod_user)
 # from app.mod_xyz.controllers import mod_xyz as xyz_module
-from app.mod_auth.controllers import mod_auth as auth_module  # noqa: E402
+from app.mod_user.controllers import mod_user as user_module  # noqa: E402
 # import new xyz_module
 # api_keys
 from app.mod_api_keys.controllers import mod_public_api_keys as api_keys_public_module  # noqa: E402
@@ -350,7 +350,7 @@ from app.mod_organisations.controllers import mod_public_organisations as organi
 from app.mod_organisations.controllers import mod_admin_organisations as organisations_admin_module  # noqa: E402
 
 # Register blueprint(s)
-app.register_blueprint(auth_module)
+app.register_blueprint(user_module)
 # register_blueprint new xyz_module
 # api_keys
 app.register_blueprint(api_keys_public_module)
@@ -388,7 +388,7 @@ api = Api(app, version='3.0',
 )
 
 # Register api(s)
-from app.mod_auth.api_controllers import ns as Auth_API  # noqa: E402
+from app.mod_user.api_controllers import ns as User_API  # noqa: E402
 # new xyz api resources
 # api_keys
 from app.mod_api_keys.api_controllers import ns as Api_keys_API  # noqa: E402

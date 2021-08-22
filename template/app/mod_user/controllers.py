@@ -21,16 +21,16 @@ from flask_mobility.decorators import mobile_template
 from app import db, app, bcrypt
 
 # Import module forms
-from app.mod_auth.forms import LoginForm, RegisterForm, ChangePasswordForm, ForgotForm
+from app.mod_user.forms import LoginForm, RegisterForm, ChangePasswordForm, ForgotForm
 
 # Import module models (i.e. User)
-from app.mod_auth.models import User
+from app.mod_user.models import User
 
 # Import send_email
 from app.mod_email.controllers import send_email
 
-# Define the blueprint: 'auth', set its url prefix: app.url/auth
-mod_auth = Blueprint('auth', __name__, template_folder='templates', url_prefix = '/auth')
+# Define the blueprint: 'user', set its url prefix: app.url/user
+mod_user = Blueprint('user', __name__, template_folder='templates', url_prefix = '/user')
 
 
 def check_confirmed(func):
@@ -63,7 +63,7 @@ def confirm_token(token, expiration = 10800):  # expiration = 10800 = 3 hours
 
 
 # Set the route and accepted methods
-@mod_auth.route('/register', methods=['GET', 'POST'])
+@mod_user.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm(request.form)
     if form.validate_on_submit():
@@ -84,7 +84,7 @@ def register():
         html = 'email/activate.html'
 
         token = generate_confirmation_token(user.email)
-        confirm_url = url_for('auth.confirm_email', token=token, _external=True)
+        confirm_url = url_for('user.confirm_email', token=token, _external=True)
 
         data = {
             "confirm_url":confirm_url
@@ -97,12 +97,12 @@ def register():
         login_user(user)
 
         flash('A confirmation email has been sent via email.', 'success')
-        return redirect(url_for("auth.unconfirmed"))
+        return redirect(url_for("user.unconfirmed"))
 
     return render_template('auth/register.html', form=form)
 
 
-@mod_auth.route('/confirm/<token>')
+@mod_user.route('/confirm/<token>')
 @mobile_template('{mobile/}public/index.html')
 @login_required
 def confirm_email(template,token):
@@ -122,7 +122,7 @@ def confirm_email(template,token):
     return render_template(template)
 
 
-@mod_auth.route('/unconfirmed')
+@mod_user.route('/unconfirmed')
 @login_required
 def unconfirmed():
     if current_user.confirmed:
@@ -131,7 +131,7 @@ def unconfirmed():
     return render_template('auth/unconfirmed.html')
 
 
-@mod_auth.route('/login', methods=['GET', 'POST'])
+@mod_user.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm(request.form)
     if form.validate_on_submit():
@@ -153,27 +153,27 @@ def login():
     return render_template('auth/login.html', form=form)
 
 
-@mod_auth.route('/resend')
+@mod_user.route('/resend')
 @login_required
 def resend_confirmation():
     token = generate_confirmation_token(current_user.email)
-    confirm_url = url_for('auth.confirm_email', token=token, _external=True)
+    confirm_url = url_for('user.confirm_email', token=token, _external=True)
     html = render_template('auth/activate.html', confirm_url=confirm_url)
     subject = "Please confirm your email"
     send_email(current_user.email, subject, html)
     flash('A new confirmation email has been sent.', 'success')
-    return redirect(url_for('auth.unconfirmed'))
+    return redirect(url_for('user.unconfirmed'))
 
 
-@mod_auth.route('/logout')
+@mod_user.route('/logout')
 @login_required
 def logout():
     logout_user()
     flash('You were logged out.', 'success')
-    return redirect(url_for('auth.login'))
+    return redirect(url_for('user.login'))
 
 
-@mod_auth.route('/forgot')
+@mod_user.route('/forgot')
 def forgot():
     form = ForgotForm(request.form)
     return render_template('auth/forgot.html', form=form)

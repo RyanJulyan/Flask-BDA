@@ -9,17 +9,17 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from app import db
 
 # Import module forms
-from app.mod_auth.forms import LoginForm
+from app.mod_user.forms import LoginForm
 
 # Import module models (i.e. User)
-from app.mod_auth.models import User
+from app.mod_user.models import User
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
-mod_auth = Blueprint('audit', __name__, url_prefix='/audit')
+mod_user = Blueprint('audit', __name__, url_prefix='/audit')
 
 
 # Set the route and accepted methods
-@mod_auth.route('/signin/', methods=['GET', 'POST'])
+@mod_user.route('/signin/', methods=['GET', 'POST'])
 def signin():
     # If sign in form is submitted
     form = LoginForm(request.form)
@@ -35,7 +35,7 @@ def signin():
 
             flash('Welcome %s' % user.name)
 
-            return redirect(url_for('auth.home'))
+            return redirect(url_for('user.home'))
 
         flash('Wrong email or password', 'error-message')
 

@@ -1558,7 +1558,7 @@ python -m unittest discover
        │    │     ├── __init__.py
        │    │     ├── controllers.py
        │    │     └── models.py
-       │    ├── mod_auth
+       │    ├── mod_user
        │    │     ├── templates
        │    │     │     ├── mobile
        │    │     │     │    └── auth

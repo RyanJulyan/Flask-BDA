@@ -17,7 +17,7 @@ from flask_jwt_extended import get_raw_jwt, jwt_required, create_access_token, \
                                 get_jwt_identity, fresh_jwt_required
 
 # Import module models (i.e. User)
-from app.mod_auth.models import User
+from app.mod_user.models import User
 
 # Swagger namespace
 ns = api.namespace('api/user', description='Database model "User", resource based, Api. \
