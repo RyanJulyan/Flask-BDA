@@ -152,7 +152,7 @@ Deprecations will be kept in place for at least 3 minor versions, after version 
 
 > Desktop, Web & Mobile
 
-> Environments include: Docker / AWS Serverless / Heroku / Shared hosting.
+> Environments include: Docker / AWS Serverless / Digital Ocean / Heroku / Shared hosting.
 
 # Requirements
 * Download and install [Python](https://www.python.org/downloads/) (suggested [3.8.6](https://www.python.org/downloads/release/python-386/)) if you do not already have it installed.
@@ -203,7 +203,7 @@ python create_project_git.py --project="My Awesome Project"
 >    * Please ensure you put quotes around your project name to prevent errors, e.g.: `"My Awesome Project"`
 ```python
 Invalid Project Name!
-Please enter a valid project name!
+Please enter a valid project name:
 "My Awesome Project"
 ```
 > **Note:** You will notice this creates a folder in the same path as the file: "create_project_git.py".
@@ -443,6 +443,7 @@ db.first.execute(...)
 ## How to create a new module
 
 * To create your own custom modules, Open and run the file: `<Path To>/<my_awesome_project>/create_module_json.py`
+    * Where `<Path To>/<my_awesome_project>/` is the path to the project you created
     * Fill in the instructions, e.g.:
 ```python
 cd <Path To>/<my_awesome_project>/
@@ -502,6 +503,7 @@ Create module logic from Data Model? ('True', 'False'): True
 ```
 
 > **Note:** you can also generate a module from a JSON file in "app/generated_config/models/<module>/models.json", where <module> is the name of the module you input to do this you can, Open and run the file: `<Path To>/<my_awesome_project>/create_module.py`
+    * Where `<Path To>/<my_awesome_project>/` is the path to the project you created
     * Fill in the instructions eg:
 ```python
 cd <Path To>/<my_awesome_project>/
@@ -646,6 +648,7 @@ There are currently 7 out of the box environments supported (with plans for more
 * [Shared Hosting](#shared-hosting) (Still Testing)
 * [Docker](#docker-environment)
 * [AWS Serverless](#aws-serverless) (Still under Development)
+* [Digital Ocean](#digital-ocean) (Still under Development)
 * [Heroku](#heroku) (Still under Development)
 * [React Native](#react-native) (Still under Development)
 * [Desktop Native](#desktop-native)
@@ -862,6 +865,112 @@ serverless deploy
 ```
 
 * Open a browser and go to [https://app.serverless.com/](https://app.serverless.com/) to see the deployed application
+
+## Digital Ocean
+
+> **Note:** Still under development
+
+> [Digital Ocean](https://www.digitalocean.com/) is a platform as a service (PaaS). Develop, manage, and scale your applications on DigitalOcean’s complete cloud platform. Digital Ocean provides you with simple, predictable pricing. Confidently build and release with scalable compute products in the cloud, fully managed databases, highly available and scalable storage options, and more. With virtual machines with a healthy amount of memory tuned to host and scale applications and databases Digital Ocean offers simple solutions for complex issues.
+
+> To create and deploy an application to Heroku from the terminal you will need to:
+* [Create a droplet](https://docs.digitalocean.com/products/droplets/how-to/create/)
+    * Suggested [ubuntu-18-04]
+    * Once you see the IP address, you can log in to your Droplet.
+        * Make sure you copy/have access to the droplets <ip_address> e.g.: `138.197.67.25`
+* [Connect with SSH](https://docs.digitalocean.com/products/droplets/how-to/connect-with-ssh/)
+    * > **NOTE** if you have not connected via SSH you should recieve the `password` via the email that you registered the account, for Digital Ocean, with.
+* [Initial server setup](https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-18-04)
+
+### Windows
+* Open new terminal
+    * "Windows-Key + R" will show you the 'RUN' box
+    * Type "cmd" to open the terminal
+```shell
+cd <Path To>/<my_awesome_project>/
+
+scp -r <my_awesome_project> root@<ip_address>:/
+
+ssh root@<ip_address>
+
+```
+> Where `<Path To>/<my_awesome_project>/` is the path to the project you created
+> and where `<ip_address>` is the droplets <ip_address> e.g.: `138.197.67.25`
+
+> **NOTE:** Follow any prompts presended by the ssh such as allowing access from the remote server.
+
+Once you are logged in you should be able to see a terminal with:
+```shell
+root@<droplet_name>:
+
+cd <Path To>/<my_awesome_project>/
+
+chmod +x setup.sh
+
+bash setup.sh
+
+virtualenv venv
+
+source venv/bin/activate
+
+sudo pip install --upgrade pip
+sudo pip install --no-cache-dir -r requirements.txt
+sudo pip install uwsgi
+
+sudo ufw allow 5000
+
+export FLASK_APP=app
+
+uwsgi --socket 0.0.0.0:5000 --protocol=http -w wsgi:app
+
+```
+> Where `5000` is the port number  
+> and `<droplet_name>` is the name  
+
+### Linux / Mac
+* Open new terminal
+    * "Control + Option + Shift + T" to open the terminal
+```shell
+cd <Path To>/<my_awesome_project>/
+
+scp -r <my_awesome_project> root@<ip_address>:/
+
+ssh root@<ip_address>
+
+```
+> Where `<Path To>/<my_awesome_project>/` is the path to the project you created
+> and where `<ip_address>` is the droplets <ip_address> e.g.: `138.197.67.25`
+
+> **NOTE:** Follow any prompts presended by the ssh such as allowing access from the remote server.
+
+Once you are logged in you should be able to see a terminal with:
+```shell
+root@<droplet_name>:
+
+cd <Path To>/<my_awesome_project>/
+
+chmod +x setup.sh
+
+bash setup.sh
+
+virtualenv venv
+
+source venv/bin/activate
+
+sudo pip install --upgrade pip
+sudo pip install --no-cache-dir -r requirements.txt
+sudo pip install uwsgi
+
+sudo ufw allow 5000
+
+export FLASK_APP=app
+
+uwsgi --socket 0.0.0.0:5000 --protocol=http -w wsgi:app
+
+```
+> Where `5000` is the port number  
+> and `<droplet_name>` is the name
+
+
 
 ## Heroku
 
