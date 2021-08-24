@@ -24,6 +24,7 @@ Deprecations will be kept in place for at least 3 minor versions, after version 
 * [Costs](#costs)
 * [Process](#process)
 * [Requirements](#requirements)
+    * [Dependencies](#dependencies)
 * [Quickstart](#quickstart)
     * [Update Database](#update-database)
     * [Multi Tenants](#multi-tenants)
@@ -156,10 +157,66 @@ Deprecations will be kept in place for at least 3 minor versions, after version 
 
 # Requirements
 * Download and install [Python](https://www.python.org/downloads/) (suggested [3.8.6](https://www.python.org/downloads/release/python-386/)) if you do not already have it installed.
-    * Ensure pip is installed (pip should be installed already because it comes with the latest versions of python) in case it is not, please install it from here: https://pip.pypa.io/en/stable/installing/
+    * Ensure `pip` is installed (pip should be installed already because it comes with the latest versions of python) in case it is not, please install it from here: https://pip.pypa.io/en/stable/installing/
         * To check if pip is installed, you can run the following command in your terminal
 ```shell
 python -m pip --version
+
+```
+
+> **NOTE:** This documentation assumes that you are running `pip3` as `pip`, as such all instructions are written with `pip`. If you would like to make `pip3` run when you call `pip`, from your tereminal, you can create a symlink to `pip3` from `pip`:
+
+### Linux / Mac
+* Open new terminal
+    * "Control + Option + Shift + T" to open the terminal
+        * You may need to run "cmd" as administrator to run `pip install --upgrade pip`
+            * To do this, you run the command as `sudo` eg: `sudo pip install --upgrade pip`
+```shell
+nano ~/.bash_profile
+
+```
+> In the file, paste the following:
+
+```shell
+alias pip='pip3'
+alias python='python3'
+
+```
+
+> **NOTE:** You may need to remove python 2.7 on MacOS as it is pre-installed on my distributions this [like](https://newbedev.com/how-to-uninstall-python-2-7-on-a-mac-os-x-10-6-4) was very helpful to acheive this:
+
+1) Remove the third-party Python 2.7 framework
+```shell
+sudo rm -rf /Library/Frameworks/Python.framework/Versions/2.7
+```
+2) Remove the Python 2.7 applications directory
+```shell
+sudo rm -rf "/Applications/Python 2.7"
+```
+3) Remove the symbolic links, in /usr/local/bin, that point to this Python version. See them using
+```shell
+ls -l /usr/local/bin | grep '../Library/Frameworks/Python.framework/Versions/2.7'
+``` 
+and then run the following command to remove all the links:
+```shell
+cd /usr/local/bin/
+ls -l /usr/local/bin | grep '../Library/Frameworks/Python.framework/Versions/2.7' | awk '{print $9}' | tr -d @ | xargs rm
+```
+
+## Dependencies
+
+> Once you have installed Python and `pip`, you will need to install a dependency for the Flask-BDA command line functions to run correctly:
+```shell
+pip install click
+
+```
+
+> Other Dependancies you may want to install globally (but should run automatically when you create a project) include:
+```shell
+pip install virtualenv
+pip install flaskwebgui
+pip install pyinstaller
+
 ```
 
 # Quickstart

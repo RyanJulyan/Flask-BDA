@@ -108,6 +108,16 @@ def create_project(project_name, owner = "RyanJulyan", repo = "Flask-BDA", branc
     os.system('pip install tinyaes')
     os.system('pip install pyinstaller')
 
+    ######################################################################################
+    # Repeat for pip3 as symlinks do not seem to work with os.system (at least on MacOS) #
+    ######################################################################################
+    os.system('pip3 install --upgrade pip3')
+    os.system('pip3 install virtualenv')
+    os.system('pip3 install click')
+    os.system('pip3 install flaskwebgui')
+    os.system('pip3 install tinyaes')
+    os.system('pip3 install pyinstaller')
+
     ########################
     ########################
     # Download GitHub Repo #
@@ -193,6 +203,15 @@ def create_project(project_name, owner = "RyanJulyan", repo = "Flask-BDA", branc
         os.system('cd "' + dir_name + '" && virtualenv venv')
         os.system('cd "' + dir_name + '" && venv/bin/activate && pip install --no-cache-dir -r requirements.txt && export FLASK_APP=app && export FLASK_ENV=development')
         os.system('cd "' + dir_name + '" && venv\\Scripts\\activate && pip install --no-cache-dir -r requirements.txt && set FLASK_APP=app && set FLASK_ENV=development')
+
+        ######################################################################################
+        # Repeat for pip3 as symlinks do not seem to work with os.system (at least on MacOS) #
+        ######################################################################################
+        os.system('cd "' + dir_name + '" && pip3 install --upgrade pip3')
+        os.system('cd "' + dir_name + '" && pip3 install --no-cache-dir -r requirements.txt')
+        os.system('cd "' + dir_name + '" && virtualenv venv')
+        os.system('cd "' + dir_name + '" && venv/bin/activate && pip3 install --no-cache-dir -r requirements.txt && export FLASK_APP=app && export FLASK_ENV=development')
+        os.system('cd "' + dir_name + '" && venv\\Scripts\\activate && pip3 install --no-cache-dir -r requirements.txt && set FLASK_APP=app && set FLASK_ENV=development')
 
     #####################################################
     #####################################################
