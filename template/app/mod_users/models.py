@@ -18,7 +18,7 @@ class Base(db.Model):
 
 
 # Define a User model
-class User(UserMixin, Base):
+class Users(UserMixin, Base):
 
     __tablename__ = 'users'
 

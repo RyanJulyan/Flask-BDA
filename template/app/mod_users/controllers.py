@@ -21,16 +21,16 @@ from flask_mobility.decorators import mobile_template
 from app import db, app, bcrypt
 
 # Import module forms
-from app.mod_user.forms import LoginForm, RegisterForm, ChangePasswordForm, ForgotForm
+from app.mod_users.forms import LoginForm, RegisterForm, ChangePasswordForm, ForgotForm
 
-# Import module models (i.e. User)
-from app.mod_user.models import User
+# Import module models (i.e. Users)
+from app.mod_users.models import Users
 
 # Import send_email
 from app.mod_email.controllers import send_email
 
-# Define the blueprint: 'user', set its url prefix: app.url/user
-mod_user = Blueprint('user', __name__, template_folder='templates', url_prefix = '/user')
+# Define the blueprint: 'users', set its url prefix: app.url/users
+mod_users = Blueprint('users', __name__, template_folder='templates', url_prefix = '/users')
 
 
 def check_confirmed(func):
@@ -38,7 +38,7 @@ def check_confirmed(func):
     def decorated_function(*args, **kwargs):
         if current_user.confirmed is False:
             flash('Please confirm your account!', 'warning')
-            return redirect(url_for('user.unconfirmed'))
+            return redirect(url_for('users.unconfirmed'))
         return func(*args, **kwargs)
 
     return decorated_function
@@ -63,11 +63,11 @@ def confirm_token(token, expiration = 10800):  # expiration = 10800 = 3 hours
 
 
 # Set the route and accepted methods
-@mod_user.route('/register', methods=['GET', 'POST'])
+@mod_users.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm(request.form)
     if form.validate_on_submit():
-        user = User(
+        user = Users(
             name = form.name.data,
             email = form.email.data,
             password = form.password.data,
@@ -84,25 +84,25 @@ def register():
         html = 'email/activate.html'
 
         token = generate_confirmation_token(user.email)
-        confirm_url = url_for('user.confirm_email', token=token, _external=True)
+        confirm_url = url_for('users.confirm_email', token=token, _external=True)
 
         data = {
             "confirm_url":confirm_url
         }
 
 
-        send_email(user.email, subject, html, data)
+        send_email(users.email, subject, html, data)
         # send_email(user.email, subject, html_template, data)
 
         login_user(user)
 
         flash('A confirmation email has been sent via email.', 'success')
-        return redirect(url_for("user.unconfirmed"))
+        return redirect(url_for("users.unconfirmed"))
 
-    return render_template('auth/register.html', form=form)
+    return render_template('users/register.html', form=form)
 
 
-@mod_user.route('/confirm/<token>')
+@mod_users.route('/confirm/<token>')
 @mobile_template('{mobile/}public/index.html')
 @login_required
 def confirm_email(template,token):
@@ -110,7 +110,7 @@ def confirm_email(template,token):
         flash('Account already confirmed. Please login.', 'success')
         return render_template(template)
     email = confirm_token(token)
-    user = User.query.filter_by(email=current_user.email).first_or_404()
+    user = Users.query.filter_by(email=current_user.email).first_or_404()
     if user.email == email:
         user.confirmed = True
         user.confirmed_on = datetime.datetime.now()
@@ -122,20 +122,20 @@ def confirm_email(template,token):
     return render_template(template)
 
 
-@mod_user.route('/unconfirmed')
+@mod_users.route('/unconfirmed')
 @login_required
 def unconfirmed():
     if current_user.confirmed:
         return redirect('main.home')
     flash('Please confirm your account!', 'warning')
-    return render_template('auth/unconfirmed.html')
+    return render_template('users/unconfirmed.html')
 
 
-@mod_user.route('/login', methods=['GET', 'POST'])
+@mod_users.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm(request.form)
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
+        user = Users.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(
                 user.password, request.form['password']):
             
@@ -149,32 +149,32 @@ def login():
             return redirect(next or url_for('users_admin.index'))
         else:
             flash('Invalid email and/or password.', 'danger')
-            return render_template('auth/login.html', form=form)
-    return render_template('auth/login.html', form=form)
+            return render_template('users/login.html', form=form)
+    return render_template('users/login.html', form=form)
 
 
-@mod_user.route('/resend')
+@mod_users.route('/resend')
 @login_required
 def resend_confirmation():
     token = generate_confirmation_token(current_user.email)
-    confirm_url = url_for('user.confirm_email', token=token, _external=True)
-    html = render_template('auth/activate.html', confirm_url=confirm_url)
+    confirm_url = url_for('users.confirm_email', token=token, _external=True)
+    html = render_template('users/activate.html', confirm_url=confirm_url)
     subject = "Please confirm your email"
     send_email(current_user.email, subject, html)
     flash('A new confirmation email has been sent.', 'success')
-    return redirect(url_for('user.unconfirmed'))
+    return redirect(url_for('users.unconfirmed'))
 
 
-@mod_user.route('/logout')
+@mod_users.route('/logout')
 @login_required
 def logout():
     logout_user()
     flash('You were logged out.', 'success')
-    return redirect(url_for('user.login'))
+    return redirect(url_for('users.login'))
 
 
-@mod_user.route('/forgot')
+@mod_users.route('/forgot')
 def forgot():
     form = ForgotForm(request.form)
-    return render_template('auth/forgot.html', form=form)
+    return render_template('users/forgot.html', form=form)
 

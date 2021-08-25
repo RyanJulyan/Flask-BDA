@@ -15,7 +15,7 @@
             <div class="card-body register-card-body">
                 <p class="login-box-msg">Register a new user</p>
         
-                <form action="{{ url_for('user.register') }}" method="post">
+                <form action="{{ url_for('users.register') }}" method="post">
                     {{ form.csrf_token }}
                     <div class="p-1 text-danger" style="{% if not form.name.errors %} display:none; {% endif %}">
                         {% if form.name.errors %}
@@ -88,7 +88,7 @@
                 </div>
         
                 <p class="mb-0">
-                    Already Registered? <a href="{{ url_for('user.login') }}">Login</a>
+                    Already Registered? <a href="{{ url_for('users.login') }}">Login</a>
                 </p>
             </div>
         </div>

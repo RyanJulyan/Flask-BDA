@@ -16,15 +16,15 @@ from flask_jwt_extended import get_raw_jwt, jwt_required, create_access_token, \
                                 jwt_refresh_token_required, create_refresh_token, \
                                 get_jwt_identity, fresh_jwt_required
 
-# Import module models (i.e. User)
-from app.mod_user.models import User
+# Import module models (i.e. Users)
+from app.mod_users.models import Users
 
 # Swagger namespace
-ns = api.namespace('api/user', description='Database model "User", resource based, Api. \
+ns = api.namespace('api/users', description='Database model "Users", resource based, Api. \
     This API should have 5 endpoints from the name of the model prefixed by "api".\
     as well as a login and logout route as well as a refresh token')
 
-user = api.model('User', {
+user = api.model('Users', {
     'id': fields.Integer(readonly=True, description='The User unique identifier'),
     # start new add_argument
     'name': fields.String(required=True, description='The name of the user'),
@@ -79,7 +79,7 @@ class Login(Resource):
 
         try:
             # user = User.query.filter_by(User.email.like(email)).first()
-            user = User.query.filter_by(email = email).first()
+            user = Users.query.filter_by(email = email).first()
             
             if user and bcrypt.check_password_hash(user.password, password):
                 data = user
@@ -148,7 +148,7 @@ class UserResource(Resource):
     @jwt_required
     def get(self, id):  # /user/<id>
         '''Fetch a single User item given its identifier'''
-        data = User.query.get_or_404(id)
+        data = Users.query.get_or_404(id)
 
         return data, 200
 
@@ -158,7 +158,7 @@ class UserResource(Resource):
     @jwt_required
     def delete(self, id):  # /user/<id>
         '''Delete a User given its identifier'''
-        data = User.query.get_or_404(id)
+        data = Users.query.get_or_404(id)
 
         db.session.delete(data)
         db.session.commit()
@@ -172,7 +172,7 @@ class UserResource(Resource):
     @jwt_required
     def put(self, id):  # /user/<id>
         '''Update a User given its identifier'''
-        data = User.query.get_or_404(id)
+        data = Users.query.get_or_404(id)
         # start update api_request feilds
         # this line should be removed and replaced with the updateApiRequestDefinitions variable
         # end update api_request feilds
@@ -196,7 +196,7 @@ class UserListResource(Resource):
         args = parser.parse_args()
         page = args['page']
 
-        data = User.query.paginate(page=page, per_page=app.config['ROWS_PER_PAGE']).items
+        data = Users.query.paginate(page=page, per_page=app.config['ROWS_PER_PAGE']).items
 
         return data, 200
 
@@ -210,7 +210,7 @@ class UserListResource(Resource):
         """Create a new User record"""
         
         args = parser.parse_args()
-        data = User(
+        data = Users(
             # start new api_request feilds
             name = request.json.get('name', None),
             email = request.json.get('email', None),

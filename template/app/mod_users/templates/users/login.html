@@ -14,7 +14,7 @@
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
         
-                <form action="{{ url_for('user.login') }}" method="post">
+                <form action="{{ url_for('users.login') }}" method="post">
                     {{ form.csrf_token }}
                     <div class="p-1 text-danger" style="{% if not form.email.errors %} display:none; {% endif %}">
                         {% if form.email.errors %}
@@ -69,10 +69,10 @@
                 </div>
         
                 <p class="mb-1">
-                    <a href="{{ url_for('user.forgot') }}">Forgot password</a>
+                    <a href="{{ url_for('users.forgot') }}">Forgot password</a>
                 </p>
                 <p class="mb-0">
-                    <a href="{{ url_for('user.register') }}" class="text-center">Register</a>
+                    <a href="{{ url_for('users.register') }}" class="text-center">Register</a>
                 </p>
             </div>
         </div>

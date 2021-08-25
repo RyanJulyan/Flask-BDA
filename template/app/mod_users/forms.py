@@ -8,8 +8,8 @@ from wtforms import TextField, PasswordField  # BooleanField
 # Import Form validators
 from wtforms.validators import Required, DataRequired, Email, Length, EqualTo
 
-# Import module models (i.e. User)
-from app.mod_user.models import User
+# Import module models (i.e. Users)
+from app.mod_users.models import Users
 
 class LoginForm(Form):
     email = TextField('Email Address', [Email(), Required(message='Email required.')])
@@ -39,7 +39,7 @@ class RegisterForm(Form):
         initial_validation = super(RegisterForm, self).validate()
         if not initial_validation:
             return False
-        user = User.query.filter_by(email=self.email.data).first()
+        user = Users.query.filter_by(email=self.email.data).first()
         if user:
             self.email.errors.append("Email already registered")
             return False
@@ -55,7 +55,7 @@ class ForgotForm(Form):
         initial_validation = super(ForgotForm, self).validate()
         if not initial_validation:
             return False
-        user = User.query.filter_by(email=self.email.data).first()
+        user = Users.query.filter_by(email=self.email.data).first()
         if not user:
             self.email.errors.append("This email is not registered")
             return False

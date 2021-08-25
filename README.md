@@ -1724,7 +1724,7 @@ python -m unittest discover
        │    │     ├── __init__.py
        │    │     ├── controllers.py
        │    │     └── models.py
-       │    ├── mod_user
+       │    ├── mod_users
        │    │     ├── templates
        │    │     │     ├── mobile
        │    │     │     │    └── auth
@@ -1735,7 +1735,10 @@ python -m unittest discover
        │    │     │     │         │    └── show.html
        │    │     │     │         └── public
        │    │     │     │              └── public_list.html
-       │    │     │     └── auth
+       │    │     │     ├── email
+       │    │     │     │    ├── activate.html
+       │    │     │     │    └── reset.html
+       │    │     │     └── users
        │    │     │          ├── admin
        │    │     │          │    ├── create.html
        │    │     │          │    ├── edit.html

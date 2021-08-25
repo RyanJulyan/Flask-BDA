@@ -77,7 +77,7 @@ jwt.init_app(app)
 # Login_manager
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = 'user.login'
+login_manager.login_view = 'users.login'
 login_manager.login_message_category = "danger"
 
 # Configurations
@@ -181,8 +181,8 @@ scheduler.add_listener(job_submitted, EVENT_JOB_SUBMITTED)
 scheduler.init_app(app)
 scheduler.start()
 
-# Import module models (i.e. User)
-from app.mod_user.models import User  # noqa: E402
+# Import module models (i.e. Users)
+from app.mod_users.models import Users  # noqa: E402
 from app.mod_api_keys.models import Api_keys  # noqa: E402
 
 #################################################################################
@@ -297,7 +297,7 @@ def index():
 # User_loader
 @login_manager.user_loader
 def load_user(_user_id):
-    return User.query.get_or_404(_user_id)
+    return Users.query.get_or_404(_user_id)
 
 
 # Sample HTTP error handling
@@ -336,9 +336,9 @@ def landing(template):
     return render_template(template)
 
 
-# Import a module / component using its blueprint handler variable (mod_user)
+# Import a module / component using its blueprint handler variable (mod_users)
 # from app.mod_xyz.controllers import mod_xyz as xyz_module
-from app.mod_user.controllers import mod_user as user_module  # noqa: E402
+from app.mod_users.controllers import mod_users as user_module  # noqa: E402
 # import new xyz_module
 # api_keys
 from app.mod_api_keys.controllers import mod_public_api_keys as api_keys_public_module  # noqa: E402
@@ -389,7 +389,7 @@ api = Api(app, version='3.0',
 )
 
 # Register api(s)
-from app.mod_user.api_controllers import ns as User_API  # noqa: E402
+from app.mod_users.api_controllers import ns as User_API  # noqa: E402
 # new xyz api resources
 # api_keys
 from app.mod_api_keys.api_controllers import ns as Api_keys_API  # noqa: E402
