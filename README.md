@@ -445,6 +445,8 @@ Ensure that the "SQL server configuration management" settings are configured co
 
 > Multitenancy is a software architecture in which a single instance of software runs on a server and serves multiple tenants (clients). Multitenant software allows multiple independent instances of one or multiple applications operate in a shared environment.
 
+> Flask-BDA supports veritically partitioned multi-tenancy. Veritical partitioning means that each tenant has a different database (and database connection string).
+
 > By default, Flask-BDA connects to a tenant called `default`. This is done using the `SQLALCHEMY_BINDS` object (found in `config.py`), which should have the specific connection details you require for each tenant. The default connection details are combined into a string called `SQLALCHEMY_DATABASE_URI`, which was meant to allow for a quick and easy single tenant setup.
 
 > You can use this same structure, however, to have multiple tenants you can quickly add them to the `SQLALCHEMY_BINDS` object. To add a new tenant, simply:
@@ -471,9 +473,9 @@ SQLALCHEMY_BINDS = {
 
 > By default all controllers will have `MultiBindSQLAlchemy` imported. 
 ``` python
-
 # import multiple bindings
 from app.mod_tenancy.multi_bind import MultiBindSQLAlchemy
+
 ```
 > Under the import there is commented out code intended to assist you with quickly implementing linking to different databases in a single function. Firstly the database binding needs to be added to the `SQLALCHEMY_BINDS` object. Reference the [Isolated Databases with the same functionality](#isolated-databases-with-the-same-functionality) to better understand how to add new databases to the `SQLALCHEMY_BINDS` object.
 
@@ -487,6 +489,7 @@ db.first = MultiBindSQLAlchemy('first')
 ## this will only work for the execute function ##
 ##################################################
 db.first.execute(...)
+
 ```
 
 > **Note: ** this will only work for the `execute` function, there are some advanced techniques to still use the SQLAlchemy ORM that can be found here: [SQLAlchemy execute tutorial](https://docs.sqlalchemy.org/en/14/core/tutorial.html)

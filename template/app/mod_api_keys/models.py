@@ -27,7 +27,7 @@ class Api_keys(Base):
     api_key = db.Column(db.String(256), nullable=False, default=False, unique=True)
     api_key_notes = db.Column(db.Text, nullable=True, default=False, unique=False)
     created_user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False, default=False, unique=False)
-    user = db.relationship('User', backref = 'user', remote_side='User.id', lazy='joined')
+    user = db.relationship('Users', backref = 'users', remote_side='Users.id', lazy='joined')
 
     # @aggregated('user_count', db.Column(db.Integer))
     # def user_count(self):

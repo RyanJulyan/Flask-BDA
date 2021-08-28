@@ -349,6 +349,8 @@ from app.mod_hierarchies.controllers import mod_admin_hierarchies as hierarchies
 # organisations
 from app.mod_organisations.controllers import mod_public_organisations as organisations_public_module  # noqa: E402
 from app.mod_organisations.controllers import mod_admin_organisations as organisations_admin_module  # noqa: E402
+# graphql
+from app.mod_graphql.controllers import mod_graphql as graphql_module  # noqa: E402
 
 # Register blueprint(s)
 app.register_blueprint(user_module)
@@ -362,7 +364,12 @@ app.register_blueprint(hierarchies_admin_module)
 # organisations
 app.register_blueprint(organisations_public_module)
 app.register_blueprint(organisations_admin_module)
+# graphql
+app.register_blueprint(graphql_module)
 
+
+# Prevent GraphQL The CSRF token is missing. error
+csrf_protect.exempt(graphql_module)
 
 # Define the API
 # This must be after other routes or it overwrites everything.
