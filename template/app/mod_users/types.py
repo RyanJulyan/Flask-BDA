@@ -12,12 +12,12 @@ class Users(SQLAlchemyObjectType):
 
 
 class UserAttribute:
-    name = graphene.String()
-    email = graphene.String()
-    password = graphene.String()
-    role = graphene.Int()
-    status = graphene.Int()
-    confirmed = graphene.Boolean()
+    name = graphene.String(required=True)
+    email = graphene.String(required=True)
+    password = graphene.String(required=True)
+    role = graphene.Int(required=True)
+    status = graphene.Int(required=True)
+    confirmed = graphene.Boolean(required=True)
     confirmed_on = graphene.DateTime()
     session_token = graphene.String()
 

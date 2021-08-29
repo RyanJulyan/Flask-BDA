@@ -4,12 +4,14 @@ from graphene_sqlalchemy import SQLAlchemyConnectionField
 
 from app.mod_users.models import Users as UsersModel
 from app.mod_users.types import Users as UsersTypes
+# import new xyz_model and xyz_type
 
 
 class Query(graphene.ObjectType):
     node = graphene.relay.Node.Field()
 
     all_users = SQLAlchemyConnectionField(UsersTypes.connection)
+    # new xyz_model connection
 
     users_by_name = graphene.List(UsersModel, name=graphene.String())
 

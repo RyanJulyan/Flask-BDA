@@ -1,12 +1,17 @@
 import graphene
 
 from app import db
-from app.mod_users.models import Users
-from app.mod_users.types import Users, CreateUserInput
-
 
 # Import GraphQL global node id
 from graphql_relay.node.node import from_global_id
+
+# Import Models and Types
+# users
+from app.mod_users.models import Users
+from app.mod_users.types import Users, CreateUserInput
+# import new xyz_model and xyz_type, input
+
+
 
 
 def graphql_input_into_dictionary(input):
@@ -36,6 +41,9 @@ class Create_User(graphene.Mutation):
         ok = True
         return Create_User(user=user, ok=ok)
 
+# new create xyz class
 
 class Mutation(graphene.ObjectType):
     createUser = Create_User.Field()
+    # register new createXyz
+

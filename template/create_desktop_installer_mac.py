@@ -10,7 +10,7 @@ workdir = os.getcwd()
 # os.chdir("..")
 name = 'Flask BDA'
 devdir = os.getcwd()
-distdir = os.path.join(devdir, '../desktop_mac/dist', name)
+distdir = os.path.join(devdir, '../desktop_mac/dist')
 builddir = os.path.join(devdir, '../desktop_mac/build')
 
 # call pyinstaller directly
@@ -22,13 +22,15 @@ PyInstaller.__main__.run([
     '--noconsole',
     '--windowed',
     '--clean',
-    '--add-data', 'app;app',
-    '--add-data', 'databases;databases',
-    '--add-data', 'config.py;./',
-    '--add-data', 'FLASK-BDA LICENSE;./',
-    '--add-data', 'LICENSE;./',
+    '--add-data', 'app:app',
+    '--add-data', 'databases:databases',
+    '--add-data', 'config.py:./',
+    '--add-data', 'FLASK-BDA LICENSE:./',
+    '--add-data', 'LICENSE:./',
     '--hidden-import', 'engineio.async_drivers',
     '--hidden-import', 'pyodbc',
+    '--hidden-import', 'werkzeug',
+    '--additional-hooks-dir', './pyinstaller_hooks/',
     '--icon', './app/static/images/icon.ico',
     # '--log-level','WARN', # LEVEL may be one of TRACE, DEBUG, INFO, WARN, ERROR, CRITICAL (default: INFO).
     '--key', '1234567890123456', # The key used to encrypt Python bytecode.
