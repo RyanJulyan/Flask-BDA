@@ -84,7 +84,7 @@ def register():
         html = 'email/activate.html'
 
         token = generate_confirmation_token(user.email)
-        confirm_url = url_for('users.confirm_email', token=token, _external=True)
+        confirm_url = url_for('users.confirm_email', token=token, _external=True)+"?organization="+g.organization
 
         data = {
             "confirm_url":confirm_url
@@ -99,7 +99,7 @@ def register():
         flash('A confirmation email has been sent via email.', 'success')
         return redirect(url_for("users.unconfirmed"))
 
-    return render_template('users/register.html', form=form)
+    return render_template('users.register', form=form)
 
 
 @mod_users.route('/confirm/<token>')

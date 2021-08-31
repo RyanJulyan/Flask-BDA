@@ -8,7 +8,7 @@
 <div class="login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="{{ url_for('landing') }}"><b>{{config.SITE_TITLE}}</b></a>
+            <a href="{{ url_for('landing') }}?organization={{ organization }}"><b>{{config.SITE_TITLE}}</b></a>
         </div>
         <div class="card">
             <div class="card-body login-card-body">
@@ -34,34 +34,14 @@
                 </form>
             
                 <p class="mb-1">
-                    <a href="{{ url_for('users.login') }}">Login</a>
+                    <a href="{{ url_for('users.login') }}?organization={{ organization }}">Login</a>
                 </p>
                 <p class="mb-0">
-                    <a href="{{ url_for('users.register') }}" class="text-center">Register</a>
+                    <a href="{{ url_for('users.register') }}?organization={{ organization }}" class="text-center">Register</a>
                 </p>
             </div>
         </div>
     </div>
   </div>
-
-<h1>Forgot Your Password?</h1>
-<br />
-<form class="form-signin" role="form" method="post" action="">
-  {{ form.csrf_token }}
-  {{ form.email(placeholder="email") }}
-    <span class="error">
-      {% if form.email.errors %}
-        {% for error in form.email.errors %}
-          {{ error }}
-        {% endfor %}
-      {% endif %}
-    </span>
-  </p>
-  <button class="btn btn-success" type="submit">Reset your password</button>
-</form>
-<ul>
-<li>Back to <a href="/login">login</a></li>
-<li>Need to <a href="/register">register</a>?</li>
-</ul>
 
 {% endblock page_content %}
