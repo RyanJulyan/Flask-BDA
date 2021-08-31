@@ -29,7 +29,7 @@ PyInstaller.__main__.run([
     '--add-data', 'LICENSE:./',
     '--hidden-import', 'engineio.async_drivers',
     '--hidden-import', 'pyodbc',
-    '--hidden-import', 'werkzeug',
+    '--hidden-import', 'Werkzeug',
     '--additional-hooks-dir', './pyinstaller_hooks/',
     '--icon', './app/static/images/icon.ico',
     # '--log-level','WARN', # LEVEL may be one of TRACE, DEBUG, INFO, WARN, ERROR, CRITICAL (default: INFO).

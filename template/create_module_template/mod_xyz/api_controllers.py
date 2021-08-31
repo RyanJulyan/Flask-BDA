@@ -3,6 +3,8 @@
 from flask_restx import Resource, fields, reqparse
 # Import sql functions (SUM,MIN,MAX,AVG)
 from sqlalchemy.sql import func
+# Import sql events 
+from sqlalchemy import event
 
 # JWT for API
 from flask_jwt_extended import jwt_required
@@ -117,7 +119,6 @@ class XyzResource(Resource):
         # end update api_request feilds
         # data.title = api.payload['title']
         db.session.commit()
-        db.session.refresh(data)
         return data, 201
 
 
@@ -156,7 +157,6 @@ class XyzListResource(Resource):
         )
         db.session.add(data)
         db.session.commit()
-        db.session.refresh(data)
         return data, 201
 
 
@@ -178,7 +178,6 @@ class XyzBulkListResource(Resource):
         data = data.to_dict(orient="records")
         db.session.bulk_update_mappings(Xyz,data)
         db.session.commit()
-        db.session.refresh(data)
         return data, 201
 
     @ns.doc(responses={201: 'INSERTED', 422: 'Unprocessable Entity', 500: 'Internal Server Error'},
@@ -195,7 +194,6 @@ class XyzBulkListResource(Resource):
         data = data.to_dict(orient="records")
         db.session.bulk_insert_mappings(Xyz,data)
         db.session.commit()
-        db.session.refresh(data)
         return data, 201
 
 
@@ -227,3 +225,62 @@ class XyzAggregateResource(Resource):
         }
 
         return data_obj, 200
+
+
+# SQLAlchemy Events before and after insert, update and delete changes on a table
+@event.listens_for(Xyz, "before_insert")
+def before_insert(mapper, connection, target):
+    payload = '{'
+    for obj in request.form:
+        payload += '"' + obj + '": "' + request.form.get(obj) + '",'
+    payload = payload.rstrip(',')
+    payload += '}'
+    
+    data = Audit(
+        model_name="Xyz",
+        action="Before Insert",
+        context="Rest API",
+        payload=payload
+    )
+    db.session.add(data)
+    db.session.commit()
+    pass
+
+
+@event.listens_for(Xyz, "after_insert")
+def after_insert(mapper, connection, target):
+    pass
+
+
+@event.listens_for(Xyz, "before_update")
+def before_update(mapper, connection, target):
+    payload = '{'
+    for obj in request.form:
+        payload += '"' + obj + '": "' + request.form.get(obj) + '",'
+    payload = payload.rstrip(',')
+    payload += '}'
+    
+    data = Audit(
+        model_name="Xyz",
+        action="Before Update",
+        context="Rest API",
+        payload=payload
+    )
+    db.session.add(data)
+    db.session.commit()
+    pass
+
+
+@event.listens_for(Xyz, "after_update")
+def after_update(mapper, connection, target):
+    pass
+
+
+@event.listens_for(Xyz, "before_delete")
+def before_delete(mapper, connection, target):
+    pass
+
+
+@event.listens_for(Xyz, "after_delete")
+def after_delete(mapper, connection, target):
+    pass

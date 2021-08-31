@@ -1,23 +1,27 @@
 
-# FROM ubuntu:latest
-
-# Alpine is meant to be much smaller
-# FROM alpine:latest
-
 # Alpine is suposed to be slow to build and actually can result in larger image sizes: https://pythonspeed.com/articles/alpine-docker-python/
 FROM python:3.8-slim
 
-LABEL vendor="fllask-bda"
+LABEL vendor="Fllask-BDA"
 LABEL Created="{DeveloperName} <email@example.com>"
 LABEL maintainer="{DeveloperName}"
-LABEL version="0.0.0.1"
-LABEL description="This is a default docker file for the flask-bda system"
+LABEL version="0.0.1"
+LABEL description="This is a default docker file for the Flask-BDA system"
 
-# for Ubuntu
-# RUN apt-get update -y && apt-get install -y python3-pip python3.8-dev -y --no-install-recommends
+# install FreeTDS and dependencies
+RUN apt-get update \
+ && apt-get install unixodbc -y \
+ && apt-get install unixodbc-dev -y \
+ && apt-get install freetds-dev -y \
+ && apt-get install freetds-bin -y \
+ && apt-get install tdsodbc -y \
+ && apt-get install --reinstall build-essential -y
 
-# for Alpine
-# RUN apk add --no-cache python3-dev && apk add --update py-pip
+# populate "ocbcinst.ini"
+RUN echo "[FreeTDS]\n\
+Description = FreeTDS unixODBC Driver\n\
+Driver = /usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so\n\
+Setup = /usr/lib/x86_64-linux-gnu/odbc/libtdsS.so" >> /etc/odbcinst.ini
 
 # We copy just the requirements.txt first to leverage Docker cache
 COPY ./requirements.txt ./requirements.txt

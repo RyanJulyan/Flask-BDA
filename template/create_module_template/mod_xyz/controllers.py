@@ -99,7 +99,7 @@ def store():
         errorInfo = e.orig.args
         flash(errorInfo[0], 'error')
 
-    return redirect(url_for('xyz_admin.index'))
+    return redirect(url_for('xyz_admin.index')+"?organization="+g.organization)
 
 
 @mod_admin_xyz.route('/show/<id>', methods=['GET'])
@@ -139,7 +139,7 @@ def update(id):
         errorInfo = e.orig.args
         flash(errorInfo[0], 'error')
 
-    return redirect(url_for('xyz_admin.index'))
+    return redirect(url_for('xyz_admin.index')+"?organization="+g.organization)
 
 
 @mod_admin_xyz.route('/destroy/<id>', methods=['POST', 'DELETE', 'GET'])
@@ -149,7 +149,7 @@ def destroy(id):
     db.session.delete(data)
     db.session.commit()
 
-    return redirect(url_for('xyz_admin.index'))
+    return redirect(url_for('xyz_admin.index')+"?organization="+g.organization)
 
 
 # SQLAlchemy Events before and after insert, update and delete changes on a table
@@ -168,6 +168,7 @@ def before_insert(mapper, connection, target):
         payload=payload
     )
     db.session.add(data)
+    db.session.commit()
     pass
 
 
@@ -178,6 +179,20 @@ def after_insert(mapper, connection, target):
 
 @event.listens_for(Xyz, "before_update")
 def before_update(mapper, connection, target):
+    payload = '{'
+    for obj in request.form:
+        payload += '"' + obj + '": "' + request.form.get(obj) + '",'
+    payload = payload.rstrip(',')
+    payload += '}'
+    
+    data = Audit(
+        model_name="Xyz",
+        action="Before Update",
+        context="Web Form",
+        payload=payload
+    )
+    db.session.add(data)
+    db.session.commit()
     pass
 
 
