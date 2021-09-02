@@ -4,80 +4,87 @@
 		"fields": {
 			"organisation_name": {
 				"dataType": "String(256)",
-				"nullable": true,
+				"nullable": false,
 				"unique": true,
 				"relationship": null,
-				"default": true
-			},
-			"organisation_contact_name": {
-				"dataType": "String(256)",
-				"nullable": true,
-				"unique": true,
-				"relationship": null,
-				"default": true
+				"default": false
 			},
 			"organisation_details": {
 				"dataType": "Text",
 				"nullable": true,
 				"unique": true,
 				"relationship": null,
-				"default": true
+				"default": false
+			},
+			"organisation_contact_name": {
+				"dataType": "String(256)",
+				"nullable": false,
+				"unique": false,
+				"relationship": null,
+				"default": false
 			},
 			"organisation_contact_email": {
 				"dataType": "String(256)",
-				"nullable": true,
+				"nullable": false,
 				"unique": true,
 				"relationship": null,
-				"default": true
+				"default": false
 			},
 			"organisation_address": {
 				"dataType": "Text",
 				"nullable": true,
-				"unique": true,
+				"unique": false,
 				"relationship": null,
-				"default": true
+				"default": false
 			},
 			"organisation_city": {
 				"dataType": "String(256)",
 				"nullable": true,
-				"unique": true,
+				"unique": false,
 				"relationship": null,
-				"default": true
+				"default": false
 			},
 			"organisation_postal_code": {
 				"dataType": "String(256)",
 				"nullable": true,
-				"unique": true,
+				"unique": false,
 				"relationship": null,
-				"default": true
+				"default": false
 			},
 			"organisation_country": {
 				"dataType": "String(256)",
 				"nullable": true,
-				"unique": true,
+				"unique": false,
 				"relationship": null,
-				"default": true
+				"default": false
 			},
 			"organisation_homepage": {
 				"dataType": "Text",
 				"nullable": true,
-				"unique": true,
+				"unique": false,
 				"relationship": null,
-				"default": true
+				"default": false
 			},
 			"organisation_vat_number": {
 				"dataType": "Text",
 				"nullable": true,
-				"unique": true,
+				"unique": false,
 				"relationship": null,
-				"default": true
+				"default": false
 			},
 			"organisation_reg_number": {
 				"dataType": "Text",
 				"nullable": true,
+				"unique": false,
+				"relationship": null,
+				"default": false
+			},
+			"organisation_binding_database_uri": {
+				"dataType": "Text",
+				"nullable": false,
 				"unique": true,
 				"relationship": null,
-				"default": true
+				"default": false
 			}
 		}
 	}

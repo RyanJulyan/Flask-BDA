@@ -160,13 +160,13 @@ def create_module(module):
         updateApiRequestDefinitions += "        data.{} = api.payload['{}']\n".format(key, key)
         updateFormRequestDefinitions += "    data.{} = request.form.get('{}')\n".format(key, key)
         renderFields += """
-                    <div class="form-group">
-                        <label for="{}" class="col-sm-2 control-label">{}</label>
+                                <div class="form-group row">
+                                    <label for="{}" class="col-sm-2 control-label">{}</label>
 
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="{}" id="{}" placeholder="{}" autocomplete="{}" >
-                        </div>
-                    </div>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="{}" id="{}" placeholder="{}" autocomplete="{}" >
+                                    </div>
+                                </div>
         """.format(key, friendly_name, key, key, friendly_name, key)
 
         if count == 0:
@@ -181,13 +181,13 @@ def create_module(module):
                                                     </p>
         """.format("{{", key, "}}")
         renderUpdateFields += """
-                    <div class="form-group">
-                        <label for="{}" class="col-sm-2 control-label">{}</label>
+                                <div class="form-group">
+                                    <label for="{}" class="col-sm-2 control-label">{}</label>
 
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="{}" id="{}" placeholder="{}" value="{}data.{}{}"  autocomplete="{}" >
-                        </div>
-                    </div>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="{}" id="{}" placeholder="{}" value="{}data.{}{}"  autocomplete="{}" >
+                                    </div>
+                                </div>
         """.format(key, friendly_name, key, key, friendly_name, "{{", key, "}}", key)
         tableHeaders += """
                         <th>
@@ -207,7 +207,7 @@ def create_module(module):
     instanceParams = str((', '.join(item for item in feildNames)))
     formDefinitions = str((','.join(item for item in formDefinitionsArr)))
     newFormRequestDefinitions = str((','.join(item for item in newFormRequestDefinitionsArr)))
-    updateFormRequestDefinitions = str((','.join(item for item in updateFormRequestDefinitionsArr)))
+    updateFormRequestDefinitions = str((''.join(item for item in updateFormRequestDefinitionsArr)))
     newApiRequestDefinitions = str((','.join(item for item in newApiRequestDefinitionsArr)))
     argumentParser = str((','.join(item for item in argumentParserArr)))
     argumentAggParser = str((','.join(item for item in argumentAggParserArr)))
