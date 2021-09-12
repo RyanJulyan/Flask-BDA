@@ -189,7 +189,7 @@ CORS_ORIGINS = env('CORS_ORIGINS', '*')
 ##############################################
 # Default number of results to show per page #
 ##############################################
-ROWS_PER_PAGE = env('ROWS_PER_PAGE', 20)
+ROWS_PER_PAGE = env('ROWS_PER_PAGE', 2000)
 
 ###############################
 # Default rate limit for site #

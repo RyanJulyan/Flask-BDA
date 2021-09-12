@@ -19,6 +19,32 @@ from app.mod_organisations.models import Organisations
 
 # Import module models (Audit)
 from app.mod_audit.models import Audit
+# import multiple bindings
+from app.mod_tenancy.multi_bind import MultiBindSQLAlchemy
+###################################################################
+#### Uncomment the following enable the use different bindings ####
+###################################################################
+
+########################################################################################################################
+## change db.first to db.<binding> name as needed where <binding> is the name you want to reference when making calls ##
+########################################################################################################################
+
+# db.first = MultiBindSQLAlchemy('first')
+##################################################
+## this will only work for the execute function ##
+##################################################
+# db.first.execute(...)
+
+#########################################################################################################################
+## change db.second to db.<binding> name as needed where <binding> is the name you want to reference when making calls ##
+#########################################################################################################################
+
+# db.second = MultiBindSQLAlchemy('second')
+##################################################
+## this will only work for the execute function ##
+##################################################
+# db.second.execute(...)
+
 
 # Define the blueprint: 'organisations', set its url prefix: app.url/organisations
 mod_public_organisations = Blueprint('organisations_public', __name__, template_folder='templates', url_prefix='/organisations')
@@ -62,9 +88,12 @@ def store():
     data = Organisations(
         # start new request feilds
         organisation_name=request.form.get('organisation_name'),
-        organisation_details=request.form.get('organisation_details'),
+        organisation_logo=request.form.get('organisation_logo'),
+        organisation_description=request.form.get('organisation_description'),
+        organisation_industry=request.form.get('organisation_industry'),
         organisation_contact_name=request.form.get('organisation_contact_name'),
         organisation_contact_email=request.form.get('organisation_contact_email'),
+        organisation_binding_database_uri=request.form.get('organisation_binding_database_uri'),
         organisation_address=request.form.get('organisation_address'),
         organisation_city=request.form.get('organisation_city'),
         organisation_postal_code=request.form.get('organisation_postal_code'),
@@ -83,7 +112,7 @@ def store():
         errorInfo = e.orig.args
         flash(errorInfo[0], 'error')
 
-    return redirect(url_for('organisations_admin.index'))
+    return redirect(url_for('organisations_admin.index')+"?organization="+g.organization)
 
 
 @mod_admin_organisations.route('/show/<id>', methods=['GET'])
@@ -113,16 +142,19 @@ def edit(id,template):
 def update(id):
     data = Organisations.query.get(id)
     # start update request feilds
-    data.organisation_name = request.form.get('organisation_name'),
-    data.organisation_details = request.form.get('organisation_details'),
-    data.organisation_contact_name = request.form.get('organisation_contact_name'),
-    data.organisation_contact_email = request.form.get('organisation_contact_email'),
-    data.organisation_address = request.form.get('organisation_address'),
-    data.organisation_city = request.form.get('organisation_city'),
-    data.organisation_postal_code = request.form.get('organisation_postal_code'),
-    data.organisation_country = request.form.get('organisation_country'),
-    data.organisation_homepage = request.form.get('organisation_homepage'),
-    data.organisation_vat_number = request.form.get('organisation_vat_number'),
+    data.organisation_name = request.form.get('organisation_name')
+    data.organisation_logo = request.form.get('organisation_logo')
+    data.organisation_description = request.form.get('organisation_description')
+    data.organisation_industry = request.form.get('organisation_industry')
+    data.organisation_contact_name = request.form.get('organisation_contact_name')
+    data.organisation_contact_email = request.form.get('organisation_contact_email')
+    data.organisation_binding_database_uri = request.form.get('organisation_binding_database_uri')
+    data.organisation_address = request.form.get('organisation_address')
+    data.organisation_city = request.form.get('organisation_city')
+    data.organisation_postal_code = request.form.get('organisation_postal_code')
+    data.organisation_country = request.form.get('organisation_country')
+    data.organisation_homepage = request.form.get('organisation_homepage')
+    data.organisation_vat_number = request.form.get('organisation_vat_number')
     data.organisation_reg_number = request.form.get('organisation_reg_number')
     # end update request feilds
     # data.title = request.form.get("title")
@@ -133,7 +165,7 @@ def update(id):
         errorInfo = e.orig.args
         flash(errorInfo[0], 'error')
 
-    return redirect(url_for('organisations_admin.index'))
+    return redirect(url_for('organisations_admin.index')+"?organization="+g.organization)
 
 
 @mod_admin_organisations.route('/destroy/<id>', methods=['POST', 'DELETE', 'GET'])
@@ -143,7 +175,7 @@ def destroy(id):
     db.session.delete(data)
     db.session.commit()
 
-    return redirect(url_for('organisations_admin.index'))
+    return redirect(url_for('organisations_admin.index')+"?organization="+g.organization)
 
 
 # SQLAlchemy Events before and after insert, update and delete changes on a table
@@ -162,6 +194,7 @@ def before_insert(mapper, connection, target):
         payload=payload
     )
     db.session.add(data)
+    db.session.commit()
     pass
 
 
@@ -172,6 +205,20 @@ def after_insert(mapper, connection, target):
 
 @event.listens_for(Organisations, "before_update")
 def before_update(mapper, connection, target):
+    payload = '{'
+    for obj in request.form:
+        payload += '"' + obj + '": "' + request.form.get(obj) + '",'
+    payload = payload.rstrip(',')
+    payload += '}'
+    
+    data = Audit(
+        model_name="Organisations",
+        action="Before Update",
+        context="Web Form",
+        payload=payload
+    )
+    db.session.add(data)
+    db.session.commit()
     pass
 
 

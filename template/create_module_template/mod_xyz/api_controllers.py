@@ -12,6 +12,9 @@ from flask_jwt_extended import jwt_required
 # Import the database object from the main app module
 from app import db, app, api
 
+# Import helper functions, comment in as needed (commented out for performance)
+# from app.mod_helper_functions import functions as fn
+
 # Import module models (i.e. User)
 from app.mod_xyz.models import Xyz
 
@@ -189,6 +192,44 @@ class XyzBulkListResource(Resource):
     def post(self):  # /xyz/bulk
         '''Bulk create new Xyz records'''
         data = json.dumps(api.payload)
+        # data = read_json(data, convert_dates=['start_date'])
+        data = read_json(data)
+        data = data.to_dict(orient="records")
+        db.session.bulk_insert_mappings(Xyz,data)
+        db.session.commit()
+        return data, 201
+
+
+# XyzSeed Data
+# Inserts and updates in Bulk of Xyz, and lets you POST to add and put to update new Xyz
+@ns.route('/seed/<int:level>')
+class XyzBulkListResource(Resource):
+    @ns.doc(responses={201: 'INSERTED', 422: 'Unprocessable Entity', 500: 'Internal Server Error'},
+             description='seed xyz')
+    @ns.expect(xyz)
+    @ns.marshal_with(xyz, code=201)
+    # @ns.doc(security='jwt')
+    @ns.doc(security=None)
+    # @jwt_required
+    def post(self, level):  # /xyz/seed/<level>
+        '''Seed bulk Xyz records. Level 1 = `Core` Data, Level 2 = `Nice to Have` Data, Level 3 = `Demo` Data'''
+        data = {
+            1:[
+                {}, ## Insert `Core` data to seed into this object
+                {} ## create more objects as needed
+            ],
+            2:[
+                {}, ## Insert `Nice to Have` Data to seed into this object
+                {} ## create more objects as needed
+            ],
+            3:[
+                {}, ## Insert `Demo` Data to seed into this object
+                {} ## create more objects as needed
+            ]
+        }
+        
+        data = json.dumps(data[level])
+        
         # data = read_json(data, convert_dates=['start_date'])
         data = read_json(data)
         data = data.to_dict(orient="records")

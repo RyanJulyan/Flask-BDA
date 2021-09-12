@@ -32,9 +32,10 @@ class Hierarchies(Base):
     #     return db.func.count('1')
     name = db.Column(db.String(256), nullable=False, default=False, unique=False)
     path = db.Column(db.Text, nullable=False, default=False, unique=False)
-    rank = db.Column(db.Integer, nullable=True, default=False, unique=False)
+    level = db.Column(db.Integer, nullable=True, default=False, unique=False)
     parent_id = db.Column(db.Integer, db.ForeignKey('hierarchies.id'), nullable=True, default=False, unique=False)
     hierarchies = db.relationship('Hierarchies', remote_side='Hierarchies.id', lazy='joined')
+    cached = db.Column(db.Boolean, nullable=False, default='0', unique=False)
 
     # @aggregated('hierarchies_count', db.Column(db.Integer))
     # def hierarchies_count(self):
@@ -44,17 +45,19 @@ class Hierarchies(Base):
     # example_field = db.Column(db.String(256), nullable=False,default=False, unique=False)
 
     # New instance instantiation procedure
-    def __init__(self, organisation_id, name, path, rank, parent_id, key_value):  # ,example_field):
+    def __init__(self, organisation_id, name, path, level, parent_id, key_value, cached):  # ,example_field):
         # start new instance fields
         self.organisation_id = organisation_id
         self.name = name
         self.path = path
-        self.rank = rank
+        self.level = level
         self.parent_id = parent_id
         self.key_value = key_value
+        self.cached = cached
         # end new instance fields
         # self.example_field = example_field
 
     def __repr__(self):
         # Set model quick lookup
         return '<Hierarchies %r>' % (self.id)
+

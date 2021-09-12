@@ -6,6 +6,7 @@
 				"dataType": "Integer",
 				"nullable": false,
 				"unique": false,
+				"index": true,
 				"relationship": "organisations",
 				"default": false
 			},
@@ -13,6 +14,7 @@
 				"dataType": "String(256)",
 				"nullable": false,
 				"unique": false,
+				"index": false,
 				"relationship": null,
 				"default": false
 			},
@@ -20,13 +22,15 @@
 				"dataType": "Text",
 				"nullable": false,
 				"unique": false,
+				"index": false,
 				"relationship": null,
 				"default": false
 			},
-			"rank": {
+			"level": {
 				"dataType": "Integer",
 				"nullable": true,
 				"unique": false,
+				"index": true,
 				"relationship": null,
 				"default": false
 			},
@@ -34,6 +38,7 @@
 				"dataType": "Integer",
 				"nullable": true,
 				"unique": false,
+				"index": true,
 				"relationship": "hierarchies",
 				"default": false
 			},
@@ -43,6 +48,14 @@
 				"unique": false,
 				"relationship": null,
 				"default": false
+			},
+			"cached": {
+				"dataType": "Boolean",
+				"nullable": true,
+				"unique": false,
+				"index": true,
+				"relationship": null,
+				"default": "0"
 			}
 		}
 	}

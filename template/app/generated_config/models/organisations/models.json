@@ -6,13 +6,31 @@
 				"dataType": "String(256)",
 				"nullable": false,
 				"unique": true,
+				"index": false,
 				"relationship": null,
 				"default": false
 			},
-			"organisation_details": {
+            "organisation_logo": {
+                "dataType": "Text",
+                "default": false,
+                "nullable": true,
+				"index": false,
+                "relationship": null,
+                "unique": false
+            },
+			"organisation_description": {
 				"dataType": "Text",
 				"nullable": true,
 				"unique": true,
+				"index": false,
+				"relationship": null,
+				"default": false
+			},
+			"organisation_industry": {
+				"dataType": "String(256)",
+				"nullable": true,
+				"unique": false,
+				"index": false,
 				"relationship": null,
 				"default": false
 			},
@@ -20,11 +38,20 @@
 				"dataType": "String(256)",
 				"nullable": false,
 				"unique": false,
+				"index": false,
 				"relationship": null,
 				"default": false
 			},
 			"organisation_contact_email": {
 				"dataType": "String(256)",
+				"nullable": false,
+				"unique": true,
+				"index": true,
+				"relationship": null,
+				"default": false
+			},
+			"organisation_binding_database_uri": {
+				"dataType": "Text",
 				"nullable": false,
 				"unique": true,
 				"relationship": null,
@@ -34,6 +61,7 @@
 				"dataType": "Text",
 				"nullable": true,
 				"unique": false,
+				"index": false,
 				"relationship": null,
 				"default": false
 			},
@@ -41,6 +69,7 @@
 				"dataType": "String(256)",
 				"nullable": true,
 				"unique": false,
+				"index": false,
 				"relationship": null,
 				"default": false
 			},
@@ -48,6 +77,7 @@
 				"dataType": "String(256)",
 				"nullable": true,
 				"unique": false,
+				"index": false,
 				"relationship": null,
 				"default": false
 			},
@@ -55,6 +85,7 @@
 				"dataType": "String(256)",
 				"nullable": true,
 				"unique": false,
+				"index": false,
 				"relationship": null,
 				"default": false
 			},
@@ -62,6 +93,7 @@
 				"dataType": "Text",
 				"nullable": true,
 				"unique": false,
+				"index": false,
 				"relationship": null,
 				"default": false
 			},
@@ -69,6 +101,7 @@
 				"dataType": "Text",
 				"nullable": true,
 				"unique": false,
+				"index": false,
 				"relationship": null,
 				"default": false
 			},
@@ -76,13 +109,7 @@
 				"dataType": "Text",
 				"nullable": true,
 				"unique": false,
-				"relationship": null,
-				"default": false
-			},
-			"organisation_binding_database_uri": {
-				"dataType": "Text",
-				"nullable": false,
-				"unique": true,
+				"index": true,
 				"relationship": null,
 				"default": false
 			}

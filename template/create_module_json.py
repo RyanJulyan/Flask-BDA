@@ -150,12 +150,14 @@ def create_module_json(module_name):
                     dataType = "Enum(" + str((', '.join('"' + item + '"' for item in parameters))) + ")"
                 nullable = getBool("Is " + field + " nullable ('True', 'False'): ")
                 unique = getBool("Is " + field + " unique ('True', 'False'): ")
+                index = getBool("Does " + field + " have an index ('True', 'False'): ")
                 relationship = relationships(field)
                 default = input("Default value: ") or False
                 fields[field] = {
                     "dataType": dataType,
                     "nullable": nullable,
                     "unique": unique,
+                    "index": index,
                     "relationship": relationship,
                     "default": default
                 }

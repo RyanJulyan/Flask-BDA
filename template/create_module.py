@@ -73,12 +73,13 @@ def create_module(module):
         instanceNames += "        self.{} = {}\n".format(key, key)
 
         if value['relationship']:
-            columns += "    {} = db.Column(db.{}, db.ForeignKey('{}.id'), nullable={}, default={}, unique={})\n".format(key,
+            columns += "    {} = db.Column(db.{}, db.ForeignKey('{}.id'), nullable={}, default={}, unique={}, index={})\n".format(key,
                                                                                                                         value['dataType'],
                                                                                                                         value['relationship'],
                                                                                                                         value['nullable'],
                                                                                                                         value['default'],
-                                                                                                                        value['unique'])
+                                                                                                                        value['unique'],
+                                                                                                                        value['index'])
 
             columns += "    {} = db.relationship('{}', remote_side='{}.id', lazy='joined')\n".format(value['relationship'],
                                                                                                 # secrets.token_urlsafe(3),
@@ -91,11 +92,12 @@ def create_module(module):
     #     return db.func.count('1')\n""".format(value['relationship'],
                                                 value['relationship'])
         else:
-            columns += "    {} = db.Column(db.{}, nullable={}, default={}, unique={})\n".format(key,
+            columns += "    {} = db.Column(db.{}, nullable={}, default={}, unique={}, index={})\n".format(key,
                                                                                         value['dataType'],
                                                                                         value['nullable'],
                                                                                         value['default'],
-                                                                                        value['unique'])
+                                                                                        value['unique'],
+                                                                                        value['index'])
         
         newApiAggregateDefinitions += """
                 func.count({}.{}).label('{}_count'),\n""".format(model,
@@ -181,7 +183,7 @@ def create_module(module):
                                                     </p>
         """.format("{{", key, "}}")
         renderUpdateFields += """
-                                <div class="form-group">
+                                <div class="form-group row">
                                     <label for="{}" class="col-sm-2 control-label">{}</label>
 
                                     <div class="col-sm-10">

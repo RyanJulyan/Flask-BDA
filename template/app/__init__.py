@@ -4,7 +4,7 @@ import sys, os
 from datetime import date
 
 # Import flask and template operators
-from flask import Flask, render_template, make_response, send_from_directory, request, g, jsonify, redirect
+from flask import Flask, render_template, make_response, send_from_directory, request, g, jsonify, redirect, url_for
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 from flask_wtf.csrf import CSRFProtect
@@ -178,6 +178,7 @@ scheduler.start()
 
 # Import module models (i.e. Users)
 from app.mod_users.models import Users  # noqa: E402
+from app.mod_organisations.models import Organisations  # noqa: E402
 from app.mod_api_keys.models import Api_keys  # noqa: E402
 
 #################################################################################
@@ -217,6 +218,12 @@ def before_request():
 
     # Set database to tenant
     db.choose_tenant(g.organization)
+    
+    g.organisation_id = 1
+    organisation = Organisations.query.filter(Organisations.organisation_name == g.organization).first()
+
+    if organisation:
+        g.organisation_id = organisation.id
 
     # Set User JWT token if API key Used
     if("ApiKey" in request.headers):
@@ -279,7 +286,10 @@ def before_request():
 # make organisation accessable in template
 @app.context_processor
 def get_organization_in_template():
-  return {"organization": g.organization}
+  return {
+            "organization": g.organization,
+            "organisation_id": g.organisation_id
+        }
 
 # @app.after_request
 # def after_request(response):
@@ -337,10 +347,47 @@ def landing(template):
     return render_template(template)
 
 
+def has_no_empty_params(rule):
+    defaults = rule.defaults if rule.defaults is not None else ()
+    arguments = rule.arguments if rule.arguments is not None else ()
+    return len(defaults) >= len(arguments)
+
+
+@app.route("/seed//<int:level>")
+def seed(level):
+    links = []
+    for rule in app.url_map.iter_rules():
+        # Filter out rules we can't navigate to in a browser
+        # and rules that require parameters
+        if "GET" in rule.methods and has_no_empty_params(rule):
+            url = url_for(rule.endpoint, **(rule.defaults or {}))
+            if('seed' in url):
+             links.append((url, rule.endpoint))
+    return ' '.join([str(elem) for elem in links]) 
+    # links is now a list of url, endpoint tuples
+
 # Import a module / component using its blueprint handler variable (mod_users)
 # from app.mod_xyz.controllers import mod_xyz as xyz_module
 from app.mod_users.controllers import mod_users as user_module  # noqa: E402
 # import new xyz_module
+# cache_hierarchies
+from app.mod_cache_hierarchies.controllers import mod_public_cache_hierarchies as cache_hierarchies_public_module  # noqa: E402
+from app.mod_cache_hierarchies.controllers import mod_admin_cache_hierarchies as cache_hierarchies_admin_module  # noqa: E402
+# cache_hierarchies
+from app.mod_cache_hierarchies.controllers import mod_public_cache_hierarchies as cache_hierarchies_public_module  # noqa: E402
+from app.mod_cache_hierarchies.controllers import mod_admin_cache_hierarchies as cache_hierarchies_admin_module  # noqa: E402
+# organisations
+from app.mod_organisations.controllers import mod_public_organisations as organisations_public_module  # noqa: E402
+from app.mod_organisations.controllers import mod_admin_organisations as organisations_admin_module  # noqa: E402
+# hierarchies
+from app.mod_hierarchies.controllers import mod_public_hierarchies as hierarchies_public_module  # noqa: E402
+from app.mod_hierarchies.controllers import mod_admin_hierarchies as hierarchies_admin_module  # noqa: E402
+# organisations
+from app.mod_organisations.controllers import mod_public_organisations as organisations_public_module  # noqa: E402
+from app.mod_organisations.controllers import mod_admin_organisations as organisations_admin_module  # noqa: E402
+# hierarchies
+from app.mod_hierarchies.controllers import mod_public_hierarchies as hierarchies_public_module  # noqa: E402
+from app.mod_hierarchies.controllers import mod_admin_hierarchies as hierarchies_admin_module  # noqa: E402
 # api_keys
 from app.mod_api_keys.controllers import mod_public_api_keys as api_keys_public_module  # noqa: E402
 from app.mod_api_keys.controllers import mod_admin_api_keys as api_keys_admin_module  # noqa: E402
@@ -356,6 +403,24 @@ from app.mod_graphql.controllers import mod_graphql as graphql_module  # noqa: E
 # Register blueprint(s)
 app.register_blueprint(user_module)
 # register_blueprint new xyz_module
+# cache_hierarchies
+app.register_blueprint(cache_hierarchies_public_module)
+app.register_blueprint(cache_hierarchies_admin_module)
+# cache_hierarchies
+app.register_blueprint(cache_hierarchies_public_module)
+app.register_blueprint(cache_hierarchies_admin_module)
+# organisations
+app.register_blueprint(organisations_public_module)
+app.register_blueprint(organisations_admin_module)
+# hierarchies
+app.register_blueprint(hierarchies_public_module)
+app.register_blueprint(hierarchies_admin_module)
+# organisations
+app.register_blueprint(organisations_public_module)
+app.register_blueprint(organisations_admin_module)
+# hierarchies
+app.register_blueprint(hierarchies_public_module)
+app.register_blueprint(hierarchies_admin_module)
 # api_keys
 app.register_blueprint(api_keys_public_module)
 app.register_blueprint(api_keys_admin_module)
@@ -399,6 +464,18 @@ api = Api(app, version='3.0',
 # Register api(s)
 from app.mod_users.api_controllers import ns as User_API  # noqa: E402
 # new xyz api resources
+# cache_hierarchies
+from app.mod_cache_hierarchies.api_controllers import ns as Cache_hierarchies_API  # noqa: E402
+# cache_hierarchies
+from app.mod_cache_hierarchies.api_controllers import ns as Cache_hierarchies_API  # noqa: E402
+# organisations
+from app.mod_organisations.api_controllers import ns as Organisations_API  # noqa: E402
+# hierarchies
+from app.mod_hierarchies.api_controllers import ns as Hierarchies_API  # noqa: E402
+# organisations
+from app.mod_organisations.api_controllers import ns as Organisations_API  # noqa: E402
+# hierarchies
+from app.mod_hierarchies.api_controllers import ns as Hierarchies_API  # noqa: E402
 # api_keys
 from app.mod_api_keys.api_controllers import ns as Api_keys_API  # noqa: E402
 # hierarchies

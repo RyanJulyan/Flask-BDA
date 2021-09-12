@@ -3,6 +3,8 @@
 from flask_restx import Resource, fields, reqparse
 # Import sql functions (SUM,MIN,MAX,AVG)
 from sqlalchemy.sql import func
+# Import sql events 
+from sqlalchemy import event
 
 # JWT for API
 from flask_jwt_extended import jwt_required
@@ -56,7 +58,7 @@ hierarchies = api.model('Hierarchies', {
     'organisation_id': fields.Float(required=True, description='The Hierarchies Organisation id'),
     'name': fields.String(required=True, description='The Hierarchies Name'),
     'path': fields.String(required=True, description='The Hierarchies Path'),
-    'rank': fields.Float(description='The Hierarchies Rank'),
+    'level': fields.Float(description='The Hierarchies Level'),
     'parent_id': fields.Float(description='The Hierarchies Parent id'),
     'key_value': fields.String(description='The Hierarchies Key value')
     # end new add_argument
@@ -72,11 +74,11 @@ hierarchies_agg = api.model('Hierarchies_agg', {
     'organisation_id_max': fields.Float(readonly=True, description='The Hierarchies Organisation id max'),
     'name_count': fields.Integer(readonly=True, description='The Hierarchies Name count'),
     'path_count': fields.Integer(readonly=True, description='The Hierarchies Path count'),
-    'rank_count': fields.Integer(readonly=True, description='The Hierarchies Rank count'),
-    'rank_sum': fields.Float(readonly=True, description='The Hierarchies Rank sum'),
-    'rank_avg': fields.Float(readonly=True, description='The Hierarchies Rank avg'),
-    'rank_min': fields.Float(readonly=True, description='The Hierarchies Rank min'),
-    'rank_max': fields.Float(readonly=True, description='The Hierarchies Rank max'),
+    'level_count': fields.Integer(readonly=True, description='The Hierarchies Level count'),
+    'level_sum': fields.Float(readonly=True, description='The Hierarchies Level sum'),
+    'level_avg': fields.Float(readonly=True, description='The Hierarchies Level avg'),
+    'level_min': fields.Float(readonly=True, description='The Hierarchies Level min'),
+    'level_max': fields.Float(readonly=True, description='The Hierarchies Level max'),
     'parent_id_count': fields.Integer(readonly=True, description='The Hierarchies Parent id count'),
     'parent_id_sum': fields.Float(readonly=True, description='The Hierarchies Parent id sum'),
     'parent_id_avg': fields.Float(readonly=True, description='The Hierarchies Parent id avg'),
@@ -138,13 +140,12 @@ class HierarchiesResource(Resource):
         data.organisation_id = api.payload['organisation_id']
         data.name = api.payload['name']
         data.path = api.payload['path']
-        data.rank = api.payload['rank']
+        data.level = api.payload['level']
         data.parent_id = api.payload['parent_id']
         data.key_value = api.payload['key_value']
         # end update api_request feilds
         # data.title = api.payload['title']
         db.session.commit()
-        db.session.refresh(data)
         return data, 201
 
 
@@ -180,7 +181,7 @@ class HierarchiesListResource(Resource):
             organisation_id=api.payload['organisation_id'],
             name=api.payload['name'],
             path=api.payload['path'],
-            rank=api.payload['rank'],
+            level=api.payload['level'],
             parent_id=api.payload['parent_id'],
             key_value=api.payload['key_value']
             # end new api_request feilds
@@ -188,7 +189,6 @@ class HierarchiesListResource(Resource):
         )
         db.session.add(data)
         db.session.commit()
-        db.session.refresh(data)
         return data, 201
 
 
@@ -210,7 +210,6 @@ class HierarchiesBulkListResource(Resource):
         data = data.to_dict(orient="records")
         db.session.bulk_update_mappings(Hierarchies,data)
         db.session.commit()
-        db.session.refresh(data)
         return data, 201
 
     @ns.doc(responses={201: 'INSERTED', 422: 'Unprocessable Entity', 500: 'Internal Server Error'},
@@ -227,7 +226,6 @@ class HierarchiesBulkListResource(Resource):
         data = data.to_dict(orient="records")
         db.session.bulk_insert_mappings(Hierarchies,data)
         db.session.commit()
-        db.session.refresh(data)
         return data, 201
 
 
@@ -260,15 +258,15 @@ class HierarchiesAggregateResource(Resource):
 
                 func.count(Hierarchies.path).label('path_count'),
 
-                func.count(Hierarchies.rank).label('rank_count'),
+                func.count(Hierarchies.level).label('level_count'),
 
-                func.sum(Hierarchies.rank).label('rank_sum'),
+                func.sum(Hierarchies.level).label('level_sum'),
 
-                func.avg(Hierarchies.rank).label('rank_avg'),
+                func.avg(Hierarchies.level).label('level_avg'),
 
-                func.min(Hierarchies.rank).label('rank_min'),
+                func.min(Hierarchies.level).label('level_min'),
 
-                func.max(Hierarchies.rank).label('rank_max'),
+                func.max(Hierarchies.level).label('level_max'),
                 func.count(Hierarchies.parent_id).label('parent_id_count'),
 
                 func.sum(Hierarchies.parent_id).label('parent_id_sum'),
@@ -301,15 +299,15 @@ class HierarchiesAggregateResource(Resource):
 
                 "path_count":data.path_count,
 
-                "rank_count":data.rank_count,
+                "level_count":data.level_count,
 
-                "rank_sum":data.rank_sum,
+                "level_sum":data.level_sum,
 
-                "rank_avg":data.rank_avg,
+                "level_avg":data.level_avg,
 
-                "rank_min":data.rank_min,
+                "level_min":data.level_min,
 
-                "rank_max":data.rank_max,
+                "level_max":data.level_max,
 
                 "parent_id_count":data.parent_id_count,
 
@@ -326,3 +324,34 @@ class HierarchiesAggregateResource(Resource):
         }
 
         return data_obj, 200
+
+
+# SQLAlchemy Events before and after insert, update and delete changes on a table
+@event.listens_for(Hierarchies, "before_insert")
+def before_insert(mapper, connection, target):
+    pass
+
+
+@event.listens_for(Hierarchies, "after_insert")
+def after_insert(mapper, connection, target):
+    pass
+
+
+@event.listens_for(Hierarchies, "before_update")
+def before_update(mapper, connection, target):
+    pass
+
+
+@event.listens_for(Hierarchies, "after_update")
+def after_update(mapper, connection, target):
+    pass
+
+
+@event.listens_for(Hierarchies, "before_delete")
+def before_delete(mapper, connection, target):
+    pass
+
+
+@event.listens_for(Hierarchies, "after_delete")
+def after_delete(mapper, connection, target):
+    pass

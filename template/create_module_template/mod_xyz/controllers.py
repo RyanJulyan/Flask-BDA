@@ -11,6 +11,9 @@ from flask_mobility.decorators import mobile_template
 # Import the database object from the main app module
 from app import db, app
 
+# Import helper functions, comment in as needed (commented out for performance)
+# from app.mod_helper_functions import functions as fn
+
 # Import module forms
 from app.mod_xyz.forms import XyzForm
 

@@ -147,3 +147,7 @@ nav.bottom a.active, nav.bottom a:active, nav.bottom a:focus, nav.bottom a:hover
     transition: all 350ms ease;
     pointer-events: all !important;
 }
+
+.select2-selection--single .select2-selection__clear {
+    margin-top: -4.5px !important;
+}

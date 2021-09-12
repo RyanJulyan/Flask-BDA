@@ -9,7 +9,6 @@ from sqlalchemy_utils import aggregated
 
 # Define a base model for other database tables to inherit
 class Base(db.Model):
-
     __abstract__ = True
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
@@ -26,9 +25,12 @@ class Organisations(Base):
     __tablename__ = 'organisations'
     # start new field definitions
     organisation_name = db.Column(db.String(256), nullable=False, default=False, unique=True)
-    organisation_details = db.Column(db.Text, nullable=True, default=False, unique=False)
+    organisation_logo = db.Column(db.Text, nullable=True, default=False, unique=False)
+    organisation_description = db.Column(db.Text, nullable=True, default=False, unique=True)
+    organisation_industry = db.Column(db.String(256), nullable=True, default=False, unique=False)
     organisation_contact_name = db.Column(db.String(256), nullable=False, default=False, unique=False)
-    organisation_contact_email = db.Column(db.String(256), nullable=False, default=False, unique=False)
+    organisation_contact_email = db.Column(db.String(256), nullable=False, default=False, unique=True)
+    organisation_binding_database_uri = db.Column(db.Text, nullable=False, default=False, unique=True)
     organisation_address = db.Column(db.Text, nullable=True, default=False, unique=False)
     organisation_city = db.Column(db.String(256), nullable=True, default=False, unique=False)
     organisation_postal_code = db.Column(db.String(256), nullable=True, default=False, unique=False)
@@ -40,12 +42,15 @@ class Organisations(Base):
     # example_field = db.Column(db.String(256), nullable=False,default=False, unique=False)
 
     # New instance instantiation procedure
-    def __init__(self, organisation_name, organisation_contact_name, organisation_details, organisation_contact_email, organisation_address, organisation_city, organisation_postal_code, organisation_country, organisation_homepage, organisation_vat_number, organisation_reg_number):  # ,example_field):
+    def __init__(self, organisation_name, organisation_logo, organisation_description, organisation_industry, organisation_contact_name, organisation_contact_email, organisation_binding_database_uri, organisation_address, organisation_city, organisation_postal_code, organisation_country, organisation_homepage, organisation_vat_number, organisation_reg_number):  # ,example_field):
         # start new instance fields
         self.organisation_name = organisation_name
-        self.organisation_details = organisation_details
+        self.organisation_logo = organisation_logo
+        self.organisation_description = organisation_description
+        self.organisation_industry = organisation_industry
         self.organisation_contact_name = organisation_contact_name
         self.organisation_contact_email = organisation_contact_email
+        self.organisation_binding_database_uri = organisation_binding_database_uri
         self.organisation_address = organisation_address
         self.organisation_city = organisation_city
         self.organisation_postal_code = organisation_postal_code

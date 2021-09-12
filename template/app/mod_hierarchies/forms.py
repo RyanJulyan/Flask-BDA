@@ -16,7 +16,7 @@ class HierarchiesForm(Form):
     organisation_id = TextField('organisation_id', [Required(message='Must provide a Organisation id')]),
     name = TextField('name', [Required(message='Must provide a Name')]),
     path = TextField('path', [Required(message='Must provide a Path')]),
-    rank = TextField('rank'),
+    level = TextField('level'),
     parent_id = TextField('parent_id'),
     key_value = TextField('key_value')
     # end new form definitions

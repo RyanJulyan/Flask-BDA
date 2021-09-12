@@ -87,6 +87,9 @@
   <!-- Font Awesome CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+  <!-- Select2 -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
   <!-- Site CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/adminlte.min.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}"/>
@@ -1140,9 +1143,13 @@
     <script src="{{ url_for('static', filename='js/jquery.min.js') }}" crossorigin="anonymous"></script>
     <!-- Bootstrap Javascript -->
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}" crossorigin="anonymous"></script>
+    <!-- Select2 -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     
     <!-- Site Javascript -->
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/js/adminlte.min.js"></script>
+    <!-- Site Custom Javascript -->
+    <script src="{{ url_for('static', filename='js/script.js') }}" crossorigin="anonymous"></script>
     
 </body>
 </html>
