@@ -44,3 +44,56 @@ del_key_value_${key_value_input_count}.addEventListener('click',function(){
         key_value_input_count++;
     });
 }
+
+
+////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////// generic_key_value /////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+template = `
+        <div class="row border border-secondary rounded p-2 m-1" id="key_value_${key_value_id}">
+            <div class="col-sm-4">
+                <input type="text" class="form-control" name="key_${key_value_id}" id="key_${key_value_id}" placeholder="Key" autocomplete="key_${key_value_id}" >
+            </div>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" name="key_${key_value_id}" id="key_${key_value_id}" placeholder="Key" autocomplete="key_${key_value_id}" >
+            </div>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" name="value_${key_value_id}" id="value_${key_value_id}" placeholder="Value" autocomplete="value_${key_value_id}" >
+            </div>
+            <div class="col-sm-2">
+                <button type="button" class="form-control btn btn-block btn-danger" name="del_key_value_${key_value_id}" id="del_key_value_${key_value_id}"><i class="fa fa-trash"></i></button>
+            </div>
+        </div>`
+function get_generic_key_value(){
+	const generic_key_value = await ImmortalDB.get('generic_key_value', default=[]);
+	return generic_key_value;
+}
+
+function set_generic_key_value(key_value){
+	const generic_key_value = await ImmortalDB.set('generic_key_value', key_value);
+	return generic_key_value;
+}
+
+function remove_generic_key_value(id){
+	const generic_key_value = get_generic_key_value();
+	const key_val_index = generic_key_value.findIndex(function (key_val){
+        return key_val.id = id 
+    })
+	
+	if (key_val_index > -1){
+        generic_key_value.splice(key_val_index, 1)
+    }
+	
+	const generic_key_value = set_generic_key_value(generic_key_value);
+	
+	return generic_key_value;
+}
+
+function render_generic_key_value(element){
+	const generic_key_value = get_generic_key_value();
+	
+	for key_value in generic_key_value{
+		
+	}
+	
+}

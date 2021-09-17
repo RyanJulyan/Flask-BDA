@@ -218,6 +218,13 @@ def before_request():
 
     # Set database to tenant
     db.choose_tenant(g.organization)
+            
+
+    # Build the database:
+    if app.config['AUTO_CREATE_TABLES_FROM_MODELS']:
+        # This will create the database tables using SQLAlchemy
+        db.create_all()
+	
     
     g.organisation_id = 1
     organisation = Organisations.query.filter(Organisations.organisation_name == g.organization).first()
@@ -275,12 +282,6 @@ def before_request():
             #     x = requests.put(url,params=params, headers=headers, json=data)
 
             #     data = json.loads(x.text)
-            
-
-    # Build the database:
-    if app.config['AUTO_CREATE_TABLES_FROM_MODELS']:
-        # This will create the database tables using SQLAlchemy
-        db.create_all()
 
 
 # make organisation accessable in template
