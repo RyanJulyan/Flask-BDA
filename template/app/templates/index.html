@@ -76,7 +76,7 @@
   <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}" />
 
   <!-- Local Storage -->
-  <script src="{{ url_for('static', filename='js/immortal-db.min.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/immortal-db.min.js') }}"></script>
 
   <!-- Helper Functions -->
   <script src="{{ url_for('static', filename='js/helper_functions.js') }}" defer></script>
@@ -89,7 +89,10 @@
 
   <!-- Select2 -->
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
+    
+  <!-- daterangepicker -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+  
   <!-- Site CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/adminlte.min.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}"/>
@@ -1143,9 +1146,16 @@
     <script src="{{ url_for('static', filename='js/jquery.min.js') }}" crossorigin="anonymous"></script>
     <!-- Bootstrap Javascript -->
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}" crossorigin="anonymous"></script>
+    <!-- moment -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <!-- daterangepicker -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <!-- Select2 -->
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
     
+    <!-- uuidv4 Javascript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"></script>
+
     <!-- Site Javascript -->
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/js/adminlte.min.js"></script>
     <!-- Site Custom Javascript -->

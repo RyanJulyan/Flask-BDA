@@ -54,6 +54,7 @@
 				"dataType": "Text",
 				"nullable": false,
 				"unique": true,
+				"index": false,
 				"relationship": null,
 				"default": false
 			},

@@ -371,6 +371,9 @@ def seed(level):
 # from app.mod_xyz.controllers import mod_xyz as xyz_module
 from app.mod_users.controllers import mod_users as user_module  # noqa: E402
 # import new xyz_module
+# site_settings
+from app.mod_site_settings.controllers import mod_public_site_settings as site_settings_public_module  # noqa: E402
+from app.mod_site_settings.controllers import mod_admin_site_settings as site_settings_admin_module  # noqa: E402
 # cache_hierarchies
 from app.mod_cache_hierarchies.controllers import mod_public_cache_hierarchies as cache_hierarchies_public_module  # noqa: E402
 from app.mod_cache_hierarchies.controllers import mod_admin_cache_hierarchies as cache_hierarchies_admin_module  # noqa: E402
@@ -402,37 +405,26 @@ from app.mod_organisations.controllers import mod_admin_organisations as organis
 from app.mod_graphql.controllers import mod_graphql as graphql_module  # noqa: E402
 
 # Register blueprint(s)
+# organisations
+app.register_blueprint(organisations_public_module)
+app.register_blueprint(organisations_admin_module)
+# users
 app.register_blueprint(user_module)
-# register_blueprint new xyz_module
-# cache_hierarchies
-app.register_blueprint(cache_hierarchies_public_module)
-app.register_blueprint(cache_hierarchies_admin_module)
-# cache_hierarchies
-app.register_blueprint(cache_hierarchies_public_module)
-app.register_blueprint(cache_hierarchies_admin_module)
-# organisations
-app.register_blueprint(organisations_public_module)
-app.register_blueprint(organisations_admin_module)
-# hierarchies
-app.register_blueprint(hierarchies_public_module)
-app.register_blueprint(hierarchies_admin_module)
-# organisations
-app.register_blueprint(organisations_public_module)
-app.register_blueprint(organisations_admin_module)
-# hierarchies
-app.register_blueprint(hierarchies_public_module)
-app.register_blueprint(hierarchies_admin_module)
+# site_settings
+app.register_blueprint(site_settings_public_module)
+app.register_blueprint(site_settings_admin_module)
 # api_keys
 app.register_blueprint(api_keys_public_module)
 app.register_blueprint(api_keys_admin_module)
 # hierarchies
 app.register_blueprint(hierarchies_public_module)
 app.register_blueprint(hierarchies_admin_module)
-# organisations
-app.register_blueprint(organisations_public_module)
-app.register_blueprint(organisations_admin_module)
+# cache_hierarchies
+app.register_blueprint(cache_hierarchies_public_module)
+app.register_blueprint(cache_hierarchies_admin_module)
 # graphql
 app.register_blueprint(graphql_module)
+# register_blueprint new xyz_module
 
 
 # Prevent GraphQL The CSRF token is missing. error
@@ -463,26 +455,19 @@ api = Api(app, version='3.0',
 )
 
 # Register api(s)
+# organisations
+from app.mod_organisations.api_controllers import ns as Organisations_API  # noqa: E402
+# users
 from app.mod_users.api_controllers import ns as User_API  # noqa: E402
-# new xyz api resources
-# cache_hierarchies
-from app.mod_cache_hierarchies.api_controllers import ns as Cache_hierarchies_API  # noqa: E402
-# cache_hierarchies
-from app.mod_cache_hierarchies.api_controllers import ns as Cache_hierarchies_API  # noqa: E402
-# organisations
-from app.mod_organisations.api_controllers import ns as Organisations_API  # noqa: E402
-# hierarchies
-from app.mod_hierarchies.api_controllers import ns as Hierarchies_API  # noqa: E402
-# organisations
-from app.mod_organisations.api_controllers import ns as Organisations_API  # noqa: E402
-# hierarchies
-from app.mod_hierarchies.api_controllers import ns as Hierarchies_API  # noqa: E402
+# site_settings
+from app.mod_site_settings.api_controllers import ns as Site_settings_API  # noqa: E402
 # api_keys
 from app.mod_api_keys.api_controllers import ns as Api_keys_API  # noqa: E402
 # hierarchies
 from app.mod_hierarchies.api_controllers import ns as Hierarchies_API  # noqa: E402
-# organisations
-from app.mod_organisations.api_controllers import ns as Organisations_API  # noqa: E402
+# cache_hierarchies
+from app.mod_cache_hierarchies.api_controllers import ns as Cache_hierarchies_API  # noqa: E402
+# new xyz api resources
 
 
 # This MUST be the last route to allow for all API routes to be registered

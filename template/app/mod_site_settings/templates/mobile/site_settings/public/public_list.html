@@ -1,0 +1,96 @@
+
+{% extends "public/index.html" %}
+
+{% block page_content %}
+
+    <div class="content-wrapper">
+        
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Site_settings</h1>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="content">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col">
+                        <div class="card card-outline card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">Public Site_settings List</h3>
+
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    {% for value in data.items %}
+                                        <div class="col-sm-4">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <!-- start new publicHeaderRenderFields -->
+
+                                                    <h3 class="card-title text-capitalize">{{value.organisation_id}}</h3>
+                                                                <!-- end new publicHeaderRenderFields -->
+                                                    <!-- <h3 class="card-title">{{value.name}}</h3> -->
+                                                </div>
+                                                <div class="card-body">
+                                                    <!-- start new publicRenderFields -->
+
+                                                    <p>
+                                                        {{value.organisation_id}}
+                                                    </p>
+        
+                                                    <p>
+                                                        {{value.key}}
+                                                    </p>
+        
+                                                    <p>
+                                                        {{value.display_name}}
+                                                    </p>
+        
+                                                    <p>
+                                                        {{value.description}}
+                                                    </p>
+        
+                                                    <p>
+                                                        {{value.value}}
+                                                    </p>
+        
+                                                    <p>
+                                                        {{value.data_type}}
+                                                    </p>
+        
+                                                    <p>
+                                                        {{value.group}}
+                                                    </p>
+        
+                                                    <p>
+                                                        {{value.key_value}}
+                                                    </p>
+                                                            <!-- end new publicRenderFields -->
+                                                    <!-- {{value.name}} -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+{% endblock page_content %}

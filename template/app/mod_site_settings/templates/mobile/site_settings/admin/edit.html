@@ -1,0 +1,131 @@
+
+{% import 'macros/flash.html' as flash with context %}
+
+{% extends "admin/index.html" %}
+
+{% block content %}
+
+<div class="content-wrapper">
+        
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Site_settings</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="content">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col">
+                    <div class="card card-outline card-info">
+                        <div class="card-header">
+                            <h3 class="card-title">Edit Site_settings</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                                    <i class="fa fa-expand"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <form class="form-horizontal" method="POST" action="{{ url_for('site_settings_admin.update', id=data.id) }}?organization={{ organization }}" accept-charset="UTF-8" role="form">
+                            {{ form.csrf_token }}
+                            <div class="card-body">
+                                <!-- start new render_update fields -->
+
+                                <div class="form-group row">
+                                    <label for="organisation_id" class="col-sm-2 control-label">Organisation id</label>
+
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="organisation_id" id="organisation_id" placeholder="Organisation id" value="{{data.organisation_id}}"  autocomplete="organisation_id" >
+                                    </div>
+                                </div>
+        
+                                <div class="form-group row">
+                                    <label for="key" class="col-sm-2 control-label">Key</label>
+
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="key" id="key" placeholder="Key" value="{{data.key}}"  autocomplete="key" >
+                                    </div>
+                                </div>
+        
+                                <div class="form-group row">
+                                    <label for="display_name" class="col-sm-2 control-label">Display name</label>
+
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="display_name" id="display_name" placeholder="Display name" value="{{data.display_name}}"  autocomplete="display_name" >
+                                    </div>
+                                </div>
+        
+                                <div class="form-group row">
+                                    <label for="description" class="col-sm-2 control-label">Description</label>
+
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="description" id="description" placeholder="Description" value="{{data.description}}"  autocomplete="description" >
+                                    </div>
+                                </div>
+        
+                                <div class="form-group row">
+                                    <label for="value" class="col-sm-2 control-label">Value</label>
+
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="value" id="value" placeholder="Value" value="{{data.value}}"  autocomplete="value" >
+                                    </div>
+                                </div>
+        
+                                <div class="form-group row">
+                                    <label for="data_type" class="col-sm-2 control-label">Data type</label>
+
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="data_type" id="data_type" placeholder="Data type" value="{{data.data_type}}"  autocomplete="data_type" >
+                                    </div>
+                                </div>
+        
+                                <div class="form-group row">
+                                    <label for="group" class="col-sm-2 control-label">Group</label>
+
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="group" id="group" placeholder="Group" value="{{data.group}}"  autocomplete="group" >
+                                    </div>
+                                </div>
+        
+                                <div class="form-group row">
+                                    <label for="key_value" class="col-sm-2 control-label">Key value</label>
+
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="key_value" id="key_value" placeholder="Key value" value="{{data.key_value}}"  autocomplete="key_value" >
+                                    </div>
+                                </div>
+                                        <!-- this line should be removed and replaced with the renderUpdateFields variable -->
+                                <!-- end new render_update fields -->
+                            </div>
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <a href="{{ url_for('site_settings_admin.index') }}?organization={{ organization }}"class="btn btn-block btn-default">Cancel</a>
+                                    </div>
+                                    <div class="col-sm-8">
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button type="submit" class="btn btn-block btn-info">Update Site_settings</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock content %}
