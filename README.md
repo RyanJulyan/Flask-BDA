@@ -1907,13 +1907,13 @@ ________________________________________
 
 View license information for Serverless Framework and other legal agreements (https://app.serverless.com/legal/terms).
 
+It is the user's responsibility to ensure that adhere to the Acceptable Use Policy (https://app.serverless.com/legal/aup)
+
 ________________________________________
 
 ## Expo Framework
 
 View license information for the Expo Framework and other legal agreements (https://github.com/expo/expo/blob/master/LICENSE).
-
-It is the user's responsibility to ensure that adhere to the Acceptable Use Policy (https://app.serverless.com/legal/aup)
 
 ________________________________________
 

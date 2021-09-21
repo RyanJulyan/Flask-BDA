@@ -2,7 +2,7 @@
 # Import flask dependencies
 from flask import Blueprint, request, render_template, flash, g, session, redirect, url_for
 from flask_login import login_required
-from sqlalchemy import event
+from sqlalchemy import event, and_, or_
 from sqlalchemy.exc import IntegrityError
 
 # Import mobile template

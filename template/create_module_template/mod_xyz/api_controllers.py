@@ -4,7 +4,7 @@ from flask_restx import Resource, fields, reqparse
 # Import sql functions (SUM,MIN,MAX,AVG)
 from sqlalchemy.sql import func
 # Import sql events 
-from sqlalchemy import event
+from sqlalchemy import event, and_, or_
 
 # JWT for API
 from flask_jwt_extended import jwt_required
