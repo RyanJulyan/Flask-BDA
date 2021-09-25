@@ -134,6 +134,21 @@ def store():
         data.parent_id = ''
         db.session.commit()
 
+        cache_data = Cache_hierarchies(
+            # start new request feilds
+            organisation_id=organisation_id,
+            current_hierarchy_id=1,
+            hierarchy_id=hierarchy_id,
+            name=data.name,
+            path=path,
+            level=level,
+            parent_id=data.parent_id,
+            key_value=key_value
+            # end new request feilds
+            # title=request.form.get("title")
+        )
+        db.session.add(cache_data)
+
         data = Hierarchies(
             # start new request feilds
             organisation_id=organisation_id,
@@ -148,7 +163,11 @@ def store():
         )
         db.session.add(data)
         db.session.commit()
+
+        hierarchy_id = data.id
         data.path = data.path + str(hierarchy_id) + delimiter
+
+        db.session.commit()
     
     path = data.path
 
