@@ -289,7 +289,9 @@ def before_request():
 def get_organization_in_template():
   return {
             "organization": g.organization,
-            "organisation_id": g.organisation_id
+            "organisation_id": g.organisation_id,
+            "site_title": app.config['SITE_TITLE'],
+            "site_url": app.config['SITE_URL']
         }
 
 # @app.after_request
@@ -311,6 +313,15 @@ def index():
 def load_user(_user_id):
     return Users.query.get_or_404(_user_id)
 
+
+# Legal
+@app.route('/legal/terms_of_use')
+def terms_of_use():
+    return render_template('./legal/terms_of_use.html')
+
+@app.route('/legal/privacy_policy')
+def privacy_policy():
+    return render_template('./legal/privacy_policy.html')
 
 # Sample HTTP error handling
 @app.errorhandler(404)

@@ -1,6 +1,8 @@
 {% extends "index.html" %}
-{% block content %}
-<h1>404</h1>
-<p>There's nothing here!</p>
-<p><em>Return <a href="{{url_for('public.index')}}">Home</a>?</em></p>
-{% endblock %}
+{% block page_content %}
+
+    <h1>404</h1>
+    <p>There's nothing here!</p>
+    <p><em>Return <a href="{{url_for('index')}}">Home</a>?</em></p>
+
+{% endblock page_content %}

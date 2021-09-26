@@ -979,6 +979,29 @@
                     <p>Informational</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                    <i class="nav-icon fa fa-book"></i>
+                    <p>
+                        Legal
+                        <i class="fa fa-angle-left right"></i>
+                    </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{ url_for('terms_of_use') }}?organization={{ organization }}" class="nav-link">
+                        <i class="fa fa-circle nav-icon"></i>
+                        <p>Terms of Use</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('privacy_policy') }}?organization={{ organization }}" class="nav-link">
+                        <i class="fa fa-circle nav-icon"></i>
+                        <p>Privacy Policy</p>
+                        </a>
+                    </li>
+                    </ul>
+                </li>
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->

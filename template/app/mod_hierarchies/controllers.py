@@ -316,8 +316,76 @@ def update(id):
 @mod_admin_hierarchies.route('/destroy/<id>', methods=['POST', 'DELETE', 'GET'])
 # @login_required
 def destroy(id):
+
+    delimiter = '/'
+
     data = Hierarchies.query.get(id)
+    db.session.commit()
+    current_hierarchy_id = data.id
+    old_path = data.path
+    Cache_hierarchies.query.filter(Cache_hierarchies.current_hierarchy_id == current_hierarchy_id).delete()
+    Cache_hierarchies.query.filter(Cache_hierarchies.hierarchy_id == current_hierarchy_id).delete()
+    
+    parent_id = data.parent_id
+
     db.session.delete(data)
+    db.session.commit()
+
+    if parent_id is None or parent_id == '':
+        parent_id = 1
+
+    parent_hierarchy = Hierarchies.query.get(parent_id)
+    if parent_hierarchy is not None:
+        new_path = parent_hierarchy.path
+    else:
+        new_path = delimiter + '1' + delimiter
+    
+    path_search = old_path + "%"
+    update_hierarchies = Hierarchies.query.filter(Hierarchies.path.like(path_search))
+    db.session.commit()
+    
+    for hierarchy in update_hierarchies:
+        hierarchy.path = hierarchy.path.replace(old_path,new_path)
+        if hierarchy.parent_id == current_hierarchy_id:
+            hierarchy.parent_id = 1
+        db.session.commit()
+
+        organisation_id = hierarchy.organisation_id
+        hierarchy_id = hierarchy.id
+        name = hierarchy.name
+        path = hierarchy.path
+        level = hierarchy.level
+        parent_id = hierarchy.parent_id
+        key_value = hierarchy.key_value
+
+        current_hierarchy_ids = path.split('/')
+        current_hierarchy_ids = current_hierarchy_ids[:] = [int(x) for x in current_hierarchy_ids if x]
+
+        data = Cache_hierarchies.query.filter(Cache_hierarchies.hierarchy_id == hierarchy_id).all()
+        for delete_data in data:
+            db.session.delete(delete_data)
+            db.session.commit()
+
+        for current_hierarchy_id in current_hierarchy_ids:
+
+            data = Cache_hierarchies(
+                # start new request feilds
+                organisation_id=organisation_id,
+                current_hierarchy_id=current_hierarchy_id,
+                hierarchy_id=hierarchy_id,
+                name=name,
+                path=path,
+                level=level,
+                parent_id=parent_id,
+                key_value=key_value
+                # end new request feilds
+                # title=request.form.get("title")
+            )
+            db.session.add(data)
+    #         db.session.commit()
+        
+        hierarchy.cached = bool(1)
+
     db.session.commit()
 
     return redirect(url_for('hierarchies_admin.index')+"?organization="+g.organization)
