@@ -66,6 +66,7 @@ def confirm_token(token, expiration = 10800):  # expiration = 10800 = 3 hours
 @mod_users.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm(request.form)
+    
     if form.validate_on_submit():
         user = Users(
             name = form.name.data,
@@ -91,7 +92,7 @@ def register():
         }
 
 
-        send_email(users.email, subject, html, data)
+        send_email(user.email, subject, html, data)
         # send_email(user.email, subject, html_template, data)
 
         login_user(user)
@@ -99,7 +100,7 @@ def register():
         flash('A confirmation email has been sent via email.', 'success')
         return redirect(url_for("users.unconfirmed"))
 
-    return render_template('users.register', form=form)
+    return render_template('users/register.html', form=form)
 
 
 @mod_users.route('/confirm/<token>')
