@@ -22,7 +22,7 @@ class RegisterForm(Form):
         validators=[DataRequired(), Length(min=2, max=255)])
     email = TextField(
         'email',
-        validators=[DataRequired(), Email(message=None), Length(min=6, max=255)])
+        validators=[DataRequired(), Email(), Length(min=6, max=255)])
     password = PasswordField(
         'password',
         validators=[DataRequired(), Length(min=8, max=255)]

@@ -37,10 +37,10 @@
                     <div class="input mb-3">
                         <input type="email" name="email" id="email" value="{{form.email.data}}" class="form-control" placeholder="Email" required="true">
                     </div>
-                    <div class="p-1 text-danger" style="{% if not form.email.errors %} display:none; {% endif %}">
+                    <div class="p-1 text-danger" style="{% if not form.password.errors %} display:none; {% endif %}">
                         {% if form.password.errors %}
                             {% for error in form.password.errors %}
-                            {{ error }}
+                                {{ error }}
                             {% endfor %}
                         {% endif %}
                     </div>
@@ -51,6 +51,13 @@
                                 <span id="password_icon" class="fa fa-eye"></span>
                             </div>
                         </div>
+                    </div>
+                    <div class="p-1 text-danger" style="{% if not form.confirm.errors %} display:none; {% endif %}">
+                        {% if form.confirm.errors %}
+                            {% for error in form.confirm.errors %}
+                            {{ error }}
+                            {% endfor %}
+                        {% endif %}
                     </div>
                     <div class="input-group mb-3">
                         <input type="password" id="retype_password" name="confirm" class="form-control" placeholder="Retype password" required="true">
