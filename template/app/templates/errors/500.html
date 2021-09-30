@@ -1,8 +1,23 @@
 {% extends "index.html" %}
 {% block page_content %}
 
-    <h1>500</h1>
-    <p>Something's wrong! We are on the job.</p>
-    <p><em>Return <a href="{{url_for('index')}}">Home</a>?</em></p>
+<section class="content">
+    <div class="error-page">
+      <h2 class="headline text-danger"> 500</h2>
+
+      <div class="error-content">
+        <h3><i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i> Something's wrong!.</h3>
+
+        <p>
+          Internal server error, please try. <a href="{{url_for('landing')}}">return Home</a>,
+          <br/>
+          or log a support ticket with us.
+        </p>
+      </div>
+      <!-- /.error-content -->
+    </div>
+    <!-- /.error-page -->
+  </section>
+  <!-- /.content -->
 
 {% endblock page_content %}
