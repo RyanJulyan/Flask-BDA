@@ -11,7 +11,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Xyz</h1>
+                    <h1>Calendar_definitions</h1>
                 </div>
             </div>
         </div>
@@ -25,10 +25,10 @@
 
                     <div class="card card-outline card-default">
                         <div class="card-header">
-                            <h3 class="card-title">Xyz Table</h3>
+                            <h3 class="card-title">Calendar_definitions Table</h3>
 
                             <div class="card-tools">
-                                <a href="{{ url_for('xyz_admin.create') }}?organization={{ organization }}" class="btn btn-primary rounded-circle">
+                                <a href="{{ url_for('calendar_definitions_admin.create') }}?organization={{ organization }}" class="btn btn-primary rounded-circle">
                                     <i class="fa fa-plus"></i>
                                 </a>
                                 <button type="button" class="btn btn-tool" data-card-widget="maximize">
@@ -47,7 +47,40 @@
                                     id
                                 </th>
                                 <!-- start new table headers -->
-                                <!-- end new table headers -->
+
+                        <th>
+                            Name
+                        </th>
+        
+                        <th>
+                            Start
+                        </th>
+        
+                        <th>
+                            End
+                        </th>
+        
+                        <th>
+                            Range history periods
+                        </th>
+        
+                        <th>
+                            Range future periods
+                        </th>
+        
+                        <th>
+                            Freq period start day
+                        </th>
+        
+                        <th>
+                            Freq normalize
+                        </th>
+        
+                        <th>
+                            Freq closed
+                        </th>
+        
+                    <!-- end new table headers -->
                                 <th>
                                     <span class="sr-only">Edit</span>
                                 </th>
@@ -60,11 +93,43 @@
                                             {{ value.id }}
                                         </td>
                                         <!-- start new table values -->
-                                        <!-- end new table values -->
+
+                            <td>
+                                {{ value.name }}
+                            </td>
+        
+                            <td>
+                                {{ value.start }}
+                            </td>
+        
+                            <td>
+                                {{ value.end }}
+                            </td>
+        
+                            <td>
+                                {{ value.range_history_periods }}
+                            </td>
+        
+                            <td>
+                                {{ value.range_future_periods }}
+                            </td>
+        
+                            <td>
+                                {{ value.freq_period_start_day }}
+                            </td>
+        
+                            <td>
+                                {{ value.freq_normalize }}
+                            </td>
+        
+                            <td>
+                                {{ value.freq_closed }}
+                            </td>
+        
+                        <!-- end new table values -->
                                         <td class="whitespace-nowrap text-right text-sm font-medium">
-                                            <a href="{{ url_for('xyz_admin.edit', id=value.id) }}?organization={{ organization }}" class="btn btn-outline-info btn-xs">Edit</a> | 
-                                            <!-- <a href="{{ url_for('xyz_admin.destroy', id=value.id) }}?organization={{ organization }}" class="deleteModalBtn btn btn-outline-danger btn-xs">Delete</a> -->
-                                            <button type="button" data-link="{{ url_for('xyz_admin.destroy', id=value.id) }}?organization={{ organization }}" data-toggle="modal" data-target="#DeleteModal" class="deleteModalBtn btn btn-outline-danger btn-xs">Delete</button>
+                                            <a href="{{ url_for('calendar_definitions_admin.edit', id=value.id) }}?organization={{ organization }}" class="btn btn-outline-info btn-xs">Edit</a> | 
+                                            <a href="{{ url_for('calendar_definitions_admin.destroy', id=value.id) }}?organization={{ organization }}" class="btn btn-outline-danger btn-xs">Delete</a>
                                         </td>
                                     </tr>
                                 {% endfor %}
@@ -74,19 +139,19 @@
                         <!-- 
                         <div class="card-footer">
                             <nav class="relative z-0 inline-flex shadow-sm -space-x-px" aria-label="Pagination">
-                                <a href="{{ url_for('xyz_admin.index', page=data.prev_num) }}?organization={{ organization }}"
+                                <a href="{{ url_for('calendar_definitions_admin.index', page=data.prev_num) }}?organization={{ organization }}"
                                 class="{% if data.page == 1 %}disabled{% endif %}">
                                     <span class="">Previous</span>
                                 </a>
                                 {% for page_num in data.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
                                     {% if page_num %}
                                         {% if data.page == page_num %}
-                                        <a href="{{ url_for('xyz_admin.index', page=page_num) }}?organization={{ organization }}"
+                                        <a href="{{ url_for('calendar_definitions_admin.index', page=page_num) }}?organization={{ organization }}"
                                         class="btn">
                                             {{ page_num }}
                                         </a>
                                         {% else %}
-                                        <a href="{{ url_for('xyz_admin.index', page=page_num) }}?organization={{ organization }}"
+                                        <a href="{{ url_for('calendar_definitions_admin.index', page=page_num) }}?organization={{ organization }}"
                                         class="btn">
                                             {{ page_num }}
                                         </a>
@@ -94,7 +159,7 @@
                                     {% else %}
                                     {% endif %}
                                 {% endfor %}
-                                <a href="{{ url_for('xyz_admin.index', page=data.next_num) }}?organization={{ organization }}"
+                                <a href="{{ url_for('calendar_definitions_admin.index', page=data.next_num) }}?organization={{ organization }}"
                                 class="{% if data.page == data.pages %}disabled{% endif %}">
                                     <span class="">Next</span>
                                 </a>
@@ -106,27 +171,6 @@
                          -->
                     </div>
                     
-                </div>
-            </div>
-            
-            <!-- Modal -->
-            <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="DeleteXyz" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="DeleteXyz">Delete Record</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            Confirm Delete
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <a href="#" class="deleteRecordBtn btn btn-danger">Delete</a>
-                        </div>
-                    </div>
                 </div>
             </div>
             

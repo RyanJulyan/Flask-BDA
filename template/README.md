@@ -330,7 +330,7 @@ This will then create the required files and folders as described below in the [
 
 > Files and folders from the `create_module_template` folder are created for the `Projects` module, and then added to the `app` folder
 >
-> This will create a scaffolded admin panel views, an API, and public-facing views and logic to allow you to immediately interact with the module you created.
+> This will create a scaffolded admin CRUD views, a REST API (With Bulk Insert and Update), a GraphQL API, and public-facing views and logic to allow you to immediately interact with the module you created.
 > 
 > From the admin panel you will be able to perform the following actions: Create, Read, Update, and Delete ("CRUD") for your new module.
 > 

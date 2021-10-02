@@ -271,20 +271,20 @@ class XyzAggregateResource(Resource):
 # SQLAlchemy Events before and after insert, update and delete changes on a table
 @event.listens_for(Xyz, "before_insert")
 def before_insert(mapper, connection, target):
-    payload = '{'
-    for obj in request.form:
-        payload += '"' + obj + '": "' + request.form.get(obj) + '",'
-    payload = payload.rstrip(',')
-    payload += '}'
-    
-    data = Audit(
-        model_name="Xyz",
-        action="Before Insert",
-        context="Rest API",
-        payload=payload
-    )
-    db.session.add(data)
-    db.session.commit()
+    if api.payload:
+        payload = '{'
+        for obj in api.payload:
+            payload += '"' + obj + '": "' + api.payload.get(obj) + '",'
+        payload = payload.rstrip(',')
+        payload += '}'
+        
+        data = Audit(
+            model_name="Xyz",
+            action="Before Insert",
+            context="Rest API",
+            payload=payload
+        )
+        db.session.add(data)
     pass
 
 
@@ -295,20 +295,20 @@ def after_insert(mapper, connection, target):
 
 @event.listens_for(Xyz, "before_update")
 def before_update(mapper, connection, target):
-    payload = '{'
-    for obj in request.form:
-        payload += '"' + obj + '": "' + request.form.get(obj) + '",'
-    payload = payload.rstrip(',')
-    payload += '}'
-    
-    data = Audit(
-        model_name="Xyz",
-        action="Before Update",
-        context="Rest API",
-        payload=payload
-    )
-    db.session.add(data)
-    db.session.commit()
+    if api.payload:
+        payload = '{'
+        for obj in api.payload:
+            payload += '"' + obj + '": "' + api.payload.get(obj) + '",'
+        payload = payload.rstrip(',')
+        payload += '}'
+        
+        data = Audit(
+            model_name="Xyz",
+            action="Before Update",
+            context="Rest API",
+            payload=payload
+        )
+        db.session.add(data)
     pass
 
 
@@ -319,6 +319,20 @@ def after_update(mapper, connection, target):
 
 @event.listens_for(Xyz, "before_delete")
 def before_delete(mapper, connection, target):
+    if api.payload:
+        payload = '{'
+        for obj in api.payload:
+            payload += '"' + obj + '": "' + api.payload.get(obj) + '",'
+        payload = payload.rstrip(',')
+        payload += '}'
+        
+        data = Audit(
+            model_name="Xyz",
+            action="Before Delete",
+            context="Rest API",
+            payload=payload
+        )
+        db.session.add(data)
     pass
 
 

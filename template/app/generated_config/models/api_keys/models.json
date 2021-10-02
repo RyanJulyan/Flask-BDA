@@ -4,6 +4,7 @@
 		"fields": {
 			"api_key": {
 				"dataType": "String(256)",
+                "grapheneDataType": "String()",
 				"default": false,
 				"nullable": false,
 				"index": true,
@@ -12,6 +13,7 @@
 			},
 			"api_key_notes": {
 				"dataType": "Text",
+                "grapheneDataType": "String()",
 				"default": false,
 				"nullable": true,
 				"index": false,
@@ -20,6 +22,7 @@
 			},
 			"created_user_id": {
 				"dataType": "Integer",
+                "grapheneDataType": "Int()",
 				"default": false,
 				"nullable": false,
 				"index": true,
@@ -28,6 +31,7 @@
 			},
 			"valid_from": {
 				"dataType": "DateTime",
+                "grapheneDataType": "DateTime()",
 				"default": false,
 				"nullable": false,
 				"index": true,
@@ -36,6 +40,7 @@
 			},
 			"valid_to": {
 				"dataType": "DateTime",
+                "grapheneDataType": "DateTime()",
 				"default": false,
 				"nullable": false,
 				"index": true,

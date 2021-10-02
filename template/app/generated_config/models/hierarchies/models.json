@@ -4,6 +4,7 @@
 		"fields": {
 			"organisation_id": {
 				"dataType": "Integer",
+                "grapheneDataType": "Int()",
 				"nullable": false,
 				"unique": false,
 				"index": true,
@@ -12,6 +13,7 @@
 			},
 			"name": {
 				"dataType": "String(256)",
+                "grapheneDataType": "String()",
 				"nullable": false,
 				"unique": false,
 				"index": false,
@@ -20,6 +22,7 @@
 			},
 			"path": {
 				"dataType": "Text",
+                "grapheneDataType": "String()",
 				"nullable": false,
 				"unique": false,
 				"index": false,
@@ -28,6 +31,7 @@
 			},
 			"level": {
 				"dataType": "Integer",
+                "grapheneDataType": "Int()",
 				"nullable": true,
 				"unique": false,
 				"index": true,
@@ -36,6 +40,7 @@
 			},
 			"parent_id": {
 				"dataType": "Integer",
+                "grapheneDataType": "Int()",
 				"nullable": true,
 				"unique": false,
 				"index": true,
@@ -44,6 +49,7 @@
 			},
 			"key_value": {
 				"dataType": "Text",
+                "grapheneDataType": "String()",
 				"nullable": true,
 				"unique": false,
 				"index": false,
@@ -52,6 +58,7 @@
 			},
 			"cached": {
 				"dataType": "Boolean",
+                "grapheneDataType": "Boolean()",
 				"nullable": true,
 				"unique": false,
 				"index": true,

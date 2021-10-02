@@ -29,6 +29,11 @@ $(document).ready(function(){
         format: 'YYYY-MM-DD HH:mm'
       }
     });
+
+    $('.deleteModalBtn').on("click", function (e) {
+        var newUrl =  $(this).data('link');
+        $('.deleteRecordBtn').attr("href", newUrl);
+   });
 });
 
 window.addEventListener("DOMContentLoaded", (e) => {

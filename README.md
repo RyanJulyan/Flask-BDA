@@ -139,7 +139,9 @@ Deprecations will be kept in place for at least 3 minor versions, after version 
 
 > Out of the box, Admin and Mobile views are generated.
 
-> APIs are created automatically with a Swagger front-end and machine-friendly interface.
+> REST APIs are created automatically with a Swagger front-end and machine-friendly interface.
+
+> GraphQL API endpoints are created automatically with a GraphiQL front-end and machine-friendly interface.
 
 ## Step 4:
 ### Customize
@@ -578,7 +580,7 @@ This will then create the required files and folders as described below in the [
 
 > Files and folders from the `create_module_template` folder are created for the `Projects` module and then added to the `app` folder
 >
-> This will create scaffolded admin panel views, an API, and public-facing views and logic to allow you to interact with the module you created immediately.
+> This will create a scaffolded admin CRUD views, a REST API (With Bulk Insert and Update), a GraphQL API, and public-facing views and logic to allow you to immediately interact with the module you created.
 > 
 > From the admin panel, you will be able to perform the following actions: Create, Read, Update, and Delete ("CRUD") for your new module.
 > 
@@ -613,11 +615,12 @@ This will then create the required files and folders as described below in the [
                   ├── api_controllers.py
                   ├── controllers.py
                   ├── forms.py
-                  └── models.py
+                  ├── models.py
+                  └── types.py
 ```
 
 # Module Functionality
-> Creating a new module will provide you with 3 ways to interact with your new system `Public`, `Admin` and `API`.
+> Creating a new module will provide you with 3 ways to interact with your new system `Public`, `Admin`, `REST API` and `GraphQL API`.
 
 > To access these, they will require the app to be running on an [environment](#environments).
 
@@ -659,16 +662,19 @@ This will then create the required files and folders as described below in the [
     * Type: DELETE URL
     * Returns: [single element]
     * Function name: `destroy`
-## API
-> The `API` views are a list of REST API endpoints.
 
-> Flask BDA uses [SwaggerUI](https://swagger.io/tools/swagger-ui/) to present the API to a user/client.
+## REST API
+> The `API` views are a list of REST API endpoints, associated documentation and execution playground.
+
+> Flask BDA uses [SwaggerUI](https://swagger.io/tools/swagger-ui/) to present the REST API to a user/client.
+
+> SwaggerUI allows anyone — be it your development team or your end consumers — to visualize and interact with the API’s resources without having any of the implementation logic in place. Instead, it’s automatically generated from your OpenAPI (formerly known as Swagger) Specification, with visual documentation making it easy for back-end implementation and client-side consumption.
 
 To access the SwaggerUI:
-* Go to your browser and insert the URL `<base_URL>/api/docs` to access the SwaggerUI API, e.g.: [`http://localhost:5000/api/docs`](http://localhost:5000/api/docs).
+* Go to your browser and insert the URL `<base_URL>/api/docs` to access the SwaggerUI REST API, e.g.: [`http://localhost:5000/api/docs`](http://localhost:5000/api/docs).
 
-To access the api without SwaggerUI:
-* Go to your browser and insert the URL `<base_URL>/`
+To access the REST API without SwaggerUI:
+* Go to your browser or go to [postman](https://www.postman.com/) and insert the URL `<base_URL>/`
     *  `../api/xyz`
         * Method: GET
         * Returns: [list elements]
@@ -701,6 +707,28 @@ To access the api without SwaggerUI:
         * Method: GET
         * Returns: [single return, of multiple elements aggregated]
         * Function name: `XyzAggregateResource` > `get`
+
+## GraphQL API
+> The `graphql` views are a GraphiQL views, API endpoints, associated documentation and execution playground.
+
+> Flask BDA uses [graphene-python](https://graphene-python.org/) and [GraphiQL](https://graphene-python.org/) to present the GraphQL API to a user/client, providing a simple but extendable API for making developers' lives easier.
+
+> GraphQL is a data query language provides an alternative to REST and ad-hoc webservice architectures. 
+
+To access the GraphiQL:
+* Go to your browser and insert the URL `<base_URL>/graphql` to access the GraphiQL, GraphQL API, e.g.: [`http://localhost:5000/graphql`](http://localhost:5000/graphql).
+
+To access the GraphQL API without GraphiQL:
+* Go to your browser or go to [postman](https://www.postman.com/) and insert the URL `<base_URL>/`
+    *  `../graphql`
+        * Method: GET
+        * Returns: [list elements]
+        * Function name: `mod_graphql` > `query` > `Query` > `all_xyz`
+    *  `../graphql`
+        * Method: POST
+        * Returns: [list elements]
+        * Function name: `mod_graphql` > `mutation` > `Mutation` > `createXyz`
+
 
 # Environments
 There are currently 7 out of the box environments supported (with plans for more to be supported soon) with instructions on how to configure each for  `Windows / Linux / Mac`, and you could run them at the same time if you want.

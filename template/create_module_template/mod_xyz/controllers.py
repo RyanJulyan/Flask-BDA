@@ -86,23 +86,30 @@ def create(template):
 
 
 @mod_admin_xyz.route('/store', methods=['POST'])
+@mobile_template('{mobile/}xyz/admin/create.html')
 @login_required
-def store():
-    data = Xyz(
-        # start new request feilds
-        # this line should be removed and replaced with the newFormRequestDefinitions variable
-        # end new request feilds
-        # title=request.form.get("title")
-    )
-    db.session.add(data)
-    try:
-        db.session.commit()
-    except IntegrityError as e:
-        db.session.rollback()
-        errorInfo = e.orig.args
-        flash(errorInfo[0], 'error')
+def store(template):
 
-    return redirect(url_for('xyz_admin.index')+"?organization="+g.organization)
+    form = XyzForm(request.form)
+    
+    if form.validate_on_submit():
+        data = Xyz(
+            # start new request feilds
+            # this line should be removed and replaced with the newFormRequestDefinitions variable
+            # end new request feilds
+            # title=request.form.get("title")
+        )
+        db.session.add(data)
+        try:
+            db.session.commit()
+        except IntegrityError as e:
+            db.session.rollback()
+            errorInfo = e.orig.args
+            flash(errorInfo[0], 'error')
+
+        return redirect(url_for('xyz_admin.index')+"?organization="+g.organization)
+    else:
+        return render_template(template, form=form)
 
 
 @mod_admin_xyz.route('/show/<id>', methods=['GET'])
@@ -128,21 +135,28 @@ def edit(id,template):
 
 
 @mod_admin_xyz.route('/update/<id>', methods=['PUT', 'PATCH', 'POST'])
+@mobile_template('{mobile/}xyz/admin/edit.html')
 @login_required
-def update(id):
-    data = Xyz.query.get(id)
-    # start update request feilds
-    # this line should be removed and replaced with the updateFormRequestDefinitions variable
-    # end update request feilds
-    # data.title = request.form.get("title")
-    try:
-        db.session.commit()
-    except IntegrityError as e:
-        db.session.rollback()
-        errorInfo = e.orig.args
-        flash(errorInfo[0], 'error')
+def update(id,template):
 
-    return redirect(url_for('xyz_admin.index')+"?organization="+g.organization)
+    form = XyzForm(request.form)
+    
+    if form.validate_on_submit():
+        data = Xyz.query.get(id)
+        # start update request feilds
+        # this line should be removed and replaced with the updateFormRequestDefinitions variable
+        # end update request feilds
+        # data.title = request.form.get("title")
+        try:
+            db.session.commit()
+        except IntegrityError as e:
+            db.session.rollback()
+            errorInfo = e.orig.args
+            flash(errorInfo[0], 'error')
+
+        return redirect(url_for('xyz_admin.index')+"?organization="+g.organization)
+    else:
+        return render_template(template, form=form)
 
 
 @mod_admin_xyz.route('/destroy/<id>', methods=['POST', 'DELETE', 'GET'])
@@ -158,20 +172,20 @@ def destroy(id):
 # SQLAlchemy Events before and after insert, update and delete changes on a table
 @event.listens_for(Xyz, "before_insert")
 def before_insert(mapper, connection, target):
-    payload = '{'
-    for obj in request.form:
-        payload += '"' + obj + '": "' + request.form.get(obj) + '",'
-    payload = payload.rstrip(',')
-    payload += '}'
-    
-    data = Audit(
-        model_name="Xyz",
-        action="Before Insert",
-        context="Web Form",
-        payload=payload
-    )
-    db.session.add(data)
-    db.session.commit()
+    if request.form:
+        payload = '{'
+        for obj in request.form:
+            payload += '"' + obj + '": "' + request.form.get(obj) + '",'
+        payload = payload.rstrip(',')
+        payload += '}'
+        
+        data = Audit(
+            model_name="Xyz",
+            action="Before Insert",
+            context="Web Form",
+            payload=payload
+        )
+        db.session.add(data)
     pass
 
 
@@ -182,20 +196,20 @@ def after_insert(mapper, connection, target):
 
 @event.listens_for(Xyz, "before_update")
 def before_update(mapper, connection, target):
-    payload = '{'
-    for obj in request.form:
-        payload += '"' + obj + '": "' + request.form.get(obj) + '",'
-    payload = payload.rstrip(',')
-    payload += '}'
-    
-    data = Audit(
-        model_name="Xyz",
-        action="Before Update",
-        context="Web Form",
-        payload=payload
-    )
-    db.session.add(data)
-    db.session.commit()
+    if request.form:
+        payload = '{'
+        for obj in request.form:
+            payload += '"' + obj + '": "' + request.form.get(obj) + '",'
+        payload = payload.rstrip(',')
+        payload += '}'
+        
+        data = Audit(
+            model_name="Xyz",
+            action="Before Update",
+            context="Web Form",
+            payload=payload
+        )
+        db.session.add(data)
     pass
 
 
@@ -206,6 +220,20 @@ def after_update(mapper, connection, target):
 
 @event.listens_for(Xyz, "before_delete")
 def before_delete(mapper, connection, target):
+    if request.form:
+        payload = '{'
+        for obj in request.form:
+            payload += '"' + obj + '": "' + request.form.get(obj) + '",'
+        payload = payload.rstrip(',')
+        payload += '}'
+        
+        data = Audit(
+            model_name="Xyz",
+            action="Before Delete",
+            context="Web Form",
+            payload=payload
+        )
+        db.session.add(data)
     pass
 
 

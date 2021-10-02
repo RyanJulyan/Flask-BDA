@@ -151,3 +151,7 @@ nav.bottom a.active, nav.bottom a:active, nav.bottom a:focus, nav.bottom a:hover
 .select2-selection--single .select2-selection__clear {
     margin-top: -4.5px !important;
 }
+
+.login-page, .register-page {
+    background-color: transparent !important;
+}

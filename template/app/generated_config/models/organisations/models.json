@@ -4,6 +4,7 @@
 		"fields": {
 			"organisation_name": {
 				"dataType": "String(256)",
+                "grapheneDataType": "String()",
 				"nullable": false,
 				"unique": true,
 				"index": false,
@@ -12,6 +13,7 @@
 			},
             "organisation_logo": {
                 "dataType": "Text",
+                "grapheneDataType": "String()",
                 "default": false,
                 "nullable": true,
 				"index": false,
@@ -20,6 +22,7 @@
             },
 			"organisation_description": {
 				"dataType": "Text",
+                "grapheneDataType": "String()",
 				"nullable": true,
 				"unique": true,
 				"index": false,
@@ -28,6 +31,7 @@
 			},
 			"organisation_industry": {
 				"dataType": "String(256)",
+                "grapheneDataType": "String()",
 				"nullable": true,
 				"unique": false,
 				"index": false,
@@ -36,6 +40,7 @@
 			},
 			"organisation_contact_name": {
 				"dataType": "String(256)",
+                "grapheneDataType": "String()",
 				"nullable": false,
 				"unique": false,
 				"index": false,
@@ -44,6 +49,7 @@
 			},
 			"organisation_contact_email": {
 				"dataType": "String(256)",
+                "grapheneDataType": "String()",
 				"nullable": false,
 				"unique": true,
 				"index": true,
@@ -52,6 +58,7 @@
 			},
 			"organisation_binding_database_uri": {
 				"dataType": "Text",
+                "grapheneDataType": "String()",
 				"nullable": false,
 				"unique": true,
 				"index": false,
@@ -60,6 +67,7 @@
 			},
 			"organisation_address": {
 				"dataType": "Text",
+                "grapheneDataType": "String()",
 				"nullable": true,
 				"unique": false,
 				"index": false,
@@ -68,6 +76,7 @@
 			},
 			"organisation_city": {
 				"dataType": "String(256)",
+                "grapheneDataType": "String()",
 				"nullable": true,
 				"unique": false,
 				"index": false,
@@ -76,6 +85,7 @@
 			},
 			"organisation_postal_code": {
 				"dataType": "String(256)",
+                "grapheneDataType": "String()",
 				"nullable": true,
 				"unique": false,
 				"index": false,
@@ -84,6 +94,7 @@
 			},
 			"organisation_country": {
 				"dataType": "String(256)",
+                "grapheneDataType": "String()",
 				"nullable": true,
 				"unique": false,
 				"index": false,
@@ -92,6 +103,7 @@
 			},
 			"organisation_homepage": {
 				"dataType": "Text",
+                "grapheneDataType": "String()",
 				"nullable": true,
 				"unique": false,
 				"index": false,
@@ -100,6 +112,7 @@
 			},
 			"organisation_vat_number": {
 				"dataType": "Text",
+                "grapheneDataType": "String()",
 				"nullable": true,
 				"unique": false,
 				"index": false,
@@ -108,6 +121,7 @@
 			},
 			"organisation_reg_number": {
 				"dataType": "Text",
+                "grapheneDataType": "String()",
 				"nullable": true,
 				"unique": false,
 				"index": true,

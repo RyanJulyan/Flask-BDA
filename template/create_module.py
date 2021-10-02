@@ -40,6 +40,7 @@ def create_module(module):
     # process user data
     module = model.lower()
     columns = ''
+    grapheneColumns = ''
     feildNames = []
     formDefinitionsArr = []
     newFormRequestDefinitionsArr = []
@@ -98,6 +99,11 @@ def create_module(module):
                                                                                         value['default'],
                                                                                         value['unique'],
                                                                                         value['index'])
+        
+        grapheneColumns += "    {} = graphene.{}\n".format(key,
+                                            value['grapheneDataType']
+                                            )
+            
         
         newApiAggregateDefinitions += """
                 func.count({}.{}).label('{}_count'),\n""".format(model,
@@ -158,18 +164,25 @@ def create_module(module):
                 argumentParserArr.append("\n    '{}': fields.Float(required=True, description='The {} {}')".format(key, model, friendly_name))
             else:
                 argumentParserArr.append("\n    '{}': fields.String(required=True, description='The {} {}')".format(key, model, friendly_name))
-        newFormRequestDefinitions += "        {} = request.form.get('{}')\n".format(key, key)
+        newFormRequestDefinitions += "            {} = request.form.get('{}')\n".format(key, key)
         updateApiRequestDefinitions += "        data.{} = api.payload['{}']\n".format(key, key)
-        updateFormRequestDefinitions += "    data.{} = request.form.get('{}')\n".format(key, key)
+        updateFormRequestDefinitions += "        data.{} = request.form.get('{}')\n".format(key, key)
         renderFields += """
+                                <div class="p-1 text-danger" style="{}% if not form.{}.errors %{} display:none; {}% endif %{}">
+                                    {}% if form.{}.errors %{}
+                                        {}% for error in form.{}.errors %{}
+                                            {} error {}
+                                        {}% endfor %{}
+                                    {}% endif %{}
+                                </div>
                                 <div class="form-group row">
                                     <label for="{}" class="col-sm-2 control-label">{}</label>
 
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" name="{}" id="{}" placeholder="{}" autocomplete="{}" >
+                                        <input type="text" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" autocomplete="{}" >
                                     </div>
                                 </div>
-        """.format(key, friendly_name, key, key, friendly_name, key)
+        """.format("{", key, "}", "{", "}", "{", key, "}", "{", key, "}", "{{", "}}", "{", "}", "{", "}", key, friendly_name.replace('_'," "), "{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), key)
 
         if count == 0:
             publicHeaderRenderFields += """
@@ -183,14 +196,21 @@ def create_module(module):
                                                     </p>
         """.format("{{", key, "}}")
         renderUpdateFields += """
+                                <div class="p-1 text-danger" style="{}% if not form.{}.errors %{} display:none; {}% endif %{}">
+                                    {}% if form.{}.errors %{}
+                                        {}% for error in form.{}.errors %{}
+                                            {} error {}
+                                        {}% endfor %{}
+                                    {}% endif %{}
+                                </div>
                                 <div class="form-group row">
                                     <label for="{}" class="col-sm-2 control-label">{}</label>
 
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" name="{}" id="{}" placeholder="{}" value="{}data.{}{}"  autocomplete="{}" >
+                                        <input type="text" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" value="{}data.{}{}"  autocomplete="{}" >
                                     </div>
                                 </div>
-        """.format(key, friendly_name, key, key, friendly_name, "{{", key, "}}", key)
+        """.format("{", key, "}", "{", "}", "{", key, "}", "{", key, "}", "{{", "}}", "{", "}", "{", "}", key, friendly_name.replace('_'," "), "{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), "{{", key, "}}", key)
         tableHeaders += """
                         <th>
                             {}
@@ -203,7 +223,7 @@ def create_module(module):
         """.format("{{", key, "}}")
         feildNames.append(key)
         newFormRequestDefinitionsArr.append("\n        {}=request.form.get('{}')".format(key, key))
-        updateFormRequestDefinitionsArr.append("\n    data.{} = request.form.get('{}')".format(key, key))
+        updateFormRequestDefinitionsArr.append("\n        data.{} = request.form.get('{}')".format(key, key))
         newApiRequestDefinitionsArr.append("\n            {}=api.payload['{}']".format(key, key))
 
     instanceParams = str((', '.join(item for item in feildNames)))
@@ -221,6 +241,7 @@ def create_module(module):
     argumentParser = argumentParser.lstrip('\n')
     argumentAggParser = argumentAggParser.lstrip('\n')
     columns = columns.rstrip('\n')
+    grapheneColumns = grapheneColumns.rstrip('\n')
     newApiAggregateDefinitions = newApiAggregateDefinitions.rstrip(',\n')
     newApiAggregateObjectDefinitions = newApiAggregateObjectDefinitions.rstrip(',\n')
     instanceNames = instanceNames.rstrip('\n')
@@ -238,7 +259,7 @@ def create_module(module):
     # mod_ Init #
     #############
     #############
-
+    
     #########################################################
     # Copy App __init__.py for manage source -> destination #
     #########################################################
@@ -274,6 +295,104 @@ def create_module(module):
     #################
 
     os.remove('app/__init__.py~')
+
+    ##############################################################
+    # Copy App GraphQL query.py for manage source -> destination #
+    ##############################################################
+
+    shutil.copy2('app/mod_graphql/query.py', 'app/mod_graphql/query.py~')
+
+    ################################
+    # manage source -> destination #
+    ################################
+
+    source = open('app/mod_graphql/query.py~', "r")
+    destination = open('app/mod_graphql/query.py', "w")
+
+    for line in source:
+        destination.write(line)
+        if "# import new xyz_model and xyz_type" in line:
+            destination.write("# " + module + "\n")
+            destination.write("from app.mod_" + module + ".models import " + module.capitalize() + " as " + module.capitalize() + "Model  # noqa: E402\n")
+            destination.write("from app.mod_" + module + ".types import " + module.capitalize() + " as " + module.capitalize() + "Types  # noqa: E402\n")
+        if "# new xyz_model connection" in line:
+            destination.write("    # " + module + "\n")
+            destination.write("    all_" + module + " = SQLAlchemyConnectionField(" + module.capitalize() + "Types.connection)\n")
+
+    source.close()
+    destination.close()
+
+    #################
+    # remove source #
+    #################
+
+    os.remove('app/mod_graphql/query.py~')
+
+
+    ##############################################################
+    # Copy App GraphQL mutation.py for manage source -> destination #
+    ##############################################################
+
+    shutil.copy2('app/mod_graphql/mutation.py', 'app/mod_graphql/mutation.py~')
+
+    ################################
+    # manage source -> destination #
+    ################################
+
+    source = open('app/mod_graphql/mutation.py~', "r")
+    destination = open('app/mod_graphql/mutation.py', "w")
+
+    for line in source:
+        destination.write(line)
+        if "# import new xyz_model and xyz_type, input" in line:
+            destination.write("# " + module + "\n")
+            destination.write("from app.mod_" + module + ".models import " + module.capitalize() + " as " + module.capitalize() + "Model  # noqa: E402\n")
+            destination.write("from app.mod_" + module + ".types import " + module.capitalize() + " as " + module.capitalize() + "Types, Create" + module.capitalize() + "Input  # noqa: E402\n")
+        if "# new create xyz class" in line:
+            destination.write("\n# " + module)
+            destination.write("""
+class Create_{}(graphene.Mutation):
+    {} = graphene.Field(lambda: {}Types)
+    ok = graphene.Boolean()
+
+    class Arguments:
+        input = Create{}Input(required=True)
+
+    @staticmethod
+    def mutate(self, info, input):
+        data = graphql_input_into_dictionary(input)
+        {} = {}Model(**data)
+        db.session.add({})
+        db.session.commit()
+        ok = True
+        return Create_{}({}={}, ok=ok)
+
+            """.format(
+                module.capitalize(),
+                module,
+                module.capitalize(),
+                module.capitalize(),
+                module,
+                module.capitalize(),
+                module,
+                module.capitalize(),
+                module,
+                module
+            ))
+    
+        if "# register new createXyz" in line:
+            destination.write("    # " + module + "\n")
+            destination.write("    create" + module.capitalize() + " = Create_" + module.capitalize() + ".Field()\n")
+
+    source.close()
+    destination.close()
+
+    #################
+    # remove source #
+    #################
+
+    os.remove('app/mod_graphql/mutation.py~')
+
 
     #################################
     #################################
@@ -349,8 +468,10 @@ def create_module(module):
                     replaceTextBetweenTags(s, '# start update request feilds', '# end update request feilds', '    ','')
                 if('forms.py' in s):
                     replaceTextBetweenTags(s, '# start new form definitions', '# end new form definitions', '    ', '')
+                if('types.py' in s):
+                    replaceTextBetweenTags(s, '# start new graphene attribute fields', '# end new field definitions', '    ', '')
                 if('models.py' in s):
-                    replaceTextBetweenTags(s, '# start new field definitions', '# end new field definitions', '    ', '')
+                    replaceTextBetweenTags(s, '# start new field definitions', '# end new graphene attribute fields', '    ', '')
                     replaceTextBetweenTags(s, '# start new instance fields', '# end new instance fields', '        ', '')
                 if('index.html' in s):
                     replaceTextBetweenTags(s, '<!-- start new table headers -->', '<!-- end new table headers -->', '                    ', '')
@@ -398,6 +519,8 @@ def create_module(module):
                         destination.write(formDefinitions)
                     if "# start new field definitions" in line:
                         destination.write(columns)
+                    if "# start new graphene attribute fields" in line:
+                        destination.write(grapheneColumns)
                     if "# start new instance fields" in line:
                         destination.write(instanceNames)
                     if "<!-- start new render fields -->" in line:

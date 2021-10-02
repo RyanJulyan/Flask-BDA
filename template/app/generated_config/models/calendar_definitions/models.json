@@ -1,0 +1,79 @@
+{
+    "calendar_definitions":{ 
+        "model": "Calendar_definitions",
+        "fields": {
+            "name": {
+                        "dataType": "String(256)",
+                        "grapheneDataType": "String()",
+                        "default": "Standard Calendar",
+                        "index": true,
+                        "nullable": false,
+                        "relationship": null,
+                        "unique": true
+            },
+            "start": {
+                        "dataType": "String(10)",
+                        "grapheneDataType": "String()",
+                        "default": "None",
+                        "index": false,
+                        "nullable": false,
+                        "relationship": null,
+                        "unique": false
+            },
+            "end": {
+                        "dataType": "String(10)",
+                        "grapheneDataType": "String()",
+                        "default": "None",
+                        "index": false,
+                        "nullable": false,
+                        "relationship": null,
+                        "unique": false
+            },
+            "range_history_periods": {
+                        "dataType": "Integer",
+                        "grapheneDataType": "Int()",
+                        "default": "104",
+                        "index": false,
+                        "nullable": false,
+                        "relationship": null,
+                        "unique": false
+            },
+            "range_future_periods": {
+                        "dataType": "Integer",
+                        "grapheneDataType": "Int()",
+                        "default": "52",
+                        "index": false,
+                        "nullable": false,
+                        "relationship": null,
+                        "unique": false
+            },
+            "freq_period_start_day": {
+                        "dataType": "String(4)",
+                        "grapheneDataType": "String()",
+                        "default": "-SUN",
+                        "index": false,
+                        "nullable": false,
+                        "relationship": null,
+                        "unique": false
+            },
+            "freq_normalize": {
+                        "dataType": "Boolean",
+                        "grapheneDataType": "Boolean()",
+                        "default": "True",
+                        "index": false,
+                        "nullable": false,
+                        "relationship": null,
+                        "unique": false
+            },
+            "freq_closed": {
+                        "dataType": "String(4)",
+                        "grapheneDataType": "String()",
+                        "default": "left",
+                        "index": false,
+                        "nullable": false,
+                        "relationship": null,
+                        "unique": false
+            }
+}
+    }
+}

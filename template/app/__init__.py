@@ -50,6 +50,9 @@ import requests
 # Import json for consuming payload and for payload data type transformations
 import json
 
+# Import GraphQLAuth
+from flask_graphql_auth import GraphQLAuth
+
 # Import APScheduler
 from flask_apscheduler import APScheduler
 from apscheduler.events import (
@@ -64,10 +67,6 @@ from apscheduler.events import (
 # Define the WSGI application object
 app = Flask(__name__, template_folder='templates')
 Mobility(app)
-
-# JWT
-jwt = JWTManager(app)
-jwt.init_app(app)
 
 # Login_manager
 login_manager = LoginManager()
@@ -124,6 +123,13 @@ bcrypt = Bcrypt(app)
 
 # Mail
 mail = Mail(app)
+
+# GraphQLAuth
+graph_ql_auth = GraphQLAuth(app)
+
+# JWT
+jwt = JWTManager(app)
+jwt.init_app(app)
 
 # JWT blacklist 
 blacklist = set()
@@ -396,10 +402,14 @@ from app.mod_hierarchies.controllers import mod_admin_hierarchies as hierarchies
 # cache_hierarchies
 from app.mod_cache_hierarchies.controllers import mod_public_cache_hierarchies as cache_hierarchies_public_module  # noqa: E402
 from app.mod_cache_hierarchies.controllers import mod_admin_cache_hierarchies as cache_hierarchies_admin_module  # noqa: E402
+# calendar_definitions
+from app.mod_calendar_definitions.controllers import mod_public_calendar_definitions as calendar_definitions_public_module  # noqa: E402
+from app.mod_calendar_definitions.controllers import mod_admin_calendar_definitions as calendar_definitions_admin_module  # noqa: E402
 # graphql
 from app.mod_graphql.controllers import mod_graphql as graphql_module  # noqa: E402
 # from app.mod_xyz.controllers import mod_xyz as xyz_module
 # import new xyz_module
+
 
 # Register blueprint(s)
 # site_settings
@@ -419,6 +429,9 @@ app.register_blueprint(hierarchies_admin_module)
 # cache_hierarchies
 app.register_blueprint(cache_hierarchies_public_module)
 app.register_blueprint(cache_hierarchies_admin_module)
+# calendar_definitions
+app.register_blueprint(calendar_definitions_public_module)
+app.register_blueprint(calendar_definitions_admin_module)
 # graphql
 app.register_blueprint(graphql_module)
 # register_blueprint new xyz_module
@@ -464,6 +477,8 @@ from app.mod_api_keys.api_controllers import ns as Api_keys_API  # noqa: E402
 from app.mod_hierarchies.api_controllers import ns as Hierarchies_API  # noqa: E402
 # cache_hierarchies
 from app.mod_cache_hierarchies.api_controllers import ns as Cache_hierarchies_API  # noqa: E402
+# calendar_definitions
+from app.mod_calendar_definitions.api_controllers import ns as Calendar_definitions_API  # noqa: E402
 # new xyz api resources
 
 
