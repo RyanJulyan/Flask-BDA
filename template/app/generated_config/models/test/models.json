@@ -1,0 +1,40 @@
+{
+    "test":{ 
+        "model": "Test",
+        "fields": {
+            "budget": {
+                        "dataType": "Numeric(38, 19)",
+                        "dataTypeLower": "float",
+                        "default": false,
+                        "grapheneDataType": "Decimal(required=True)",
+                        "index": true,
+                        "nullable": false,
+                        "relationship": null,
+                        "relationship_display_value": null,
+                        "unique": false
+            },
+            "name": {
+                        "dataType": "String(50)",
+                        "dataTypeLower": "string",
+                        "default": false,
+                        "grapheneDataType": "String(required=True)",
+                        "index": true,
+                        "nullable": false,
+                        "relationship": null,
+                        "relationship_display_value": null,
+                        "unique": true
+            },
+            "test_id": {
+                        "dataType": "Integer",
+                        "dataTypeLower": "relationship",
+                        "default": false,
+                        "grapheneDataType": "Int(required=True)",
+                        "index": true,
+                        "nullable": false,
+                        "relationship": "users",
+                        "relationship_display_value": "name",
+                        "unique": false
+            }
+}
+    }
+}

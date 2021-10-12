@@ -13,10 +13,12 @@ from flask_jwt_extended import jwt_required
 from app import db, app, api
 
 # Import helper functions, comment in as needed (commented out for performance)
-# from app.mod_helper_functions import functions as fn
+from app.mod_helper_functions import functions as fn
 
-# Import module models (i.e. User)
+# Import xyz module models 
 from app.mod_xyz.models import Xyz
+# Import module models (e.g. User)
+
 
 # Import json for consuming payload and for payload data type transformations
 import json
@@ -53,7 +55,8 @@ from app.mod_tenancy.multi_bind import MultiBindSQLAlchemy
 
 # Swagger namespace
 ns = api.namespace('api/xyz', description='Database model "Xyz", resource based, Api. \
-    This API should have 2 endpoints from the name of the model prefixed by "api".')
+    This API should have 9 endpoints from the name of the model prefixed by "api".\
+    There are standard 5 CRUD APIs, a 2 BULK APIs, 1 Seed, and 1 Aggregate')
 
 xyz = api.model('Xyz', {
     'id': fields.Integer(readonly=True, description='The Xyz unique identifier'),
@@ -92,7 +95,12 @@ class XyzResource(Resource):
     @jwt_required
     def get(self, id):  # /xyz/<id>
         '''Fetch a single Xyz item given its identifier'''
-        data = Xyz.query.get_or_404(id)
+        data = (
+                Xyz.query
+                # relationship join
+
+                .get_or_404(id)
+            )
 
         return data, 200
 
@@ -140,7 +148,13 @@ class XyzListResource(Resource):
         args = parser.parse_args()
         page = args['page']
 
-        data = Xyz.query.paginate(page=page, per_page=app.config['ROWS_PER_PAGE']).items
+        data = (
+                Xyz.query
+                # relationship join
+
+                .paginate(page=page, per_page=app.config['ROWS_PER_PAGE'])
+                .items
+            )
 
         return data, 200
 
@@ -203,11 +217,11 @@ class XyzBulkListResource(Resource):
 # XyzSeed Data
 # Inserts and updates in Bulk of Xyz, and lets you POST to add and put to update new Xyz
 @ns.route('/seed/<int:level>')
-class XyzBulkListResource(Resource):
+class XyzBulkSeedResource(Resource):
     @ns.doc(responses={201: 'INSERTED', 422: 'Unprocessable Entity', 500: 'Internal Server Error'},
              description='seed xyz')
-    @ns.expect(xyz)
-    @ns.marshal_with(xyz, code=201)
+    # @ns.expect(xyz)
+    # @ns.marshal_with(xyz, code=201)
     # @ns.doc(security='jwt')
     @ns.doc(security=None)
     # @jwt_required
@@ -272,11 +286,7 @@ class XyzAggregateResource(Resource):
 @event.listens_for(Xyz, "before_insert")
 def before_insert(mapper, connection, target):
     if api.payload:
-        payload = '{'
-        for obj in api.payload:
-            payload += '"' + obj + '": "' + api.payload.get(obj) + '",'
-        payload = payload.rstrip(',')
-        payload += '}'
+        payload = json.dumps(api.payload)
         
         data = Audit(
             model_name="Xyz",
@@ -296,11 +306,7 @@ def after_insert(mapper, connection, target):
 @event.listens_for(Xyz, "before_update")
 def before_update(mapper, connection, target):
     if api.payload:
-        payload = '{'
-        for obj in api.payload:
-            payload += '"' + obj + '": "' + api.payload.get(obj) + '",'
-        payload = payload.rstrip(',')
-        payload += '}'
+        payload = json.dumps(api.payload)
         
         data = Audit(
             model_name="Xyz",
@@ -320,11 +326,7 @@ def after_update(mapper, connection, target):
 @event.listens_for(Xyz, "before_delete")
 def before_delete(mapper, connection, target):
     if api.payload:
-        payload = '{'
-        for obj in api.payload:
-            payload += '"' + obj + '": "' + api.payload.get(obj) + '",'
-        payload = payload.rstrip(',')
-        payload += '}'
+        payload = json.dumps(api.payload)
         
         data = Audit(
             model_name="Xyz",

@@ -13,14 +13,14 @@ class Calendar_definitions(SQLAlchemyObjectType):
 
 class Calendar_definitionsAttribute:
     # start new graphene attribute fields
-    name = graphene.String(required=True)
-    start = graphene.String(required=True)
-    end = graphene.String(required=True)
-    range_history_periods = graphene.Int(required=True)
-    range_future_periods = graphene.Int(required=True)
-    freq_period_start_day = graphene.String(required=True)
-    freq_normalize = graphene.Boolean(required=True)
-    freq_closed = graphene.String(required=True)    # this line should be removed and replaced with the instanceNames variable
+    name = graphene.String()
+    start = graphene.String()
+    end = graphene.String()
+    range_history_periods = graphene.Int()
+    range_future_periods = graphene.Int()
+    freq_period_start_day = graphene.String()
+    freq_normalize = graphene.Boolean()
+    freq_closed = graphene.String()    # this line should be removed and replaced with the instanceNames variable
     # end new graphene attribute fields
     # name = graphene.String()
 

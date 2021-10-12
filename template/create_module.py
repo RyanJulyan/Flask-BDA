@@ -27,6 +27,205 @@ def cmd_create_module(module):
     create_module(module)
 
 def create_module(module):
+
+
+    def getHtmlCreateInput(DataTypeLower,key, friendly_name, relationship, relationship_display_value):
+        try:
+            return {
+                'string':"""
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" value="{}form.{}.data{}" name="{}" id="{}" placeholder="{}" autocomplete="{}" >
+                                    </div>""".format("{", key, "}", "{", "}", "{{", key, "}}", key, key, friendly_name.replace('_'," "), key),
+                'int':"""
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" value="{}form.{}.data{}" name="{}" id="{}" placeholder="{}" autocomplete="{}" >
+                                    </div>""".format("{", key, "}", "{", "}", "{{", key, "}}", key, key, friendly_name.replace('_'," "), key),
+                'float':"""
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" value="{}form.{}.data{}" name="{}" id="{}" placeholder="{}" autocomplete="{}" >
+                                    </div>""".format("{", key, "}", "{", "}", "{{", key, "}}", key, key, friendly_name.replace('_'," "), key),
+                'numeric':"""
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" value="{}form.{}.data{}" name="{}" id="{}" placeholder="{}" autocomplete="{}" >
+                                    </div>""".format("{", key, "}", "{", "}", "{{", key, "}}", key, key, friendly_name.replace('_'," "), key),
+                'text':"""
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" autocomplete="{}" >{}form.{}.data{}</textarea>
+                                    </div>""".format("{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), key, "{{", key, "}}"),
+                'date':"""
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control daterangepicker_single {}% if form.{}.errors %{} is-invalid {}% endif %{}" value="{}form.{}.data{}" name="{}" id="{}" placeholder="{}" autocomplete="{}" >
+                                    </div>""".format("{", key, "}", "{", "}", "{{", key, "}}", key, key, friendly_name.replace('_'," "), key),
+                'datetime':"""
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control daterangepicker_single {}% if form.{}.errors %{} is-invalid {}% endif %{}" value="{}form.{}.data{}" name="{}" id="{}" placeholder="{}" autocomplete="{}" >
+                                    </div>""".format("{", key, "}", "{", "}", "{{", key, "}}", key, key, friendly_name.replace('_'," "), key),
+                'boolean':"""
+                                    <div class="col-sm-10">
+                                        <input type="checkbox" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" autocomplete="{}" >
+                                    </div>""".format("{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), key),
+                'bigint':"""
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" value="{}form.{}.data{}" name="{}" id="{}" placeholder="{}" autocomplete="{}" >
+                                    </div>""".format("{", key, "}", "{", "}", "{{", key, "}}", key, key, friendly_name.replace('_'," "), key),
+                'enum':"""
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" value="{}form.{}.data{}" name="{}" id="{}" placeholder="{}" autocomplete="{}" >
+                                    </div>""".format("{", key, "}", "{", "}", "{{", key, "}}", key, key, friendly_name.replace('_'," "), key),
+                'json':"""
+                                    <script>
+                                        generic_key = 'generic_key_value';
+                                        key_value = '';
+                                        localStorage.setItem(generic_key, key_value);
+                                    </script>
+                                    <div class="col-sm-10" id="key_value_inputs">
+
+                                    </div>
+                                    <div class="col-sm-12">
+                                        &nbsp;
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <input type="hidden" id="key_value" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" value="{}form.{}.data{}" name="{}" placeholder="{}" autocomplete="{}">
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button type="button" class="form-control btn btn-block btn-primary" name="add_key_value" id="add_key_value" ><i class="fa fa-plus"></i></button>
+                                    </div>""".format("{", key, "}", "{", "}", "{{", key, "}}", key, friendly_name.replace('_'," "), key),
+                'relationship':"""
+                                    <div class="col-sm-10">
+                                        <select class="select2 form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" autocomplete="{}" >
+                                            <option aria-readonly="true" readonly="true" disabled="true" selected="true">Choose {}</option>
+                                            {}% for obj in {} %{}
+                                                <option value="{}obj.id{}">{}obj.{}{}</option>
+                                            {}% endfor %{}
+                                        </select>
+                                    </div>""".format("{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), key, relationship, "{", relationship, "}", "{{", "}}", "{{", relationship_display_value, "}}", "{", "}"),
+                'largebinary':"""
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" autocomplete="{}" >{}form.{}.data{}</textarea>
+                                    </div>""".format("{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), key, "{{", key, "}}"),
+                'password':"""
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" autocomplete="{}" >
+                                    </div>""".format("{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), key),
+                'color':"""
+                                    <div class="col-sm-10">
+                                        <input type="color" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" value="{}form.{}.data{}" name="{}" id="{}" placeholder="{}" autocomplete="{}" >
+                                    </div>""".format("{", key, "}", "{", "}", "{{", key, "}}", key, key, friendly_name.replace('_'," "), key),
+                'email':"""
+                                    <div class="col-sm-10">
+                                        <input type="email" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" value="{}form.{}.data{}" name="{}" id="{}" placeholder="{}" autocomplete="{}" >
+                                    </div>""".format("{", key, "}", "{", "}", "{{", key, "}}", key, key, friendly_name.replace('_'," "), key),
+                'range':"""
+                                    <div class="col-sm-10">
+                                        <input type="range" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" value="{}form.{}.data{}" name="{}" id="{}" placeholder="{}" autocomplete="{}" >
+                                    </div>""".format("{", key, "}", "{", "}", "{{", key, "}}", key, key, friendly_name.replace('_'," "), key),
+                'file':"""
+                                    <div class="col-sm-10">
+                                        <input type="file" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" autocomplete="{}" >
+                                    </div>""".format("{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), key)
+            }[DataTypeLower]
+        except KeyError:
+            print("Invalid data type")
+    
+
+    def getHtmlUpdateInput(DataTypeLower,key, friendly_name, relationship, relationship_display_value):
+        try:
+            return {
+                'string':"""
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" value="{}form.{}.data{}" autocomplete="{}" >
+                                    </div>""".format("{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), "{{", key, "}}", key),
+                'int':"""
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" value="{}form.{}.data{}" autocomplete="{}" >
+                                    </div>""".format("{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), "{{", key, "}}", key),
+                'float':"""
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" value="{}form.{}.data{}" autocomplete="{}" >
+                                    </div>""".format("{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), "{{", key, "}}", key),
+                'numeric':"""
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" value="{}form.{}.data{}" autocomplete="{}" >
+                                    </div>""".format("{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), "{{", key, "}}", key),
+                'text':"""
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" autocomplete="{}" >{}form.{}.data{}</textarea>
+                                    </div>""".format("{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), "{{", key, "}}", key),
+                'date':"""
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control daterangepicker_single {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" value="{}form.{}.data{}" autocomplete="{}" >
+                                    </div>""".format("{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), "{{", key, "}}", key),
+                'datetime':"""
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control daterangepicker_single {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" value="{}form.{}.data{}" autocomplete="{}" >
+                                    </div>""".format("{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), "{{", key, "}}", key),
+                'boolean':"""
+                                    <div class="col-sm-10">
+                                        <input type="checkbox" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" value="{}form.{}.data{}" autocomplete="{}" >
+                                    </div>""".format("{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), "{{", key, "}}", key),
+                'bigint':"""
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" value="{}form.{}.data{}" autocomplete="{}" >
+                                    </div>""".format("{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), "{{", key, "}}", key),
+                'enum':"""
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" value="{}form.{}.data{}" autocomplete="{}" >
+                                    </div>""".format("{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), "{{", key, "}}", key),
+                'json':"""
+                                    <script>
+                                        generic_key = 'generic_key_value';
+                                        key_value = JSON.stringify({}data.{}{}|safe}});
+                                        localStorage.setItem(generic_key, key_value);
+                                    </script>
+                                    <div class="col-sm-10" id="key_value_inputs">
+
+                                    </div>
+                                    <div class="col-sm-12">
+                                        &nbsp;
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <input type="hidden" id="key_value" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" placeholder="{}" value="{}form.{}.data{}" autocomplete="{}">
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button type="button" class="form-control btn btn-block btn-primary" name="add_key_value" id="add_key_value" ><i class="fa fa-plus"></i></button>
+                                    </div>""".format("{{", key, "}}", "{", key, "}", "{", "}", key, friendly_name.replace('_'," "), "{{", key, "}}", key),
+                'relationship':"""
+                                    <div class="col-sm-10">
+                                        <select class="select2 form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" autocomplete="{}" >
+                                            <option aria-readonly="true" readonly="true" disabled="true">Choose {}</option>
+                                            {}% for obj in {} %{}
+                                                <option value="{}obj.id{}" {}% if data.{} == obj.id %{} selected="true"{}% endif %{}>{}obj.{}{}</option>
+                                            {}% endfor %{}
+                                        </select>
+                                    </div>""".format("{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), key, relationship, "{", relationship, "}", "{{", "}}", "{", key, "}", "{", "}", "{{", relationship_display_value, "}}", "{", "}"),
+                'largebinary':"""
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" value="{}form.{}.data{}" autocomplete="{}" >
+                                    </div>""".format("{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), "{{", key, "}}", key),
+                'password':"""
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" value="{}form.{}.data{}" autocomplete="{}" >
+                                    </div>""".format("{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), "{{", key, "}}", key),
+                'color':"""
+                                    <div class="col-sm-10">
+                                        <input type="color" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" value="{}form.{}.data{}" autocomplete="{}" >
+                                    </div>""".format("{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), "{{", key, "}}", key),
+                'email':"""
+                                    <div class="col-sm-10">
+                                        <input type="email" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" value="{}form.{}.data{}" autocomplete="{}" >
+                                    </div>""".format("{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), "{{", key, "}}", key),
+                'range':"""
+                                    <div class="col-sm-10">
+                                        <input type="range" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" value="{}form.{}.data{}" autocomplete="{}" >
+                                    </div>""".format("{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), "{{", key, "}}", key),
+                'file':"""
+                                    <div class="col-sm-10">
+                                        <input type="file" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" value="{}form.{}.data{}" autocomplete="{}" >
+                                    </div>""".format("{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), "{{", key, "}}", key)
+            }[DataTypeLower]
+        except KeyError:
+            print("Invalid data type")
+    
     
     file = 'app/generated_config/models/'+ module + "/models.json"
     
@@ -51,6 +250,7 @@ def create_module(module):
     newApiAggregateObjectDefinitions = ''
     argumentParserArr = []
     argumentAggParserArr = []
+    contextDataArr = []
     instanceNames = ''
     formDefinitions = ''
     newFormRequestDefinitions = ''
@@ -63,6 +263,10 @@ def create_module(module):
     publicHeaderRenderFields = ''
     publicRenderFields = ''
     renderFields = ''
+    relationshipFieldsImports = ''
+    relationshipJoins = ''
+    relationshipReturns = ''
+    contextData = ''
     renderUpdateFields = ''
     tableHeaders = ''
     tableValues = ''
@@ -81,6 +285,16 @@ def create_module(module):
                                                                                                                         value['default'],
                                                                                                                         value['unique'],
                                                                                                                         value['index'])
+
+            relationshipFieldsImports += "from app.mod_{}.models import {}\n".format(value['relationship'],
+                                                                                                value['relationship'].capitalize())
+
+            relationshipJoins += "                .join({})\n".format(value['relationship'].capitalize())
+
+            relationshipReturns += "    {} = {}.query.all()\n".format(value['relationship'],
+                                                                                        value['relationship'].capitalize())
+
+            contextDataArr.append("\n        '{}': {}".format(value['relationship'],value['relationship']))
 
             columns += "    {} = db.relationship('{}', remote_side='{}.id', lazy='joined')\n".format(value['relationship'],
                                                                                                 # secrets.token_urlsafe(3),
@@ -178,11 +392,9 @@ def create_module(module):
                                 <div class="form-group row">
                                     <label for="{}" class="col-sm-2 control-label">{}</label>
 
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" autocomplete="{}" >
-                                    </div>
+                                    {}
                                 </div>
-        """.format("{", key, "}", "{", "}", "{", key, "}", "{", key, "}", "{{", "}}", "{", "}", "{", "}", key, friendly_name.replace('_'," "), "{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), key)
+        """.format("{", key, "}", "{", "}", "{", key, "}", "{", key, "}", "{{", "}}", "{", "}", "{", "}", key, friendly_name.replace('_'," "), getHtmlCreateInput(value['dataTypeLower'], key, friendly_name, value['relationship'], value['relationship_display_value']))
 
         if count == 0:
             publicHeaderRenderFields += """
@@ -206,11 +418,9 @@ def create_module(module):
                                 <div class="form-group row">
                                     <label for="{}" class="col-sm-2 control-label">{}</label>
 
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" value="{}data.{}{}"  autocomplete="{}" >
-                                    </div>
+                                    {}
                                 </div>
-        """.format("{", key, "}", "{", "}", "{", key, "}", "{", key, "}", "{{", "}}", "{", "}", "{", "}", key, friendly_name.replace('_'," "), "{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), "{{", key, "}}", key)
+        """.format("{", key, "}", "{", "}", "{", key, "}", "{", key, "}", "{{", "}}", "{", "}", "{", "}", key, friendly_name.replace('_'," "), getHtmlUpdateInput(value['dataTypeLower'],key, friendly_name, value['relationship'],value['relationship_display_value']))
         tableHeaders += """
                         <th>
                             {}
@@ -226,8 +436,9 @@ def create_module(module):
         updateFormRequestDefinitionsArr.append("\n        data.{} = request.form.get('{}')".format(key, key))
         newApiRequestDefinitionsArr.append("\n            {}=api.payload['{}']".format(key, key))
 
+    contextData = str((','.join(item for item in contextDataArr)))
     instanceParams = str((', '.join(item for item in feildNames)))
-    formDefinitions = str((','.join(item for item in formDefinitionsArr)))
+    formDefinitions = str((''.join(item for item in formDefinitionsArr)))
     newFormRequestDefinitions = str((','.join(item for item in newFormRequestDefinitionsArr)))
     updateFormRequestDefinitions = str((''.join(item for item in updateFormRequestDefinitionsArr)))
     newApiRequestDefinitions = str((','.join(item for item in newApiRequestDefinitionsArr)))
@@ -241,6 +452,9 @@ def create_module(module):
     argumentParser = argumentParser.lstrip('\n')
     argumentAggParser = argumentAggParser.lstrip('\n')
     columns = columns.rstrip('\n')
+    relationshipFieldsImports = relationshipFieldsImports.rstrip('\n')
+    relationshipJoins = relationshipJoins.rstrip('\n')
+    relationshipReturns = relationshipReturns.rstrip('\n')
     grapheneColumns = grapheneColumns.rstrip('\n')
     newApiAggregateDefinitions = newApiAggregateDefinitions.rstrip(',\n')
     newApiAggregateObjectDefinitions = newApiAggregateObjectDefinitions.rstrip(',\n')
@@ -505,6 +719,14 @@ class Create_{}(graphene.Mutation):
                         destination.write(argumentAggParser)
                     if "# start new request feilds" in line:
                         destination.write(newFormRequestDefinitions)
+                    if "# Import module models (e.g. User)" in line:
+                        destination.write(relationshipFieldsImports)
+                    if "# relationship join" in line:
+                        destination.write(relationshipJoins)
+                    if "# Relationship returns" in line:
+                        destination.write(relationshipReturns)
+                    if "# Relationship context_data" in line:
+                        destination.write(contextData)
                     if "# start update request feilds" in line:
                         destination.write(updateFormRequestDefinitions)
                     if "# start new api_request feilds" in line:

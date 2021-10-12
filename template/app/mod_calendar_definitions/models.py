@@ -25,10 +25,10 @@ class Calendar_definitions(Base):
     __tablename__ = 'calendar_definitions'
     # start new field definitions
     name = db.Column(db.String(256), nullable=False, default="Standard Calendar", unique=True, index=True)
-    start = db.Column(db.String(10), nullable=False, default="None", unique=False, index=False)
-    end = db.Column(db.String(10), nullable=False, default="None", unique=False, index=False)
+    start = db.Column(db.String(10), nullable=True, default=None, unique=False, index=False)
+    end = db.Column(db.String(10), nullable=True, default=None, unique=False, index=False)
     range_history_periods = db.Column(db.Integer, nullable=False, default=104, unique=False, index=False)
-    range_future_periods = db.Column(db.Integer, nullable=False, default=52, unique=False, index=False)
+    range_future_periods = db.Column(db.Integer, nullable=False, default=104, unique=False, index=False)
     freq_period_start_day = db.Column(db.String(4), nullable=False, default="-SUN", unique=False, index=False)
     freq_normalize = db.Column(db.Boolean, nullable=False, default=True, unique=False, index=False)
     freq_closed = db.Column(db.String(4), nullable=False, default="left", unique=False, index=False)    # this line should be removed and replaced with the columns variable

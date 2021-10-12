@@ -86,10 +86,15 @@ def create(template):
 
 
 @mod_admin_calendar_definitions.route('/store', methods=['POST'])
+@mobile_template('{mobile/}calendar_definitions/admin/create.html')
 @login_required
-def store():
-    data = Calendar_definitions(
-        # start new request feilds
+def store(template):
+
+    form = Calendar_definitionsForm(request.form)
+    
+    if form.validate_on_submit():
+        data = Calendar_definitions(
+            # start new request feilds
         name=request.form.get('name'),
         start=request.form.get('start'),
         end=request.form.get('end'),
@@ -99,17 +104,19 @@ def store():
         freq_normalize=request.form.get('freq_normalize'),
         freq_closed=request.form.get('freq_closed')
         # end new request feilds
-        # title=request.form.get("title")
-    )
-    db.session.add(data)
-    try:
-        db.session.commit()
-    except IntegrityError as e:
-        db.session.rollback()
-        errorInfo = e.orig.args
-        flash(errorInfo[0], 'error')
+            # title=request.form.get("title")
+        )
+        db.session.add(data)
+        try:
+            db.session.commit()
+        except IntegrityError as e:
+            db.session.rollback()
+            errorInfo = e.orig.args
+            flash(errorInfo[0], 'error')
 
-    return redirect(url_for('calendar_definitions_admin.index')+"?organization="+g.organization)
+        return redirect(url_for('calendar_definitions_admin.index')+"?organization="+g.organization)
+    else:
+        return render_template(template, form=form)
 
 
 @mod_admin_calendar_definitions.route('/show/<id>', methods=['GET'])
@@ -135,28 +142,35 @@ def edit(id,template):
 
 
 @mod_admin_calendar_definitions.route('/update/<id>', methods=['PUT', 'PATCH', 'POST'])
+@mobile_template('{mobile/}calendar_definitions/admin/edit.html')
 @login_required
-def update(id):
-    data = Calendar_definitions.query.get(id)
-    # start update request feilds
-    data.name = request.form.get('name')
-    data.start = request.form.get('start')
-    data.end = request.form.get('end')
-    data.range_history_periods = request.form.get('range_history_periods')
-    data.range_future_periods = request.form.get('range_future_periods')
-    data.freq_period_start_day = request.form.get('freq_period_start_day')
-    data.freq_normalize = request.form.get('freq_normalize')
-    data.freq_closed = request.form.get('freq_closed')
-    # end update request feilds
-    # data.title = request.form.get("title")
-    try:
-        db.session.commit()
-    except IntegrityError as e:
-        db.session.rollback()
-        errorInfo = e.orig.args
-        flash(errorInfo[0], 'error')
+def update(id,template):
 
-    return redirect(url_for('calendar_definitions_admin.index')+"?organization="+g.organization)
+    form = Calendar_definitionsForm(request.form)
+    
+    if form.validate_on_submit():
+        data = Calendar_definitions.query.get(id)
+        # start update request feilds
+        data.name = request.form.get('name')
+        data.start = request.form.get('start')
+        data.end = request.form.get('end')
+        data.range_history_periods = request.form.get('range_history_periods')
+        data.range_future_periods = request.form.get('range_future_periods')
+        data.freq_period_start_day = request.form.get('freq_period_start_day')
+        data.freq_normalize = request.form.get('freq_normalize')
+        data.freq_closed = request.form.get('freq_closed')
+    # end update request feilds
+        # data.title = request.form.get("title")
+        try:
+            db.session.commit()
+        except IntegrityError as e:
+            db.session.rollback()
+            errorInfo = e.orig.args
+            flash(errorInfo[0], 'error')
+
+        return redirect(url_for('calendar_definitions_admin.index')+"?organization="+g.organization)
+    else:
+        return render_template(template, form=form)
 
 
 @mod_admin_calendar_definitions.route('/destroy/<id>', methods=['POST', 'DELETE', 'GET'])
@@ -172,20 +186,20 @@ def destroy(id):
 # SQLAlchemy Events before and after insert, update and delete changes on a table
 @event.listens_for(Calendar_definitions, "before_insert")
 def before_insert(mapper, connection, target):
-    payload = '{'
-    for obj in request.form:
-        payload += '"' + obj + '": "' + request.form.get(obj) + '",'
-    payload = payload.rstrip(',')
-    payload += '}'
-    
-    data = Audit(
-        model_name="Calendar_definitions",
-        action="Before Insert",
-        context="Web Form",
-        payload=payload
-    )
-    db.session.add(data)
-    db.session.commit()
+    if request.form:
+        payload = '{'
+        for obj in request.form:
+            payload += '"' + obj + '": "' + request.form.get(obj) + '",'
+        payload = payload.rstrip(',')
+        payload += '}'
+        
+        data = Audit(
+            model_name="Calendar_definitions",
+            action="Before Insert",
+            context="Web Form",
+            payload=payload
+        )
+        db.session.add(data)
     pass
 
 
@@ -196,20 +210,20 @@ def after_insert(mapper, connection, target):
 
 @event.listens_for(Calendar_definitions, "before_update")
 def before_update(mapper, connection, target):
-    payload = '{'
-    for obj in request.form:
-        payload += '"' + obj + '": "' + request.form.get(obj) + '",'
-    payload = payload.rstrip(',')
-    payload += '}'
-    
-    data = Audit(
-        model_name="Calendar_definitions",
-        action="Before Update",
-        context="Web Form",
-        payload=payload
-    )
-    db.session.add(data)
-    db.session.commit()
+    if request.form:
+        payload = '{'
+        for obj in request.form:
+            payload += '"' + obj + '": "' + request.form.get(obj) + '",'
+        payload = payload.rstrip(',')
+        payload += '}'
+        
+        data = Audit(
+            model_name="Calendar_definitions",
+            action="Before Update",
+            context="Web Form",
+            payload=payload
+        )
+        db.session.add(data)
     pass
 
 
@@ -220,6 +234,20 @@ def after_update(mapper, connection, target):
 
 @event.listens_for(Calendar_definitions, "before_delete")
 def before_delete(mapper, connection, target):
+    if request.form:
+        payload = '{'
+        for obj in request.form:
+            payload += '"' + obj + '": "' + request.form.get(obj) + '",'
+        payload = payload.rstrip(',')
+        payload += '}'
+        
+        data = Audit(
+            model_name="Calendar_definitions",
+            action="Before Delete",
+            context="Web Form",
+            payload=payload
+        )
+        db.session.add(data)
     pass
 
 

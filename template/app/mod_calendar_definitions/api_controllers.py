@@ -53,14 +53,15 @@ from app.mod_tenancy.multi_bind import MultiBindSQLAlchemy
 
 # Swagger namespace
 ns = api.namespace('api/calendar_definitions', description='Database model "Calendar_definitions", resource based, Api. \
-    This API should have 2 endpoints from the name of the model prefixed by "api".')
+    This API should have 9 endpoints from the name of the model prefixed by "api".\
+    There are standard 5 CRUD APIs, a 2 BULK APIs, 1 Seed, and 1 Aggregate')
 
 calendar_definitions = api.model('Calendar_definitions', {
     'id': fields.Integer(readonly=True, description='The Calendar_definitions unique identifier'),
     # start new add_argument
     'name': fields.String(required=True, description='The Calendar_definitions Name'),
-    'start': fields.String(required=True, description='The Calendar_definitions Start'),
-    'end': fields.String(required=True, description='The Calendar_definitions End'),
+    'start': fields.String(description='The Calendar_definitions Start'),
+    'end': fields.String(description='The Calendar_definitions End'),
     'range_history_periods': fields.Float(required=True, description='The Calendar_definitions Range history periods'),
     'range_future_periods': fields.Float(required=True, description='The Calendar_definitions Range future periods'),
     'freq_period_start_day': fields.String(required=True, description='The Calendar_definitions Freq period start day'),
@@ -367,20 +368,20 @@ class Calendar_definitionsAggregateResource(Resource):
 # SQLAlchemy Events before and after insert, update and delete changes on a table
 @event.listens_for(Calendar_definitions, "before_insert")
 def before_insert(mapper, connection, target):
-    payload = '{'
-    for obj in request.form:
-        payload += '"' + obj + '": "' + request.form.get(obj) + '",'
-    payload = payload.rstrip(',')
-    payload += '}'
-    
-    data = Audit(
-        model_name="Calendar_definitions",
-        action="Before Insert",
-        context="Rest API",
-        payload=payload
-    )
-    db.session.add(data)
-    db.session.commit()
+    if api.payload:
+        payload = '{'
+        for obj in api.payload:
+            payload += '"' + obj + '": "' + api.payload.get(obj) + '",'
+        payload = payload.rstrip(',')
+        payload += '}'
+        
+        data = Audit(
+            model_name="Calendar_definitions",
+            action="Before Insert",
+            context="Rest API",
+            payload=payload
+        )
+        db.session.add(data)
     pass
 
 
@@ -391,20 +392,20 @@ def after_insert(mapper, connection, target):
 
 @event.listens_for(Calendar_definitions, "before_update")
 def before_update(mapper, connection, target):
-    payload = '{'
-    for obj in request.form:
-        payload += '"' + obj + '": "' + request.form.get(obj) + '",'
-    payload = payload.rstrip(',')
-    payload += '}'
-    
-    data = Audit(
-        model_name="Calendar_definitions",
-        action="Before Update",
-        context="Rest API",
-        payload=payload
-    )
-    db.session.add(data)
-    db.session.commit()
+    if api.payload:
+        payload = '{'
+        for obj in api.payload:
+            payload += '"' + obj + '": "' + api.payload.get(obj) + '",'
+        payload = payload.rstrip(',')
+        payload += '}'
+        
+        data = Audit(
+            model_name="Calendar_definitions",
+            action="Before Update",
+            context="Rest API",
+            payload=payload
+        )
+        db.session.add(data)
     pass
 
 
@@ -415,6 +416,20 @@ def after_update(mapper, connection, target):
 
 @event.listens_for(Calendar_definitions, "before_delete")
 def before_delete(mapper, connection, target):
+    if api.payload:
+        payload = '{'
+        for obj in api.payload:
+            payload += '"' + obj + '": "' + api.payload.get(obj) + '",'
+        payload = payload.rstrip(',')
+        payload += '}'
+        
+        data = Audit(
+            model_name="Calendar_definitions",
+            action="Before Delete",
+            context="Rest API",
+            payload=payload
+        )
+        db.session.add(data)
     pass
 
 

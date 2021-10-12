@@ -3,15 +3,18 @@
 		"model": "Hierarchies",
 		"fields": {
 			"organisation_id": {
+                "dataTypeLower": "relationship",
 				"dataType": "Integer",
                 "grapheneDataType": "Int()",
 				"nullable": false,
 				"unique": false,
 				"index": true,
 				"relationship": "organisations",
+				"relationship_display_value": "organisation_name",
 				"default": false
 			},
 			"name": {
+                "dataTypeLower": "string",
 				"dataType": "String(256)",
                 "grapheneDataType": "String()",
 				"nullable": false,
@@ -21,6 +24,7 @@
 				"default": false
 			},
 			"path": {
+                "dataTypeLower": "text",
 				"dataType": "Text",
                 "grapheneDataType": "String()",
 				"nullable": false,
@@ -30,6 +34,7 @@
 				"default": false
 			},
 			"level": {
+                "dataTypeLower": "int",
 				"dataType": "Integer",
                 "grapheneDataType": "Int()",
 				"nullable": true,
@@ -39,6 +44,7 @@
 				"default": false
 			},
 			"parent_id": {
+                "dataTypeLower": "int",
 				"dataType": "Integer",
                 "grapheneDataType": "Int()",
 				"nullable": true,
@@ -48,6 +54,7 @@
 				"default": false
 			},
 			"key_value": {
+                "dataTypeLower": "text",
 				"dataType": "Text",
                 "grapheneDataType": "String()",
 				"nullable": true,
@@ -57,6 +64,7 @@
 				"default": false
 			},
 			"cached": {
+                "dataTypeLower": "boolean",
 				"dataType": "Boolean",
                 "grapheneDataType": "Boolean()",
 				"nullable": true,

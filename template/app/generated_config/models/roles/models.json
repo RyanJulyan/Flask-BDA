@@ -1,0 +1,68 @@
+{
+	"roles": {
+		"model": "Roles",
+		"fields": {
+			"organisation_id": {
+                "dataTypeLower": "relationship",
+				"dataType": "Integer",
+                "grapheneDataType": "Int()",
+				"nullable": false,
+				"unique": false,
+				"index": true,
+				"relationship": "organisations",
+				"relationship_display_value": "organisation_name",
+				"default": false
+			},
+            "role_source": {
+                "dataTypeLower": "string",
+				"dataType": "String(256)",
+                "grapheneDataType": "String()",
+				"nullable": false,
+				"unique": false,
+				"index": true,
+				"relationship": null,
+				"default": "Custom"
+			},
+			"key": {
+                "dataTypeLower": "string",
+				"dataType": "String(256)",
+                "grapheneDataType": "String()",
+				"nullable": false,
+				"unique": true,
+				"index": true,
+				"relationship": null,
+				"default": false
+			},
+			"display_name": {
+                "dataTypeLower": "string",
+				"dataType": "String(256)",
+                "grapheneDataType": "String()",
+				"nullable": false,
+				"unique": false,
+				"index": false,
+				"relationship": null,
+				"default": false
+			},
+			"description": {
+                "dataTypeLower": "text",
+				"dataType": "Text",
+                "grapheneDataType": "String()",
+				"nullable": false,
+				"unique": false,
+				"index": false,
+				"relationship": null,
+				"default": false
+			},
+			"key_value": {
+                "dataTypeLower": "text",
+				"dataType": "Text",
+                "grapheneDataType": "String()",
+				"nullable": true,
+				"unique": false,
+				"index": false,
+				"relationship": null,
+				"default": false
+			}
+		}
+	}
+}

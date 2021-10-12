@@ -447,7 +447,7 @@ Ensure that the "SQL server configuration management" settings are configured co
 
 > Multitenancy is a software architecture in which a single instance of software runs on a server and serves multiple tenants (clients). Multitenant software allows multiple independent instances of one or multiple applications operate in a shared environment.
 
-> Flask-BDA supports veritically partitioned multi-tenancy. Veritical partitioning means that each tenant has a different database (and database connection string).
+> Flask-BDA supports veritically partitioned multi-tenancy. Vertical partitioning means that each tenant has a different database (and database connection string).
 
 > By default, Flask-BDA connects to a tenant called `default`. This is done using the `SQLALCHEMY_BINDS` object (found in `config.py`), which should have the specific connection details you require for each tenant. The default connection details are combined into a string called `SQLALCHEMY_DATABASE_URI`, which was meant to allow for a quick and easy single tenant setup.
 

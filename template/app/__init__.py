@@ -51,7 +51,7 @@ import requests
 import json
 
 # Import GraphQLAuth
-from flask_graphql_auth import GraphQLAuth
+# from flask_graphql_auth import GraphQLAuth
 
 # Import APScheduler
 from flask_apscheduler import APScheduler
@@ -125,7 +125,7 @@ bcrypt = Bcrypt(app)
 mail = Mail(app)
 
 # GraphQLAuth
-graph_ql_auth = GraphQLAuth(app)
+# graph_ql_auth = GraphQLAuth(app)
 
 # JWT
 jwt = JWTManager(app)
@@ -187,6 +187,7 @@ from app.mod_users.models import Users  # noqa: E402
 from app.mod_organisations.models import Organisations  # noqa: E402
 from app.mod_api_keys.models import Api_keys  # noqa: E402
 
+
 #################################################################################
 ## NOT GOOD, CHANGES THE SERVER TO ALWAYS HAVE AUTH AND NOT JUST SINGLE REQUEST##
 #################################################################################
@@ -230,7 +231,14 @@ def before_request():
     if app.config['AUTO_CREATE_TABLES_FROM_MODELS']:
         # This will create the database tables using SQLAlchemy
         db.create_all()
-	
+
+    # print('-------------------------------')
+    # print('-------------------------------')
+    # print('-------------------------------')
+    # print('Keys:', db.session.execute(Users.query).keys())
+    # print('-------------------------------')
+    # print('-------------------------------')
+    # print('-------------------------------')
     
     g.organisation_id = 1
     organisation = Organisations.query.filter(Organisations.organisation_name == g.organization).first()
@@ -371,7 +379,7 @@ def has_no_empty_params(rule):
     return len(defaults) >= len(arguments)
 
 
-@app.route("/seed//<int:level>")
+@app.route("/seed/<int:level>")
 def seed(level):
     links = []
     for rule in app.url_map.iter_rules():
@@ -402,13 +410,34 @@ from app.mod_hierarchies.controllers import mod_admin_hierarchies as hierarchies
 # cache_hierarchies
 from app.mod_cache_hierarchies.controllers import mod_public_cache_hierarchies as cache_hierarchies_public_module  # noqa: E402
 from app.mod_cache_hierarchies.controllers import mod_admin_cache_hierarchies as cache_hierarchies_admin_module  # noqa: E402
+# calendar_periods
+from app.mod_calendar_periods.controllers import mod_public_calendar_periods as calendar_periods_public_module  # noqa: E402
+from app.mod_calendar_periods.controllers import mod_admin_calendar_periods as calendar_periods_admin_module  # noqa: E402
 # calendar_definitions
 from app.mod_calendar_definitions.controllers import mod_public_calendar_definitions as calendar_definitions_public_module  # noqa: E402
 from app.mod_calendar_definitions.controllers import mod_admin_calendar_definitions as calendar_definitions_admin_module  # noqa: E402
 # graphql
-from app.mod_graphql.controllers import mod_graphql as graphql_module  # noqa: E402
+# from app.mod_graphql.controllers import mod_graphql as graphql_module  # noqa: E402
 # from app.mod_xyz.controllers import mod_xyz as xyz_module
 # import new xyz_module
+# test
+from app.mod_test.controllers import mod_public_test as test_public_module  # noqa: E402
+from app.mod_test.controllers import mod_admin_test as test_admin_module  # noqa: E402
+# test
+from app.mod_test.controllers import mod_public_test as test_public_module  # noqa: E402
+from app.mod_test.controllers import mod_admin_test as test_admin_module  # noqa: E402
+# test
+from app.mod_test.controllers import mod_public_test as test_public_module  # noqa: E402
+from app.mod_test.controllers import mod_admin_test as test_admin_module  # noqa: E402
+# test
+from app.mod_test.controllers import mod_public_test as test_public_module  # noqa: E402
+from app.mod_test.controllers import mod_admin_test as test_admin_module  # noqa: E402
+# test
+from app.mod_test.controllers import mod_public_test as test_public_module  # noqa: E402
+from app.mod_test.controllers import mod_admin_test as test_admin_module  # noqa: E402
+# test
+from app.mod_test.controllers import mod_public_test as test_public_module  # noqa: E402
+from app.mod_test.controllers import mod_admin_test as test_admin_module  # noqa: E402
 
 
 # Register blueprint(s)
@@ -429,16 +458,37 @@ app.register_blueprint(hierarchies_admin_module)
 # cache_hierarchies
 app.register_blueprint(cache_hierarchies_public_module)
 app.register_blueprint(cache_hierarchies_admin_module)
+# calendar_periods
+app.register_blueprint(calendar_periods_public_module)
+app.register_blueprint(calendar_periods_admin_module)
 # calendar_definitions
 app.register_blueprint(calendar_definitions_public_module)
 app.register_blueprint(calendar_definitions_admin_module)
 # graphql
-app.register_blueprint(graphql_module)
+# app.register_blueprint(graphql_module)
 # register_blueprint new xyz_module
+# test
+app.register_blueprint(test_public_module)
+app.register_blueprint(test_admin_module)
+# test
+app.register_blueprint(test_public_module)
+app.register_blueprint(test_admin_module)
+# test
+app.register_blueprint(test_public_module)
+app.register_blueprint(test_admin_module)
+# test
+app.register_blueprint(test_public_module)
+app.register_blueprint(test_admin_module)
+# test
+app.register_blueprint(test_public_module)
+app.register_blueprint(test_admin_module)
+# test
+app.register_blueprint(test_public_module)
+app.register_blueprint(test_admin_module)
 
 
 # Prevent GraphQL The CSRF token is missing. error
-csrf_protect.exempt(graphql_module)
+# csrf_protect.exempt(graphql_module)
 
 # Define the API
 # This must be after other routes or it overwrites everything.
@@ -479,7 +529,23 @@ from app.mod_hierarchies.api_controllers import ns as Hierarchies_API  # noqa: E
 from app.mod_cache_hierarchies.api_controllers import ns as Cache_hierarchies_API  # noqa: E402
 # calendar_definitions
 from app.mod_calendar_definitions.api_controllers import ns as Calendar_definitions_API  # noqa: E402
+# calendar_periods
+from app.mod_calendar_periods.api_controllers import ns as Calendar_periods_API  # noqa: E402
+# calendar_definitions
+from app.mod_calendar_definitions.api_controllers import ns as Calendar_definitions_API  # noqa: E402
 # new xyz api resources
+# test
+from app.mod_test.api_controllers import ns as Test_API  # noqa: E402
+# test
+from app.mod_test.api_controllers import ns as Test_API  # noqa: E402
+# test
+from app.mod_test.api_controllers import ns as Test_API  # noqa: E402
+# test
+from app.mod_test.api_controllers import ns as Test_API  # noqa: E402
+# test
+from app.mod_test.api_controllers import ns as Test_API  # noqa: E402
+# test
+from app.mod_test.api_controllers import ns as Test_API  # noqa: E402
 
 
 # This MUST be the last route to allow for all API routes to be registered

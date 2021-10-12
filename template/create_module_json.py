@@ -63,9 +63,15 @@ def create_module_json(module_name):
                     "datetime": "datetime",
                     "boolean": "boolean",
                     "bigint": "bigint",
-                    "enum":  "Enum",
+                    "enum":  "enum",
                     "json": "json",
-                    "largebinary": "largebinary"
+                    "relationship": "relationship",
+                    "largebinary": "largebinary",
+                    "password": "password",
+                    "color": "color",
+                    "email": "email",
+                    "range": "range",
+                    "file": "file"
                 }[input(prompt).lower()]
             except KeyError:
                 print("Invalid data type")
@@ -82,44 +88,20 @@ def create_module_json(module_name):
                 "date": "Date",
                 "datetime": "DateTime",
                 "boolean": "Boolean",
-                "bigint": "BigInteger",
-                "enum":  "Enum",
-                "json": "JSON",
-                "largebinary": "LargeBinary"
-            }[DataTypeLower]
-        except KeyError:
-            print("Invalid data type")
-
-
-    def getHtmlInput(DataTypeLower):
-        try:
-            inout_options = {
-            'string':`<input type="text" class="form-control" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}')" >`,
-            'int':`<input type="number" class="form-control" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}')" >`,
-            'float':`<input type="number" class="form-control" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}')" >`,
-            'numeric':`<input type="number" class="form-control" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}')" >`,
-            'date':`<input type="text" class="form-control daterangepicker_single" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}')" >`,
-            'datetime':`<input type="text" class="form-control daterangepicker_single" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}')" >`,
-            'boolean':`<input type="checkbox" class="form-control" ${key_value.value == true? 'checked="true"' : ''}" value="${key_value.value? key_value.value : 'false'}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}')" >`,
-            'password':`<input type="password" class="form-control" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}')" >`,
-            'color':`<input type="color" class="form-control" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}')" >`,
-            'email':`<input type="email" class="form-control" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}')" >`,
-            'range':`<input type="range" class="form-control" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}')" >`,
-            'file':`<input type="file" class="form-control" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}')" >`
-        }
-            return {
-                "string": "String",
-                "int": "Integer",
-                "float": "Numeric(38, 19)",
-                "numeric": "Numeric(38, 19)",
-                "text": "Text",
-                "date": "Date",
-                "datetime": "DateTime",
-                "boolean": "Boolean",
-                "bigint": "BigInteger",
-                "enum":  "Enum",
-                "json": "JSON",
-                "largebinary": "LargeBinary"
+                # "bigint": "BigInteger",
+                "bigint": "Integer",
+                # "enum":  "Enum",
+                "enum":  "String",
+                # "json": "JSON",
+                # "largebinary": "LargeBinary",
+                "json": "Text",
+                "relationship": "Integer",
+                "largebinary": "Text",
+                "password": "String(256)",
+                "color": "String(10)",
+                "email": "String(256)",
+                "range": "Numeric(38, 19)",
+                "file": "Text"
             }[DataTypeLower]
         except KeyError:
             print("Invalid data type")
@@ -139,7 +121,13 @@ def create_module_json(module_name):
                 "bigint": "Int(required=True)",
                 "enum":  "String(required=True)",
                 "json": "JSONString(required=True)",
-                "largebinary": "String(required=True)"
+                "relationship": "Int(required=True)",
+                "largebinary": "String(required=True)",
+                "password": "String(required=True)",
+                "color": "String(required=True)",
+                "email": "String(required=True)",
+                "range": "Decimal(required=True)",
+                "file": "String(required=True)"
             }[DataTypeLower]
         except KeyError:
             print("Invalid data type")
@@ -167,8 +155,8 @@ def create_module_json(module_name):
             module = module.replace(" ", "_")
             return module
         else:
-            print("Invalid Module Name!")
-            print("Please enter a valid module name:")
+            print("Invalid Name!")
+            print("Please enter a valid name:")
 
 
     def getEnumParameters():
@@ -215,7 +203,13 @@ def create_module_json(module_name):
                 ,'BigInt'
                 ,'Enum'
                 ,'JSON'
-                ,'LargeBinary'): """)
+                ,'Relationship'
+                ,'LargeBinary'
+                ,'password'
+                ,'color'
+                ,'email'
+                ,'range'
+                ,'file'): """)
                 dataType = orgDataType
                 grapheneDataType = getGrapheneDataType(orgDataType)
                 dataType = getDataType(orgDataType)
@@ -230,14 +224,20 @@ def create_module_json(module_name):
                 unique = getBool("Is " + field + " unique ('True', 'False'): ")
                 index = getBool("Does " + field + " have an index ('True', 'False'): ")
                 relationship = relationships(field)
+                relationship_display_value = None
+                if relationship:
+                    print("Which Field Name from " + relationship + " do you want to see on the front end?")
+                    relationship_display_value = module(module_name)
                 default = input("Default value: ") or False
                 fields[field] = {
+                    "dataTypeLower": orgDataType,
                     "dataType": dataType,
                     "grapheneDataType": grapheneDataType,
                     "nullable": nullable,
                     "unique": unique,
                     "index": index,
                     "relationship": relationship,
+                    "relationship_display_value": relationship_display_value,
                     "default": default
                 }
             else:

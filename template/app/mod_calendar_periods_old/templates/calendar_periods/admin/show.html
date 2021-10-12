@@ -1,0 +1,240 @@
+
+{% import 'macros/flash.html' as flash with context %}
+
+{% extends "admin/index.html" %}
+
+{% block content %}
+
+<div class="content-wrapper">
+        
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Calendar_periods</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="content">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col">
+                    <div class="card card-outline card-info">
+                        <div class="card-header">
+                            <h3 class="card-title">View Calendar_periods</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                                    <i class="fa fa-expand"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- start new render_update fields -->
+
+                                <div class="p-1 text-danger" style="{% if not form.day.errors %} display:none; {% endif %}">
+                                    {% if form.day.errors %}
+                                        {% for error in form.day.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="day" class="col-sm-2 control-label">Day</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control {% if form.day.errors %} is-invalid {% endif %}" name="day" id="day" placeholder="Day" value="{{data.day}}" autocomplete="day" >
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.end_date.errors %} display:none; {% endif %}">
+                                    {% if form.end_date.errors %}
+                                        {% for error in form.end_date.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="end_date" class="col-sm-2 control-label">End date</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control daterangepicker_single {% if form.end_date.errors %} is-invalid {% endif %}" name="end_date" id="end_date" placeholder="End date" value="{{data.end_date}}" autocomplete="end_date" >
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.month.errors %} display:none; {% endif %}">
+                                    {% if form.month.errors %}
+                                        {% for error in form.month.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="month" class="col-sm-2 control-label">Month</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control {% if form.month.errors %} is-invalid {% endif %}" name="month" id="month" placeholder="Month" value="{{data.month}}" autocomplete="month" >
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.month_index.errors %} display:none; {% endif %}">
+                                    {% if form.month_index.errors %}
+                                        {% for error in form.month_index.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="month_index" class="col-sm-2 control-label">Month index</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control {% if form.month_index.errors %} is-invalid {% endif %}" name="month_index" id="month_index" placeholder="Month index" value="{{data.month_index}}" autocomplete="month_index" >
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.quarter.errors %} display:none; {% endif %}">
+                                    {% if form.quarter.errors %}
+                                        {% for error in form.quarter.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="quarter" class="col-sm-2 control-label">Quarter</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control {% if form.quarter.errors %} is-invalid {% endif %}" name="quarter" id="quarter" placeholder="Quarter" value="{{data.quarter}}" autocomplete="quarter" >
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.quarter_index.errors %} display:none; {% endif %}">
+                                    {% if form.quarter_index.errors %}
+                                        {% for error in form.quarter_index.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="quarter_index" class="col-sm-2 control-label">Quarter index</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control {% if form.quarter_index.errors %} is-invalid {% endif %}" name="quarter_index" id="quarter_index" placeholder="Quarter index" value="{{data.quarter_index}}" autocomplete="quarter_index" >
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.start_date.errors %} display:none; {% endif %}">
+                                    {% if form.start_date.errors %}
+                                        {% for error in form.start_date.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="start_date" class="col-sm-2 control-label">Start date</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control daterangepicker_single {% if form.start_date.errors %} is-invalid {% endif %}" name="start_date" id="start_date" placeholder="Start date" value="{{data.start_date}}" autocomplete="start_date" >
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.week.errors %} display:none; {% endif %}">
+                                    {% if form.week.errors %}
+                                        {% for error in form.week.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="week" class="col-sm-2 control-label">Week</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control {% if form.week.errors %} is-invalid {% endif %}" name="week" id="week" placeholder="Week" value="{{data.week}}" autocomplete="week" >
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.week_day.errors %} display:none; {% endif %}">
+                                    {% if form.week_day.errors %}
+                                        {% for error in form.week_day.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="week_day" class="col-sm-2 control-label">Week day</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control {% if form.week_day.errors %} is-invalid {% endif %}" name="week_day" id="week_day" placeholder="Week day" value="{{data.week_day}}" autocomplete="week_day" >
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.week_index.errors %} display:none; {% endif %}">
+                                    {% if form.week_index.errors %}
+                                        {% for error in form.week_index.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="week_index" class="col-sm-2 control-label">Week index</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control {% if form.week_index.errors %} is-invalid {% endif %}" name="week_index" id="week_index" placeholder="Week index" value="{{data.week_index}}" autocomplete="week_index" >
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.year.errors %} display:none; {% endif %}">
+                                    {% if form.year.errors %}
+                                        {% for error in form.year.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="year" class="col-sm-2 control-label">Year</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control {% if form.year.errors %} is-invalid {% endif %}" name="year" id="year" placeholder="Year" value="{{data.year}}" autocomplete="year" >
+                                    </div>
+                                </div>
+                                    <!-- this line should be removed and replaced with the renderUpdateFields variable -->
+                            <!-- end new render_update fields -->
+                        </div>
+                        <div class="card-footer">
+                            </div class="row">
+                                <div class="col-sm-2">
+                                    <a href="{{ url_for('calendar_periods_admin.index') }}?organization={{ organization }}"class="btn btn-block btn-default">Cancel</a>
+                                </div>
+                                <div class="col-sm-8">
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="submit" class="btn btn-block btn-info">Update Calendar_periods</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock content %}

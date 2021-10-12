@@ -34,6 +34,56 @@ $(document).ready(function(){
         var newUrl =  $(this).data('link');
         $('.deleteRecordBtn').attr("href", newUrl);
    });
+
+   $('.DataTable').DataTable({
+        'paging'      : true,
+        'responsive'  : false,
+        'lengthChange': true,
+        'searching'   : true,
+        'ordering'    : true,
+        'info'        : true,
+        'fixedHeader' : true,
+        'colReorder'  : true,
+        'autoWidth'   : false,
+        "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+        "pageLength": 10,
+        "dom": 'Bfrtip',
+        'buttons'	  : [
+            'pageLength',
+            'colvis',
+            {
+                extend: 'copy',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'csv',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            'excelHtml5',
+            {
+                extend: 'pdf',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'print',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }
+        ],
+        language: {
+                buttons: {
+                pageLength: '%d'
+                ,colvis: 'Columns'
+            }
+        }
+    });
 });
 
 window.addEventListener("DOMContentLoaded", (e) => {

@@ -3,15 +3,18 @@
 		"model": "Site_settings",
 		"fields": {
 			"organisation_id": {
+                "dataTypeLower": "relationship",
 				"dataType": "Integer",
                 "grapheneDataType": "Int()",
 				"nullable": false,
 				"unique": false,
 				"index": true,
 				"relationship": "organisations",
+				"relationship_display_value": "organisation_name",
 				"default": false
 			},
 			"key": {
+                "dataTypeLower": "string",
 				"dataType": "String(256)",
                 "grapheneDataType": "String()",
 				"nullable": false,
@@ -21,6 +24,7 @@
 				"default": false
 			},
 			"display_name": {
+                "dataTypeLower": "string",
 				"dataType": "String(256)",
                 "grapheneDataType": "String()",
 				"nullable": false,
@@ -30,6 +34,7 @@
 				"default": false
 			},
 			"description": {
+                "dataTypeLower": "text",
 				"dataType": "Text",
                 "grapheneDataType": "String()",
 				"nullable": false,
@@ -39,6 +44,7 @@
 				"default": false
 			},
 			"value": {
+                "dataTypeLower": "text",
 				"dataType": "Text",
                 "grapheneDataType": "String()",
 				"nullable": true,
@@ -48,6 +54,7 @@
 				"default": false
 			},
 			"data_type": {
+                "dataTypeLower": "string",
 				"dataType": "String(256)",
                 "grapheneDataType": "String()",
 				"nullable": false,
@@ -57,6 +64,7 @@
 				"default": false
 			},
 			"group": {
+                "dataTypeLower": "string",
 				"dataType": "String(256)",
                 "grapheneDataType": "String()",
 				"nullable": false,
@@ -66,6 +74,7 @@
 				"default": false
 			},
 			"key_value": {
+                "dataTypeLower": "text",
 				"dataType": "Text",
                 "grapheneDataType": "String()",
 				"nullable": true,
