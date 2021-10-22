@@ -15,6 +15,8 @@ class TestAttribute:
     # start new graphene attribute fields
     budget = graphene.Decimal(required=True)
     name = graphene.String(required=True)
+    start_date = graphene.Date(required=True)
+    end_datetime = graphene.DateTime(required=True)
     test_id = graphene.Int(required=True)    # this line should be removed and replaced with the instanceNames variable
     # end new graphene attribute fields
     # name = graphene.String()

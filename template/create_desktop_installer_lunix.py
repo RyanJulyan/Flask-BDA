@@ -30,6 +30,7 @@ PyInstaller.__main__.run([
     '--onefile',
     '--noconsole',
     '--windowed',
+    '--noconfirm',
     '--clean',
     '--add-data', 'app:app',
     # '--add-data', 'databases:databases',

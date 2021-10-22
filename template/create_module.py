@@ -270,6 +270,8 @@ def create_module(module):
     renderUpdateFields = ''
     tableHeaders = ''
     tableValues = ''
+    relationshipQueryAddColumns = ''
+    xyzQueryAddColumns = ''
 
     count = 0
 
@@ -378,9 +380,14 @@ def create_module(module):
                 argumentParserArr.append("\n    '{}': fields.Float(required=True, description='The {} {}')".format(key, model, friendly_name))
             else:
                 argumentParserArr.append("\n    '{}': fields.String(required=True, description='The {} {}')".format(key, model, friendly_name))
-        newFormRequestDefinitions += "            {} = request.form.get('{}')\n".format(key, key)
-        updateApiRequestDefinitions += "        data.{} = api.payload['{}']\n".format(key, key)
-        updateFormRequestDefinitions += "        data.{} = request.form.get('{}')\n".format(key, key)
+        
+        if value['dataType'] == 'Date':
+            updateApiRequestDefinitions += "        data.{} = fn.convert_to_python_data_type('date')(api.payload['{}'])\n".format(key, key)
+        elif value['dataType'] == 'DateTime':
+            updateApiRequestDefinitions += "        data.{} = fn.convert_to_python_data_type('datetime')(api.payload['{}'])\n".format(key, key)
+        else:
+            updateApiRequestDefinitions += "        data.{} = api.payload['{}']\n".format(key, key)
+        
         renderFields += """
                                 <div class="p-1 text-danger" style="{}% if not form.{}.errors %{} display:none; {}% endif %{}">
                                     {}% if form.{}.errors %{}
@@ -425,16 +432,50 @@ def create_module(module):
                         <th>
                             {}
                         </th>
-        """.format(friendly_name)
-        tableValues += """
-                            <td>
-                                {} value.{} {}
-                            </td>
-        """.format("{{", key, "}}")
+        """.format(friendly_name.replace('_'," "))
+
+        if value['relationship']:
+            tableValues += """
+                                        <td>
+                                            {} value.{}_{} {}
+                                        </td>
+            """.format("{{", value['relationship'], value['relationship_display_value'], "}}")
+            
+            relationshipQueryAddColumns += """                    {}.{}.label('{}_{}'),
+            """.format(value['relationship'].capitalize(), value['relationship_display_value'],value['relationship'], value['relationship_display_value'])
+        else:
+            tableValues += """
+                                        <td>
+                                            {} value.{} {}
+                                        </td>
+            """.format("{{", key, "}}")
+        
+            xyzQueryAddColumns += """                    {}.{}.label('{}'),
+            """.format(module.capitalize(), key, key)
+        
         feildNames.append(key)
-        newFormRequestDefinitionsArr.append("\n        {}=request.form.get('{}')".format(key, key))
-        updateFormRequestDefinitionsArr.append("\n        data.{} = request.form.get('{}')".format(key, key))
-        newApiRequestDefinitionsArr.append("\n            {}=api.payload['{}']".format(key, key))
+
+        if value['dataType'] == 'Date':
+            newFormRequestDefinitionsArr.append("\n            {}=fn.convert_to_python_data_type('date')(request.form.get('{}'))".format(key, key))
+        elif value['dataType'] == 'DateTime':
+            newFormRequestDefinitionsArr.append("\n            {}=fn.convert_to_python_data_type('datetime')(request.form.get('{}'))".format(key, key))
+        else:
+            newFormRequestDefinitionsArr.append("\n            {}=request.form.get('{}')".format(key, key))
+        
+        if value['dataType'] == 'Date':
+            updateFormRequestDefinitionsArr.append("\n        data.{} = fn.convert_to_python_data_type('date')(request.form.get('{}'))".format(key, key))
+        elif value['dataType'] == 'DateTime':
+            updateFormRequestDefinitionsArr.append("\n        data.{} = fn.convert_to_python_data_type('datetime')(request.form.get('{}'))".format(key, key))
+        else:
+            updateFormRequestDefinitionsArr.append("\n        data.{} = request.form.get('{}')".format(key, key))
+        
+        if value['dataType'] == 'Date':
+            newApiRequestDefinitionsArr.append("\n            {}=fn.convert_to_python_data_type('date')(api.payload['{}'])".format(key, key))
+        elif value['dataType'] == 'DateTime':
+            newApiRequestDefinitionsArr.append("\n            {}=fn.convert_to_python_data_type('datetime')(api.payload['{}'])".format(key, key))
+        else:
+            newApiRequestDefinitionsArr.append("\n            {}=api.payload['{}']".format(key, key))
+        
 
     contextData = str((','.join(item for item in contextDataArr)))
     instanceParams = str((', '.join(item for item in feildNames)))
@@ -467,6 +508,8 @@ def create_module(module):
     renderUpdateFields = renderUpdateFields.rstrip('\n')
     tableHeaders = tableHeaders.rstrip('\n')
     tableValues = tableValues.rstrip('\n')
+    relationshipQueryAddColumns = relationshipQueryAddColumns.rstrip('\n')
+    xyzQueryAddColumns = xyzQueryAddColumns.rstrip('\n')
 
     #############
     #############
@@ -757,6 +800,10 @@ class Create_{}(graphene.Mutation):
                         destination.write(tableHeaders)
                     if "<!-- start new table values -->" in line:
                         destination.write(tableValues)
+                    if "# relationship query add columns" in line:
+                        destination.write(relationshipQueryAddColumns)
+                    if "# Xyz query add columns" in line:
+                        destination.write(xyzQueryAddColumns)
                     if "def __init__" in line and 'models.py' in s:
                         destination.write('    def __init__(self, ' + instanceParams + "):  # ,example_field):\n")
                 source.close()

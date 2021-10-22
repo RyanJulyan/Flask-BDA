@@ -15,6 +15,8 @@ class TestForm(Form):
     # start new form definitions
     budget = TextField('budget', [Required(message='Must provide a Budget')])
     name = TextField('name', [Required(message='Must provide a Name')])
+    start_date = TextField('start_date', [Required(message='Must provide a Start date')])
+    end_datetime = TextField('end_datetime', [Required(message='Must provide a End datetime')])
     test_id = TextField('test_id', [Required(message='Must provide a Test id')])
     # end new form definitions
     # example_field = TextField('Example Field', [Required(message='Must provide a Example Field')])

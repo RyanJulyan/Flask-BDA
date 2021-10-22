@@ -26,6 +26,8 @@ class Test(Base):
     # start new field definitions
     budget = db.Column(db.Numeric(38, 19), nullable=False, default=False, unique=False, index=True)
     name = db.Column(db.String(50), nullable=False, default=False, unique=True, index=True)
+    start_date = db.Column(db.Date, nullable=False, default=False, unique=True, index=True)
+    end_datetime = db.Column(db.DateTime, nullable=False, default=False, unique=True, index=True)
     test_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False, default=False, unique=False, index=True)
     users = db.relationship('Users', remote_side='Users.id', lazy='joined')
 
@@ -36,10 +38,12 @@ class Test(Base):
     # example_field = db.Column(db.String(256), nullable=False,default=False, unique=False)
 
     # New instance instantiation procedure
-    def __init__(self, budget, name, test_id):  # ,example_field):
+    def __init__(self, budget, name, start_date, end_datetime, test_id):  # ,example_field):
         # start new instance fields
         self.budget = budget
         self.name = name
+        self.start_date = start_date
+        self.end_datetime = end_datetime
         self.test_id = test_id
         # end new instance fields
         # self.example_field = example_field

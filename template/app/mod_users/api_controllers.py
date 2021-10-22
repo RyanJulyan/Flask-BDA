@@ -95,12 +95,6 @@ class Login(Resource):
             return {"message": "Incorrect username or password"}, 401
 
         # Identity can be any data that is json serializable
-        print('---------------------')
-        print('---------------------')
-        print('data.email',data.email)
-        print('data.email',type(data.email))
-        print('---------------------')
-        print('---------------------')
         ret = {
             'access_token': create_access_token(identity={"email":data.email}),
             'refresh_token': create_refresh_token(identity={"email":data.email})
@@ -118,6 +112,7 @@ class RefreshToken(Resource):
              description='Login user')
     @ns.doc(security='jwt')
     @jwt_refresh_token_required
+    # @ns.doc(security=None)
     def post(self):
         current_user = get_jwt_identity()
         ret = {
@@ -151,7 +146,8 @@ class UserResource(Resource):
              description='get user')
     @ns.marshal_list_with(user, code=200)
     @ns.doc(security='jwt')
-    # @jwt_required
+    @jwt_required
+    # @ns.doc(security=None)
     def get(self, id):  # /user/<id>
         '''Fetch a single User item given its identifier'''
         data = Users.query.get_or_404(id)
@@ -161,7 +157,8 @@ class UserResource(Resource):
     @ns.doc(responses={204: 'DELETED', 422: 'Unprocessable Entity', 500: 'Internal Server Error'},
              description='delete user')
     @ns.doc(security='jwt')
-    # @jwt_required
+    @jwt_required
+    # @ns.doc(security=None)
     def delete(self, id):  # /user/<id>
         '''Delete a User given its identifier'''
         data = Users.query.get_or_404(id)
@@ -175,7 +172,8 @@ class UserResource(Resource):
     @ns.expect(user)
     @ns.marshal_list_with(user, code=201)
     @ns.doc(security='jwt')
-    # @jwt_required
+    @jwt_required
+    # @ns.doc(security=None)
     def put(self, id):  # /user/<id>
         '''Update a User given its identifier'''
         data = Users.query.get_or_404(id)
@@ -196,7 +194,8 @@ class UserListResource(Resource):
     @ns.expect(parser)
     @ns.marshal_list_with(user, code=200)
     @ns.doc(security='jwt')
-    # @jwt_required
+    @jwt_required
+    # @ns.doc(security=None)
     def get(self):  # /user
         '''List User records '''
         args = parser.parse_args()
@@ -211,7 +210,8 @@ class UserListResource(Resource):
     @ns.expect(user)
     @ns.marshal_with(user, code=201)
     @ns.doc(security='jwt')
-    # @jwt_required
+    @jwt_required
+    # @ns.doc(security=None)
     def post(self):  # /user
         """Create a new User record"""
         

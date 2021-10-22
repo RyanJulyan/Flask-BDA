@@ -24,6 +24,28 @@
                         "relationship_display_value": null,
                         "unique": true
             },
+            "start_date": {
+                        "dataType": "Date",
+                        "dataTypeLower": "date",
+                        "default": false,
+                        "grapheneDataType": "Date(required=True)",
+                        "index": true,
+                        "nullable": false,
+                        "relationship": null,
+                        "relationship_display_value": null,
+                        "unique": true
+            },
+            "end_datetime": {
+                        "dataType": "DateTime",
+                        "dataTypeLower": "datetime",
+                        "default": false,
+                        "grapheneDataType": "DateTime(required=True)",
+                        "index": true,
+                        "nullable": false,
+                        "relationship": null,
+                        "relationship_display_value": null,
+                        "unique": true
+            },
             "test_id": {
                         "dataType": "Integer",
                         "dataTypeLower": "relationship",

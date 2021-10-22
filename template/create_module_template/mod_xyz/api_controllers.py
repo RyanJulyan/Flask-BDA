@@ -99,6 +99,13 @@ class XyzResource(Resource):
                 Xyz.query
                 # relationship join
 
+                .add_columns(
+                    Xyz.id,
+                    # Xyz query add columns
+
+                    # relationship query add columns
+                    
+                )
                 .get_or_404(id)
             )
 
@@ -152,6 +159,13 @@ class XyzListResource(Resource):
                 Xyz.query
                 # relationship join
 
+                .add_columns(
+                    Xyz.id,
+                    # Xyz query add columns
+
+                    # relationship query add columns
+                    
+                )
                 .paginate(page=page, per_page=app.config['ROWS_PER_PAGE'])
                 .items
             )

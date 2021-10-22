@@ -77,13 +77,25 @@ def public_list(template):
 
 @mod_admin_test.route('/', methods=['GET'])
 @mobile_template('{mobile/}test/admin/index.html')
-# @login_required
+@login_required
 def index(template):
     page = request.args.get('page', 1, type=int)
     data = (
                 Test.query
                 # relationship join
                 .join(Users)
+                .add_columns(
+                    Test.id,
+                    # Test query add columns
+                    Test.budget.label('budget'),
+                                Test.name.label('name'),
+                                Test.start_date.label('start_date'),
+                                Test.end_datetime.label('end_datetime'),
+            
+                    # relationship query add columns
+                    Users.name.label('users_name'),
+            
+                )
                 .paginate(page=page, per_page=app.config['ROWS_PER_PAGE'])
             )
 
@@ -96,7 +108,7 @@ def index(template):
 
 @mod_admin_test.route('/create', methods=['GET'])
 @mobile_template('{mobile/}test/admin/create.html')
-# @login_required
+@login_required
 def create(template):
 
     form = TestForm(request.form)
@@ -114,7 +126,7 @@ def create(template):
 
 @mod_admin_test.route('/store', methods=['POST'])
 @mobile_template('{mobile/}test/admin/create.html')
-# @login_required
+@login_required
 def store(template):
 
     form = TestForm(request.form)
@@ -130,9 +142,11 @@ def store(template):
     if form.validate_on_submit():
         data = Test(
             # start new request feilds
-        budget=request.form.get('budget'),
-        name=request.form.get('name'),
-        test_id=request.form.get('test_id')
+            budget=request.form.get('budget'),
+            name=request.form.get('name'),
+            start_date=fn.convert_to_python_data_type('date')(request.form.get('start_date')),
+            end_datetime=fn.convert_to_python_data_type('datetime')(request.form.get('end_datetime')),
+            test_id=request.form.get('test_id')
         # end new request feilds
             # title=request.form.get("title")
         )
@@ -151,7 +165,7 @@ def store(template):
 
 @mod_admin_test.route('/show/<id>', methods=['GET'])
 @mobile_template('{mobile/}test/admin/show.html')
-# @login_required
+@login_required
 def show(id,template):
     data = (
                 Test.query
@@ -169,7 +183,7 @@ def show(id,template):
 
 @mod_admin_test.route('/edit/<id>', methods=['GET'])
 @mobile_template('{mobile/}test/admin/edit.html')
-# @login_required
+@login_required
 def edit(id,template):
 
     form = TestForm(request.form)
@@ -180,7 +194,6 @@ def edit(id,template):
 
     for column in test_columns.attrs:
         column_name = column.key
-        
         try:
             form[column_name].data = getattr(data,column_name)
         except:
@@ -196,11 +209,11 @@ def edit(id,template):
     }
 
     return render_template(template, form=form, **context_data)
-    
+
 
 @mod_admin_test.route('/update/<id>', methods=['PUT', 'PATCH', 'POST'])
 @mobile_template('{mobile/}test/admin/edit.html')
-# @login_required
+@login_required
 def update(id,template):
 
     form = TestForm(request.form)
@@ -219,6 +232,8 @@ def update(id,template):
         # start update request feilds
         data.budget = request.form.get('budget')
         data.name = request.form.get('name')
+        data.start_date = fn.convert_to_python_data_type('date')(request.form.get('start_date'))
+        data.end_datetime = fn.convert_to_python_data_type('datetime')(request.form.get('end_datetime'))
         data.test_id = request.form.get('test_id')
     # end update request feilds
         # data.title = request.form.get("title")
@@ -235,7 +250,7 @@ def update(id,template):
 
 
 @mod_admin_test.route('/destroy/<id>', methods=['POST', 'DELETE', 'GET'])
-# @login_required
+@login_required
 def destroy(id):
     data = Test.query.get_or_404(id)
     db.session.delete(data)

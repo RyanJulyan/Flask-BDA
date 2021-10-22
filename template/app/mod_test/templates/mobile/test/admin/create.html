@@ -72,6 +72,38 @@
                                     </div>
                                 </div>
         
+                                <div class="p-1 text-danger" style="{% if not form.start_date.errors %} display:none; {% endif %}">
+                                    {% if form.start_date.errors %}
+                                        {% for error in form.start_date.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="start_date" class="col-sm-2 control-label">Start date</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control daterangepicker_single {% if form.start_date.errors %} is-invalid {% endif %}" value="{{form.start_date.data}}" name="start_date" id="start_date" placeholder="Start date" autocomplete="start_date" >
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.end_datetime.errors %} display:none; {% endif %}">
+                                    {% if form.end_datetime.errors %}
+                                        {% for error in form.end_datetime.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="end_datetime" class="col-sm-2 control-label">End datetime</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control daterangepicker_single {% if form.end_datetime.errors %} is-invalid {% endif %}" value="{{form.end_datetime.data}}" name="end_datetime" id="end_datetime" placeholder="End datetime" autocomplete="end_datetime" >
+                                    </div>
+                                </div>
+        
                                 <div class="p-1 text-danger" style="{% if not form.test_id.errors %} display:none; {% endif %}">
                                     {% if form.test_id.errors %}
                                         {% for error in form.test_id.errors %}

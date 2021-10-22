@@ -57,6 +57,14 @@
                         </th>
         
                         <th>
+                            Start date
+                        </th>
+        
+                        <th>
+                            End datetime
+                        </th>
+        
+                        <th>
                             Test id
                         </th>
         
@@ -74,18 +82,26 @@
                                         </td>
                                         <!-- start new table values -->
 
-                            <td>
-                                {{ value.budget }}
-                            </td>
-        
-                            <td>
-                                {{ value.name }}
-                            </td>
-        
-                            <td>
-                                {{ value.test_id }}
-                            </td>
-        
+                                        <td>
+                                            {{ value.budget }}
+                                        </td>
+            
+                                        <td>
+                                            {{ value.name }}
+                                        </td>
+            
+                                        <td>
+                                            {{ value.start_date }}
+                                        </td>
+            
+                                        <td>
+                                            {{ value.end_datetime }}
+                                        </td>
+            
+                                        <td>
+                                            {{ value.users_name }}
+                                        </td>
+            
                         <!-- end new table values -->
                                         <td class="whitespace-nowrap text-right text-sm font-medium">
                                             <a href="{{ url_for('test_admin.edit', id=value.id) }}?organization={{ organization }}" class="btn btn-outline-info btn-xs">Edit</a> | 

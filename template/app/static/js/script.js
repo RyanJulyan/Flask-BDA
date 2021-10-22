@@ -15,7 +15,7 @@ $(document).ready(function(){
       timePicker24Hour: true,
       showISOWeekNumbers: true,
       locale: {
-        format: 'YYYY-MM-DD HH:mm'
+        format: 'YYYY-MM-DD HH:mm:ss'
       }
     });
 
@@ -26,7 +26,7 @@ $(document).ready(function(){
       timePicker24Hour: true,
       showISOWeekNumbers: true,
       locale: {
-        format: 'YYYY-MM-DD HH:mm'
+        format: 'YYYY-MM-DD HH:mm:ss'
       }
     });
 

@@ -63,6 +63,8 @@ test = api.model('Test', {
     # start new add_argument
     'budget': fields.Float(required=True, description='The Test Budget'),
     'name': fields.String(required=True, description='The Test Name'),
+    'start_date': fields.String(required=True, description='The Test Start date'),
+    'end_datetime': fields.String(required=True, description='The Test End datetime'),
     'test_id': fields.Float(required=True, description='The Test Test id')
     # end new add_argument
     # 'task': fields.String(required=True, description='The task details')
@@ -76,6 +78,8 @@ test_agg = api.model('Test_agg', {
     'budget_min': fields.Float(readonly=True, description='The Test Budget min'),
     'budget_max': fields.Float(readonly=True, description='The Test Budget max'),
     'name_count': fields.Integer(readonly=True, description='The Test Name count'),
+    'start_date_count': fields.Integer(readonly=True, description='The Test Start date count'),
+    'end_datetime_count': fields.Integer(readonly=True, description='The Test End datetime count'),
     'test_id_count': fields.Integer(readonly=True, description='The Test Test id count'),
     'test_id_sum': fields.Float(readonly=True, description='The Test Test id sum'),
     'test_id_avg': fields.Float(readonly=True, description='The Test Test id avg'),
@@ -111,6 +115,18 @@ class TestResource(Resource):
                 Test.query
                 # relationship join
                 .join(Users)
+                .add_columns(
+                    Test.id,
+                    # Test query add columns
+                    Test.budget.label('budget'),
+                                Test.name.label('name'),
+                                Test.start_date.label('start_date'),
+                                Test.end_datetime.label('end_datetime'),
+            
+                    # relationship query add columns
+                    Users.name.label('users_name'),
+                                
+                )
                 .get_or_404(id)
             )
 
@@ -140,6 +156,8 @@ class TestResource(Resource):
         # start update api_request feilds
         data.budget = api.payload['budget']
         data.name = api.payload['name']
+        data.start_date = fn.convert_to_python_data_type('date')(api.payload['start_date'])
+        data.end_datetime = fn.convert_to_python_data_type('datetime')(api.payload['end_datetime'])
         data.test_id = api.payload['test_id']
         # end update api_request feilds
         # data.title = api.payload['title']
@@ -166,6 +184,18 @@ class TestListResource(Resource):
                 Test.query
                 # relationship join
                 .join(Users)
+                .add_columns(
+                    Test.id,
+                    # Test query add columns
+                    Test.budget.label('budget'),
+                                Test.name.label('name'),
+                                Test.start_date.label('start_date'),
+                                Test.end_datetime.label('end_datetime'),
+            
+                    # relationship query add columns
+                    Users.name.label('users_name'),
+                                
+                )
                 .paginate(page=page, per_page=app.config['ROWS_PER_PAGE'])
                 .items
             )
@@ -184,6 +214,8 @@ class TestListResource(Resource):
             # start new api_request feilds
             budget=api.payload['budget'],
             name=api.payload['name'],
+            start_date=fn.convert_to_python_data_type('date')(api.payload['start_date']),
+            end_datetime=fn.convert_to_python_data_type('datetime')(api.payload['end_datetime']),
             test_id=api.payload['test_id']
             # end new api_request feilds
             # title = api.payload['title']
@@ -295,6 +327,10 @@ class TestAggregateResource(Resource):
                 func.max(Test.budget).label('budget_max'),
                 func.count(Test.name).label('name_count'),
 
+                func.count(Test.start_date).label('start_date_count'),
+
+                func.count(Test.end_datetime).label('end_datetime_count'),
+
                 func.count(Test.test_id).label('test_id_count'),
 
                 func.sum(Test.test_id).label('test_id_sum'),
@@ -323,6 +359,10 @@ class TestAggregateResource(Resource):
                 "budget_max":data.budget_max,
 
                 "name_count":data.name_count,
+
+                "start_date_count":data.start_date_count,
+
+                "end_datetime_count":data.end_datetime_count,
 
                 "test_id_count":data.test_id_count,
 

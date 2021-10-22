@@ -40,6 +40,7 @@ def convert_str_to_list(string, list_separator = list_separator):
 
 
 def convert_str_to_date(string, date_format = date_format):
+    string = string[:10]
     return datetime.strptime(string, date_format)
 
 

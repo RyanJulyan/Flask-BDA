@@ -84,6 +84,13 @@ def index(template):
                 Xyz.query
                 # relationship join
 
+                .add_columns(
+                    Xyz.id,
+                    # Xyz query add columns
+
+                    # relationship query add columns
+
+                )
                 .paginate(page=page, per_page=app.config['ROWS_PER_PAGE'])
             )
 
@@ -176,7 +183,6 @@ def edit(id,template):
 
     for column in xyz_columns.attrs:
         column_name = column.key
-        
         try:
             form[column_name].data = getattr(data,column_name)
         except:

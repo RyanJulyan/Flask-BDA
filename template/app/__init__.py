@@ -231,14 +231,6 @@ def before_request():
     if app.config['AUTO_CREATE_TABLES_FROM_MODELS']:
         # This will create the database tables using SQLAlchemy
         db.create_all()
-
-    # print('-------------------------------')
-    # print('-------------------------------')
-    # print('-------------------------------')
-    # print('Keys:', db.session.execute(Users.query).keys())
-    # print('-------------------------------')
-    # print('-------------------------------')
-    # print('-------------------------------')
     
     g.organisation_id = 1
     organisation = Organisations.query.filter(Organisations.organisation_name == g.organization).first()
@@ -435,9 +427,6 @@ from app.mod_test.controllers import mod_admin_test as test_admin_module  # noqa
 # test
 from app.mod_test.controllers import mod_public_test as test_public_module  # noqa: E402
 from app.mod_test.controllers import mod_admin_test as test_admin_module  # noqa: E402
-# test
-from app.mod_test.controllers import mod_public_test as test_public_module  # noqa: E402
-from app.mod_test.controllers import mod_admin_test as test_admin_module  # noqa: E402
 
 
 # Register blueprint(s)
@@ -467,9 +456,6 @@ app.register_blueprint(calendar_definitions_admin_module)
 # graphql
 # app.register_blueprint(graphql_module)
 # register_blueprint new xyz_module
-# test
-app.register_blueprint(test_public_module)
-app.register_blueprint(test_admin_module)
 # test
 app.register_blueprint(test_public_module)
 app.register_blueprint(test_admin_module)
@@ -534,8 +520,6 @@ from app.mod_calendar_periods.api_controllers import ns as Calendar_periods_API 
 # calendar_definitions
 from app.mod_calendar_definitions.api_controllers import ns as Calendar_definitions_API  # noqa: E402
 # new xyz api resources
-# test
-from app.mod_test.api_controllers import ns as Test_API  # noqa: E402
 # test
 from app.mod_test.api_controllers import ns as Test_API  # noqa: E402
 # test

@@ -21,6 +21,7 @@ PyInstaller.__main__.run([
     # '--onefile',
     '--noconsole',
     '--windowed',
+    '--noconfirm',
     '--clean',
     '--add-data', 'app:app',
     '--add-data', 'databases:databases',
@@ -32,7 +33,7 @@ PyInstaller.__main__.run([
     '--hidden-import', 'Werkzeug',
     '--hidden-import', 'cmath',
     '--additional-hooks-dir', './pyinstaller_hooks/',
-    '--icon', './app/static/images/icon.ico',
+    '--icon', './app/static/images/icon.icns',
     # '--log-level','WARN', # LEVEL may be one of TRACE, DEBUG, INFO, WARN, ERROR, CRITICAL (default: INFO).
     '--key', '1234567890123456', # The key used to encrypt Python bytecode.
     '--name', name,
