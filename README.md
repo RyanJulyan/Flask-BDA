@@ -1,5 +1,5 @@
 # Flask Business Driven App (BDA)
-## A Cross-platform, Multi-tenant, SAAS-ready, Rapid Application Development (RAD) tool to assist with building flask python applications. Helping you build applications fast, right, and for the Future.
+## Quickly create cross-platform, multi-tenant, SAAS-ready, mobile and web applications, and reactive web apps for any device. A Rapid Application Development (RAD) tool to assist with building flask python applications. Helping you build applications fast, right, and for the Future.
 
 > **Note:** Still under Development!
 
@@ -119,43 +119,49 @@ Deprecations will be kept in place for at least 3 minor versions, after version 
 ## Step 1:
 ### Download pre-configured development environment
 
-> Start your development with a quick and easy download of a pre-configured development environment up and running in minutes.
+> Start your with a quick and easy pre-configured development environment in minutes.
 
 > No complex setup required. Only python (suggested [3.8.6](https://www.python.org/downloads/release/python-386/)) is required.
 
 ## Step 2:
 ### Update config and rapidly develop custom modules
 
-> Udate your configurations: Database, Application Settings.
+> Upsdate your configurations: Database connections and application settings.
 
-> Create your own modules and data structures.
-
-> Your data structures are saved as a data model allowing you to use different databases.
+> Create your own modules and data structures (data model) allowing you to use different databases.
 
 ## Step 3:
 ### Fully functional pages
 
-> Auto-generated views fully functional interactive pages, easily managed per module.
-
-> Out of the box, Admin and Mobile views are generated.
-
-> REST APIs are created automatically with a Swagger front-end and machine-friendly interface.
-
-> GraphQL API endpoints are created automatically with a GraphiQL front-end and machine-friendly interface.
+> Auto-generated fully functional:
+> * `Admin` and `Mobile` pages
+> * `REST APIs` with a Swagger front-end
+> * `GraphQL API` with a GraphiQL front-end
+> easily managed per module.
 
 ## Step 4:
 ### Customize
 
-> Configure reports to your specific needs and share them with your team and clients.
+> Configure pages to your specific needs and easily share them with your team and clients.
 
-> Write your own custom code in an isolated module, so you do not affect other modules.
+> Write your own custom code in an isolated module, so you do not affect other modules, 
+
+> Easily integrate modules accross different projects.
 
 ## Step 5:
 ### Deploy
 
-> Desktop, Web & Mobile
+> Use the same codebase to deploy to:
+> * Desktop
+> * Web
+> * Mobile
 
-> Environments include: Docker / AWS Serverless / Digital Ocean / Heroku / Shared hosting.
+> Environments include: 
+> * Docker
+> * AWS Serverless
+> * Digital Ocean
+> * Heroku
+> * Shared hosting.
 
 # Requirements
 * Download and install [Python](https://www.python.org/downloads/) (suggested [3.8.6](https://www.python.org/downloads/release/python-386/)) if you do not already have it installed.

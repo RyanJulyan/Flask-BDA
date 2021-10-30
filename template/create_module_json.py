@@ -147,16 +147,31 @@ def create_module_json(module_name):
                 print("Please enter a valid model name:")
         return None
 
-    def module(module_name):
+
+    def create_name(prompt):
+        name = input(prompt)
+        while True:
+            if(len(name) > 0):
+                name = name.lower()
+                name = re.sub('[;!,*)@#%(&$?.^\'"+<>/\\{}]', '', name)
+                name = name.replace(" ", "_")
+                return name
+            else:
+                print("Invalid Name!")
+                name = input("Please enter a valid name: ")
+
+
+    def create_module_name(module_name):
         module = module_name
-        if(len(module) > 0):
-            module = module.lower()
-            module = re.sub('[;!,*)@#%(&$?.^\'"+<>/\\{}]', '', module)
-            module = module.replace(" ", "_")
-            return module
-        else:
-            print("Invalid Name!")
-            print("Please enter a valid name:")
+        while True:
+            if(len(module) > 0):
+                module = module.lower()
+                module = re.sub('[;!,*)@#%(&$?.^\'"+<>/\\{}]', '', module)
+                module = module.replace(" ", "_")
+                return module
+            else:
+                print("Invalid Name!")
+                module = input("Please enter a valid name: ")
 
 
     def getEnumParameters():
@@ -226,8 +241,7 @@ def create_module_json(module_name):
                 relationship = relationships(field)
                 relationship_display_value = None
                 if relationship:
-                    print("Which Field Name from " + relationship + " do you want to see on the front end?")
-                    relationship_display_value = module(module_name)
+                    relationship_display_value = create_name("Which Field Name from " + relationship + " do you want to see on the front end?")
                 default = input("Default value: ") or False
                 fields[field] = {
                     "dataTypeLower": orgDataType,
@@ -246,7 +260,7 @@ def create_module_json(module_name):
 
 
     # Prompt user
-    module = module(module_name)
+    module = create_module_name(module_name)
     model = module.capitalize()
     fields = fields()
 
