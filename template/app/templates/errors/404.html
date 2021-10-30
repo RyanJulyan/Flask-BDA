@@ -1,6 +1,22 @@
 {% extends "index.html" %}
-{% block content %}
-<h1>404</h1>
-<p>There's nothing here!</p>
-<p><em>Return <a href="{{url_for('public.index')}}">Home</a>?</em></p>
-{% endblock %}
+{% block page_content %}
+
+<section class="content">
+    <div class="error-page">
+      <h2 class="headline text-warning"> 404</h2>
+
+      <div class="error-content">
+        <h3><i class="fa fa-exclamation-triangle text-warning" aria-hidden="true"></i> Oops! Page not found.</h3>
+
+        <p>
+          We could not find the page you were looking for.
+          Meanwhile, you may <a href="{{url_for('landing')}}">return Home</a>
+        </p>
+      </div>
+      <!-- /.error-content -->
+    </div>
+    <!-- /.error-page -->
+  </section>
+  <!-- /.content -->
+
+{% endblock page_content %}

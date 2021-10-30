@@ -1,0 +1,47 @@
+
+{% import 'macros/flash.html' as flash with context %}
+
+{% extends "index.html" %}
+
+{% block page_content %}
+
+<div class="login-page">
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="{{ url_for('landing') }}?organization={{ organization }}"><b>{{config.SITE_TITLE}}</b></a>
+        </div>
+        <div class="card">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">You forgot your password? Here you can easily retrieve a new password.</p>
+        
+                <form action="recover-password.html" method="post">
+                    {{ form.csrf_token }}
+                    <div class="p-1 text-danger" style="{% if not form.email.errors %} display:none; {% endif %}">
+                        {% if form.email.errors %}
+                            {% for error in form.email.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="input mb-3">
+                        <input type="email" name="email" id="email" class="form-control" placeholder="Email" required="true">
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary btn-block">Request new password</button>
+                        </div>
+                    </div>
+                </form>
+            
+                <p class="mb-1">
+                    <a href="{{ url_for('users.login') }}?organization={{ organization }}">Login</a>
+                </p>
+                <p class="mb-0">
+                    <a href="{{ url_for('users.register') }}?organization={{ organization }}" class="text-center">Register</a>
+                </p>
+            </div>
+        </div>
+    </div>
+  </div>
+
+{% endblock page_content %}

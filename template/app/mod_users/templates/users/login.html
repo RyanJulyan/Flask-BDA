@@ -1,0 +1,82 @@
+
+{% import 'macros/flash.html' as flash with context %}
+
+{% extends "index.html" %}
+
+{% block page_content %}
+
+<div class="login-page">
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="{{ url_for('landing') }}?organization={{ organization }}"><b>{{config.SITE_TITLE}}</b></a>
+        </div>
+        <div class="card">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">Sign in to start your session</p>
+        
+                <form action="{{ url_for('users.login') }}?organization={{ organization }}" method="post">
+                    {{ form.csrf_token }}
+                    <div class="p-1 text-danger" style="{% if not form.email.errors %} display:none; {% endif %}">
+                        {% if form.email.errors %}
+                            {% for error in form.email.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="input mb-3">
+                        <input type="email" name="email" id="email" value="{{form.email.data}}" class="form-control {% if form.email.errors %} is-invalid {% endif %}" placeholder="Email" required="true">
+                    </div>
+                    <div class="p-1 text-danger" style="{% if not form.password.errors %} display:none; {% endif %}">
+                        {% if form.password.errors %}
+                            {% for error in form.password.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" name="password" id="password" class="form-control {% if form.password.errors %} is-invalid {% endif %}" placeholder="Password">
+                        <div class="input-group-append" onclick="toggle_password_visibility('password');" style="cursor:pointer;">
+                            <div class="input-group-text">
+                                <span id="password_icon" class="fa fa-eye"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="icheck-primary">
+                                <input type="checkbox" id="remember">
+                                <label for="remember">
+                                Remember Me
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                        </div>
+                    </div>
+                </form>
+        
+                <div class="social-auth-links text-center mb-3">
+                    <p>- OR -</p>
+                    <a href="#" class="btn btn-block btn-primary">
+                        <i class="fa fa-facebook mr-2"></i>
+                        Sign in using Facebook
+                    </a>
+                    <a href="#" class="btn btn-block btn-danger">
+                        <i class="fa fa-google mr-2"></i>
+                        Sign in using Google
+                    </a>
+                </div>
+        
+                <p class="mb-1">
+                    <a href="{{ url_for('users.forgot') }}?organization={{ organization }}">Forgot password</a>
+                </p>
+                <p class="mb-0">
+                    <a href="{{ url_for('users.register') }}?organization={{ organization }}" class="text-center">Register</a>
+                </p>
+            </div>
+        </div>
+    </div>
+  </div>
+
+{% endblock page_content %}

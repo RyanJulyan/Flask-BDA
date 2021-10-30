@@ -20,3 +20,4 @@ def send_email(to, subject, template, data):
     )
 
     mail.send(msg)
+

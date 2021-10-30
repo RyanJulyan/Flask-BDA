@@ -3,6 +3,8 @@
 from flask_restx import Resource, fields, reqparse
 # Import sql functions (SUM,MIN,MAX,AVG)
 from sqlalchemy.sql import func
+# Import sql events 
+from sqlalchemy import event
 
 # JWT for API
 from flask_jwt_extended import jwt_required
@@ -12,6 +14,39 @@ from app import db, app, api
 
 # Import module models (i.e. User)
 from app.mod_hierarchies.models import Hierarchies
+
+# Import json for consuming payload and for payload data type transformations
+import json
+
+# Import read_json from pandas for payload data type transformations
+from pandas import read_json
+
+# import multiple bindings
+from app.mod_tenancy.multi_bind import MultiBindSQLAlchemy
+###################################################################
+#### Uncomment the following enable the use different bindings ####
+###################################################################
+
+########################################################################################################################
+## change db.first to db.<binding> name as needed where <binding> is the name you want to reference when making calls ##
+########################################################################################################################
+
+# db.first = MultiBindSQLAlchemy('first')
+##################################################
+## this will only work for the execute function ##
+##################################################
+# db.first.execute(...)
+
+#########################################################################################################################
+## change db.second to db.<binding> name as needed where <binding> is the name you want to reference when making calls ##
+#########################################################################################################################
+
+# db.second = MultiBindSQLAlchemy('second')
+##################################################
+## this will only work for the execute function ##
+##################################################
+# db.second.execute(...)
+
 
 # Swagger namespace
 ns = api.namespace('api/hierarchies', description='Database model "Hierarchies", resource based, Api. \
@@ -23,7 +58,7 @@ hierarchies = api.model('Hierarchies', {
     'organisation_id': fields.Float(required=True, description='The Hierarchies Organisation id'),
     'name': fields.String(required=True, description='The Hierarchies Name'),
     'path': fields.String(required=True, description='The Hierarchies Path'),
-    'rank': fields.Float(description='The Hierarchies Rank'),
+    'level': fields.Float(description='The Hierarchies Level'),
     'parent_id': fields.Float(description='The Hierarchies Parent id'),
     'key_value': fields.String(description='The Hierarchies Key value')
     # end new add_argument
@@ -39,11 +74,11 @@ hierarchies_agg = api.model('Hierarchies_agg', {
     'organisation_id_max': fields.Float(readonly=True, description='The Hierarchies Organisation id max'),
     'name_count': fields.Integer(readonly=True, description='The Hierarchies Name count'),
     'path_count': fields.Integer(readonly=True, description='The Hierarchies Path count'),
-    'rank_count': fields.Integer(readonly=True, description='The Hierarchies Rank count'),
-    'rank_sum': fields.Float(readonly=True, description='The Hierarchies Rank sum'),
-    'rank_avg': fields.Float(readonly=True, description='The Hierarchies Rank avg'),
-    'rank_min': fields.Float(readonly=True, description='The Hierarchies Rank min'),
-    'rank_max': fields.Float(readonly=True, description='The Hierarchies Rank max'),
+    'level_count': fields.Integer(readonly=True, description='The Hierarchies Level count'),
+    'level_sum': fields.Float(readonly=True, description='The Hierarchies Level sum'),
+    'level_avg': fields.Float(readonly=True, description='The Hierarchies Level avg'),
+    'level_min': fields.Float(readonly=True, description='The Hierarchies Level min'),
+    'level_max': fields.Float(readonly=True, description='The Hierarchies Level max'),
     'parent_id_count': fields.Integer(readonly=True, description='The Hierarchies Parent id count'),
     'parent_id_sum': fields.Float(readonly=True, description='The Hierarchies Parent id sum'),
     'parent_id_avg': fields.Float(readonly=True, description='The Hierarchies Parent id avg'),
@@ -105,12 +140,12 @@ class HierarchiesResource(Resource):
         data.organisation_id = api.payload['organisation_id']
         data.name = api.payload['name']
         data.path = api.payload['path']
-        data.rank = api.payload['rank']
+        data.level = api.payload['level']
         data.parent_id = api.payload['parent_id']
         data.key_value = api.payload['key_value']
         # end update api_request feilds
+        # data.title = api.payload['title']
         db.session.commit()
-        db.session.refresh(data)
         return data, 201
 
 
@@ -141,21 +176,56 @@ class HierarchiesListResource(Resource):
     @jwt_required
     def post(self):  # /hierarchies
         '''Create a new Hierarchies record'''
-        args = parser.parse_args()
         data = Hierarchies(
             # start new api_request feilds
             organisation_id=api.payload['organisation_id'],
             name=api.payload['name'],
             path=api.payload['path'],
-            rank=api.payload['rank'],
+            level=api.payload['level'],
             parent_id=api.payload['parent_id'],
             key_value=api.payload['key_value']
             # end new api_request feilds
-            # title=args['title']
+            # title = api.payload['title']
         )
         db.session.add(data)
         db.session.commit()
-        db.session.refresh(data)
+        return data, 201
+
+
+# HierarchiesBulk
+# Inserts and updates in Bulk of Hierarchies, and lets you POST to add and put to update new Hierarchies
+@ns.route('/bulk')
+class HierarchiesBulkListResource(Resource):
+    @ns.doc(responses={201: 'UPDATED', 422: 'Unprocessable Entity', 500: 'Internal Server Error'},
+             description='update hierarchies')
+    @ns.expect(hierarchies)
+    @ns.marshal_list_with(hierarchies, code=201)
+    @ns.doc(security='jwt')
+    @jwt_required
+    def put(self):  # /hierarchies/bulk
+        '''Bulk update Hierarchies given their identifiers'''
+        data = json.dumps(api.payload)
+        # data = read_json(data, convert_dates=['start_date'])
+        data = read_json(data)
+        data = data.to_dict(orient="records")
+        db.session.bulk_update_mappings(Hierarchies,data)
+        db.session.commit()
+        return data, 201
+
+    @ns.doc(responses={201: 'INSERTED', 422: 'Unprocessable Entity', 500: 'Internal Server Error'},
+             description='insert hierarchies')
+    @ns.expect(hierarchies)
+    @ns.marshal_with(hierarchies, code=201)
+    @ns.doc(security='jwt')
+    @jwt_required
+    def post(self):  # /hierarchies/bulk
+        '''Bulk create new Hierarchies records'''
+        data = json.dumps(api.payload)
+        # data = read_json(data, convert_dates=['start_date'])
+        data = read_json(data)
+        data = data.to_dict(orient="records")
+        db.session.bulk_insert_mappings(Hierarchies,data)
+        db.session.commit()
         return data, 201
 
 
@@ -175,41 +245,38 @@ class HierarchiesAggregateResource(Resource):
             
             # start new api_aggregate feilds
 
-            func.count(Hierarchies.organisation_id).label('organisation_id_count'),
+                func.count(Hierarchies.organisation_id).label('organisation_id_count'),
 
-            func.sum(Hierarchies.organisation_id).label('organisation_id_sum'),
+                func.sum(Hierarchies.organisation_id).label('organisation_id_sum'),
 
-            func.avg(Hierarchies.organisation_id).label('organisation_id_avg'),
+                func.avg(Hierarchies.organisation_id).label('organisation_id_avg'),
 
-            func.min(Hierarchies.organisation_id).label('organisation_id_min'),
+                func.min(Hierarchies.organisation_id).label('organisation_id_min'),
 
-            func.max(Hierarchies.organisation_id).label('organisation_id_max'),
+                func.max(Hierarchies.organisation_id).label('organisation_id_max'),
+                func.count(Hierarchies.name).label('name_count'),
 
-            func.count(Hierarchies.name).label('name_count'),
+                func.count(Hierarchies.path).label('path_count'),
 
-            func.count(Hierarchies.path).label('path_count'),
+                func.count(Hierarchies.level).label('level_count'),
 
-            func.count(Hierarchies.rank).label('rank_count'),
+                func.sum(Hierarchies.level).label('level_sum'),
 
-            func.sum(Hierarchies.rank).label('rank_sum'),
+                func.avg(Hierarchies.level).label('level_avg'),
 
-            func.avg(Hierarchies.rank).label('rank_avg'),
+                func.min(Hierarchies.level).label('level_min'),
 
-            func.min(Hierarchies.rank).label('rank_min'),
+                func.max(Hierarchies.level).label('level_max'),
+                func.count(Hierarchies.parent_id).label('parent_id_count'),
 
-            func.max(Hierarchies.rank).label('rank_max'),
+                func.sum(Hierarchies.parent_id).label('parent_id_sum'),
 
-            func.count(Hierarchies.parent_id).label('parent_id_count'),
+                func.avg(Hierarchies.parent_id).label('parent_id_avg'),
 
-            func.sum(Hierarchies.parent_id).label('parent_id_sum'),
+                func.min(Hierarchies.parent_id).label('parent_id_min'),
 
-            func.avg(Hierarchies.parent_id).label('parent_id_avg'),
-
-            func.min(Hierarchies.parent_id).label('parent_id_min'),
-
-            func.max(Hierarchies.parent_id).label('parent_id_max'),
-            
-            func.count(Hierarchies.key_value).label('key_value_count')
+                func.max(Hierarchies.parent_id).label('parent_id_max'),
+                func.count(Hierarchies.key_value).label('key_value_count')
             # end new api_aggregate feilds
             
         ).first()
@@ -218,42 +285,73 @@ class HierarchiesAggregateResource(Resource):
             
             # start new api_aggregate_object feilds
 
-            "organisation_id_count":data.organisation_id_count,
+                "organisation_id_count":data.organisation_id_count,
 
-            "organisation_id_sum":data.organisation_id_sum,
+                "organisation_id_sum":data.organisation_id_sum,
 
-            "organisation_id_avg":data.organisation_id_avg,
+                "organisation_id_avg":data.organisation_id_avg,
 
-            "organisation_id_min":data.organisation_id_min,
+                "organisation_id_min":data.organisation_id_min,
 
-            "organisation_id_max":data.organisation_id_max,
+                "organisation_id_max":data.organisation_id_max,
 
-            "name_count":data.name_count,
+                "name_count":data.name_count,
 
-            "path_count":data.path_count,
+                "path_count":data.path_count,
 
-            "rank_count":data.rank_count,
+                "level_count":data.level_count,
 
-            "rank_sum":data.rank_sum,
+                "level_sum":data.level_sum,
 
-            "rank_avg":data.rank_avg,
+                "level_avg":data.level_avg,
 
-            "rank_min":data.rank_min,
+                "level_min":data.level_min,
 
-            "rank_max":data.rank_max,
+                "level_max":data.level_max,
 
-            "parent_id_count":data.parent_id_count,
+                "parent_id_count":data.parent_id_count,
 
-            "parent_id_sum":data.parent_id_sum,
+                "parent_id_sum":data.parent_id_sum,
 
-            "parent_id_avg":data.parent_id_avg,
+                "parent_id_avg":data.parent_id_avg,
 
-            "parent_id_min":data.parent_id_min,
+                "parent_id_min":data.parent_id_min,
 
-            "parent_id_max":data.parent_id_max,
+                "parent_id_max":data.parent_id_max,
 
-            "key_value_count":data.key_value_count
+                "key_value_count":data.key_value_count
             # end new api_aggregate_object feilds
         }
 
         return data_obj, 200
+
+
+# SQLAlchemy Events before and after insert, update and delete changes on a table
+@event.listens_for(Hierarchies, "before_insert")
+def before_insert(mapper, connection, target):
+    pass
+
+
+@event.listens_for(Hierarchies, "after_insert")
+def after_insert(mapper, connection, target):
+    pass
+
+
+@event.listens_for(Hierarchies, "before_update")
+def before_update(mapper, connection, target):
+    pass
+
+
+@event.listens_for(Hierarchies, "after_update")
+def after_update(mapper, connection, target):
+    pass
+
+
+@event.listens_for(Hierarchies, "before_delete")
+def before_delete(mapper, connection, target):
+    pass
+
+
+@event.listens_for(Hierarchies, "after_delete")
+def after_delete(mapper, connection, target):
+    pass

@@ -1,45 +1,423 @@
 {
-    "hierarchies": {
+    "api_keys": {
         "fields": {
+            "api_key": {
+                "dataType": "String(256)",
+                "dataTypeLower": "string",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": true,
+                "nullable": false,
+                "relationship": null,
+                "unique": true
+            },
+            "api_key_notes": {
+                "dataType": "Text",
+                "dataTypeLower": "text",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
+                "nullable": true,
+                "relationship": null,
+                "unique": false
+            },
+            "created_user_id": {
+                "dataType": "Integer",
+                "dataTypeLower": "int",
+                "default": false,
+                "grapheneDataType": "Int()",
+                "index": true,
+                "nullable": false,
+                "relationship": "user",
+                "unique": false
+            },
+            "valid_from": {
+                "dataType": "DateTime",
+                "dataTypeLower": "datetime",
+                "default": false,
+                "grapheneDataType": "DateTime()",
+                "index": true,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            },
+            "valid_to": {
+                "dataType": "DateTime",
+                "dataTypeLower": "datetime",
+                "default": false,
+                "grapheneDataType": "DateTime()",
+                "index": true,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            }
+        },
+        "model": "Api_keys"
+    },
+    "cache_hierarchies": {
+        "fields": {
+            "current_hierarchy_id": {
+                "dataType": "Integer",
+                "dataTypeLower": "int",
+                "default": false,
+                "grapheneDataType": "Int()",
+                "index": true,
+                "nullable": false,
+                "relationship": false,
+                "unique": false
+            },
+            "hierarchy_id": {
+                "dataType": "Integer",
+                "dataTypeLower": "int",
+                "default": false,
+                "grapheneDataType": "Int()",
+                "index": true,
+                "nullable": false,
+                "relationship": false,
+                "unique": false
+            },
             "key_value": {
                 "dataType": "Text",
+                "dataTypeLower": "text",
                 "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
+                "nullable": true,
+                "relationship": null,
+                "unique": false
+            },
+            "level": {
+                "dataType": "Integer",
+                "dataTypeLower": "int",
+                "default": false,
+                "grapheneDataType": "Int()",
+                "index": true,
                 "nullable": true,
                 "relationship": null,
                 "unique": false
             },
             "name": {
                 "dataType": "String(256)",
+                "dataTypeLower": "string",
                 "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
                 "nullable": false,
                 "relationship": null,
                 "unique": false
             },
             "organisation_id": {
                 "dataType": "Integer",
+                "dataTypeLower": "int",
                 "default": false,
+                "grapheneDataType": "Int()",
+                "index": true,
                 "nullable": false,
                 "relationship": "organisations",
                 "unique": false
             },
             "parent_id": {
                 "dataType": "Integer",
+                "dataTypeLower": "int",
                 "default": false,
+                "grapheneDataType": "Int()",
+                "index": true,
                 "nullable": true,
                 "relationship": "hierarchies",
                 "unique": false
             },
             "path": {
                 "dataType": "Text",
+                "dataTypeLower": "text",
                 "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            }
+        },
+        "model": "Cache_hierarchies"
+    },
+    "calendar_definitions": {
+        "fields": {
+            "end": {
+                "dataType": "String(10)",
+                "dataTypeLower": "string",
+                "default": "None",
+                "grapheneDataType": "String()",
+                "index": false,
+                "nullable": true,
+                "relationship": null,
+                "unique": false
+            },
+            "freq_closed": {
+                "dataType": "String(4)",
+                "dataTypeLower": "string",
+                "default": "left",
+                "grapheneDataType": "String()",
+                "index": false,
                 "nullable": false,
                 "relationship": null,
                 "unique": false
             },
-            "rank": {
+            "freq_normalize": {
+                "dataType": "Boolean",
+                "dataTypeLower": "boolean",
+                "default": "True",
+                "grapheneDataType": "Boolean()",
+                "index": false,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            },
+            "freq_period_start_day": {
+                "dataType": "String(4)",
+                "dataTypeLower": "string",
+                "default": "-SUN",
+                "grapheneDataType": "String()",
+                "index": false,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            },
+            "name": {
+                "dataType": "String(256)",
+                "dataTypeLower": "string",
+                "default": "Standard Calendar",
+                "grapheneDataType": "String()",
+                "index": true,
+                "nullable": false,
+                "relationship": null,
+                "unique": true
+            },
+            "range_future_periods": {
                 "dataType": "Integer",
-                "default": false,
+                "dataTypeLower": "int",
+                "default": "104",
+                "grapheneDataType": "Int()",
+                "index": false,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            },
+            "range_history_periods": {
+                "dataType": "Integer",
+                "dataTypeLower": "int",
+                "default": "104",
+                "grapheneDataType": "Int()",
+                "index": false,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            },
+            "start": {
+                "dataType": "String(10)",
+                "dataTypeLower": "string",
+                "default": "None",
+                "grapheneDataType": "String()",
+                "index": false,
                 "nullable": true,
+                "relationship": null,
+                "unique": false
+            }
+        },
+        "model": "Calendar_definitions"
+    },
+    "calendar_periods": {
+        "fields": {
+            "calendar_definition_id": {
+                "dataType": "Integer",
+                "dataTypeLower": "int",
+                "default": 1,
+                "grapheneDataType": "Int()",
+                "index": true,
+                "nullable": false,
+                "relationship": "calendar_definitions",
+                "unique": false
+            },
+            "day": {
+                "dataType": "Integer",
+                "dataTypeLower": "int",
+                "default": false,
+                "grapheneDataType": "Int(required=True)",
+                "index": false,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            },
+            "end_date": {
+                "dataType": "DateTime",
+                "dataTypeLower": "datetime",
+                "default": false,
+                "grapheneDataType": "DateTime(required=True)",
+                "index": true,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            },
+            "month": {
+                "dataType": "Integer",
+                "dataTypeLower": "int",
+                "default": false,
+                "grapheneDataType": "Int(required=True)",
+                "index": true,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            },
+            "month_index": {
+                "dataType": "Integer",
+                "dataTypeLower": "int",
+                "default": false,
+                "grapheneDataType": "Int(required=True)",
+                "index": true,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            },
+            "quarter": {
+                "dataType": "Integer",
+                "dataTypeLower": "int",
+                "default": false,
+                "grapheneDataType": "Int(required=True)",
+                "index": true,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            },
+            "quarter_index": {
+                "dataType": "Integer",
+                "dataTypeLower": "int",
+                "default": false,
+                "grapheneDataType": "Int(required=True)",
+                "index": true,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            },
+            "start_date": {
+                "dataType": "DateTime",
+                "dataTypeLower": "datetime",
+                "default": false,
+                "grapheneDataType": "DateTime(required=True)",
+                "index": true,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            },
+            "week": {
+                "dataType": "Integer",
+                "dataTypeLower": "int",
+                "default": false,
+                "grapheneDataType": "Int(required=True)",
+                "index": true,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            },
+            "week_day": {
+                "dataType": "String(50)",
+                "dataTypeLower": "string",
+                "default": false,
+                "grapheneDataType": "String(required=True)",
+                "index": false,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            },
+            "week_index": {
+                "dataType": "Integer",
+                "dataTypeLower": "int",
+                "default": false,
+                "grapheneDataType": "Int(required=True)",
+                "index": true,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            },
+            "year": {
+                "dataType": "Integer",
+                "dataTypeLower": "int",
+                "default": false,
+                "grapheneDataType": "Int(required=True)",
+                "index": true,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            }
+        },
+        "model": "Calendar_periods"
+    },
+    "hierarchies": {
+        "fields": {
+            "cached": {
+                "dataType": "Boolean",
+                "dataTypeLower": "boolean",
+                "default": "0",
+                "grapheneDataType": "Boolean()",
+                "index": true,
+                "nullable": true,
+                "relationship": null,
+                "unique": false
+            },
+            "key_value": {
+                "dataType": "Text",
+                "dataTypeLower": "text",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
+                "nullable": true,
+                "relationship": null,
+                "unique": false
+            },
+            "level": {
+                "dataType": "Integer",
+                "dataTypeLower": "int",
+                "default": false,
+                "grapheneDataType": "Int()",
+                "index": true,
+                "nullable": true,
+                "relationship": null,
+                "unique": false
+            },
+            "name": {
+                "dataType": "String(256)",
+                "dataTypeLower": "string",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            },
+            "organisation_id": {
+                "dataType": "Integer",
+                "dataTypeLower": "int",
+                "default": false,
+                "grapheneDataType": "Int()",
+                "index": true,
+                "nullable": false,
+                "relationship": "organisations",
+                "unique": false
+            },
+            "parent_id": {
+                "dataType": "Integer",
+                "dataTypeLower": "int",
+                "default": false,
+                "grapheneDataType": "Int()",
+                "index": true,
+                "nullable": true,
+                "relationship": "hierarchies",
+                "unique": false
+            },
+            "path": {
+                "dataType": "Text",
+                "dataTypeLower": "text",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
+                "nullable": false,
                 "relationship": null,
                 "unique": false
             }
@@ -50,82 +428,395 @@
         "fields": {
             "organisation_address": {
                 "dataType": "Text",
-                "default": true,
+                "dataTypeLower": "text",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
                 "nullable": true,
+                "relationship": null,
+                "unique": false
+            },
+            "organisation_binding_database_uri": {
+                "dataType": "Text",
+                "dataTypeLower": "text",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
+                "nullable": false,
                 "relationship": null,
                 "unique": true
             },
             "organisation_city": {
                 "dataType": "String(256)",
-                "default": true,
+                "dataTypeLower": "string",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
                 "nullable": true,
                 "relationship": null,
-                "unique": true
+                "unique": false
             },
             "organisation_contact_email": {
                 "dataType": "String(256)",
-                "default": true,
-                "nullable": true,
+                "dataTypeLower": "string",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": true,
+                "nullable": false,
                 "relationship": null,
                 "unique": true
             },
             "organisation_contact_name": {
                 "dataType": "String(256)",
-                "default": true,
-                "nullable": true,
+                "dataTypeLower": "string",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
+                "nullable": false,
                 "relationship": null,
-                "unique": true
+                "unique": false
             },
             "organisation_country": {
                 "dataType": "String(256)",
-                "default": true,
+                "dataTypeLower": "string",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
                 "nullable": true,
                 "relationship": null,
-                "unique": true
+                "unique": false
             },
-            "organisation_details": {
+            "organisation_description": {
                 "dataType": "Text",
-                "default": true,
+                "dataTypeLower": "text",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
                 "nullable": true,
                 "relationship": null,
                 "unique": true
             },
             "organisation_homepage": {
                 "dataType": "Text",
-                "default": true,
+                "dataTypeLower": "string",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
                 "nullable": true,
                 "relationship": null,
-                "unique": true
+                "unique": false
+            },
+            "organisation_industry": {
+                "dataType": "String(256)",
+                "dataTypeLower": "string",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
+                "nullable": true,
+                "relationship": null,
+                "unique": false
+            },
+            "organisation_logo": {
+                "dataType": "Text",
+                "dataTypeLower": "text",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
+                "nullable": true,
+                "relationship": null,
+                "unique": false
             },
             "organisation_name": {
                 "dataType": "String(256)",
-                "default": true,
-                "nullable": true,
+                "dataTypeLower": "string",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
+                "nullable": false,
                 "relationship": null,
                 "unique": true
             },
             "organisation_postal_code": {
                 "dataType": "String(256)",
-                "default": true,
+                "dataTypeLower": "string",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
                 "nullable": true,
                 "relationship": null,
-                "unique": true
+                "unique": false
             },
             "organisation_reg_number": {
                 "dataType": "Text",
-                "default": true,
+                "dataTypeLower": "string",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": true,
                 "nullable": true,
                 "relationship": null,
-                "unique": true
+                "unique": false
             },
             "organisation_vat_number": {
                 "dataType": "Text",
-                "default": true,
+                "dataTypeLower": "string",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
                 "nullable": true,
                 "relationship": null,
-                "unique": true
+                "unique": false
             }
         },
         "model": "Organisations"
+    },
+    "roles": {
+        "fields": {
+            "description": {
+                "dataType": "Text",
+                "dataTypeLower": "text",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            },
+            "display_name": {
+                "dataType": "String(256)",
+                "dataTypeLower": "string",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            },
+            "key": {
+                "dataType": "String(256)",
+                "dataTypeLower": "string",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": true,
+                "nullable": false,
+                "relationship": null,
+                "unique": true
+            },
+            "key_value": {
+                "dataType": "Text",
+                "dataTypeLower": "text",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
+                "nullable": true,
+                "relationship": null,
+                "unique": false
+            },
+            "organisation_id": {
+                "dataType": "Integer",
+                "dataTypeLower": "int",
+                "default": false,
+                "grapheneDataType": "Int()",
+                "index": true,
+                "nullable": false,
+                "relationship": "organisations",
+                "unique": false
+            },
+            "role_source": {
+                "dataType": "String(256)",
+                "dataTypeLower": "string",
+                "default": "Custom",
+                "grapheneDataType": "String()",
+                "index": true,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            }
+        },
+        "model": "Roles"
+    },
+    "site_settings": {
+        "fields": {
+            "data_type": {
+                "dataType": "String(256)",
+                "dataTypeLower": "string",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            },
+            "description": {
+                "dataType": "Text",
+                "dataTypeLower": "text",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            },
+            "display_name": {
+                "dataType": "String(256)",
+                "dataTypeLower": "string",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            },
+            "group": {
+                "dataType": "String(256)",
+                "dataTypeLower": "string",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            },
+            "key": {
+                "dataType": "String(256)",
+                "dataTypeLower": "string",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": true,
+                "nullable": false,
+                "relationship": null,
+                "unique": true
+            },
+            "key_value": {
+                "dataType": "Text",
+                "dataTypeLower": "text",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
+                "nullable": true,
+                "relationship": null,
+                "unique": false
+            },
+            "organisation_id": {
+                "dataType": "Integer",
+                "dataTypeLower": "int",
+                "default": false,
+                "grapheneDataType": "Int()",
+                "index": true,
+                "nullable": false,
+                "relationship": "organisations",
+                "unique": false
+            },
+            "value": {
+                "dataType": "Text",
+                "dataTypeLower": "text",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": true,
+                "nullable": true,
+                "relationship": null,
+                "unique": false
+            }
+        },
+        "model": "Site_settings"
+    },
+    "statuses": {
+        "fields": {
+            "description": {
+                "dataType": "Text",
+                "dataTypeLower": "text",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            },
+            "display_name": {
+                "dataType": "String(256)",
+                "dataTypeLower": "string",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            },
+            "group": {
+                "dataType": "String(256)",
+                "dataTypeLower": "string",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            },
+            "key": {
+                "dataType": "String(256)",
+                "dataTypeLower": "string",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": true,
+                "nullable": false,
+                "relationship": null,
+                "unique": true
+            },
+            "key_value": {
+                "dataType": "Text",
+                "dataTypeLower": "text",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
+                "nullable": true,
+                "relationship": null,
+                "unique": false
+            },
+            "organisation_id": {
+                "dataType": "Integer",
+                "dataTypeLower": "int",
+                "default": false,
+                "grapheneDataType": "Int()",
+                "index": true,
+                "nullable": false,
+                "relationship": "organisations",
+                "unique": false
+            }
+        },
+        "model": "Statuses"
+    },
+    "test": {
+        "fields": {
+            "budget": {
+                "dataType": "Numeric(38, 19)",
+                "dataTypeLower": "float",
+                "default": false,
+                "grapheneDataType": "Decimal(required=True)",
+                "index": true,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            },
+            "name": {
+                "dataType": "String(50)",
+                "dataTypeLower": "string",
+                "default": false,
+                "grapheneDataType": "String(required=True)",
+                "index": true,
+                "nullable": false,
+                "relationship": null,
+                "unique": true
+            },
+            "test_id": {
+                "dataType": "Integer",
+                "dataTypeLower": "relationship",
+                "default": false,
+                "grapheneDataType": "Int(required=True)",
+                "index": true,
+                "nullable": false,
+                "relationship": "users",
+                "unique": false
+            }
+        },
+        "model": "Test"
     }
 }

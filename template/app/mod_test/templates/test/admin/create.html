@@ -1,0 +1,153 @@
+
+{% import 'macros/flash.html' as flash with context %}
+
+{% extends "admin/index.html" %}
+
+{% block content %}
+
+<div class="content-wrapper">
+        
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Test</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="content">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col">
+                    <div class="card card-outline card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Create Test</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                                    <i class="fa fa-expand"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <form class="form-horizontal" method="POST" action="{{ url_for('test_admin.store') }}?organization={{ organization }}" accept-charset="UTF-8" role="form">
+                            {{ form.csrf_token }}
+                            <div class="card-body">
+                                <!-- start new render fields -->
+
+                                <div class="p-1 text-danger" style="{% if not form.budget.errors %} display:none; {% endif %}">
+                                    {% if form.budget.errors %}
+                                        {% for error in form.budget.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="budget" class="col-sm-2 control-label">Budget</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control {% if form.budget.errors %} is-invalid {% endif %}" value="{{form.budget.data}}" name="budget" id="budget" placeholder="Budget" autocomplete="budget" >
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.name.errors %} display:none; {% endif %}">
+                                    {% if form.name.errors %}
+                                        {% for error in form.name.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="name" class="col-sm-2 control-label">Name</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control {% if form.name.errors %} is-invalid {% endif %}" value="{{form.name.data}}" name="name" id="name" placeholder="Name" autocomplete="name" >
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.start_date.errors %} display:none; {% endif %}">
+                                    {% if form.start_date.errors %}
+                                        {% for error in form.start_date.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="start_date" class="col-sm-2 control-label">Start date</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control daterangepicker_single {% if form.start_date.errors %} is-invalid {% endif %}" value="{{form.start_date.data}}" name="start_date" id="start_date" placeholder="Start date" autocomplete="start_date" >
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.end_datetime.errors %} display:none; {% endif %}">
+                                    {% if form.end_datetime.errors %}
+                                        {% for error in form.end_datetime.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="end_datetime" class="col-sm-2 control-label">End datetime</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control daterangepicker_single {% if form.end_datetime.errors %} is-invalid {% endif %}" value="{{form.end_datetime.data}}" name="end_datetime" id="end_datetime" placeholder="End datetime" autocomplete="end_datetime" >
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.test_id.errors %} display:none; {% endif %}">
+                                    {% if form.test_id.errors %}
+                                        {% for error in form.test_id.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="test_id" class="col-sm-2 control-label">Test id</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <select class="select2 form-control {% if form.test_id.errors %} is-invalid {% endif %}" name="test_id" id="test_id" placeholder="Test id" autocomplete="test_id" >
+                                            <option aria-readonly="true" readonly="true" disabled="true" selected="true">Choose users</option>
+                                            {% for obj in users %}
+                                                <option value="{{obj.id}}">{{obj.name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+        
+                <!-- end new render fields -->
+                            </div>
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <a href="{{ url_for('test_admin.index') }}?organization={{ organization }}"class="btn btn-block btn-default">Cancel</a>
+                                    </div>
+                                    <div class="col-sm-8">
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button type="submit" class="btn btn-block btn-primary">Create Test</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+  
+{% endblock content %}

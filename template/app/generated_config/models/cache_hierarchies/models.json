@@ -1,0 +1,93 @@
+{
+	"cache_hierarchies": {
+		"model": "Cache_hierarchies",
+		"fields": {
+			"organisation_id": {
+				"dataTypeLower": "relationship",
+				"dataType": "Integer",
+                "grapheneDataType": "Int()",
+				"nullable": false,
+				"unique": false,
+				"index": true,
+				"relationship": "organisations",
+				"default": false
+			},
+			"current_hierarchy_id": {
+				"dataTypeLower": "int",
+				"dataType": "Integer",
+                "grapheneDataType": "Int()",
+				"nullable": false,
+				"unique": false,
+				"index": true,
+				"relationship": false,
+                "relationship_display_value": null,
+				"default": false
+			},
+			"hierarchy_id": {
+				"dataTypeLower": "int",
+				"dataType": "Integer",
+                "grapheneDataType": "Int()",
+				"nullable": false,
+				"unique": false,
+				"index": true,
+				"relationship": false,
+                "relationship_display_value": null,
+				"default": false
+			},
+			"name": {
+				"dataTypeLower": "string",
+				"dataType": "String(256)",
+                "grapheneDataType": "String()",
+				"nullable": false,
+				"unique": false,
+				"index": false,
+				"relationship": null,
+                "relationship_display_value": null,
+				"default": false
+			},
+			"path": {
+				"dataTypeLower": "text",
+				"dataType": "Text",
+                "grapheneDataType": "String()",
+				"nullable": false,
+				"unique": false,
+				"index": false,
+				"relationship": null,
+                "relationship_display_value": null,
+				"default": false
+			},
+			"level": {
+				"dataTypeLower": "int",
+				"dataType": "Integer",
+                "grapheneDataType": "Int()",
+				"nullable": true,
+				"unique": false,
+				"index": true,
+				"relationship": null,
+                "relationship_display_value": null,
+				"default": false
+			},
+			"parent_id": {
+				"dataTypeLower": "int",
+				"dataType": "Integer",
+                "grapheneDataType": "Int()",
+				"nullable": true,
+				"unique": false,
+				"index": true,
+				"relationship": "hierarchies",
+				"default": false
+			},
+			"key_value": {
+				"dataTypeLower": "text",
+				"dataType": "Text",
+                "grapheneDataType": "String()",
+				"nullable": true,
+				"unique": false,
+				"index": false,
+				"relationship": null,
+                "relationship_display_value": null,
+				"default": false
+			}
+		}
+	}
+}

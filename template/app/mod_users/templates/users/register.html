@@ -1,0 +1,105 @@
+
+{% import 'macros/flash.html' as flash with context %}
+
+{% extends "public/index.html" %}
+
+{% block page_content %}
+
+<div class="register-page">
+    <div class="register-box">
+        <div class="register-logo">
+            <a href="{{ url_for('landing') }}?organization={{ organization }}"><b>{{config.SITE_TITLE}}</b></a>
+        </div>
+    
+        <div class="card">
+            <div class="card-body register-card-body">
+                <p class="login-box-msg">Register a new user</p>
+        
+                <form action="{{ url_for('users.register') }}?organization={{ organization }}" method="post">
+                    {{ form.csrf_token }}
+                    <div class="p-1 text-danger" style="{% if not form.name.errors %} display:none; {% endif %}">
+                        {% if form.name.errors %}
+                            {% for error in form.name.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="input mb-3">
+                        <input type="text" name="name" id="name" value="{{form.name.data}}" class="form-control" placeholder="Full name">
+                    </div>
+                    <div class="p-1 text-danger" style="{% if not form.email.errors %} display:none; {% endif %}">
+                        {% if form.email.errors %}
+                            {% for error in form.email.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="input mb-3">
+                        <input type="email" name="email" id="email" value="{{form.email.data}}" class="form-control" placeholder="Email" required="true">
+                    </div>
+                    <div class="p-1 text-danger" style="{% if not form.password.errors %} display:none; {% endif %}">
+                        {% if form.password.errors %}
+                            {% for error in form.password.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" id="password" name="password" value="{{form.password.data}}" class="form-control" placeholder="Password" required="true">
+                        <div class="input-group-append" onclick="toggle_password_visibility('password');" style="cursor:pointer;">
+                            <div class="input-group-text">
+                                <span id="password_icon" class="fa fa-eye"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-1 text-danger" style="{% if not form.confirm.errors %} display:none; {% endif %}">
+                        {% if form.confirm.errors %}
+                            {% for error in form.confirm.errors %}
+                            {{ error }}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" id="retype_password" name="confirm" class="form-control" placeholder="Retype password" required="true">
+                        <div class="input-group-append" onclick="toggle_password_visibility('retype_password');" style="cursor:pointer;">
+                            <div class="input-group-text">
+                                <span id="retype_password_icon" class="fa fa-eye"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                        <div class="icheck-primary">
+                            <input type="checkbox" id="agreeTerms" name="terms" value="agree">
+                            <label for="agreeTerms">
+                            I agree to the <a href="#">terms</a>
+                            </label>
+                        </div>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary btn-block">Register</button>
+                        </div>
+                    </div>
+                </form>
+        
+                <div class="social-auth-links text-center mb-3">
+                    <p>- OR -</p>
+                    <a href="#" class="btn btn-block btn-primary">
+                        <i class="fa fa-facebook mr-2"></i>
+                        Sign up using Facebook
+                    </a>
+                    <a href="#" class="btn btn-block btn-danger">
+                        <i class="fa fa-google mr-2"></i>
+                        Sign up using Google
+                    </a>
+                </div>
+        
+                <p class="mb-0">
+                    Already Registered? <a href="{{ url_for('users.login') }}?organization={{ organization }}">Login</a>
+                </p>
+            </div>
+        </div>
+    </div>
+  </div>
+
+{% endblock page_content %}

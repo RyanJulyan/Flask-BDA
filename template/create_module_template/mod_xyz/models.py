@@ -9,12 +9,11 @@ from sqlalchemy_utils import aggregated
 
 # Define a base model for other database tables to inherit
 class Base(db.Model):
-
     __abstract__ = True
-    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
-    updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
-    deleted_at = db.Column(db.DateTime, nullable=True)
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True, index=True)
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp(), index=True)
+    updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp(), index=True)
+    deleted_at = db.Column(db.DateTime, nullable=True, index=True)
 
     # @aggregated('xyz_count', db.Column(db.Integer))
     # def xyz_count(self):

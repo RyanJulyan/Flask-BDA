@@ -1,0 +1,80 @@
+
+{% import 'macros/flash.html' as flash with context %}
+
+{% extends "admin/index.html" %}
+
+{% block content %}
+
+<div class="content-wrapper">
+        
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Cached hierarchies</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="content">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col">
+                    <div class="card card-outline card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Cache All hierarchies</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                                    <i class="fa fa-expand"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <form class="form-horizontal" method="POST" action="{{ url_for('cache_hierarchies_admin.store') }}?organization={{ organization }}" accept-charset="UTF-8" role="form">
+                            {{ form.csrf_token }}
+                            <div class="card-body">
+                                <!-- start new render fields -->
+
+                                <div class="form-group row">
+                                    <label for="note" class="col-sm-2 control-label">Note: </label>
+
+                                    <div class="col-sm-10">
+                                        <p>
+                                            <i>
+                                            This will create (and re-create) a single chache table all of your hierarchies. This can be computationally heavey depending on the number of hierarchies you have.
+                                            </i>
+                                        </p>
+                                    </div>
+                                </div>
+        
+                <!-- end new render fields -->
+                            </div>
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <a href="{{ url_for('cache_hierarchies_admin.index') }}?organization={{ organization }}"class="btn btn-block btn-default">Cancel</a>
+                                    </div>
+                                    <div class="col-sm-8">
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button type="submit" class="btn btn-block btn-primary">Cache All Hierarchies</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+  
+{% endblock content %}

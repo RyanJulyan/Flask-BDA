@@ -1,0 +1,127 @@
+{
+    "calendar_periods":{ 
+        "model": "Calendar_periods",
+        "fields": {
+			"calendar_definition_id": {
+                        "dataTypeLower": "relationship",
+                        "dataType": "Integer",
+                        "grapheneDataType": "Int(required=True)",
+                        "nullable": false,
+                        "unique": false,
+                        "index": true,
+                        "relationship": "calendar_definitions",
+                        "default": 1
+			},
+            "start_date": {
+                        "dataType": "DateTime",
+                        "dataTypeLower": "datetime",
+                        "default": false,
+                        "grapheneDataType": "DateTime(required=True)",
+                        "index": true,
+                        "nullable": false,
+                        "relationship": null,
+                        "unique": false
+            },
+            "end_date": {
+                        "dataType": "DateTime",
+                        "dataTypeLower": "datetime",
+                        "default": false,
+                        "grapheneDataType": "DateTime(required=True)",
+                        "index": true,
+                        "nullable": false,
+                        "relationship": null,
+                        "unique": false
+            },
+            "day": {
+                        "dataType": "Integer",
+                        "dataTypeLower": "int",
+                        "default": false,
+                        "grapheneDataType": "Int(required=True)",
+                        "index": false,
+                        "nullable": false,
+                        "relationship": null,
+                        "unique": false
+            },
+            "week": {
+                        "dataType": "Integer",
+                        "dataTypeLower": "int",
+                        "default": false,
+                        "grapheneDataType": "Int(required=True)",
+                        "index": true,
+                        "nullable": false,
+                        "relationship": null,
+                        "unique": false
+            },
+            "week_day": {
+                        "dataType": "String(50)",
+                        "dataTypeLower": "string",
+                        "default": false,
+                        "grapheneDataType": "String(required=True)",
+                        "index": false,
+                        "nullable": false,
+                        "relationship": null,
+                        "unique": false
+            },
+            "week_index": {
+                        "dataType": "Integer",
+                        "dataTypeLower": "int",
+                        "default": false,
+                        "grapheneDataType": "Int(required=True)",
+                        "index": true,
+                        "nullable": false,
+                        "relationship": null,
+                        "unique": false
+            },
+            "month": {
+                        "dataType": "Integer",
+                        "dataTypeLower": "int",
+                        "default": false,
+                        "grapheneDataType": "Int(required=True)",
+                        "index": true,
+                        "nullable": false,
+                        "relationship": null,
+                        "unique": false
+            },
+            "month_index": {
+                        "dataType": "Integer",
+                        "dataTypeLower": "int",
+                        "default": false,
+                        "grapheneDataType": "Int(required=True)",
+                        "index": true,
+                        "nullable": false,
+                        "relationship": null,
+                        "unique": false
+            },
+            "quarter": {
+                        "dataType": "Integer",
+                        "dataTypeLower": "int",
+                        "default": false,
+                        "grapheneDataType": "Int(required=True)",
+                        "index": true,
+                        "nullable": false,
+                        "relationship": null,
+                        "unique": false
+            },
+            "quarter_index": {
+                        "dataType": "Integer",
+                        "dataTypeLower": "int",
+                        "default": false,
+                        "grapheneDataType": "Int(required=True)",
+                        "index": true,
+                        "nullable": false,
+                        "relationship": null,
+                        "unique": false
+            },
+            "year": {
+                        "dataType": "Integer",
+                        "dataTypeLower": "int",
+                        "default": false,
+                        "grapheneDataType": "Int(required=True)",
+                        "index": true,
+                        "nullable": false,
+                        "relationship": null,
+                        "unique": false
+            }
+}
+    }
+}

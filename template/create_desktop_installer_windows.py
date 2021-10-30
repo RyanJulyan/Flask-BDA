@@ -1,6 +1,15 @@
 
-import os
+import os, shutil
 import PyInstaller.__main__
+
+def copytree(src, dst, symlinks=False, ignore=None):
+    for item in os.listdir(src):
+        s = os.path.join(src, item)
+        d = os.path.join(dst, item)
+        if os.path.isdir(s):
+            shutil.copytree(s, d, symlinks, ignore)
+        else:
+            shutil.copy2(s, d)
 
 # my spec file in "dev\config" dir
 workdir = os.getcwd()
@@ -8,8 +17,9 @@ workdir = os.getcwd()
 
 # define the "dev\dist" and "dev\build" dirs
 # os.chdir("..")
+name = 'Flask BDA'
 devdir = os.getcwd()
-distdir = os.path.join(devdir, '../desktop_windows/dist')
+distdir = os.path.join(devdir, '../desktop_windows/dist',name)
 builddir = os.path.join(devdir, '../desktop_windows/build')
 
 # call pyinstaller directly
@@ -20,15 +30,31 @@ PyInstaller.__main__.run([
     '--onefile',
     '--noconsole',
     '--windowed',
+    '--noconfirm',
     '--clean',
     '--add-data', 'app;app',
-    '--add-data', 'databases;databases',
-    '--add-data', 'config.py;./',
+    # '--add-data', 'databases;databases',
+    # '--add-data', 'config.py;./',
     '--add-data', 'FLASK-BDA LICENSE;./',
     '--add-data', 'LICENSE;./',
     '--additional-hooks-dir', 'hooks',
     '--hidden-import', 'engineio.async_drivers',
-    '--key', '1234567890123456',
+    '--hidden-import', 'pyodbc',
+    '--hidden-import', 'cmath',
     '--icon', './app/static/images/icon.ico',
-    '--name', 'Flask BDA',
+    # '--log-level','WARN', # LEVEL may be one of TRACE, DEBUG, INFO, WARN, ERROR, CRITICAL (default: INFO).
+    '--key', '1234567890123456', # The key used to encrypt Python bytecode.
+    '--name', name,
     ])
+
+copy_config_to_dir = '{0}/config.py'.format(distdir)
+copy_license_to_dir = '{0}/LICENSE'.format(distdir)
+copy_flask_license_to_dir = '{0}/FLASK-BDA LICENSE'.format(distdir)
+copy_databases_to_dir = '{0}/databases'.format(distdir)
+
+shutil.copy2('config.py', copy_config_to_dir)
+shutil.copy2('LICENSE', copy_license_to_dir)
+shutil.copy2('FLASK-BDA LICENSE', copy_flask_license_to_dir)
+
+copytree('databases',copy_databases_to_dir)
+

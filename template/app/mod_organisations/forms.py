@@ -14,9 +14,12 @@ from wtforms.validators import Required
 class OrganisationsForm(Form):
     # start new form definitions
     organisation_name = TextField('organisation_name', [Required(message='Must provide a Organisation name')]),
-    organisation_details = TextField('organisation_details'),
+    organisation_logo = TextField('organisation_logo'),
+    organisation_description = TextField('organisation_description'),
+    organisation_industry = TextField('organisation_industry'),
     organisation_contact_name = TextField('organisation_contact_name', [Required(message='Must provide a Organisation contact name')]),
     organisation_contact_email = TextField('organisation_contact_email', [Required(message='Must provide a Organisation contact email')]),
+    organisation_binding_database_uri = TextField('organisation_binding_database_uri', [Required(message='Must provide a Organisation binding database uri')]),
     organisation_address = TextField('organisation_address'),
     organisation_city = TextField('organisation_city'),
     organisation_postal_code = TextField('organisation_postal_code'),
