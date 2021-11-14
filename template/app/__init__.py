@@ -396,6 +396,9 @@ from app.mod_users.controllers import mod_users as users_module  # noqa: E402
 # api_keys
 from app.mod_api_keys.controllers import mod_public_api_keys as api_keys_public_module  # noqa: E402
 from app.mod_api_keys.controllers import mod_admin_api_keys as api_keys_admin_module  # noqa: E402
+# web_hooks
+from app.mod_web_hooks.controllers import mod_public_web_hooks as web_hooks_public_module  # noqa: E402
+from app.mod_web_hooks.controllers import mod_admin_web_hooks as web_hooks_admin_module  # noqa: E402
 # hierarchies
 from app.mod_hierarchies.controllers import mod_public_hierarchies as hierarchies_public_module  # noqa: E402
 from app.mod_hierarchies.controllers import mod_admin_hierarchies as hierarchies_admin_module  # noqa: E402
@@ -412,24 +415,6 @@ from app.mod_calendar_definitions.controllers import mod_admin_calendar_definiti
 # from app.mod_graphql.controllers import mod_graphql as graphql_module  # noqa: E402
 # from app.mod_xyz.controllers import mod_xyz as xyz_module
 # import new xyz_module
-# web_hooks
-from app.mod_web_hooks.controllers import mod_public_web_hooks as web_hooks_public_module  # noqa: E402
-from app.mod_web_hooks.controllers import mod_admin_web_hooks as web_hooks_admin_module  # noqa: E402
-# test
-from app.mod_test.controllers import mod_public_test as test_public_module  # noqa: E402
-from app.mod_test.controllers import mod_admin_test as test_admin_module  # noqa: E402
-# test
-from app.mod_test.controllers import mod_public_test as test_public_module  # noqa: E402
-from app.mod_test.controllers import mod_admin_test as test_admin_module  # noqa: E402
-# test
-from app.mod_test.controllers import mod_public_test as test_public_module  # noqa: E402
-from app.mod_test.controllers import mod_admin_test as test_admin_module  # noqa: E402
-# test
-from app.mod_test.controllers import mod_public_test as test_public_module  # noqa: E402
-from app.mod_test.controllers import mod_admin_test as test_admin_module  # noqa: E402
-# test
-from app.mod_test.controllers import mod_public_test as test_public_module  # noqa: E402
-from app.mod_test.controllers import mod_admin_test as test_admin_module  # noqa: E402
 
 
 # Register blueprint(s)
@@ -444,6 +429,9 @@ app.register_blueprint(users_module)
 # api_keys
 app.register_blueprint(api_keys_public_module)
 app.register_blueprint(api_keys_admin_module)
+# web_hooks
+app.register_blueprint(web_hooks_public_module)
+app.register_blueprint(web_hooks_admin_module)
 # hierarchies
 app.register_blueprint(hierarchies_public_module)
 app.register_blueprint(hierarchies_admin_module)
@@ -459,24 +447,6 @@ app.register_blueprint(calendar_definitions_admin_module)
 # graphql
 # app.register_blueprint(graphql_module)
 # register_blueprint new xyz_module
-# web_hooks
-app.register_blueprint(web_hooks_public_module)
-app.register_blueprint(web_hooks_admin_module)
-# test
-app.register_blueprint(test_public_module)
-app.register_blueprint(test_admin_module)
-# test
-app.register_blueprint(test_public_module)
-app.register_blueprint(test_admin_module)
-# test
-app.register_blueprint(test_public_module)
-app.register_blueprint(test_admin_module)
-# test
-app.register_blueprint(test_public_module)
-app.register_blueprint(test_admin_module)
-# test
-app.register_blueprint(test_public_module)
-app.register_blueprint(test_admin_module)
 
 
 # Prevent GraphQL The CSRF token is missing. error
@@ -515,29 +485,17 @@ from app.mod_organisations.api_controllers import ns as Organisations_API  # noq
 from app.mod_users.api_controllers import ns as User_API  # noqa: E402
 # api_keys
 from app.mod_api_keys.api_controllers import ns as Api_keys_API  # noqa: E402
+# web_hooks
+from app.mod_web_hooks.api_controllers import ns as Web_hooks_API  # noqa: E402
 # hierarchies
 from app.mod_hierarchies.api_controllers import ns as Hierarchies_API  # noqa: E402
 # cache_hierarchies
 from app.mod_cache_hierarchies.api_controllers import ns as Cache_hierarchies_API  # noqa: E402
-# calendar_definitions
-from app.mod_calendar_definitions.api_controllers import ns as Calendar_definitions_API  # noqa: E402
 # calendar_periods
 from app.mod_calendar_periods.api_controllers import ns as Calendar_periods_API  # noqa: E402
 # calendar_definitions
 from app.mod_calendar_definitions.api_controllers import ns as Calendar_definitions_API  # noqa: E402
 # new xyz api resources
-# web_hooks
-from app.mod_web_hooks.api_controllers import ns as Web_hooks_API  # noqa: E402
-# test
-from app.mod_test.api_controllers import ns as Test_API  # noqa: E402
-# test
-from app.mod_test.api_controllers import ns as Test_API  # noqa: E402
-# test
-from app.mod_test.api_controllers import ns as Test_API  # noqa: E402
-# test
-from app.mod_test.api_controllers import ns as Test_API  # noqa: E402
-# test
-from app.mod_test.api_controllers import ns as Test_API  # noqa: E402
 
 
 # This MUST be the last route to allow for all API routes to be registered

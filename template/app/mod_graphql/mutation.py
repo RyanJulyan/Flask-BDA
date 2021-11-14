@@ -11,6 +11,9 @@ from graphql_relay.node.node import from_global_id
 # users
 from app.mod_users.models import Users as UsersModel
 from app.mod_users.types import Users as UsersTypes, CreateUserInput
+# web_hooks
+from app.mod_web_hooks.models import Web_hooks as Web_hooksModel  # noqa: E402
+from app.mod_web_hooks.types import Web_hooks as Web_hooksTypes, CreateWeb_hooksInput  # noqa: E402
 # calendar_definitions
 from app.mod_calendar_definitions.models import Calendar_definitions as Calendar_definitionsModel  # noqa: E402
 from app.mod_calendar_definitions.types import Calendar_definitions as Calendar_definitionsTypes, CreateCalendar_definitionsInput  # noqa: E402
@@ -18,30 +21,6 @@ from app.mod_calendar_definitions.types import Calendar_definitions as Calendar_
 from app.mod_calendar_periods.models import Calendar_periods as Calendar_periodsModel  # noqa: E402
 from app.mod_calendar_periods.types import Calendar_periods as Calendar_periodsTypes, CreateCalendar_periodsInput  # noqa: E402
 # import new xyz_model and xyz_type, input
-# web_hooks
-from app.mod_web_hooks.models import Web_hooks as Web_hooksModel  # noqa: E402
-from app.mod_web_hooks.types import Web_hooks as Web_hooksTypes, CreateWeb_hooksInput  # noqa: E402
-# test
-from app.mod_test.models import Test as TestModel  # noqa: E402
-from app.mod_test.types import Test as TestTypes, CreateTestInput  # noqa: E402
-# test
-from app.mod_test.models import Test as TestModel  # noqa: E402
-from app.mod_test.types import Test as TestTypes, CreateTestInput  # noqa: E402
-# test
-from app.mod_test.models import Test as TestModel  # noqa: E402
-from app.mod_test.types import Test as TestTypes, CreateTestInput  # noqa: E402
-# test
-from app.mod_test.models import Test as TestModel  # noqa: E402
-from app.mod_test.types import Test as TestTypes, CreateTestInput  # noqa: E402
-# test
-from app.mod_test.models import Test as TestModel  # noqa: E402
-from app.mod_test.types import Test as TestTypes, CreateTestInput  # noqa: E402
-# test
-from app.mod_test.models import Test as TestModel  # noqa: E402
-from app.mod_test.types import Test as TestTypes, CreateTestInput  # noqa: E402
-# test
-from app.mod_test.models import Test as TestModel  # noqa: E402
-from app.mod_test.types import Test as TestTypes, CreateTestInput  # noqa: E402
 
 
 def graphql_input_into_dictionary(input):
@@ -88,6 +67,24 @@ class AuthMutation(graphene.Mutation):
             access_token = create_access_token(email),
             refresh_token = create_refresh_token(email)
         )
+
+# web_hooks
+class Create_Web_hooks(graphene.Mutation):
+    web_hooks = graphene.Field(lambda: Web_hooksTypes)
+    ok = graphene.Boolean()
+
+    class Arguments:
+        input = CreateWeb_hooksInput(required=True)
+
+    @staticmethod
+    def mutate(self, info, input):
+        data = graphql_input_into_dictionary(input)
+        web_hooks = Web_hooksModel(**data)
+        db.session.add(web_hooks)
+        db.session.commit()
+        ok = True
+        return Create_Web_hooks(web_hooks=web_hooks, ok=ok)
+
             
 # calendar_definitions
 class Create_Calendar_definitions(graphene.Mutation):
@@ -127,173 +124,16 @@ class Create_Calendar_periods(graphene.Mutation):
 
 # new create xyz class
 
-# web_hooks
-class Create_Web_hooks(graphene.Mutation):
-    web_hooks = graphene.Field(lambda: Web_hooksTypes)
-    ok = graphene.Boolean()
-
-    class Arguments:
-        input = CreateWeb_hooksInput(required=True)
-
-    @staticmethod
-    def mutate(self, info, input):
-        data = graphql_input_into_dictionary(input)
-        web_hooks = Web_hooksModel(**data)
-        db.session.add(web_hooks)
-        db.session.commit()
-        ok = True
-        return Create_Web_hooks(web_hooks=web_hooks, ok=ok)
-
-            
-# test
-class Create_Test(graphene.Mutation):
-    test = graphene.Field(lambda: TestTypes)
-    ok = graphene.Boolean()
-
-    class Arguments:
-        input = CreateTestInput(required=True)
-
-    @staticmethod
-    def mutate(self, info, input):
-        data = graphql_input_into_dictionary(input)
-        test = TestModel(**data)
-        db.session.add(test)
-        db.session.commit()
-        ok = True
-        return Create_Test(test=test, ok=ok)
-
-            
-# test
-class Create_Test(graphene.Mutation):
-    test = graphene.Field(lambda: TestTypes)
-    ok = graphene.Boolean()
-
-    class Arguments:
-        input = CreateTestInput(required=True)
-
-    @staticmethod
-    def mutate(self, info, input):
-        data = graphql_input_into_dictionary(input)
-        test = TestModel(**data)
-        db.session.add(test)
-        db.session.commit()
-        ok = True
-        return Create_Test(test=test, ok=ok)
-
-            
-# test
-class Create_Test(graphene.Mutation):
-    test = graphene.Field(lambda: TestTypes)
-    ok = graphene.Boolean()
-
-    class Arguments:
-        input = CreateTestInput(required=True)
-
-    @staticmethod
-    def mutate(self, info, input):
-        data = graphql_input_into_dictionary(input)
-        test = TestModel(**data)
-        db.session.add(test)
-        db.session.commit()
-        ok = True
-        return Create_Test(test=test, ok=ok)
-
-            
-# test
-class Create_Test(graphene.Mutation):
-    test = graphene.Field(lambda: TestTypes)
-    ok = graphene.Boolean()
-
-    class Arguments:
-        input = CreateTestInput(required=True)
-
-    @staticmethod
-    def mutate(self, info, input):
-        data = graphql_input_into_dictionary(input)
-        test = TestModel(**data)
-        db.session.add(test)
-        db.session.commit()
-        ok = True
-        return Create_Test(test=test, ok=ok)
-
-            
-# test
-class Create_Test(graphene.Mutation):
-    test = graphene.Field(lambda: TestTypes)
-    ok = graphene.Boolean()
-
-    class Arguments:
-        input = CreateTestInput(required=True)
-
-    @staticmethod
-    def mutate(self, info, input):
-        data = graphql_input_into_dictionary(input)
-        test = TestModel(**data)
-        db.session.add(test)
-        db.session.commit()
-        ok = True
-        return Create_Test(test=test, ok=ok)
-
-            
-# test
-class Create_Test(graphene.Mutation):
-    test = graphene.Field(lambda: TestTypes)
-    ok = graphene.Boolean()
-
-    class Arguments:
-        input = CreateTestInput(required=True)
-
-    @staticmethod
-    def mutate(self, info, input):
-        data = graphql_input_into_dictionary(input)
-        test = TestModel(**data)
-        db.session.add(test)
-        db.session.commit()
-        ok = True
-        return Create_Test(test=test, ok=ok)
-
-            
-# test
-class Create_Test(graphene.Mutation):
-    test = graphene.Field(lambda: TestTypes)
-    ok = graphene.Boolean()
-
-    class Arguments:
-        input = CreateTestInput(required=True)
-
-    @staticmethod
-    def mutate(self, info, input):
-        data = graphql_input_into_dictionary(input)
-        test = TestModel(**data)
-        db.session.add(test)
-        db.session.commit()
-        ok = True
-        return Create_Test(test=test, ok=ok)
-
             
             
 class Mutation(graphene.ObjectType):
     createUser = Create_User.Field()
     auth = AuthMutation.Field()
+    # web_hooks
+    createWeb_hooks = Create_Web_hooks.Field()
     # calendar_definitions
     createCalendar_definitions = Create_Calendar_definitions.Field()
     # calendar_periods
     createCalendar_periods = Create_Calendar_periods.Field()
     # register new createXyz
-    # web_hooks
-    createWeb_hooks = Create_Web_hooks.Field()
-    # test
-    createTest = Create_Test.Field()
-    # test
-    createTest = Create_Test.Field()
-    # test
-    createTest = Create_Test.Field()
-    # test
-    createTest = Create_Test.Field()
-    # test
-    createTest = Create_Test.Field()
-    # test
-    createTest = Create_Test.Field()
-    # test
-    createTest = Create_Test.Field()
 
