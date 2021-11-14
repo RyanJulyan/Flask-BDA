@@ -13,6 +13,9 @@ from app.mod_calendar_definitions.types import Calendar_definitions as Calendar_
 from app.mod_calendar_periods.models import Calendar_periods as Calendar_periodsModel  # noqa: E402
 from app.mod_calendar_periods.types import Calendar_periods as Calendar_periodsTypes  # noqa: E402
 # import new xyz_model and xyz_type
+# web_hooks
+from app.mod_web_hooks.models import Web_hooks as Web_hooksModel  # noqa: E402
+from app.mod_web_hooks.types import Web_hooks as Web_hooksTypes  # noqa: E402
 # test
 from app.mod_test.models import Test as TestModel  # noqa: E402
 from app.mod_test.types import Test as TestTypes  # noqa: E402
@@ -45,6 +48,8 @@ class Query(graphene.ObjectType):
     # calendar_periods
     all_calendar_periods = SQLAlchemyConnectionField(Calendar_periodsTypes.connection)
     # new xyz_model connection
+    # web_hooks
+    all_web_hooks = SQLAlchemyConnectionField(Web_hooksTypes.connection)
     # test
     all_test = SQLAlchemyConnectionField(TestTypes.connection)
     # test

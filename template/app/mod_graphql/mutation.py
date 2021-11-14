@@ -18,6 +18,9 @@ from app.mod_calendar_definitions.types import Calendar_definitions as Calendar_
 from app.mod_calendar_periods.models import Calendar_periods as Calendar_periodsModel  # noqa: E402
 from app.mod_calendar_periods.types import Calendar_periods as Calendar_periodsTypes, CreateCalendar_periodsInput  # noqa: E402
 # import new xyz_model and xyz_type, input
+# web_hooks
+from app.mod_web_hooks.models import Web_hooks as Web_hooksModel  # noqa: E402
+from app.mod_web_hooks.types import Web_hooks as Web_hooksTypes, CreateWeb_hooksInput  # noqa: E402
 # test
 from app.mod_test.models import Test as TestModel  # noqa: E402
 from app.mod_test.types import Test as TestTypes, CreateTestInput  # noqa: E402
@@ -124,6 +127,24 @@ class Create_Calendar_periods(graphene.Mutation):
 
 # new create xyz class
 
+# web_hooks
+class Create_Web_hooks(graphene.Mutation):
+    web_hooks = graphene.Field(lambda: Web_hooksTypes)
+    ok = graphene.Boolean()
+
+    class Arguments:
+        input = CreateWeb_hooksInput(required=True)
+
+    @staticmethod
+    def mutate(self, info, input):
+        data = graphql_input_into_dictionary(input)
+        web_hooks = Web_hooksModel(**data)
+        db.session.add(web_hooks)
+        db.session.commit()
+        ok = True
+        return Create_Web_hooks(web_hooks=web_hooks, ok=ok)
+
+            
 # test
 class Create_Test(graphene.Mutation):
     test = graphene.Field(lambda: TestTypes)
@@ -259,6 +280,8 @@ class Mutation(graphene.ObjectType):
     # calendar_periods
     createCalendar_periods = Create_Calendar_periods.Field()
     # register new createXyz
+    # web_hooks
+    createWeb_hooks = Create_Web_hooks.Field()
     # test
     createTest = Create_Test.Field()
     # test

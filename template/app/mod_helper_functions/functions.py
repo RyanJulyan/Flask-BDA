@@ -1,15 +1,125 @@
 
+from flask import jsonify
+
 from datetime import datetime
 import json
 
 # Import the app module
 from app import app
 
+# API Requests
+import requests
+
+# Import web_hooks module models 
+from app.mod_web_hooks.models import Web_hooks
+
 list_separator = app.config['LIST_SEPARATOR']
 
 date_format = app.config['DATE_FORMAT']
 time_format = app.config['TIME_FORMAT']
 datetime_format = date_format + ' ' + time_format
+
+def process_webhook(module_name, run_type, data, convert_sqlalchemy_to_json = True):
+
+    run_types = {
+        "before_insert": Web_hooks.run_before_insert,
+        "after_insert": Web_hooks.run_after_insert,
+        "before_update": Web_hooks.run_before_update,
+        "after_update": Web_hooks.run_after_update,
+        "before_delete": Web_hooks.run_before_delete,
+        "after_delete": Web_hooks.run_after_delete,
+    }
+
+    web_hooks = (
+                    Web_hooks.query
+                    .filter(Web_hooks.run_in_module_name == module_name)
+                    .filter(run_types[run_type] == 1)
+                    .all()
+                )
+
+    if convert_sqlalchemy_to_json:
+        data = jsonify(data)
+        
+    for web_hook in web_hooks:
+
+        method = web_hook.method
+        data_type = web_hook.data_type
+
+        api_headers = web_hook.api_headers
+        params = web_hook.api_params
+
+        api_endpoint = web_hook.api_endpoint
+
+        if(method == 'get'):
+
+            url = api_endpoint
+
+            if data_type != 'json':
+                x = requests.get(url,params = params, headers = headers, data = data)
+            else:
+                x = requests.get(url,params = params, headers = headers, json = data)
+
+            status_code = x.status_code
+
+            try:
+                data = json.loads(x.content)
+            except:
+                data = convert_to_python_data_type('str')(x.content)
+
+        if(method == 'post'):
+
+            url = api_endpoint
+
+            if data_type != 'json':
+                x = requests.post(url,params = params, headers = headers, data = data)
+            else:
+                x = requests.post(url,params = params, headers = headers, json = data)
+
+            status_code = x.status_code
+
+            try:
+                data = json.loads(x.content)
+            except:
+                data = convert_to_python_data_type('str')(x.content)
+
+        if(method == 'put'):
+
+            url = api_endpoint
+
+            if data_type != 'json':
+                x = requests.put(url,params = params, headers = headers, data = data)
+            else:
+                x = requests.put(url,params = params, headers = headers, json = data)
+
+            status_code = x.status_code
+
+            try:
+                data = json.loads(x.content)
+            except:
+                data = convert_to_python_data_type('str')(x.content)
+
+        if(method == 'delete'):
+
+            url = api_endpoint
+
+            if data_type != 'json':
+                x = requests.put(url,params = params, headers = headers, data = data)
+            else:
+                x = requests.put(url,params = params, headers = headers, json = data)
+
+            status_code = x.status_code
+
+            try:
+                data = json.loads(x.content)
+            except:
+                data = convert_to_python_data_type('str')(x.content)
+    
+    data = {
+        "status_code":status_code,
+        "data":data,
+    }
+    
+    return data
 
 
 def path_level(path,delimiter='/'):

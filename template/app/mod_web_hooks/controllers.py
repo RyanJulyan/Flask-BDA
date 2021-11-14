@@ -15,10 +15,10 @@ from app import db, app
 from app.mod_helper_functions import functions as fn
 
 # Import module forms
-from app.mod_xyz.forms import XyzForm
+from app.mod_web_hooks.forms import Web_hooksForm
 
-# Import xyz module models 
-from app.mod_xyz.models import Xyz
+# Import web_hooks module models 
+from app.mod_web_hooks.models import Web_hooks
 # Import module models (e.g. User)
 
 
@@ -51,18 +51,18 @@ from app.mod_tenancy.multi_bind import MultiBindSQLAlchemy
 # db.second.execute(...)
 
 
-# Define the blueprint: 'xyz', set its url prefix: app.url/xyz
-mod_public_xyz = Blueprint('xyz_public', __name__, template_folder='templates', url_prefix='/xyz')
-mod_admin_xyz = Blueprint('xyz_admin', __name__, template_folder='templates', url_prefix='/admin/xyz')
+# Define the blueprint: 'web_hooks', set its url prefix: app.url/web_hooks
+mod_public_web_hooks = Blueprint('web_hooks_public', __name__, template_folder='templates', url_prefix='/web_hooks')
+mod_admin_web_hooks = Blueprint('web_hooks_admin', __name__, template_folder='templates', url_prefix='/admin/web_hooks')
 
 
 # Set the route and accepted methods
-@mod_public_xyz.route('/', methods=['GET'])
-@mobile_template('{mobile/}xyz/public/public_list.html')
+@mod_public_web_hooks.route('/', methods=['GET'])
+@mobile_template('{mobile/}web_hooks/public/public_list.html')
 def public_list(template):
     page = request.args.get('page', 1, type=int)
     data = (
-                Xyz.query
+                Web_hooks.query
                 # relationship join
 
                 .paginate(page=page, per_page=app.config['ROWS_PER_PAGE'])
@@ -75,19 +75,33 @@ def public_list(template):
     return render_template(template, **context_data)
 
 
-@mod_admin_xyz.route('/', methods=['GET'])
-@mobile_template('{mobile/}xyz/admin/index.html')
+@mod_admin_web_hooks.route('/', methods=['GET'])
+@mobile_template('{mobile/}web_hooks/admin/index.html')
 @login_required
 def index(template):
     page = request.args.get('page', 1, type=int)
     data = (
-                Xyz.query
+                Web_hooks.query
                 # relationship join
 
                 .add_columns(
-                    Xyz.id,
-                    # Xyz query add columns
-
+                    Web_hooks.id,
+                    # Web_hooks query add columns
+                    Web_hooks.webhook_name.label('webhook_name'),
+                                Web_hooks.run_in_module_name.label('run_in_module_name'),
+                                Web_hooks.run_before_insert.label('run_before_insert'),
+                                Web_hooks.run_after_insert.label('run_after_insert'),
+                                Web_hooks.run_before_update.label('run_before_update'),
+                                Web_hooks.run_after_update.label('run_after_update'),
+                                Web_hooks.run_before_delete.label('run_before_delete'),
+                                Web_hooks.run_after_delete.label('run_after_delete'),
+                                Web_hooks.method.label('method'),
+                                Web_hooks.data_type.label('data_type'),
+                                Web_hooks.api_endpoint.label('api_endpoint'),
+                                Web_hooks.api_headers.label('api_headers'),
+                                Web_hooks.api_params.label('api_params'),
+                                Web_hooks.active_flag.label('active_flag'),
+            
                     # relationship query add columns
 
                 )
@@ -101,12 +115,12 @@ def index(template):
     return render_template(template, **context_data)
 
 
-@mod_admin_xyz.route('/create', methods=['GET'])
-@mobile_template('{mobile/}xyz/admin/create.html')
+@mod_admin_web_hooks.route('/create', methods=['GET'])
+@mobile_template('{mobile/}web_hooks/admin/create.html')
 @login_required
 def create(template):
 
-    form = XyzForm(request.form)
+    form = Web_hooksForm(request.form)
 
     # Relationship returns
 
@@ -118,12 +132,12 @@ def create(template):
     return render_template(template, form=form, **context_data)
 
 
-@mod_admin_xyz.route('/store', methods=['POST'])
-@mobile_template('{mobile/}xyz/admin/create.html')
+@mod_admin_web_hooks.route('/store', methods=['POST'])
+@mobile_template('{mobile/}web_hooks/admin/create.html')
 @login_required
 def store(template):
 
-    form = XyzForm(request.form)
+    form = Web_hooksForm(request.form)
 
     # Relationship returns
 
@@ -133,10 +147,23 @@ def store(template):
     }
     
     if form.validate_on_submit():
-        data = Xyz(
+        data = Web_hooks(
             # start new request feilds
-            # this line should be removed and replaced with the newFormRequestDefinitions variable
-            # end new request feilds
+            webhook_name=request.form.get('webhook_name'),
+            run_in_module_name=request.form.get('run_in_module_name'),
+            run_before_insert=request.form.get('run_before_insert'),
+            run_after_insert=request.form.get('run_after_insert'),
+            run_before_update=request.form.get('run_before_update'),
+            run_after_update=request.form.get('run_after_update'),
+            run_before_delete=request.form.get('run_before_delete'),
+            run_after_delete=request.form.get('run_after_delete'),
+            method=request.form.get('method'),
+            data_type=request.form.get('data_type'),
+            api_endpoint=request.form.get('api_endpoint'),
+            api_headers=request.form.get('api_headers'),
+            api_params=request.form.get('api_params'),
+            active_flag=request.form.get('active_flag')
+        # end new request feilds
             # title=request.form.get("title")
         )
         db.session.add(data)
@@ -147,17 +174,17 @@ def store(template):
             errorInfo = e.orig.args
             flash(errorInfo[0], 'error')
 
-        return redirect(url_for('xyz_admin.index')+"?organization="+g.organization)
+        return redirect(url_for('web_hooks_admin.index')+"?organization="+g.organization)
     else:
         return render_template(template, form=form, **context_data)
 
 
-@mod_admin_xyz.route('/show/<id>', methods=['GET'])
-@mobile_template('{mobile/}xyz/admin/show.html')
+@mod_admin_web_hooks.route('/show/<id>', methods=['GET'])
+@mobile_template('{mobile/}web_hooks/admin/show.html')
 @login_required
 def show(id,template):
     data = (
-                Xyz.query
+                Web_hooks.query
                 # relationship join
 
                 .get_or_404(id)
@@ -170,18 +197,18 @@ def show(id,template):
     return render_template(template, **context_data)
 
 
-@mod_admin_xyz.route('/edit/<id>', methods=['GET'])
-@mobile_template('{mobile/}xyz/admin/edit.html')
+@mod_admin_web_hooks.route('/edit/<id>', methods=['GET'])
+@mobile_template('{mobile/}web_hooks/admin/edit.html')
 @login_required
 def edit(id,template):
 
-    form = XyzForm(request.form)
+    form = Web_hooksForm(request.form)
 
-    data = Xyz.query.get_or_404(id)
+    data = Web_hooks.query.get_or_404(id)
 
-    xyz_columns = inspect(Xyz)
+    web_hooks_columns = inspect(Web_hooks)
 
-    for column in xyz_columns.attrs:
+    for column in web_hooks_columns.attrs:
         column_name = column.key
         try:
             form[column_name].data = getattr(data,column_name)
@@ -199,13 +226,13 @@ def edit(id,template):
     return render_template(template, form=form, **context_data)
 
 
-@mod_admin_xyz.route('/update/<id>', methods=['PUT', 'PATCH', 'POST'])
-@mobile_template('{mobile/}xyz/admin/edit.html')
+@mod_admin_web_hooks.route('/update/<id>', methods=['PUT', 'PATCH', 'POST'])
+@mobile_template('{mobile/}web_hooks/admin/edit.html')
 @login_required
 def update(id,template):
 
-    form = XyzForm(request.form)
-    data = Xyz.query.get_or_404(id)
+    form = Web_hooksForm(request.form)
+    data = Web_hooks.query.get_or_404(id)
 
     # Relationship returns
 
@@ -217,8 +244,21 @@ def update(id,template):
     
     if form.validate_on_submit():
         # start update request feilds
-        # this line should be removed and replaced with the updateFormRequestDefinitions variable
-        # end update request feilds
+        data.webhook_name = request.form.get('webhook_name')
+        data.run_in_module_name = request.form.get('run_in_module_name')
+        data.run_before_insert = request.form.get('run_before_insert')
+        data.run_after_insert = request.form.get('run_after_insert')
+        data.run_before_update = request.form.get('run_before_update')
+        data.run_after_update = request.form.get('run_after_update')
+        data.run_before_delete = request.form.get('run_before_delete')
+        data.run_after_delete = request.form.get('run_after_delete')
+        data.method = request.form.get('method')
+        data.data_type = request.form.get('data_type')
+        data.api_endpoint = request.form.get('api_endpoint')
+        data.api_headers = request.form.get('api_headers')
+        data.api_params = request.form.get('api_params')
+        data.active_flag = request.form.get('active_flag')
+    # end update request feilds
         # data.title = request.form.get("title")
         try:
             db.session.commit()
@@ -227,23 +267,23 @@ def update(id,template):
             errorInfo = e.orig.args
             flash(errorInfo[0], 'error')
 
-        return redirect(url_for('xyz_admin.index')+"?organization="+g.organization)
+        return redirect(url_for('web_hooks_admin.index')+"?organization="+g.organization)
     else:
         return render_template(template, form=form, **context_data)
 
 
-@mod_admin_xyz.route('/destroy/<id>', methods=['POST', 'DELETE', 'GET'])
+@mod_admin_web_hooks.route('/destroy/<id>', methods=['POST', 'DELETE', 'GET'])
 @login_required
 def destroy(id):
-    data = Xyz.query.get_or_404(id)
+    data = Web_hooks.query.get_or_404(id)
     db.session.delete(data)
     db.session.commit()
 
-    return redirect(url_for('xyz_admin.index')+"?organization="+g.organization)
+    return redirect(url_for('web_hooks_admin.index')+"?organization="+g.organization)
 
 
 # SQLAlchemy Events before and after insert, update and delete changes on a table
-@event.listens_for(Xyz, "before_insert")
+@event.listens_for(Web_hooks, "before_insert")
 def before_insert(mapper, connection, target):
     if request.form:
         payload = '{'
@@ -253,24 +293,21 @@ def before_insert(mapper, connection, target):
         payload += '}'
         
         data = Audit(
-            model_name="Xyz",
+            model_name="Web_hooks",
             action="Before Insert",
             context="Web Form",
             payload=payload
         )
         db.session.add(data)
-
-        fn.process_webhook(module_name = 'xyz', run_type = "before_insert", data = data, convert_sqlalchemy_to_json = True)
-
     pass
 
 
-@event.listens_for(Xyz, "after_insert")
+@event.listens_for(Web_hooks, "after_insert")
 def after_insert(mapper, connection, target):
     pass
 
 
-@event.listens_for(Xyz, "before_update")
+@event.listens_for(Web_hooks, "before_update")
 def before_update(mapper, connection, target):
     if request.form:
         payload = '{'
@@ -280,23 +317,21 @@ def before_update(mapper, connection, target):
         payload += '}'
         
         data = Audit(
-            model_name="Xyz",
+            model_name="Web_hooks",
             action="Before Update",
             context="Web Form",
             payload=payload
         )
         db.session.add(data)
-
-        fn.process_webhook(module_name = 'xyz', run_type = "before_insert", data = data, convert_sqlalchemy_to_json = True)
     pass
 
 
-@event.listens_for(Xyz, "after_update")
+@event.listens_for(Web_hooks, "after_update")
 def after_update(mapper, connection, target):
     pass
 
 
-@event.listens_for(Xyz, "before_delete")
+@event.listens_for(Web_hooks, "before_delete")
 def before_delete(mapper, connection, target):
     if request.form:
         payload = '{'
@@ -306,17 +341,15 @@ def before_delete(mapper, connection, target):
         payload += '}'
         
         data = Audit(
-            model_name="Xyz",
+            model_name="Web_hooks",
             action="Before Delete",
             context="Web Form",
             payload=payload
         )
         db.session.add(data)
-
-        fn.process_webhook(module_name = 'xyz', run_type = "before_insert", data = data, convert_sqlalchemy_to_json = True)
     pass
 
 
-@event.listens_for(Xyz, "after_delete")
+@event.listens_for(Web_hooks, "after_delete")
 def after_delete(mapper, connection, target):
     pass

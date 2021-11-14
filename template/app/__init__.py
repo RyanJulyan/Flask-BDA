@@ -412,6 +412,9 @@ from app.mod_calendar_definitions.controllers import mod_admin_calendar_definiti
 # from app.mod_graphql.controllers import mod_graphql as graphql_module  # noqa: E402
 # from app.mod_xyz.controllers import mod_xyz as xyz_module
 # import new xyz_module
+# web_hooks
+from app.mod_web_hooks.controllers import mod_public_web_hooks as web_hooks_public_module  # noqa: E402
+from app.mod_web_hooks.controllers import mod_admin_web_hooks as web_hooks_admin_module  # noqa: E402
 # test
 from app.mod_test.controllers import mod_public_test as test_public_module  # noqa: E402
 from app.mod_test.controllers import mod_admin_test as test_admin_module  # noqa: E402
@@ -456,6 +459,9 @@ app.register_blueprint(calendar_definitions_admin_module)
 # graphql
 # app.register_blueprint(graphql_module)
 # register_blueprint new xyz_module
+# web_hooks
+app.register_blueprint(web_hooks_public_module)
+app.register_blueprint(web_hooks_admin_module)
 # test
 app.register_blueprint(test_public_module)
 app.register_blueprint(test_admin_module)
@@ -520,6 +526,8 @@ from app.mod_calendar_periods.api_controllers import ns as Calendar_periods_API 
 # calendar_definitions
 from app.mod_calendar_definitions.api_controllers import ns as Calendar_definitions_API  # noqa: E402
 # new xyz api resources
+# web_hooks
+from app.mod_web_hooks.api_controllers import ns as Web_hooks_API  # noqa: E402
 # test
 from app.mod_test.api_controllers import ns as Test_API  # noqa: E402
 # test

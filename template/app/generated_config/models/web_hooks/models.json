@@ -1,0 +1,161 @@
+{
+    "web_hooks":{ 
+        "model": "Web_hooks",
+        "fields": {
+            "webhook_name": {
+                        "dataType": "String(256)",
+                        "dataTypeLower": "string",
+                        "default": false,
+                        "grapheneDataType": "String(required=True)",
+                        "index": true,
+                        "nullable": false,
+                        "relationship": null,
+                        "relationship_display_value": null,
+                        "unique": false
+            },
+            "run_in_module_name": {
+                        "dataType": "String(256)",
+                        "dataTypeLower": "string",
+                        "default": false,
+                        "grapheneDataType": "String(required=True)",
+                        "index": true,
+                        "nullable": false,
+                        "relationship": null,
+                        "relationship_display_value": null,
+                        "unique": false
+            },
+            "run_before_insert": {
+                    "dataType": "Boolean",
+                    "dataTypeLower": "boolean",
+                    "default": "0",
+                    "grapheneDataType": "Boolean(required=True)",
+                    "index": true,
+                    "nullable": false,
+                    "relationship": null,
+                    "relationship_display_value": null,
+                    "unique": false
+            },
+            "run_after_insert": {
+                    "dataType": "Boolean",
+                    "dataTypeLower": "boolean",
+                    "default": "1",
+                    "grapheneDataType": "Boolean(required=True)",
+                    "index": true,
+                    "nullable": false,
+                    "relationship": null,
+                    "relationship_display_value": null,
+                    "unique": false
+            },
+            "run_before_update": {
+                    "dataType": "Boolean",
+                    "dataTypeLower": "boolean",
+                    "default": "0",
+                    "grapheneDataType": "Boolean(required=True)",
+                    "index": true,
+                    "nullable": false,
+                    "relationship": null,
+                    "relationship_display_value": null,
+                    "unique": false
+            },
+            "run_after_update": {
+                    "dataType": "Boolean",
+                    "dataTypeLower": "boolean",
+                    "default": "1",
+                    "grapheneDataType": "Boolean(required=True)",
+                    "index": true,
+                    "nullable": false,
+                    "relationship": null,
+                    "relationship_display_value": null,
+                    "unique": false
+            },
+            "run_before_delete": {
+                    "dataType": "Boolean",
+                    "dataTypeLower": "boolean",
+                    "default": "0",
+                    "grapheneDataType": "Boolean(required=True)",
+                    "index": true,
+                    "nullable": false,
+                    "relationship": null,
+                    "relationship_display_value": null,
+                    "unique": false
+            },
+            "run_after_delete": {
+                    "dataType": "Boolean",
+                    "dataTypeLower": "boolean",
+                    "default": "1",
+                    "grapheneDataType": "Boolean(required=True)",
+                    "index": true,
+                    "nullable": false,
+                    "relationship": null,
+                    "relationship_display_value": null,
+                    "unique": false
+            },
+            "method": {
+                        "dataType": "String(256)",
+                        "dataTypeLower": "string",
+                        "default": "get",
+                        "grapheneDataType": "String(required=True)",
+                        "index": true,
+                        "nullable": false,
+                        "relationship": null,
+                        "relationship_display_value": null,
+                        "unique": false
+            },
+            "data_type": {
+                        "dataType": "String(256)",
+                        "dataTypeLower": "string",
+                        "default": "json",
+                        "grapheneDataType": "String(required=True)",
+                        "index": true,
+                        "nullable": false,
+                        "relationship": null,
+                        "relationship_display_value": null,
+                        "unique": false
+            },
+            "api_endpoint": {
+                        "dataType": "Text",
+                        "dataTypeLower": "text",
+                        "default": false,
+                        "grapheneDataType": "String(required=True)",
+                        "index": false,
+                        "nullable": false,
+                        "relationship": null,
+                        "relationship_display_value": null,
+                        "unique": false
+            },
+            "api_headers": {
+                        "dataType": "Text",
+                        "dataTypeLower": "text",
+                        "default": "[]",
+                        "grapheneDataType": "String(required=False)",
+                        "index": false,
+                        "nullable": true,
+                        "relationship": null,
+                        "relationship_display_value": null,
+                        "unique": false
+            },
+            "api_params": {
+                        "dataType": "Text",
+                        "dataTypeLower": "text",
+                        "default": "[]",
+                        "grapheneDataType": "String(required=False)",
+                        "index": false,
+                        "nullable": true,
+                        "relationship": null,
+                        "relationship_display_value": null,
+                        "unique": false
+            },
+            "active_flag": {
+                        "dataType": "Boolean",
+                        "dataTypeLower": "boolean",
+                        "default": "1",
+                        "grapheneDataType": "Boolean(required=True)",
+                        "index": true,
+                        "nullable": false,
+                        "relationship": null,
+                        "relationship_display_value": null,
+                        "unique": false
+            }
+        }
+    }
+}
