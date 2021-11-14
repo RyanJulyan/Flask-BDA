@@ -1,0 +1,288 @@
+
+{% import 'macros/flash.html' as flash with context %}
+
+{% extends "admin/index.html" %}
+
+{% block content %}
+
+<div class="content-wrapper">
+        
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Web_hooks</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="content">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col">
+                    <div class="card card-outline card-info">
+                        <div class="card-header">
+                            <h3 class="card-title">View Web_hooks</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                                    <i class="fa fa-expand"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- start new render_update fields -->
+
+                                <div class="p-1 text-danger" style="{% if not form.webhook_name.errors %} display:none; {% endif %}">
+                                    {% if form.webhook_name.errors %}
+                                        {% for error in form.webhook_name.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="webhook_name" class="col-sm-2 control-label">Webhook name</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control {% if form.webhook_name.errors %} is-invalid {% endif %}" name="webhook_name" id="webhook_name" placeholder="Webhook name" value="{{form.webhook_name.data}}" autocomplete="webhook_name" >
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.run_in_module_name.errors %} display:none; {% endif %}">
+                                    {% if form.run_in_module_name.errors %}
+                                        {% for error in form.run_in_module_name.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="run_in_module_name" class="col-sm-2 control-label">Run in module name</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control {% if form.run_in_module_name.errors %} is-invalid {% endif %}" name="run_in_module_name" id="run_in_module_name" placeholder="Run in module name" value="{{form.run_in_module_name.data}}" autocomplete="run_in_module_name" >
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.run_before_insert.errors %} display:none; {% endif %}">
+                                    {% if form.run_before_insert.errors %}
+                                        {% for error in form.run_before_insert.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="run_before_insert" class="col-sm-2 control-label">Run before insert</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="checkbox" class="form-control {% if form.run_before_insert.errors %} is-invalid {% endif %}" name="run_before_insert" id="run_before_insert" placeholder="Run before insert" value="{{form.run_before_insert.data}}" autocomplete="run_before_insert" >
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.run_after_insert.errors %} display:none; {% endif %}">
+                                    {% if form.run_after_insert.errors %}
+                                        {% for error in form.run_after_insert.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="run_after_insert" class="col-sm-2 control-label">Run after insert</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="checkbox" class="form-control {% if form.run_after_insert.errors %} is-invalid {% endif %}" name="run_after_insert" id="run_after_insert" placeholder="Run after insert" value="{{form.run_after_insert.data}}" autocomplete="run_after_insert" >
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.run_before_update.errors %} display:none; {% endif %}">
+                                    {% if form.run_before_update.errors %}
+                                        {% for error in form.run_before_update.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="run_before_update" class="col-sm-2 control-label">Run before update</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="checkbox" class="form-control {% if form.run_before_update.errors %} is-invalid {% endif %}" name="run_before_update" id="run_before_update" placeholder="Run before update" value="{{form.run_before_update.data}}" autocomplete="run_before_update" >
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.run_after_update.errors %} display:none; {% endif %}">
+                                    {% if form.run_after_update.errors %}
+                                        {% for error in form.run_after_update.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="run_after_update" class="col-sm-2 control-label">Run after update</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="checkbox" class="form-control {% if form.run_after_update.errors %} is-invalid {% endif %}" name="run_after_update" id="run_after_update" placeholder="Run after update" value="{{form.run_after_update.data}}" autocomplete="run_after_update" >
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.run_before_delete.errors %} display:none; {% endif %}">
+                                    {% if form.run_before_delete.errors %}
+                                        {% for error in form.run_before_delete.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="run_before_delete" class="col-sm-2 control-label">Run before delete</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="checkbox" class="form-control {% if form.run_before_delete.errors %} is-invalid {% endif %}" name="run_before_delete" id="run_before_delete" placeholder="Run before delete" value="{{form.run_before_delete.data}}" autocomplete="run_before_delete" >
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.run_after_delete.errors %} display:none; {% endif %}">
+                                    {% if form.run_after_delete.errors %}
+                                        {% for error in form.run_after_delete.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="run_after_delete" class="col-sm-2 control-label">Run after delete</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="checkbox" class="form-control {% if form.run_after_delete.errors %} is-invalid {% endif %}" name="run_after_delete" id="run_after_delete" placeholder="Run after delete" value="{{form.run_after_delete.data}}" autocomplete="run_after_delete" >
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.method.errors %} display:none; {% endif %}">
+                                    {% if form.method.errors %}
+                                        {% for error in form.method.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="method" class="col-sm-2 control-label">Method</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control {% if form.method.errors %} is-invalid {% endif %}" name="method" id="method" placeholder="Method" value="{{form.method.data}}" autocomplete="method" >
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.data_type.errors %} display:none; {% endif %}">
+                                    {% if form.data_type.errors %}
+                                        {% for error in form.data_type.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="data_type" class="col-sm-2 control-label">Data type</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control {% if form.data_type.errors %} is-invalid {% endif %}" name="data_type" id="data_type" placeholder="Data type" value="{{form.data_type.data}}" autocomplete="data_type" >
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.api_endpoint.errors %} display:none; {% endif %}">
+                                    {% if form.api_endpoint.errors %}
+                                        {% for error in form.api_endpoint.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="api_endpoint" class="col-sm-2 control-label">Api endpoint</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control {% if form.api_endpoint.errors %} is-invalid {% endif %}" name="api_endpoint" id="api_endpoint" placeholder="Api endpoint" autocomplete="{{" >api_endpointform.}}.dataapi_endpoint</textarea>
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.api_headers.errors %} display:none; {% endif %}">
+                                    {% if form.api_headers.errors %}
+                                        {% for error in form.api_headers.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="api_headers" class="col-sm-2 control-label">Api headers</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control {% if form.api_headers.errors %} is-invalid {% endif %}" name="api_headers" id="api_headers" placeholder="Api headers" autocomplete="{{" >api_headersform.}}.dataapi_headers</textarea>
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.api_params.errors %} display:none; {% endif %}">
+                                    {% if form.api_params.errors %}
+                                        {% for error in form.api_params.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="api_params" class="col-sm-2 control-label">Api params</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control {% if form.api_params.errors %} is-invalid {% endif %}" name="api_params" id="api_params" placeholder="Api params" autocomplete="{{" >api_paramsform.}}.dataapi_params</textarea>
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.active_flag.errors %} display:none; {% endif %}">
+                                    {% if form.active_flag.errors %}
+                                        {% for error in form.active_flag.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="active_flag" class="col-sm-2 control-label">Active flag</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="checkbox" class="form-control {% if form.active_flag.errors %} is-invalid {% endif %}" name="active_flag" id="active_flag" placeholder="Active flag" value="{{form.active_flag.data}}" autocomplete="active_flag" >
+                                    </div>
+                                </div>
+                                    <!-- this line should be removed and replaced with the renderUpdateFields variable -->
+                            <!-- end new render_update fields -->
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <a href="{{ url_for('web_hooks_admin.index') }}?organization={{ organization }}"class="btn btn-block btn-default">Cancel</a>
+                                </div>
+                                <div class="col-sm-8">
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="submit" class="btn btn-block btn-info">Update Web_hooks</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock content %}

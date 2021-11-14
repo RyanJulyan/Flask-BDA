@@ -150,7 +150,7 @@ def create_module(module):
                 'text':"""
                                     <div class="col-sm-10">
                                         <textarea class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" autocomplete="{}" >{}form.{}.data{}</textarea>
-                                    </div>""".format("{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), "{{", key, "}}", key),
+                                    </div>""".format("{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), key, "{{", key, "}}"),
                 'date':"""
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control daterangepicker_single {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" value="{}form.{}.data{}" autocomplete="{}" >

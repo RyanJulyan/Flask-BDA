@@ -812,7 +812,23 @@ flask run --port 5000
 
 > To get your custom application to work:
 * You will first need to upload your files (I find this easiest to zip and then upload them to the required location).
-* Unzip them on the server and ensure they are in the folder location you require
+    * Unzip them on the server and ensure they are in the folder location you require
+
+> **Note:** In a `Linux` exvironment the requirement `pyodbc` will not work by default. Because of this, and being a shared environment - you may not have rights to add the requirements to make it work, the easiest way to ensure that the installation does not fail is to comment out this requirement on the server.
+* Open the `requirements.txt` file, and search for `pyodbc` and put a `# ` with a space before the package name.
+```text
+# pyodbc==4.0.30
+
+```
+
+* [SSH into the environment](https://www.a2hosting.co.za/kb/getting-started-guide/accessing-your-account/using-ssh-secure-shell)
+* Install the environment requirements (similar to the local [environment](#local-environment)) from the `requirements.txt`
+    * ensure that you run this in the `SSH` window that you logged into in the previous step
+```shell
+pip install --upgrade pip
+pip install --no-cache-dir -r requirements.txt
+
+```
 * Log in to cPanel again to update the python configuration
     * Click the `Setup Python App` again
     * Edit the existing application
@@ -1741,6 +1757,15 @@ python -m unittest discover
             * `edit.html` (single element form)
         * API
             * `api/docs` (URL)
+* Browser Support (last 1 major version not dead)
+    * Chrome >= 45
+    * Firefox >= 38
+    * Edge >= 12
+    * Explorer >= 10
+    * iOS >= 9
+    * Safari >= 9
+    * Android >= 4.4
+    * Opera >= 30
 
 ## Project Structure
 ```
