@@ -16,6 +16,9 @@ from app.mod_calendar_definitions.types import Calendar_definitions as Calendar_
 from app.mod_calendar_periods.models import Calendar_periods as Calendar_periodsModel  # noqa: E402
 from app.mod_calendar_periods.types import Calendar_periods as Calendar_periodsTypes  # noqa: E402
 # import new xyz_model and xyz_type
+# statuses
+from app.mod_statuses.models import Statuses as StatusesModel  # noqa: E402
+from app.mod_statuses.types import Statuses as StatusesTypes  # noqa: E402
 
 
 class Query(graphene.ObjectType):
@@ -29,6 +32,8 @@ class Query(graphene.ObjectType):
     # calendar_periods
     all_calendar_periods = SQLAlchemyConnectionField(Calendar_periodsTypes.connection)
     # new xyz_model connection
+    # statuses
+    all_statuses = SQLAlchemyConnectionField(StatusesTypes.connection)
 
     users_by_name = graphene.List(UsersModel, name=graphene.String())
 

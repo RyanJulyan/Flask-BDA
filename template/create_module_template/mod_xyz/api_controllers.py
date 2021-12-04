@@ -239,7 +239,7 @@ class XyzBulkSeedResource(Resource):
     # @ns.doc(security='jwt')
     @ns.doc(security=None)
     # @jwt_required
-    def post(self, level):  # /xyz/seed/<level>
+    def get(self, level):  # /xyz/seed/<level>
         '''Seed bulk Xyz records. Level 1 = `Core` Data, Level 2 = `Nice to Have` Data, Level 3 = `Demo` Data'''
         data = {
             1:[
@@ -261,9 +261,13 @@ class XyzBulkSeedResource(Resource):
         # data = read_json(data, convert_dates=['start_date'])
         data = read_json(data)
         data = data.to_dict(orient="records")
-        db.session.bulk_insert_mappings(Xyz,data)
-        db.session.commit()
-        return data, 201
+        try:
+            db.session.bulk_insert_mappings(Xyz,data)
+            db.session.commit()
+        
+            return data, 201
+        except:
+            return [{"error":str(sys.exc_info()[0]),"details":str(sys.exc_info()[1])}], 500
 
 
 # XyzAggregate

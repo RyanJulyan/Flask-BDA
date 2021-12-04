@@ -319,7 +319,7 @@ class Web_hooksBulkSeedResource(Resource):
     # @ns.doc(security='jwt')
     @ns.doc(security=None)
     # @jwt_required
-    def post(self, level):  # /web_hooks/seed/<level>
+    def get(self, level):  # /web_hooks/seed/<level>
         '''Seed bulk Web_hooks records. Level 1 = `Core` Data, Level 2 = `Nice to Have` Data, Level 3 = `Demo` Data'''
         data = {
             1:[

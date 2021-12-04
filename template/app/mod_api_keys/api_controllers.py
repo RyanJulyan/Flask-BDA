@@ -57,7 +57,7 @@ parser.add_argument('page', type=int, help='page number for returned list. Must 
 # https://github.com/python-restx/flask-restx#quick-start for API and Swagger
 # shows a single api_keys item, updates a single api_keys item and lets you delete a api_keys item
 
-@ns.route('/header_check')
+@ns.route('/header_check/')
 class Api_keysTestResource(Resource):
     '''Show a single Api_keys item and lets you delete them'''
     @ns.doc(responses={200: 'OK', 422: 'Unprocessable Entity', 500: 'Internal Server Error'},

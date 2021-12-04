@@ -1,0 +1,158 @@
+
+{% import 'macros/flash.html' as flash with context %}
+
+{% extends "admin/index.html" %}
+
+{% block content %}
+
+<div class="content-wrapper">
+        
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Statuses</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="content">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col">
+
+                    <div class="card card-outline card-default">
+                        <div class="card-header">
+                            <h3 class="card-title">Statuses Table</h3>
+
+                            <div class="card-tools">
+                                <a href="{{ url_for('statuses_admin.create', id=value.id) }}?organization={{ organization }}" class="btn btn-primary rounded-circle">
+                                    <i class="fa fa-plus"></i>
+                                </a>
+                                <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                                    <i class="fa fa-expand"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-head-fixed text-nowrap DataTable">
+                            <thead>
+                                <tr>
+                                <th>
+                                    id
+                                </th>
+                                <!-- start new table headers -->
+
+                        <th>
+                            Status key
+                        </th>
+        
+                        <th>
+                            Status display name
+                        </th>
+        
+                        <th>
+                            Status description
+                        </th>
+        
+                        <th>
+                            Status group
+                        </th>
+        
+                        <th>
+                            Key value
+                        </th>
+        
+                    <!-- end new table headers -->
+                                <th>
+                                    <span class="sr-only">Edit</span>
+                                </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for value in data.items %}
+                                    <tr>
+                                        <td>
+                                            {{ value.id }}
+                                        </td>
+                                        <!-- start new table values -->
+
+                                        <td>
+                                            {{ value.status_key }}
+                                        </td>
+            
+                                        <td>
+                                            {{ value.status_display_name }}
+                                        </td>
+            
+                                        <td>
+                                            {{ value.status_description }}
+                                        </td>
+            
+                                        <td>
+                                            {{ value.status_group }}
+                                        </td>
+            
+                                        <td>
+                                            {{ value.key_value }}
+                                        </td>
+            
+                        <!-- end new table values -->
+                                        <td class="whitespace-nowrap text-right text-sm font-medium">
+                                            <a href="{{ url_for('statuses_admin.edit', id=value.id) }}?organization={{ organization }}" class="btn btn-outline-info btn-xs">Edit</a> | 
+                                            <a href="{{ url_for('statuses_admin.destroy', id=value.id) }}?organization={{ organization }}" class="btn btn-outline-danger btn-xs">Delete</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                            </table>
+                        </div>
+                        <!-- 
+                        <div class="card-footer">
+                            <nav class="relative z-0 inline-flex shadow-sm -space-x-px" aria-label="Pagination">
+                                <a href="{{ url_for('statuses_admin.index', page=data.prev_num) }}?organization={{ organization }}"
+                                class="{% if data.page == 1 %}disabled{% endif %}">
+                                    <span class="">Previous</span>
+                                </a>
+                                {% for page_num in data.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                                    {% if page_num %}
+                                        {% if data.page == page_num %}
+                                        <a href="{{ url_for('statuses_admin.index', page=page_num) }}?organization={{ organization }}"
+                                        class="btn">
+                                            {{ page_num }}
+                                        </a>
+                                        {% else %}
+                                        <a href="{{ url_for('statuses_admin.index', page=page_num) }}?organization={{ organization }}"
+                                        class="btn">
+                                            {{ page_num }}
+                                        </a>
+                                        {% endif %}
+                                    {% else %}
+                                    {% endif %}
+                                {% endfor %}
+                                <a href="{{ url_for('statuses_admin.index', page=data.next_num) }}?organization={{ organization }}"
+                                class="{% if data.page == data.pages %}disabled{% endif %}">
+                                    <span class="">Next</span>
+                                </a>
+                            </nav>
+                            <p class="text-right">
+                                <span>Showing page {{ data.page }} of {{ data.pages }}</span>
+                            </p>
+                        </div>
+                         -->
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+</div>
+
+{% endblock content %}

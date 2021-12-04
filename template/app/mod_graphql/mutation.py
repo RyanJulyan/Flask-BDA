@@ -21,6 +21,9 @@ from app.mod_calendar_definitions.types import Calendar_definitions as Calendar_
 from app.mod_calendar_periods.models import Calendar_periods as Calendar_periodsModel  # noqa: E402
 from app.mod_calendar_periods.types import Calendar_periods as Calendar_periodsTypes, CreateCalendar_periodsInput  # noqa: E402
 # import new xyz_model and xyz_type, input
+# statuses
+from app.mod_statuses.models import Statuses as StatusesModel  # noqa: E402
+from app.mod_statuses.types import Statuses as StatusesTypes, CreateStatusesInput  # noqa: E402
 
 
 def graphql_input_into_dictionary(input):
@@ -124,6 +127,24 @@ class Create_Calendar_periods(graphene.Mutation):
 
 # new create xyz class
 
+# statuses
+class Create_Statuses(graphene.Mutation):
+    statuses = graphene.Field(lambda: StatusesTypes)
+    ok = graphene.Boolean()
+
+    class Arguments:
+        input = CreateStatusesInput(required=True)
+
+    @staticmethod
+    def mutate(self, info, input):
+        data = graphql_input_into_dictionary(input)
+        statuses = StatusesModel(**data)
+        db.session.add(statuses)
+        db.session.commit()
+        ok = True
+        return Create_Statuses(statuses=statuses, ok=ok)
+
+            
             
             
 class Mutation(graphene.ObjectType):
@@ -136,4 +157,6 @@ class Mutation(graphene.ObjectType):
     # calendar_periods
     createCalendar_periods = Create_Calendar_periods.Field()
     # register new createXyz
+    # statuses
+    createStatuses = Create_Statuses.Field()
 

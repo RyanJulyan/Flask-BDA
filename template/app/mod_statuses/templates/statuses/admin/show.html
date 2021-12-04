@@ -1,0 +1,144 @@
+
+{% import 'macros/flash.html' as flash with context %}
+
+{% extends "admin/index.html" %}
+
+{% block content %}
+
+<div class="content-wrapper">
+        
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Statuses</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="content">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col">
+                    <div class="card card-outline card-info">
+                        <div class="card-header">
+                            <h3 class="card-title">View Statuses</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                                    <i class="fa fa-expand"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- start new render_update fields -->
+
+                                <div class="p-1 text-danger" style="{% if not form.status_key.errors %} display:none; {% endif %}">
+                                    {% if form.status_key.errors %}
+                                        {% for error in form.status_key.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="status_key" class="col-sm-2 control-label">Status key</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control {% if form.status_key.errors %} is-invalid {% endif %}" name="status_key" id="status_key" placeholder="Status key" value="{{form.status_key.data}}" autocomplete="status_key" >
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.status_display_name.errors %} display:none; {% endif %}">
+                                    {% if form.status_display_name.errors %}
+                                        {% for error in form.status_display_name.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="status_display_name" class="col-sm-2 control-label">Status display name</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control {% if form.status_display_name.errors %} is-invalid {% endif %}" name="status_display_name" id="status_display_name" placeholder="Status display name" value="{{form.status_display_name.data}}" autocomplete="status_display_name" >
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.status_description.errors %} display:none; {% endif %}">
+                                    {% if form.status_description.errors %}
+                                        {% for error in form.status_description.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="status_description" class="col-sm-2 control-label">Status description</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control {% if form.status_description.errors %} is-invalid {% endif %}" name="status_description" id="status_description" placeholder="Status description" autocomplete="status_description" >{{form.status_description.data}}</textarea>
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.status_group.errors %} display:none; {% endif %}">
+                                    {% if form.status_group.errors %}
+                                        {% for error in form.status_group.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="status_group" class="col-sm-2 control-label">Status group</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control {% if form.status_group.errors %} is-invalid {% endif %}" name="status_group" id="status_group" placeholder="Status group" value="{{form.status_group.data}}" autocomplete="status_group" >
+                                    </div>
+                                </div>
+        
+                                <div class="p-1 text-danger" style="{% if not form.key_value.errors %} display:none; {% endif %}">
+                                    {% if form.key_value.errors %}
+                                        {% for error in form.key_value.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group row">
+                                    <label for="key_value" class="col-sm-2 control-label">Key value</label>
+
+                                    
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control {% if form.key_value.errors %} is-invalid {% endif %}" name="key_value" id="key_value" placeholder="Key value" autocomplete="key_value" >{{form.key_value.data}}</textarea>
+                                    </div>
+                                </div>
+                                    <!-- this line should be removed and replaced with the renderUpdateFields variable -->
+                            <!-- end new render_update fields -->
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <a href="{{ url_for('statuses_admin.index') }}?organization={{ organization }}"class="btn btn-block btn-default">Cancel</a>
+                                </div>
+                                <div class="col-sm-8">
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="submit" class="btn btn-block btn-info">Update Statuses</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock content %}

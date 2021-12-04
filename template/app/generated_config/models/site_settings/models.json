@@ -13,7 +13,7 @@
 				"relationship_display_value": "organisation_name",
 				"default": false
 			},
-			"key": {
+			"site_setting_key": {
                 "dataTypeLower": "string",
 				"dataType": "String(256)",
                 "grapheneDataType": "String()",
@@ -23,7 +23,7 @@
 				"relationship": null,
 				"default": false
 			},
-			"display_name": {
+			"site_setting_display_name": {
                 "dataTypeLower": "string",
 				"dataType": "String(256)",
                 "grapheneDataType": "String()",
@@ -33,7 +33,7 @@
 				"relationship": null,
 				"default": false
 			},
-			"description": {
+			"site_setting_description": {
                 "dataTypeLower": "text",
 				"dataType": "Text",
                 "grapheneDataType": "String()",
@@ -43,7 +43,7 @@
 				"relationship": null,
 				"default": false
 			},
-			"value": {
+			"site_setting_value": {
                 "dataTypeLower": "text",
 				"dataType": "Text",
                 "grapheneDataType": "String()",
@@ -53,7 +53,7 @@
 				"relationship": null,
 				"default": false
 			},
-			"data_type": {
+			"site_setting_data_type": {
                 "dataTypeLower": "string",
 				"dataType": "String(256)",
                 "grapheneDataType": "String()",
@@ -63,7 +63,7 @@
 				"relationship": null,
 				"default": false
 			},
-			"group": {
+			"site_setting_group": {
                 "dataTypeLower": "string",
 				"dataType": "String(256)",
                 "grapheneDataType": "String()",
@@ -73,7 +73,7 @@
 				"relationship": null,
 				"default": false
 			},
-			"key_value": {
+			"site_setting_key_value": {
                 "dataTypeLower": "text",
 				"dataType": "Text",
                 "grapheneDataType": "String()",

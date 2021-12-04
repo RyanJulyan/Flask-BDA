@@ -243,7 +243,7 @@ class Site_settingsBulkListResource(Resource):
     # @ns.doc(security='jwt')
     @ns.doc(security=None)
     # @jwt_required
-    def post(self, level):  # /site_settings/seed/<level>
+    def get(self, level):  # /site_settings/seed/<level>
         '''Seed bulk Site_settings records. Level 1 = `Core` Data, Level 2 = `Nice to Have` Data, Level 3 = `Demo` Data'''
         data = {
             1:[

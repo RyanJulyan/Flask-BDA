@@ -1,19 +1,8 @@
 {
 	"statuses": {
 		"model": "Statuses",
-		"fields": {
-			"organisation_id": {
-                "dataTypeLower": "relationship",
-				"dataType": "Integer",
-                "grapheneDataType": "Int()",
-				"nullable": false,
-				"unique": false,
-				"index": true,
-				"relationship": "organisations",
-				"relationship_display_value": "organisation_name",
-				"default": false
-			},
-			"key": {
+        "fields": {
+			"status_key": {
                 "dataTypeLower": "string",
 				"dataType": "String(256)",
                 "grapheneDataType": "String()",
@@ -24,7 +13,7 @@
                 "relationship_display_value": null,
 				"default": false
 			},
-			"display_name": {
+			"status_display_name": {
                 "dataTypeLower": "string",
 				"dataType": "String(256)",
                 "grapheneDataType": "String()",
@@ -35,7 +24,7 @@
                 "relationship_display_value": null,
 				"default": false
 			},
-			"description": {
+			"status_description": {
                 "dataTypeLower": "text",
 				"dataType": "Text",
                 "grapheneDataType": "String()",
@@ -46,7 +35,7 @@
                 "relationship_display_value": null,
 				"default": false
 			},
-			"group": {
+			"status_group": {
                 "dataTypeLower": "string",
 				"dataType": "String(256)",
                 "grapheneDataType": "String()",
@@ -57,7 +46,7 @@
                 "relationship_display_value": null,
 				"default": false
 			},
-			"key_value": {
+			"status_key_value": {
                 "dataTypeLower": "text",
 				"dataType": "Text",
                 "grapheneDataType": "String()",

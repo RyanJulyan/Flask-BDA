@@ -259,7 +259,7 @@ class Cache_hierarchiesBulkListResource(Resource):
     # @ns.doc(security='jwt')
     @ns.doc(security=None)
     # @jwt_required
-    def post(self, level):  # /cache_hierarchies/seed/<level>
+    def get(self, level):  # /cache_hierarchies/seed/<level>
         '''Seed bulk Cache_hierarchies records. Level 1 = `Core` Data, Level 2 = `Nice to Have` Data, Level 3 = `Demo` Data'''
         data = {
             1:[

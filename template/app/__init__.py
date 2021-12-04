@@ -374,14 +374,29 @@ def has_no_empty_params(rule):
 @app.route("/seed/<int:level>")
 def seed(level):
     links = []
+    # print()
+    # print()
+    # print("request.host_url", request.host_url)
+    # print()
+    # print()
     for rule in app.url_map.iter_rules():
         # Filter out rules we can't navigate to in a browser
         # and rules that require parameters
+        # print("rule: ", rule)
+        # print("rule.methods: ", rule.methods)
+        # print("GET rule.methods: ", "GET" in rule.methods)
         if "GET" in rule.methods and has_no_empty_params(rule):
             url = url_for(rule.endpoint, **(rule.defaults or {}))
-            if('seed' in url):
-             links.append((url, rule.endpoint))
-    return ' '.join([str(elem) for elem in links]) 
+            if('api/' in url) and ('aggregate' not in url) and ('docs' not in url) and ('postman' not in url):
+                seed_url = request.host_url[0:len(request.host_url)-1] + url +'seed/' + str(level)
+                try:
+                    x = requests.get(seed_url)
+                    if x.status_code == 201 or x.status_code == 200:
+                        links.append(seed_url)
+                except:
+                    pass
+
+    return '<br/>'.join([str(elem) for elem in links]) 
     # links is now a list of url, endpoint tuples
 
 # Import a module / component using its blueprint handler variable (mod_users)
@@ -415,6 +430,9 @@ from app.mod_calendar_definitions.controllers import mod_admin_calendar_definiti
 # from app.mod_graphql.controllers import mod_graphql as graphql_module  # noqa: E402
 # from app.mod_xyz.controllers import mod_xyz as xyz_module
 # import new xyz_module
+# statuses
+from app.mod_statuses.controllers import mod_public_statuses as statuses_public_module  # noqa: E402
+from app.mod_statuses.controllers import mod_admin_statuses as statuses_admin_module  # noqa: E402
 
 
 # Register blueprint(s)
@@ -447,6 +465,9 @@ app.register_blueprint(calendar_definitions_admin_module)
 # graphql
 # app.register_blueprint(graphql_module)
 # register_blueprint new xyz_module
+# statuses
+app.register_blueprint(statuses_public_module)
+app.register_blueprint(statuses_admin_module)
 
 
 # Prevent GraphQL The CSRF token is missing. error
@@ -496,6 +517,8 @@ from app.mod_calendar_periods.api_controllers import ns as Calendar_periods_API 
 # calendar_definitions
 from app.mod_calendar_definitions.api_controllers import ns as Calendar_definitions_API  # noqa: E402
 # new xyz api resources
+# statuses
+from app.mod_statuses.api_controllers import ns as Statuses_API  # noqa: E402
 
 
 # This MUST be the last route to allow for all API routes to be registered
