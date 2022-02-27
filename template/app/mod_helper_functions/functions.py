@@ -7,6 +7,11 @@ import json
 # Import the app module
 from app import app
 
+# Async Requests
+import aiohttp
+from asyncio import ensure_future, gather
+import asyncio
+
 # API Requests
 import requests
 
@@ -55,9 +60,9 @@ def process_webhook(module_name, run_type, data, convert_sqlalchemy_to_json = Tr
             url = api_endpoint
 
             if data_type != 'json':
-                x = requests.get(url,params = params, headers = headers, data = data)
+                x = requests.get(url,params = params, headers = api_headers, data = data)
             else:
-                x = requests.get(url,params = params, headers = headers, json = data)
+                x = requests.get(url,params = params, headers = api_headers, json = data)
 
             status_code = x.status_code
 
@@ -71,9 +76,9 @@ def process_webhook(module_name, run_type, data, convert_sqlalchemy_to_json = Tr
             url = api_endpoint
 
             if data_type != 'json':
-                x = requests.post(url,params = params, headers = headers, data = data)
+                x = requests.post(url,params = params, headers = api_headers, data = data)
             else:
-                x = requests.post(url,params = params, headers = headers, json = data)
+                x = requests.post(url,params = params, headers = api_headers, json = data)
 
             status_code = x.status_code
 
@@ -87,9 +92,9 @@ def process_webhook(module_name, run_type, data, convert_sqlalchemy_to_json = Tr
             url = api_endpoint
 
             if data_type != 'json':
-                x = requests.put(url,params = params, headers = headers, data = data)
+                x = requests.put(url,params = params, headers = api_headers, data = data)
             else:
-                x = requests.put(url,params = params, headers = headers, json = data)
+                x = requests.put(url,params = params, headers = api_headers, json = data)
 
             status_code = x.status_code
 
@@ -103,9 +108,9 @@ def process_webhook(module_name, run_type, data, convert_sqlalchemy_to_json = Tr
             url = api_endpoint
 
             if data_type != 'json':
-                x = requests.put(url,params = params, headers = headers, data = data)
+                x = requests.put(url,params = params, headers = api_headers, data = data)
             else:
-                x = requests.put(url,params = params, headers = headers, json = data)
+                x = requests.put(url,params = params, headers = api_headers, json = data)
 
             status_code = x.status_code
 
@@ -182,4 +187,23 @@ def convert_to_python_data_type(data_type_string):
         fn = data_types_func['string']
 
     return fn
+
+
+async def get_request_worker(session, url):
+    async with session.get(url) as response:
+        return await response.json()
+
+
+async def get_request_controller(urls):
+    async with aiohttp.ClientSession() as session:
+        tasks = [ensure_future(get_request_worker(session, url)) for url in urls]
+        results = await gather(*tasks)
+    return results
+
+
+def multi_async_get_requests(urls):
+    loop = asyncio.get_event_loop()
+    results = loop.run_until_complete(get_request_controller(urls))
+
+    return results
 
