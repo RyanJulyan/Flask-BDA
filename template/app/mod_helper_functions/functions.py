@@ -55,9 +55,9 @@ def process_webhook(module_name, run_type, data, convert_sqlalchemy_to_json = Tr
             url = api_endpoint
 
             if data_type != 'json':
-                x = requests.get(url,params = params, headers = headers, data = data)
+                x = requests.get(url,params = params, headers = api_headers, data = data)
             else:
-                x = requests.get(url,params = params, headers = headers, json = data)
+                x = requests.get(url,params = params, headers = api_headers, json = data)
 
             status_code = x.status_code
 
@@ -71,9 +71,9 @@ def process_webhook(module_name, run_type, data, convert_sqlalchemy_to_json = Tr
             url = api_endpoint
 
             if data_type != 'json':
-                x = requests.post(url,params = params, headers = headers, data = data)
+                x = requests.post(url,params = params, headers = api_headers, data = data)
             else:
-                x = requests.post(url,params = params, headers = headers, json = data)
+                x = requests.post(url,params = params, headers = api_headers, json = data)
 
             status_code = x.status_code
 
@@ -87,9 +87,9 @@ def process_webhook(module_name, run_type, data, convert_sqlalchemy_to_json = Tr
             url = api_endpoint
 
             if data_type != 'json':
-                x = requests.put(url,params = params, headers = headers, data = data)
+                x = requests.put(url,params = params, headers = api_headers, data = data)
             else:
-                x = requests.put(url,params = params, headers = headers, json = data)
+                x = requests.put(url,params = params, headers = api_headers, json = data)
 
             status_code = x.status_code
 
@@ -103,9 +103,9 @@ def process_webhook(module_name, run_type, data, convert_sqlalchemy_to_json = Tr
             url = api_endpoint
 
             if data_type != 'json':
-                x = requests.put(url,params = params, headers = headers, data = data)
+                x = requests.put(url,params = params, headers = api_headers, data = data)
             else:
-                x = requests.put(url,params = params, headers = headers, json = data)
+                x = requests.put(url,params = params, headers = api_headers, json = data)
 
             status_code = x.status_code
 

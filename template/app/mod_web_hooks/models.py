@@ -26,18 +26,18 @@ class Web_hooks(Base):
     # start new field definitions
     webhook_name = db.Column(db.String(256), nullable=False, default=False, unique=False, index=True)
     run_in_module_name = db.Column(db.String(256), nullable=False, default=False, unique=False, index=True)
-    run_before_insert = db.Column(db.Boolean, nullable=False, default=0, unique=False, index=True)
-    run_after_insert = db.Column(db.Boolean, nullable=False, default=1, unique=False, index=True)
-    run_before_update = db.Column(db.Boolean, nullable=False, default=0, unique=False, index=True)
-    run_after_update = db.Column(db.Boolean, nullable=False, default=1, unique=False, index=True)
-    run_before_delete = db.Column(db.Boolean, nullable=False, default=0, unique=False, index=True)
-    run_after_delete = db.Column(db.Boolean, nullable=False, default=1, unique=False, index=True)
+    run_before_insert = db.Column(db.Boolean, nullable=True, default=0, unique=False, index=True)
+    run_after_insert = db.Column(db.Boolean, nullable=True, default=1, unique=False, index=True)
+    run_before_update = db.Column(db.Boolean, nullable=True, default=0, unique=False, index=True)
+    run_after_update = db.Column(db.Boolean, nullable=True, default=1, unique=False, index=True)
+    run_before_delete = db.Column(db.Boolean, nullable=True, default=0, unique=False, index=True)
+    run_after_delete = db.Column(db.Boolean, nullable=True, default=1, unique=False, index=True)
     method = db.Column(db.String(256), nullable=False, default='get', unique=False, index=True)
     data_type = db.Column(db.String(256), nullable=False, default='json', unique=False, index=True)
     api_endpoint = db.Column(db.Text, nullable=False, default=False, unique=False, index=False)
     api_headers = db.Column(db.Text, nullable=True, default='[]', unique=False, index=False)
     api_params = db.Column(db.Text, nullable=True, default='[]', unique=False, index=False)
-    active_flag = db.Column(db.Boolean, nullable=False, default=1, unique=False, index=True)    # this line should be removed and replaced with the columns variable
+    active_flag = db.Column(db.Boolean, nullable=True, default=1, unique=False, index=True)    # this line should be removed and replaced with the columns variable
     # end new field definitions
     # example_field = db.Column(db.String(256), nullable=False,default=False, unique=False)
 

@@ -51,7 +51,7 @@ import requests
 import json
 
 # Import GraphQLAuth
-# from flask_graphql_auth import GraphQLAuth
+from flask_graphql_auth import GraphQLAuth
 
 # Import APScheduler
 from flask_apscheduler import APScheduler
@@ -125,7 +125,7 @@ bcrypt = Bcrypt(app)
 mail = Mail(app)
 
 # GraphQLAuth
-# graph_ql_auth = GraphQLAuth(app)
+graph_ql_auth = GraphQLAuth(app)
 
 # JWT
 jwt = JWTManager(app)
@@ -399,6 +399,16 @@ def seed(level):
     return '<br/>'.join([str(elem) for elem in links]) 
     # links is now a list of url, endpoint tuples
 
+
+@app.route('/uploads/<path:filename>', methods=['GET', 'POST'])
+def download(filename):
+    
+    # Appending app path to upload folder path within app root folder
+    uploads = os.path.join(str(app.config['BASE_DIR']), str(app.config['UPLOAD_FOLDER']))
+    # Returning file from appended path
+    return send_from_directory(directory=uploads, filename=filename)
+
+
 # Import a module / component using its blueprint handler variable (mod_users)
 # site_settings
 from app.mod_site_settings.controllers import mod_public_site_settings as site_settings_public_module  # noqa: E402
@@ -427,7 +437,7 @@ from app.mod_calendar_periods.controllers import mod_admin_calendar_periods as c
 from app.mod_calendar_definitions.controllers import mod_public_calendar_definitions as calendar_definitions_public_module  # noqa: E402
 from app.mod_calendar_definitions.controllers import mod_admin_calendar_definitions as calendar_definitions_admin_module  # noqa: E402
 # graphql
-# from app.mod_graphql.controllers import mod_graphql as graphql_module  # noqa: E402
+from app.mod_graphql.controllers import mod_graphql as graphql_module  # noqa: E402
 # from app.mod_xyz.controllers import mod_xyz as xyz_module
 # import new xyz_module
 # statuses
@@ -463,7 +473,7 @@ app.register_blueprint(calendar_periods_admin_module)
 app.register_blueprint(calendar_definitions_public_module)
 app.register_blueprint(calendar_definitions_admin_module)
 # graphql
-# app.register_blueprint(graphql_module)
+app.register_blueprint(graphql_module)
 # register_blueprint new xyz_module
 # statuses
 app.register_blueprint(statuses_public_module)
@@ -471,7 +481,7 @@ app.register_blueprint(statuses_admin_module)
 
 
 # Prevent GraphQL The CSRF token is missing. error
-# csrf_protect.exempt(graphql_module)
+csrf_protect.exempt(graphql_module)
 
 # Define the API
 # This must be after other routes or it overwrites everything.

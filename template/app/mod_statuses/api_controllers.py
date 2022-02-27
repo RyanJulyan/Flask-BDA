@@ -564,7 +564,7 @@ def before_insert(mapper, connection, target):
         )
         db.session.add(data)
 
-        fn.process_webhook(module_name = 'statuses', run_type = "before_insert", data = data, convert_sqlalchemy_to_json = False)
+        fn.process_webhook(module_name = 'statuses', run_type = "before_insert", data = payload, convert_sqlalchemy_to_json = False)
 
     pass
 
@@ -587,7 +587,7 @@ def before_update(mapper, connection, target):
         )
         db.session.add(data)
 
-        fn.process_webhook(module_name = 'statuses', run_type = "before_insert", data = data, convert_sqlalchemy_to_json = False)
+        fn.process_webhook(module_name = 'statuses', run_type = "before_insert", data = payload, convert_sqlalchemy_to_json = False)
         
     pass
 
@@ -610,7 +610,7 @@ def before_delete(mapper, connection, target):
         )
         db.session.add(data)
 
-        fn.process_webhook(module_name = 'statuses', run_type = "before_insert", data = data, convert_sqlalchemy_to_json = False)
+        fn.process_webhook(module_name = 'statuses', run_type = "before_insert", data = payload, convert_sqlalchemy_to_json = False)
         
     pass
 

@@ -257,7 +257,7 @@ DEFAULT_MAIL_SENDER = env('DEFAULT_MAIL_SENDER', 'Flask BDA <me@example.com>')
 ###############
 # File Upload #
 ###############
-UPLOAD_FOLDER = env('UPLOAD_FOLDER', ('UPLOAD_FOLDER', 'uploads'))
+UPLOAD_FOLDER = env('UPLOAD_FOLDER', 'app/static/uploads')
 ALLOWED_EXTENSIONS = env('ALLOWED_EXTENSIONS', set(['txt', 'rtf', 'docx', 'doc', 'docm', 'dotx', 'odt', 'xlsx', 'xlsm', 'xlsb', 'xls', 'xltx', 'ods', 'csv', 'xml', 'json', 'pdf', 'png', 'jpg', 'jpeg', 'gif']))
 
 #######################

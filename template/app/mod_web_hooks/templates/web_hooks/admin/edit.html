@@ -84,7 +84,7 @@
 
                                     
                                     <div class="col-sm-10">
-                                        <input type="checkbox" class="form-control {% if form.run_before_insert.errors %} is-invalid {% endif %}" name="run_before_insert" id="run_before_insert" placeholder="Run before insert" value="{{form.run_before_insert.data}}" autocomplete="run_before_insert" >
+                                        <input type="checkbox" class="form-control {% if form.run_before_insert.errors %} is-invalid {% endif %}" {% if form.run_before_insert.data == 'True' or form.run_before_insert.data == True %} checked="true" {% endif %} value="True" name="run_before_insert" id="run_before_insert" placeholder="Run before insert" value="{{form.run_before_insert.data}}" autocomplete="run_before_insert" >
                                     </div>
                                 </div>
         
@@ -100,7 +100,7 @@
 
                                     
                                     <div class="col-sm-10">
-                                        <input type="checkbox" class="form-control {% if form.run_after_insert.errors %} is-invalid {% endif %}" name="run_after_insert" id="run_after_insert" placeholder="Run after insert" value="{{form.run_after_insert.data}}" autocomplete="run_after_insert" >
+                                        <input type="checkbox" class="form-control {% if form.run_after_insert.errors %} is-invalid {% endif %}" {% if form.run_after_insert.data == 'True' or form.run_after_insert.data == True %} checked="true" {% endif %} value="True" name="run_after_insert" id="run_after_insert" placeholder="Run after insert" value="{{form.run_after_insert.data}}" autocomplete="run_after_insert" >
                                     </div>
                                 </div>
         
@@ -116,7 +116,7 @@
 
                                     
                                     <div class="col-sm-10">
-                                        <input type="checkbox" class="form-control {% if form.run_before_update.errors %} is-invalid {% endif %}" name="run_before_update" id="run_before_update" placeholder="Run before update" value="{{form.run_before_update.data}}" autocomplete="run_before_update" >
+                                        <input type="checkbox" class="form-control {% if form.run_before_update.errors %} is-invalid {% endif %}" {% if form.run_before_update.data == 'True' or form.run_before_update.data == True %} checked="true" {% endif %} value="True" name="run_before_update" id="run_before_update" placeholder="Run before update" value="{{form.run_before_update.data}}" autocomplete="run_before_update" >
                                     </div>
                                 </div>
         
@@ -132,7 +132,7 @@
 
                                     
                                     <div class="col-sm-10">
-                                        <input type="checkbox" class="form-control {% if form.run_after_update.errors %} is-invalid {% endif %}" name="run_after_update" id="run_after_update" placeholder="Run after update" value="{{form.run_after_update.data}}" autocomplete="run_after_update" >
+                                        <input type="checkbox" class="form-control {% if form.run_after_update.errors %} is-invalid {% endif %}" {% if form.run_after_update.data == 'True' or form.run_after_update.data == True %} checked="true" {% endif %} value="True" name="run_after_update" id="run_after_update" placeholder="Run after update" value="{{form.run_after_update.data}}" autocomplete="run_after_update" >
                                     </div>
                                 </div>
         
@@ -148,7 +148,7 @@
 
                                     
                                     <div class="col-sm-10">
-                                        <input type="checkbox" class="form-control {% if form.run_before_delete.errors %} is-invalid {% endif %}" name="run_before_delete" id="run_before_delete" placeholder="Run before delete" value="{{form.run_before_delete.data}}" autocomplete="run_before_delete" >
+                                        <input type="checkbox" class="form-control {% if form.run_before_delete.errors %} is-invalid {% endif %}" {% if form.run_before_delete.data == 'True' or form.run_before_delete.data == True %} checked="true" {% endif %} value="True" name="run_before_delete" id="run_before_delete" placeholder="Run before delete" value="{{form.run_before_delete.data}}" autocomplete="run_before_delete" >
                                     </div>
                                 </div>
         
@@ -164,7 +164,7 @@
 
                                     
                                     <div class="col-sm-10">
-                                        <input type="checkbox" class="form-control {% if form.run_after_delete.errors %} is-invalid {% endif %}" name="run_after_delete" id="run_after_delete" placeholder="Run after delete" value="{{form.run_after_delete.data}}" autocomplete="run_after_delete" >
+                                        <input type="checkbox" class="form-control {% if form.run_after_delete.errors %} is-invalid {% endif %}" {% if form.run_after_delete.data == 'True' or form.run_after_delete.data == True %} checked="true" {% endif %} value="True" name="run_after_delete" id="run_after_delete" placeholder="Run after delete" value="{{form.run_after_delete.data}}" autocomplete="run_after_delete" >
                                     </div>
                                 </div>
         
@@ -212,7 +212,7 @@
 
                                     
                                     <div class="col-sm-10">
-                                        <textarea class="form-control {% if form.api_endpoint.errors %} is-invalid {% endif %}" name="api_endpoint" id="api_endpoint" placeholder="Api endpoint" autocomplete="{{" >api_endpointform.}}.dataapi_endpoint</textarea>
+                                        <textarea class="form-control {% if form.api_endpoint.errors %} is-invalid {% endif %}" name="api_endpoint" id="api_endpoint" placeholder="Api endpoint" autocomplete="api_endpoint" >{{form.data.api_endpoint}}</textarea>
                                     </div>
                                 </div>
         
@@ -228,7 +228,7 @@
 
                                     
                                     <div class="col-sm-10">
-                                        <textarea class="form-control {% if form.api_headers.errors %} is-invalid {% endif %}" name="api_headers" id="api_headers" placeholder="Api headers" autocomplete="{{" >api_headersform.}}.dataapi_headers</textarea>
+                                        <textarea class="form-control {% if form.api_headers.errors %} is-invalid {% endif %}" name="api_headers" id="api_headers" placeholder="Api headers" autocomplete="api_headers" >{{form.data.api_headers}}</textarea>
                                     </div>
                                 </div>
         
@@ -244,7 +244,7 @@
 
                                     
                                     <div class="col-sm-10">
-                                        <textarea class="form-control {% if form.api_params.errors %} is-invalid {% endif %}" name="api_params" id="api_params" placeholder="Api params" autocomplete="{{" >api_paramsform.}}.dataapi_params</textarea>
+                                        <textarea class="form-control {% if form.api_params.errors %} is-invalid {% endif %}" name="api_params" id="api_params" placeholder="Api params" autocomplete="api_paramsf" >{{form.data.api_params}}</textarea>
                                     </div>
                                 </div>
         
@@ -260,7 +260,7 @@
 
                                     
                                     <div class="col-sm-10">
-                                        <input type="checkbox" class="form-control {% if form.active_flag.errors %} is-invalid {% endif %}" name="active_flag" id="active_flag" placeholder="Active flag" value="{{form.active_flag.data}}" autocomplete="active_flag" >
+                                        <input type="checkbox" class="form-control {% if form.active_flag.errors %} is-invalid {% endif %}" {% if form.active_flag.data == 'True' or form.active_flag.data == True %} checked="true" {% endif %} value="True" name="active_flag" id="active_flag" placeholder="Active flag" value="{{form.active_flag.data}}" autocomplete="active_flag" >
                                     </div>
                                 </div>
                                         <!-- this line should be removed and replaced with the renderUpdateFields variable -->

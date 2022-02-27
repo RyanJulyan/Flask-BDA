@@ -62,8 +62,8 @@ def create_module(module):
                                     </div>""".format("{", key, "}", "{", "}", "{{", key, "}}", key, key, friendly_name.replace('_'," "), key),
                 'boolean':"""
                                     <div class="col-sm-10">
-                                        <input type="checkbox" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" autocomplete="{}" >
-                                    </div>""".format("{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), key),
+                                        <input type="checkbox" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" {}% if form.{}.data == 'True' %{} checked="true" {}% endif %{} value="True" autocomplete="{}" >
+                                    </div>""".format("{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), "{", key, "}", "{", "}", key),
                 'bigint':"""
                                     <div class="col-sm-10">
                                         <input type="number" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" value="{}form.{}.data{}" name="{}" id="{}" placeholder="{}" autocomplete="{}" >
@@ -161,8 +161,8 @@ def create_module(module):
                                     </div>""".format("{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), "{{", key, "}}", key),
                 'boolean':"""
                                     <div class="col-sm-10">
-                                        <input type="checkbox" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" value="{}form.{}.data{}" autocomplete="{}" >
-                                    </div>""".format("{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), "{{", key, "}}", key),
+                                        <input type="checkbox" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" {}% if form.{}.data == 'True' %{} checked="true" {}% endif %{} value="True" autocomplete="{}" >
+                                    </div>""".format("{", key, "}", "{", "}", key, key, friendly_name.replace('_'," "), "{", key, "}", "{", "}", key),
                 'bigint':"""
                                     <div class="col-sm-10">
                                         <input type="number" class="form-control {}% if form.{}.errors %{} is-invalid {}% endif %{}" name="{}" id="{}" placeholder="{}" value="{}form.{}.data{}" autocomplete="{}" >
@@ -456,25 +456,29 @@ def create_module(module):
         feildNames.append(key)
 
         if value['dataType'] == 'Date':
-            newFormRequestDefinitionsArr.append("\n            {}=fn.convert_to_python_data_type('date')(request.form.get('{}'))".format(key, key))
+            newFormRequestDefinitionsArr.append("\n            {} = fn.convert_to_python_data_type('date')(request.form.get('{}'))".format(key, key))
         elif value['dataType'] == 'DateTime':
-            newFormRequestDefinitionsArr.append("\n            {}=fn.convert_to_python_data_type('datetime')(request.form.get('{}'))".format(key, key))
+            newFormRequestDefinitionsArr.append("\n            {} = fn.convert_to_python_data_type('datetime')(request.form.get('{}'))".format(key, key))
+        elif value['dataType'] == 'Boolean':
+            newFormRequestDefinitionsArr.append("\n            {} = True if request.form.get('{}') == 'True' else False".format(key, key))
         else:
-            newFormRequestDefinitionsArr.append("\n            {}=request.form.get('{}')".format(key, key))
+            newFormRequestDefinitionsArr.append("\n            {} = request.form.get('{}')".format(key, key))
         
         if value['dataType'] == 'Date':
             updateFormRequestDefinitionsArr.append("\n        data.{} = fn.convert_to_python_data_type('date')(request.form.get('{}'))".format(key, key))
         elif value['dataType'] == 'DateTime':
             updateFormRequestDefinitionsArr.append("\n        data.{} = fn.convert_to_python_data_type('datetime')(request.form.get('{}'))".format(key, key))
+        elif value['dataType'] == 'Boolean':
+            updateFormRequestDefinitionsArr.append("\n        data.{} = True if request.form.get('{}') == 'True' else False".format(key, key))
         else:
             updateFormRequestDefinitionsArr.append("\n        data.{} = request.form.get('{}')".format(key, key))
         
         if value['dataType'] == 'Date':
-            newApiRequestDefinitionsArr.append("\n            {}=fn.convert_to_python_data_type('date')(api.payload['{}'])".format(key, key))
+            newApiRequestDefinitionsArr.append("\n            {} = fn.convert_to_python_data_type('date')(api.payload['{}'])".format(key, key))
         elif value['dataType'] == 'DateTime':
-            newApiRequestDefinitionsArr.append("\n            {}=fn.convert_to_python_data_type('datetime')(api.payload['{}'])".format(key, key))
+            newApiRequestDefinitionsArr.append("\n            {} = fn.convert_to_python_data_type('datetime')(api.payload['{}'])".format(key, key))
         else:
-            newApiRequestDefinitionsArr.append("\n            {}=api.payload['{}']".format(key, key))
+            newApiRequestDefinitionsArr.append("\n            {} = api.payload['{}']".format(key, key))
         
 
     contextData = str((','.join(item for item in contextDataArr)))

@@ -1,6 +1,7 @@
 
 import graphene
 from graphene_sqlalchemy import SQLAlchemyConnectionField
+from flask_graphql_auth import query_header_jwt_required
 
 # Import Models and Types
 # users
@@ -24,23 +25,36 @@ from app.mod_statuses.types import Statuses as StatusesTypes  # noqa: E402
 class Query(graphene.ObjectType):
     node = graphene.relay.Node.Field()
 
+    # @query_header_jwt_required
     all_users = SQLAlchemyConnectionField(UsersTypes.connection)
+    # statuses
+    # @query_header_jwt_required
+    all_statuses = SQLAlchemyConnectionField(StatusesTypes.connection)
     # web_hooks
+    # @query_header_jwt_required
     all_web_hooks = SQLAlchemyConnectionField(Web_hooksTypes.connection)
     # calendar_definitions
+    # @query_header_jwt_required
     all_calendar_definitions = SQLAlchemyConnectionField(Calendar_definitionsTypes.connection)
     # calendar_periods
+    # @query_header_jwt_required
     all_calendar_periods = SQLAlchemyConnectionField(Calendar_periodsTypes.connection)
     # new xyz_model connection
-    # statuses
-    all_statuses = SQLAlchemyConnectionField(StatusesTypes.connection)
 
-    users_by_name = graphene.List(UsersModel, name=graphene.String())
+    users_by_name = graphene.List(UsersTypes, name=graphene.String())
 
     @staticmethod
-    def users_by_name(parent, info, **args):
+    def resolve_users_by_name(parent, info, **args):
         q = args.get('name')
 
         query = UsersModel.get_query(info)
 
         return query.filter(UsersModel.name.contains(q)).all()
+
+    get_user = graphene.Field(type=UsersTypes, token=graphene.String(),id=graphene.Int())
+    
+    @query_header_jwt_required
+    def resolve_get_user(self,info,id):
+        user_qry = UsersTypes.get_query(info)
+        user_val = user_qry.filter(UsersModel.id.contains(id)).first()
+        return user_val

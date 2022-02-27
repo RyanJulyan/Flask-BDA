@@ -77,7 +77,7 @@ def public_list(template):
 
 @mod_admin_web_hooks.route('/', methods=['GET'])
 @mobile_template('{mobile/}web_hooks/admin/index.html')
-@login_required
+# @login_required
 def index(template):
     page = request.args.get('page', 1, type=int)
     data = (
@@ -117,7 +117,7 @@ def index(template):
 
 @mod_admin_web_hooks.route('/create', methods=['GET'])
 @mobile_template('{mobile/}web_hooks/admin/create.html')
-@login_required
+# @login_required
 def create(template):
 
     form = Web_hooksForm(request.form)
@@ -134,7 +134,7 @@ def create(template):
 
 @mod_admin_web_hooks.route('/store', methods=['POST'])
 @mobile_template('{mobile/}web_hooks/admin/create.html')
-@login_required
+# @login_required
 def store(template):
 
     form = Web_hooksForm(request.form)
@@ -151,18 +151,18 @@ def store(template):
             # start new request feilds
             webhook_name=request.form.get('webhook_name'),
             run_in_module_name=request.form.get('run_in_module_name'),
-            run_before_insert=request.form.get('run_before_insert'),
-            run_after_insert=request.form.get('run_after_insert'),
-            run_before_update=request.form.get('run_before_update'),
-            run_after_update=request.form.get('run_after_update'),
-            run_before_delete=request.form.get('run_before_delete'),
-            run_after_delete=request.form.get('run_after_delete'),
+            run_before_insert= True if request.form.get('run_before_insert') == 'True' else False,
+            run_after_insert= True if request.form.get('run_after_insert') == 'True' else False,
+            run_before_update= True if request.form.get('run_before_update') == 'True' else False,
+            run_after_update= True if request.form.get('run_after_update') == 'True' else False,
+            run_before_delete= True if request.form.get('run_before_delete') == 'True' else False,
+            run_after_delete= True if request.form.get('run_after_delete') == 'True' else False,
             method=request.form.get('method'),
             data_type=request.form.get('data_type'),
             api_endpoint=request.form.get('api_endpoint'),
             api_headers=request.form.get('api_headers'),
             api_params=request.form.get('api_params'),
-            active_flag=request.form.get('active_flag')
+            active_flag= True if request.form.get('active_flag') == 'True' else False
         # end new request feilds
             # title=request.form.get("title")
         )
@@ -181,7 +181,7 @@ def store(template):
 
 @mod_admin_web_hooks.route('/show/<id>', methods=['GET'])
 @mobile_template('{mobile/}web_hooks/admin/show.html')
-@login_required
+# @login_required
 def show(id,template):
     data = (
                 Web_hooks.query
@@ -199,7 +199,7 @@ def show(id,template):
 
 @mod_admin_web_hooks.route('/edit/<id>', methods=['GET'])
 @mobile_template('{mobile/}web_hooks/admin/edit.html')
-@login_required
+# @login_required
 def edit(id,template):
 
     form = Web_hooksForm(request.form)
@@ -228,7 +228,7 @@ def edit(id,template):
 
 @mod_admin_web_hooks.route('/update/<id>', methods=['PUT', 'PATCH', 'POST'])
 @mobile_template('{mobile/}web_hooks/admin/edit.html')
-@login_required
+# @login_required
 def update(id,template):
 
     form = Web_hooksForm(request.form)
@@ -246,18 +246,18 @@ def update(id,template):
         # start update request feilds
         data.webhook_name = request.form.get('webhook_name')
         data.run_in_module_name = request.form.get('run_in_module_name')
-        data.run_before_insert = request.form.get('run_before_insert')
-        data.run_after_insert = request.form.get('run_after_insert')
-        data.run_before_update = request.form.get('run_before_update')
-        data.run_after_update = request.form.get('run_after_update')
-        data.run_before_delete = request.form.get('run_before_delete')
-        data.run_after_delete = request.form.get('run_after_delete')
+        data.run_before_insert = True if request.form.get('run_before_insert') == 'True' else False
+        data.run_after_insert = True if request.form.get('run_after_insert') == 'True' else False
+        data.run_before_update = True if request.form.get('run_before_update') == 'True' else False
+        data.run_after_update = True if request.form.get('run_after_update') == 'True' else False
+        data.run_before_delete = True if request.form.get('run_before_delete') == 'True' else False
+        data.run_after_delete = True if request.form.get('run_after_delete') == 'True' else False
         data.method = request.form.get('method')
         data.data_type = request.form.get('data_type')
         data.api_endpoint = request.form.get('api_endpoint')
         data.api_headers = request.form.get('api_headers')
         data.api_params = request.form.get('api_params')
-        data.active_flag = request.form.get('active_flag')
+        data.active_flag =  True if request.form.get('active_flag') == 'True' else False
     # end update request feilds
         # data.title = request.form.get("title")
         try:
@@ -273,7 +273,7 @@ def update(id,template):
 
 
 @mod_admin_web_hooks.route('/destroy/<id>', methods=['POST', 'DELETE', 'GET'])
-@login_required
+# @login_required
 def destroy(id):
     data = Web_hooks.query.get_or_404(id)
     db.session.delete(data)

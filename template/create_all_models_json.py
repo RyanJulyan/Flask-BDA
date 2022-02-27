@@ -1,5 +1,6 @@
 
 import os
+import sys
 import json
 
 def get_files(src):
@@ -7,9 +8,13 @@ def get_files(src):
     for item in os.listdir(src):
         s = os.path.join(src, item)
         file = s + "/models.json"
-        with open(file, 'r') as json_file:  # Use file to refer to the file object
-            data = json.load(json_file)
-            models.update(data)
+        try:
+            with open(file, 'r') as json_file:  # Use file to refer to the file object
+                data = json.load(json_file)
+                models.update(data)
+        except:
+            print("error:",sys.exc_info()[1])
+            pass
     return models
 
 
