@@ -51,7 +51,7 @@ import requests
 import json
 
 # Import GraphQLAuth
-from flask_graphql_auth import GraphQLAuth
+# from flask_graphql_auth import GraphQLAuth
 
 # Import APScheduler
 from flask_apscheduler import APScheduler
@@ -125,7 +125,7 @@ bcrypt = Bcrypt(app)
 mail = Mail(app)
 
 # GraphQLAuth
-graph_ql_auth = GraphQLAuth(app)
+# graph_ql_auth = GraphQLAuth(app)
 
 # JWT
 jwt = JWTManager(app)

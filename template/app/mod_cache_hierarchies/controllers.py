@@ -71,7 +71,7 @@ def public_list(template):
 
 @mod_admin_cache_hierarchies.route('/', methods=['GET'])
 @mobile_template('{mobile/}cache_hierarchies/admin/index.html')
-# @login_required
+@login_required
 def index(template):
     page = request.args.get('page', 1, type=int)
     data = Cache_hierarchies.query.paginate(page=page, per_page=app.config['ROWS_PER_PAGE'])
@@ -81,7 +81,7 @@ def index(template):
 
 @mod_admin_cache_hierarchies.route('/create', methods=['GET'])
 @mobile_template('{mobile/}cache_hierarchies/admin/create.html')
-# @login_required
+@login_required
 def create(template):
 
     hierarchy_count = Hierarchies.query.count()
@@ -98,7 +98,7 @@ def create(template):
 
 
 @mod_admin_cache_hierarchies.route('/store', methods=['POST'])
-# @login_required
+@login_required
 def store():
 
     num_rows_deleted = Cache_hierarchies.query.delete()
@@ -148,7 +148,7 @@ def store():
 
 @mod_admin_cache_hierarchies.route('/show/<id>', methods=['GET'])
 @mobile_template('{mobile/}cache_hierarchies/admin/show.html')
-# @login_required
+@login_required
 def show(id,template):
     data = Cache_hierarchies.query.get(id)
 
@@ -157,7 +157,7 @@ def show(id,template):
 
 @mod_admin_cache_hierarchies.route('/edit/<id>', methods=['GET'])
 @mobile_template('{mobile/}cache_hierarchies/admin/edit.html')
-# @login_required
+@login_required
 def edit(id,template):
 
     # If in form is submitted
@@ -169,7 +169,7 @@ def edit(id,template):
 
 
 @mod_admin_cache_hierarchies.route('/update/<id>', methods=['PUT', 'PATCH', 'POST'])
-# @login_required
+@login_required
 def update(id):
     data = Cache_hierarchies.query.get(id)
     # start update request feilds
@@ -194,7 +194,7 @@ def update(id):
 
 
 @mod_admin_cache_hierarchies.route('/destroy/<id>', methods=['POST', 'DELETE', 'GET'])
-# @login_required
+@login_required
 def destroy(id):
     data = Cache_hierarchies.query.get(id)
     db.session.delete(data)

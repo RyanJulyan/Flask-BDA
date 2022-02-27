@@ -1,7 +1,7 @@
 
 import graphene
 from graphene_sqlalchemy import SQLAlchemyConnectionField
-from flask_graphql_auth import query_header_jwt_required
+# from flask_graphql_auth import query_header_jwt_required
 
 # Import Models and Types
 # users
@@ -53,7 +53,7 @@ class Query(graphene.ObjectType):
 
     get_user = graphene.Field(type=UsersTypes, token=graphene.String(),id=graphene.Int())
     
-    @query_header_jwt_required
+    # @query_header_jwt_required
     def resolve_get_user(self,info,id):
         user_qry = UsersTypes.get_query(info)
         user_val = user_qry.filter(UsersModel.id.contains(id)).first()

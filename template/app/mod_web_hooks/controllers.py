@@ -77,7 +77,7 @@ def public_list(template):
 
 @mod_admin_web_hooks.route('/', methods=['GET'])
 @mobile_template('{mobile/}web_hooks/admin/index.html')
-# @login_required
+@login_required
 def index(template):
     page = request.args.get('page', 1, type=int)
     data = (
@@ -117,7 +117,7 @@ def index(template):
 
 @mod_admin_web_hooks.route('/create', methods=['GET'])
 @mobile_template('{mobile/}web_hooks/admin/create.html')
-# @login_required
+@login_required
 def create(template):
 
     form = Web_hooksForm(request.form)
@@ -134,7 +134,7 @@ def create(template):
 
 @mod_admin_web_hooks.route('/store', methods=['POST'])
 @mobile_template('{mobile/}web_hooks/admin/create.html')
-# @login_required
+@login_required
 def store(template):
 
     form = Web_hooksForm(request.form)
@@ -181,7 +181,7 @@ def store(template):
 
 @mod_admin_web_hooks.route('/show/<id>', methods=['GET'])
 @mobile_template('{mobile/}web_hooks/admin/show.html')
-# @login_required
+@login_required
 def show(id,template):
     data = (
                 Web_hooks.query
@@ -199,7 +199,7 @@ def show(id,template):
 
 @mod_admin_web_hooks.route('/edit/<id>', methods=['GET'])
 @mobile_template('{mobile/}web_hooks/admin/edit.html')
-# @login_required
+@login_required
 def edit(id,template):
 
     form = Web_hooksForm(request.form)
@@ -228,7 +228,7 @@ def edit(id,template):
 
 @mod_admin_web_hooks.route('/update/<id>', methods=['PUT', 'PATCH', 'POST'])
 @mobile_template('{mobile/}web_hooks/admin/edit.html')
-# @login_required
+@login_required
 def update(id,template):
 
     form = Web_hooksForm(request.form)
@@ -273,7 +273,7 @@ def update(id,template):
 
 
 @mod_admin_web_hooks.route('/destroy/<id>', methods=['POST', 'DELETE', 'GET'])
-# @login_required
+@login_required
 def destroy(id):
     data = Web_hooks.query.get_or_404(id)
     db.session.delete(data)

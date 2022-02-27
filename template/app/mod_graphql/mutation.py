@@ -3,7 +3,7 @@ import graphene
 from app import db
 
 # Import GraphQLAuth
-from flask_graphql_auth import create_access_token, create_refresh_token, mutation_jwt_required
+# from flask_graphql_auth import create_access_token, create_refresh_token, mutation_jwt_required
 # Import GraphQL global node id
 from graphql_relay.node.node import from_global_id
 
@@ -45,7 +45,7 @@ class Create_User(graphene.Mutation):
         input = CreateUserInput(required=True)
 
     @staticmethod
-    @mutation_jwt_required
+    # @mutation_jwt_required
     def mutate(self, info, input):
         data = graphql_input_into_dictionary(input)
         user = UsersModel(**data)
@@ -83,7 +83,7 @@ class Create_Statuses(graphene.Mutation):
 
     
     @staticmethod
-    @mutation_jwt_required
+    # @mutation_jwt_required
     def mutate(self, info, input):
         data = graphql_input_into_dictionary(input)
         statuses = StatusesModel(**data)
@@ -102,7 +102,7 @@ class Create_Web_hooks(graphene.Mutation):
         input = CreateWeb_hooksInput(required=True)
 
     @staticmethod
-    @mutation_jwt_required
+    # @mutation_jwt_required
     def mutate(self, info, input):
         data = graphql_input_into_dictionary(input)
         web_hooks = Web_hooksModel(**data)
@@ -121,7 +121,7 @@ class Create_Calendar_definitions(graphene.Mutation):
         input = CreateCalendar_definitionsInput(required=True)
 
     @staticmethod
-    @mutation_jwt_required
+    # @mutation_jwt_required
     def mutate(self, info, input):
         data = graphql_input_into_dictionary(input)
         calendar_definitions = Calendar_definitionsModel(**data)
@@ -140,7 +140,7 @@ class Create_Calendar_periods(graphene.Mutation):
         input = CreateCalendar_periodsInput(required=True)
 
     @staticmethod
-    @mutation_jwt_required
+    # @mutation_jwt_required
     def mutate(self, info, input):
         data = graphql_input_into_dictionary(input)
         calendar_periods = Calendar_periodsModel(**data)

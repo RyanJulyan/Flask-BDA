@@ -67,7 +67,7 @@ def public_list(template):
 
 @mod_admin_hierarchies.route('/', methods=['GET'])
 @mobile_template('{mobile/}hierarchies/admin/index.html')
-# @login_required
+@login_required
 def index(template):
     page = request.args.get('page', 1, type=int)
     data = Hierarchies.query.order_by(Hierarchies.path).paginate(page=page, per_page=app.config['ROWS_PER_PAGE'])
@@ -77,7 +77,7 @@ def index(template):
 
 @mod_admin_hierarchies.route('/create', methods=['GET'])
 @mobile_template('{mobile/}hierarchies/admin/create.html')
-# @login_required
+@login_required
 def create(template):
 
     parents = Hierarchies.query.all()
@@ -89,7 +89,7 @@ def create(template):
 
 
 @mod_admin_hierarchies.route('/store', methods=['POST'])
-# @login_required
+@login_required
 def store():
 
     delimiter = '/'
@@ -208,7 +208,7 @@ def store():
 
 @mod_admin_hierarchies.route('/show/<id>', methods=['GET'])
 @mobile_template('{mobile/}hierarchies/admin/show.html')
-# @login_required
+@login_required
 def show(id,template):
     data = Hierarchies.query.get(id)
 
@@ -217,7 +217,7 @@ def show(id,template):
 
 @mod_admin_hierarchies.route('/edit/<id>', methods=['GET'])
 @mobile_template('{mobile/}hierarchies/admin/edit.html')
-# @login_required
+@login_required
 def edit(id,template):
 
     # If in form is submitted
@@ -231,7 +231,7 @@ def edit(id,template):
 
 
 @mod_admin_hierarchies.route('/update/<id>', methods=['PUT', 'PATCH', 'POST'])
-# @login_required
+@login_required
 def update(id):
 
     delimiter = '/'
@@ -314,7 +314,7 @@ def update(id):
 
 
 @mod_admin_hierarchies.route('/destroy/<id>', methods=['POST', 'DELETE', 'GET'])
-# @login_required
+@login_required
 def destroy(id):
 
     delimiter = '/'
