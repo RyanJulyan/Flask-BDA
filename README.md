@@ -1454,6 +1454,14 @@ To Access the SwaggerUI:
 * Choose `Import...` (CTRL+O)
 * Select `Link` from the Tabs
 * Insert the URL `<base_URL>/api/postman` eg: [`http://localhost:5000/api/postman`](http://localhost:5000/api/postman)
+    * **NOTE:** postman has recently prevented the direct import of V1 schema and now requires V2.
+    * **Option 1:** use the generated Swagger `<base_URL>/aswagger.json` eg: [`http://localhost:5000/swagger.json`](http://localhost:5000swagger.json) and import that directly into Postman
+    * **Option 2:** To convert the file from V1 to V2 please follw the instructions on this link: [`https://learning.postman.com/docs/getting-started/importing-and-exporting-data/#converting-postman-collections-from-v1-to-v2`](https://learning.postman.com/docs/getting-started/importing-and-exporting-data/#converting-postman-collections-from-v1-to-v2)
+        * hopefully [flask-restx](https://github.com/python-restx/flask-restx) will address this soon
+            * ```npm install -g postman-collection-transformer```
+
+            * ```postman-collection-transformer convert -i <path to the input Postman collection file> -o <path to the downloaded Postman file> -j 1.0.0 -p 2.0.0 -P```
+                * where `<path to the input Postman collection file>` and `<path to the downloaded Postman file>` are physical file paths on your local machine.
 * Press `Continue`
 * This will show you the name of the API as defined in the API config
 * Review and click `Import`

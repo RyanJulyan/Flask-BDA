@@ -45,7 +45,7 @@ $(document).ready(function(){
     });
 
     $('.deleteModalBtn').on("click", function (e) {
-        var newUrl =  $(this).data('link');
+        var newUrl = $(this).data('link');
         $('.deleteRecordBtn').attr("href", newUrl);
    });
 
@@ -117,6 +117,10 @@ data_types = [
         "name":"Text"
     },
     {
+        "data_type":"dict",
+        "name":"Dictionary"
+    },
+    {
         "data_type":"number",
         "name":"Number"
     },
@@ -163,52 +167,53 @@ data_types = [
 ]
 
 
-function return_input_option(key_value, data=[], key_value_input){
+function return_input_option(key_value, data=[], key_value_input_id, generic_key){
     let json_data = JSON.stringify(data);
     json_data = encodeURI(json_data)
     
     const inout_options = {
-        'text':`<input type="text" class="form-control" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}', '${key_value_input}', '${generic_key}')" >`,
-        'number':`<input type="number" class="form-control" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}', '${key_value_input}', '${generic_key}')" >`,
-        'date':`<input type="text" class="form-control daterangepicker_single" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}', '${key_value_input}', '${generic_key}')" >`,
-        'daterange':`<input type="text" class="form-control daterangepicker_single" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}', '${key_value_input}', '${generic_key}')" >`,
-        'datetime':`<input type="text" class="form-control daterangepicker_single" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}', '${key_value_input}', '${generic_key}')" >`,
-        'checkbox':`<input type="checkbox" class="form-control" ${key_value.value == true? 'checked="true"' : ''}" value="${key_value.value? key_value.value : 'false'}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}', '${key_value_input}', '${generic_key}')" >`,
-        'password':`<input type="password" class="form-control" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}', '${key_value_input}', '${generic_key}')" >`,
-        'color':`<input type="color" class="form-control" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}', '${key_value_input}', '${generic_key}')" >`,
-        'email':`<input type="email" class="form-control" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}', '${key_value_input}', '${generic_key}')" >`,
-        'range':`<input type="range" class="form-control" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}', '${key_value_input}', '${generic_key}')" >`,
-        'select':`<select class="form-control" name="value_${key_value.id}" id="value_${key_value.id}" data-placeholder="Choose Option" autocomplete="selector_${key_value.id}" onchange="update_key_value('${key_value.id}', '${key_value_input}', '${generic_key}', '${json_data}')" >
+        'dict':`<input type="text" class="form-control" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}', '${key_value_input_id}', '${generic_key}', '[]')" >`,
+        'text':`<input type="text" class="form-control" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}', '${key_value_input_id}', '${generic_key}', '[]')" >`,
+        'number':`<input type="number" class="form-control" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}', '${key_value_input_id}', '${generic_key}', '[]')" >`,
+        'date':`<input type="text" class="form-control daterangepicker_single" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}', '${key_value_input_id}', '${generic_key}', '[]')" >`,
+        'daterange':`<input type="text" class="form-control daterangepicker_single" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}', '${key_value_input_id}', '${generic_key}', '[]')" >`,
+        'datetime':`<input type="text" class="form-control daterangepicker_single" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}', '${key_value_input_id}', '${generic_key}', '[]')" >`,
+        'checkbox':`<input type="checkbox" class="form-control" ${key_value.value == true? 'checked="true"' : ''}" value="${key_value.value? key_value.value : 'false'}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}', '${key_value_input_id}', '${generic_key}', '[]')" >`,
+        'password':`<input type="password" class="form-control" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}', '${key_value_input_id}', '${generic_key}', '[]')" >`,
+        'color':`<input type="color" class="form-control" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}', '${key_value_input_id}', '${generic_key}', '[]')" >`,
+        'email':`<input type="email" class="form-control" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}', '${key_value_input_id}', '${generic_key}', '[]')" >`,
+        'range':`<input type="range" class="form-control" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}', '${key_value_input_id}', '${generic_key}', '[]')" >`,
+        'select':`<select class="form-control select2" name="value_${key_value.id}" id="value_${key_value.id}" data-placeholder="Choose Option" autocomplete="selector_${key_value.id}" onchange="update_key_value('${key_value.id}', '${key_value_input_id}', '${generic_key}', '${json_data}')" >
             <option aria-readonly="true" readonly="true" disabled="true" selected="true">Choose Option</option>
             ${data.map(val => `<option value="${val.id}" ${(key_value.value == val.id)? "selected='true'" : ''}>${val.name}</option>`).join("")}
         </select>`,
-        'file':`<input type="file" class="form-control" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}', '${key_value_input}', '${generic_key}')" >`
+        'file':`<input type="file" class="form-control" value="${key_value.value? key_value.value : ''}" name="value_${key_value.id}" id="value_${key_value.id}" placeholder="Value" autocomplete="value_${key_value.id}" onchange="update_key_value('${key_value.id}', '${key_value_input_id}', '${generic_key}', '[]')" >`
     }
 
     return inout_options[key_value.data_type];
 }
 
 
-function return_template(key_value, data, key_value_input, data_types = data_types, element_id, generic_key){
+function return_template(key_value, data, key_value_input_id, data_types = data_types, element_id, generic_key){
     let json_data = JSON.stringify(data);
     json_data = encodeURI(json_data)
 
     const template = `
         <div class="row border border-secondary rounded p-2 m-1" id="key_value_${key_value.id}_group">
             <div class="col-sm-4">
-                <input type="text" class="form-control" value="${key_value.key? key_value.key : ''}" name="key_${key_value.id}" id="key_${key_value.id}" placeholder="Key" autocomplete="key_${key_value.id}" onchange="update_key_value('${key_value.id}', '${json_data}', '${generic_key}')" >
+                <input type="text" class="form-control" value="${key_value.key? key_value.key : ''}" name="key_${key_value.id}" id="key_${key_value.id}" placeholder="Key" autocomplete="key_${key_value.id}" onchange="update_key_value('${key_value.id}', '${key_value_input_id}', '${generic_key}', '${json_data}')" >
             </div>
             <div class="col-sm-2">
-                <select class="form-control" name="selector_${key_value.id}" id="selector_${key_value.id}" data-placeholder="Choose Data Type" autocomplete="selector_${key_value.id}" onchange="update_key_value('${key_value.id}', '${json_data}', '${generic_key}')" >
+                <select class="form-control" name="selector_${key_value.id}" id="selector_${key_value.id}" data-placeholder="Choose Data Type" autocomplete="selector_${key_value.id}" onchange="update_key_value('${key_value.id}', '${key_value_input_id}', '${generic_key}', '${json_data}')" >
                     <option aria-readonly="true" readonly="true" disabled="true">Choose Data Type</option>
                     ${data_types.map(data_type => `<option value="${data_type.data_type}" ${(key_value.data_type == data_type.data_type)? "selected='true'" : ''}>${data_type.name}</option>`).join("")}
                 </select>
             </div>
             <div class="col-sm-4">
-                ${return_input_option(key_value, data, key_value_input)}
+                ${return_input_option(key_value, data, key_value_input_id, generic_key)}
             </div>
             <div class="col-sm-2">
-                <button type="button" class="form-control btn btn-block btn-danger" name="del_key_value_${key_value.id}" id="del_key_value_${key_value.id}" onclick="delete_key_value('${key_value.id}', '${element_id}', '${generic_key}')"><i class="fa fa-trash"></i></button>
+                <button type="button" class="form-control btn btn-block btn-danger" name="del_key_value_${key_value.id}" id="del_key_value_${key_value.id}" onclick="delete_key_value('${key_value.id}', '${json_data}', '${key_value_input_id}', '${element_id}', '${generic_key}')"><i class="fa fa-trash"></i></button>
             </div>
         </div>`;
 
@@ -261,15 +266,24 @@ function remove_all_generic_key_values(generic_key){
 }
 
 
-function render_generic_key_value(element, data, key_value_input, element_id, generic_key){
+function render_generic_key_value(element, data, key_value_input_id, element_id, generic_key){
     let generic_key_value = get_generic_key_value(generic_key);
 	element.innerHTML = '';
+    
+    let key_value_input = document.getElementById(key_value_input_id);
+    
+    key_value_input.value = JSON.stringify(generic_key_value);
+    key_value_input.defaultValue = JSON.stringify(generic_key_value);
+    key_value_input.setAttribute('value', JSON.stringify(generic_key_value));
 
 	for (let key_value in generic_key_value){
-        element.innerHTML += return_template(generic_key_value[key_value], data, key_value_input, data_types, element_id, generic_key);
+        element.innerHTML += return_template(generic_key_value[key_value], data, key_value_input_id, data_types, element_id, generic_key);
 	}
     
     setTimeout(function(){
+        $('.select2').select2({
+            allowClear: true
+        });
 
         $('.daterangepicker_single').daterangepicker({
           singleDatePicker: true,
@@ -295,7 +309,7 @@ function render_generic_key_value(element, data, key_value_input, element_id, ge
     });
 }
 
-function add_key_value(element_id, key_value_input, generic_key, default_key = '', default_data_type = 'text', data = [], default_value = ''){
+function add_key_value(element_id, key_value_input_id, generic_key, default_key = '', default_data_type = 'text', data = [], default_value = ''){
 
     let id = uuidv4();
     let key = default_key;
@@ -312,18 +326,22 @@ function add_key_value(element_id, key_value_input, generic_key, default_key = '
 
     element = document.getElementById(element_id)
 
-    render_generic_key_value(element, data, key_value_input, element_id, generic_key);
+    render_generic_key_value(element, data, key_value_input_id, element_id, generic_key);
 
 }
 
 
-function delete_key_value(id, element_id, generic_key){
+function delete_key_value(id, data, key_value_input_id, element_id, generic_key){
+    
+    if(typeof data == 'string'){
+        data = JSON.parse(decodeURI(data))
+    }
     
     remove_generic_key_value_id(id, generic_key)
     
     element = document.getElementById(element_id)
     
-    render_generic_key_value(element, data, key_value_input, element_id, generic_key);
+    render_generic_key_value(element, data, key_value_input_id, element_id, generic_key);
 
 }
 
@@ -348,7 +366,7 @@ function new_key_value(id, key = '', data_type = '', value = '', generic_key){
 }
 
 
-function update_key_value(id, key_value_input, generic_key, data = []){
+function update_key_value(id, key_value_input_id, generic_key, data = []){
 
     if(typeof data == 'string'){
         data = JSON.parse(decodeURI(data))
@@ -356,7 +374,7 @@ function update_key_value(id, key_value_input, generic_key, data = []){
 
     remove_generic_key_value_id(id,generic_key);
     
-    let key_value_input = document.getElementById(key_value_input);
+    let key_value_input = document.getElementById(key_value_input_id);
     let key_element = document.getElementById("key_"+id);
     let selector_element = document.getElementById("selector_"+id);
     let value_element = document.getElementById("value_"+id);
@@ -392,7 +410,10 @@ function update_key_value(id, key_value_input, generic_key, data = []){
                                                     "data_type":data_type,
                                                     "value":value
                                                 },
-                                                data);
+                                                data,
+                                                key_value_input_id,
+                                                generic_key
+                                            );
     
     let generic_key_val = new_key_value(
                                                 id,
@@ -401,12 +422,15 @@ function update_key_value(id, key_value_input, generic_key, data = []){
                                                 value,
                                                 generic_key
                                             )
-
+    
     key_value_input.value = JSON.stringify(generic_key_val);
     key_value_input.defaultValue = JSON.stringify(generic_key_val);
     key_value_input.setAttribute('value', JSON.stringify(generic_key_val));
     
     setTimeout(function(){
+        $('.select2').select2({
+            allowClear: true
+        });
 
         $('.daterangepicker_single').daterangepicker({
           singleDatePicker: true,
@@ -439,14 +463,15 @@ let element = document.getElementById('key_value_inputs')
 if(element){
     let generic_key = 'generic_key_value'
     let data = []
-    let key_value_input = 'key_value'
-    render_generic_key_value(element, data, key_value_input, element_id, generic_key);
+    let key_value_input_id = 'key_value'
+    let element_id = 'key_value_inputs'
+    render_generic_key_value(element, data, key_value_input_id, element_id, generic_key);
 }
 
 const add_key_value_btn = document.getElementById('add_key_value')
 if(add_key_value_btn){
     add_key_value_btn.addEventListener('click',function(){
-        add_key_value(element_id = 'key_value_inputs', key_value_input = 'key_value', generic_key = 'generic_key_value');
+        add_key_value(element_id = 'key_value_inputs', key_value_input_id = 'key_value', generic_key = 'generic_key_value');
     });
 }
 
