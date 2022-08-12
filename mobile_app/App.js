@@ -20,7 +20,7 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import NetInfo from '@react-native-community/netinfo';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { WebView } from 'react-native-webview';
 import {server_base_url} from './app.json';
 // import { View } from 'react-native';
@@ -28,10 +28,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { Permissions } from 'expo';
 
-let current_screen = 'Init';
-// let current_screen = 'PushNotification';
-let is_connected = true;
-const dimensions = Dimensions.get('window');
+let CURRENT_SCREEN = 'Init';
+let BACKGROUND_TASK_INTERVAL = (30000); // 30 sec * 1000 milliseconds = 30000 milliseconds
+let run_background_task = true; // Set to false to prevent setInterval from being set in the injected JS
+// let CURRENT_SCREEN = 'PushNotification';
+let IS_CONNECTED = true;
+// const dimensions = Dimensions.get('window');
 // const imageHeight_3_6x1 = Math.round(dimensions.width * 1 / 3.6);
 // const imageWidth_3_6x1 = dimensions.width;
 
@@ -156,14 +158,17 @@ async function registerForPushNotificationsAsync() {
     if (Constants.isDevice) {
         const { status: existingStatus } = await Notifications.getPermissionsAsync();
         let finalStatus = existingStatus;
+
         if (existingStatus !== 'granted') {
-        const { status } = await Notifications.requestPermissionsAsync();
-        finalStatus = status;
+            const { status } = await Notifications.requestPermissionsAsync();
+            finalStatus = status;
         }
+
         if (finalStatus !== 'granted') {
-        alert('Failed to get push token for push notification!');
-        return;
+            alert('Failed to get push token for push notification!');
+            return;
         }
+        
         token = (await Notifications.getExpoPushTokenAsync()).data;
         console.log(token);
     } else {
@@ -236,12 +241,12 @@ const checkFirstLaunch = async ({navigation}) => {
     }
     
     NetInfo.addEventListener(state => {
-        if (!state.isConnected && is_connected) {
+        if (!state.isConnected && IS_CONNECTED) {
             loadScreenByName({navigation},'Offline');
-        } else if (state.isConnected && !is_connected) {
-            loadScreenByName({navigation},current_screen);
+        } else if (state.isConnected && !IS_CONNECTED) {
+            loadScreenByName({navigation},CURRENT_SCREEN);
         }
-        is_connected = state.isConnected;
+        IS_CONNECTED = state.isConnected;
     });
 };
 
@@ -261,7 +266,7 @@ function loadScreenByName({navigation}, screen_name) {
         loadScreenAsReset({navigation},screen_loaded);
     }
     if (screen_loaded !== 'Offline') {
-        current_screen = screen_loaded;
+        CURRENT_SCREEN = screen_loaded;
     }
 }
 
@@ -469,10 +474,25 @@ function ErrorScreen({navigation}) {
     );
 }
 
+function background_task(){
+    // Update logic to run background task like fetch from server? 
+    console.log("Background Task!")
+}
+
+function receiveMessageFromWeb(event){
+    const data = JSON.parse(event.nativeEvent.data);
+    if(data.run_background_task || false){
+        background_task()
+    }
+}
+
 function WebScreen({navigation}) {
     const [visible, setVisible] = useState(false);
     const runFirst = `
       window.isNativeApp = true;
+      if(${run_background_task}){
+          setInterval(()=>{window.ReactNativeWebView.postMessage(JSON.stringify({run_background_task : true}));}, ${BACKGROUND_TASK_INTERVAL})
+      }
       true; // note: this is required, or you'll sometimes get silent failures
     `;
     return (
@@ -487,7 +507,7 @@ function WebScreen({navigation}) {
                     // renderLoading={() => {
                     //     return LoadingIndicator();
                     // }}
-                    // onMessage={(event)=> receiveMessageFromWeb(event)}
+                    onMessage={(event)=> receiveMessageFromWeb(event)}
                     onLoadStart={() => (setVisible(true))}
                     onLoad={() => setVisible(false)}
                     
@@ -513,7 +533,7 @@ class FlaskBDAWebAppWrapper extends Component{
                     screenOptions={{
                         headerShown: false
                     }}
-                    initialRouteName={current_screen}
+                    initialRouteName={CURRENT_SCREEN}
                 >
                         <Stack.Screen 
                             name="Init" 

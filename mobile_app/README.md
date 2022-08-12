@@ -44,6 +44,14 @@ npm install
 
 ```
 
+### Sign up for Expo Developer (for push notifications)
+* If you have not registered for ngrok before:
+    * Open a browser and register for ngrok:
+        * Go to: [https://expo.dev/signup](https://expo.dev/signup)
+            *Or Go to: [https://expo.dev/login](https://expo.dev/login) (if you are already signed up)
+        * Follow the installation instructions and then continue to the next steps
+
+
 ### Changing the App URL
 
 > Because Flask BDA does not dictate where you should host your website, you will need to tell your Mobile App where to go.
