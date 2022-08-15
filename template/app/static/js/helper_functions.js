@@ -34,3 +34,12 @@ function toggle_password_visibility(id) {
     }
 }
 
+function xor_encrypt_decrypt(message, key_string){
+    let key = key_string.split("");
+    let output = [];
+    for (let i = 0; i < message.length; i++){
+        char_code = (message[i].charCodeAt(0)) ^ key[i % key.length][0].charCodeAt(0);
+        output.push(String.fromCharCode(char_code));
+    }
+    return output.join("");
+}
