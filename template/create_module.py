@@ -252,6 +252,7 @@ def create_module(module):
     argumentAggParserArr = []
     contextDataArr = []
     instanceNames = ''
+    instanceDictNames = ''
     formDefinitions = ''
     newFormRequestDefinitions = ''
     updateFormRequestDefinitions = ''
@@ -278,6 +279,7 @@ def create_module(module):
     for key, value in fields.items():
         friendly_name = (key.capitalize()).replace('_', ' ')
         instanceNames += "        self.{} = {}\n".format(key, key)
+        instanceDictNames += "			'{}':self.{}\n".format(key, key)
 
         if value['relationship']:
             columns += "    {} = db.Column(db.{}, db.ForeignKey('{}.id'), nullable={}, default={}, unique={}, index={})\n".format(key,
@@ -504,6 +506,7 @@ def create_module(module):
     newApiAggregateDefinitions = newApiAggregateDefinitions.rstrip(',\n')
     newApiAggregateObjectDefinitions = newApiAggregateObjectDefinitions.rstrip(',\n')
     instanceNames = instanceNames.rstrip('\n')
+    instanceDictNames = instanceDictNames.rstrip('\n')
     friendly_name = friendly_name.rstrip('\n')
     formDefinitions = formDefinitions.lstrip('\n')
     renderFields = renderFields.rstrip('\n')
@@ -538,15 +541,26 @@ def create_module(module):
         destination.write(line)
         if "# import new xyz_module" in line:
             destination.write("# " + module + "\n")
-            destination.write("from app.mod_" + module + ".controllers import mod_public_" + module + " as " + module + "_public_module  # noqa: E402\n")
-            destination.write("from app.mod_" + module + ".controllers import mod_admin_" + module + " as " + module + "_admin_module  # noqa: E402\n")
+            destination.write("try:\n")
+            destination.write("    from app.mod_" + module + ".controllers import mod_public_" + module + " as " + module + "_public_module  # noqa: E402\n")
+            destination.write("    from app.mod_" + module + ".controllers import mod_admin_" + module + " as " + module + "_admin_module  # noqa: E402\n")
+            destination.write("except ImportError:\n")
+            destination.write("    print(ImportError.__class__.__name__ + ': ' + ImportError.message)\n")
+            destination.write("except Exception:\n")
+            destination.write("    print(Exception.__class__.__name__ + ': ' + Exception.message)\n")
         if "# register_blueprint new xyz_module" in line:
             destination.write("# " + module + "\n")
-            destination.write("app.register_blueprint(" + module + "_public_module)\n")
-            destination.write("app.register_blueprint(" + module + "_admin_module)\n")
+            destination.write("try:\n")
+            destination.write("    app.register_blueprint(" + module + "_public_module)\n")
+            destination.write("    app.register_blueprint(" + module + "_admin_module)\n")
+            destination.write("except Exception:\n")
+            destination.write("    print(Exception.__class__.__name__ + ': ' + Exception.message)\n")
         if "# new xyz api resources" in line:
             destination.write("# " + module + "\n")
-            destination.write("from app.mod_" + module + ".api_controllers import ns as " + module.capitalize() + "_API  # noqa: E402\n")
+            destination.write("try:\n")
+            destination.write("    from app.mod_" + module + ".api_controllers import ns as " + module.capitalize() + "_API  # noqa: E402\n")
+            destination.write("except Exception:\n")
+            destination.write("    print(Exception.__class__.__name__ + ': ' + Exception.message)\n")
 
     source.close()
     destination.close()
@@ -734,6 +748,7 @@ class Create_{}(graphene.Mutation):
                 if('models.py' in s):
                     replaceTextBetweenTags(s, '# start new field definitions', '# end new graphene attribute fields', '    ', '')
                     replaceTextBetweenTags(s, '# start new instance fields', '# end new instance fields', '        ', '')
+                    replaceTextBetweenTags(s, '# start new instance dict fields', '# end new instance dict fields', '            ', '')
                 if('index.html' in s):
                     replaceTextBetweenTags(s, '<!-- start new table headers -->', '<!-- end new table headers -->', '                    ', '')
                     replaceTextBetweenTags(s, '<!-- start new table values -->', '<!-- end new table values -->', '                        ', '')
@@ -792,6 +807,8 @@ class Create_{}(graphene.Mutation):
                         destination.write(grapheneColumns)
                     if "# start new instance fields" in line:
                         destination.write(instanceNames)
+                    if "# start new instance dict fields" in line:
+                        destination.write(instanceDictNames)
                     if "<!-- start new render fields -->" in line:
                         destination.write(renderFields)
                     if "<!-- start new render_update fields -->" in line:

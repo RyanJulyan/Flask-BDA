@@ -24,7 +24,7 @@ date_format = app.config['DATE_FORMAT']
 time_format = app.config['TIME_FORMAT']
 datetime_format = date_format + ' ' + time_format
 
-def process_webhook(module_name, run_type, data, convert_sqlalchemy_to_json = True):
+def process_webhook(module_name, run_type, data, convert_sqlalchemy_to_json=True):
 
     run_types = {
         "before_insert": Web_hooks.run_before_insert,
@@ -60,15 +60,15 @@ def process_webhook(module_name, run_type, data, convert_sqlalchemy_to_json = Tr
             url = api_endpoint
 
             if data_type != 'json':
-                x = requests.get(url,params = params, headers = api_headers, data = data)
+                x = requests.get(url, params = params, headers = api_headers, data = data)
             else:
-                x = requests.get(url,params = params, headers = api_headers, json = data)
+                x = requests.get(url, params = params, headers = api_headers, json = data)
 
             status_code = x.status_code
 
             try:
                 data = json.loads(x.content)
-            except:
+            except Exception:
                 data = convert_to_python_data_type('str')(x.content)
 
         if(method == 'post'):
@@ -76,15 +76,15 @@ def process_webhook(module_name, run_type, data, convert_sqlalchemy_to_json = Tr
             url = api_endpoint
 
             if data_type != 'json':
-                x = requests.post(url,params = params, headers = api_headers, data = data)
+                x = requests.post(url, params = params, headers = api_headers, data = data)
             else:
-                x = requests.post(url,params = params, headers = api_headers, json = data)
+                x = requests.post(url, params = params, headers = api_headers, json = data)
 
             status_code = x.status_code
 
             try:
                 data = json.loads(x.content)
-            except:
+            except Exception:
                 data = convert_to_python_data_type('str')(x.content)
 
         if(method == 'put'):
@@ -92,15 +92,15 @@ def process_webhook(module_name, run_type, data, convert_sqlalchemy_to_json = Tr
             url = api_endpoint
 
             if data_type != 'json':
-                x = requests.put(url,params = params, headers = api_headers, data = data)
+                x = requests.put(url, params = params, headers = api_headers, data = data)
             else:
-                x = requests.put(url,params = params, headers = api_headers, json = data)
+                x = requests.put(url, params = params, headers = api_headers, json = data)
 
             status_code = x.status_code
 
             try:
                 data = json.loads(x.content)
-            except:
+            except Exception:
                 data = convert_to_python_data_type('str')(x.content)
 
         if(method == 'delete'):
@@ -108,15 +108,15 @@ def process_webhook(module_name, run_type, data, convert_sqlalchemy_to_json = Tr
             url = api_endpoint
 
             if data_type != 'json':
-                x = requests.put(url,params = params, headers = api_headers, data = data)
+                x = requests.put(url, params = params, headers = api_headers, data = data)
             else:
-                x = requests.put(url,params = params, headers = api_headers, json = data)
+                x = requests.put(url, params = params, headers = api_headers, json = data)
 
             status_code = x.status_code
 
             try:
                 data = json.loads(x.content)
-            except:
+            except Exception:
                 data = convert_to_python_data_type('str')(x.content)
     
     data = {
@@ -127,7 +127,7 @@ def process_webhook(module_name, run_type, data, convert_sqlalchemy_to_json = Tr
     return data
 
 
-def path_level(path,delimiter='/'):
+def path_level(path, delimiter='/'):
     """
         path level will return the remaining chartars of a string excluding a specific delimiter string.
 
@@ -167,23 +167,23 @@ def convert_to_python_data_type(data_type_string):
     data_type_string = data_type_string.lower()
 
     data_types_func = {
-        'string':str,
-        'str':str,
-        'integer':convert_str_to_int,
-        'float':float,
-        'number':float,
-        'double':float,
-        'date':convert_str_to_date,
-        'datetime':convert_str_to_datetime,
-        'boolean':bool,
-        'dict_to_json':json.dumps,
-        'json_to_dict':json.loads,
-        'list':convert_str_to_list
+        'string': str,
+        'str': str,
+        'integer': convert_str_to_int,
+        'float': float,
+        'number': float,
+        'double': float,
+        'date': convert_str_to_date,
+        'datetime': convert_str_to_datetime,
+        'boolean': bool,
+        'dict_to_json': json.dumps,
+        'json_to_dict': json.loads,
+        'list': convert_str_to_list
     }
 
     try:
         fn = data_types_func[data_type_string]
-    except:
+    except Exception:
         fn = data_types_func['string']
 
     return fn
@@ -206,4 +206,3 @@ def multi_async_get_requests(urls):
     results = loop.run_until_complete(get_request_controller(urls))
 
     return results
-

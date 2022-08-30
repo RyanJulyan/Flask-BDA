@@ -44,6 +44,7 @@ Deprecations will be kept in place for at least 3 minor versions, after version 
 * [Import API to Postman](#import-api-to-postman)
 * [External API Requests](#external-api-requests)
 * [Ajax Requests](#ajax-requests)
+* [End-to-End Encryption](#end-to-end-encryption)
 * [Testing](#testing)
     * [Python flake8](#python-flake8)
     * [Python unittest](#python-unittest)
@@ -1594,6 +1595,14 @@ You can use htmx to implement many common UX patterns, such as Active Search:
 <div id="search-results"></div>
 ```
 This input named q will issue a request to `/trigger_delay` 500 milliseconds after a key-up event if the input has been changed and inserts the results into the div with the id search-results.
+
+# End-to-End Encryption
+Despite the advantages of symmetric encryption, there is a flaw in this method that allows unauthorized individuals to access a message's secret keys.
+
+One of the most effective ways to prevent unauthorized access to a message's secret keys is by implementing a one-way function like the Diffie-Hellman algorithm. This method only allows the sender and receiver to decrypt the message.
+
+One-way functions are typically implemented using a type of algorithm that allows them to calculate an output for every input received. However, this method is not feasible to derive the exact result from a random key.
+
 
 # Testing
 
