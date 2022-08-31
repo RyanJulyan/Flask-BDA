@@ -6,6 +6,19 @@ from app import db
 # Import aggregated functionality 
 from sqlalchemy_utils import aggregated
 
+from sqlalchemy.orm import class_mapper
+from sqlalchemy.orm.properties import ColumnProperty
+
+
+# Define a base model for other database tables to inherit
+class BaseMixin(object):                                                                                                                                                                             
+    def as_dict(self):                                                                                                                                                                               
+        result = {}                                                                                                                                                                                  
+        for prop in class_mapper(self.__class__).iterate_properties:
+            if isinstance(prop, ColumnProperty):
+                result[prop.key] = getattr(self, prop.key)
+        return result
+
 
 # Define a base model for other database tables to inherit
 class Base(db.Model):
@@ -21,7 +34,7 @@ class Base(db.Model):
 
 
 # Define a Xyz model
-class Xyz(Base):
+class Xyz(BaseMixin, Base):
     __tablename__ = 'xyz'
     # start new field definitions
     # this line should be removed and replaced with the columns variable

@@ -5,6 +5,9 @@ from flask_login import login_required
 from sqlalchemy import event, inspect, and_, or_
 from sqlalchemy.exc import IntegrityError
 
+#Import json
+import json
+
 # Import mobile template
 from flask_mobility.decorators import mobile_template
 
@@ -260,13 +263,25 @@ def before_insert(mapper, connection, target):
         )
         db.session.add(data)
 
-        fn.process_webhook(module_name = 'xyz', run_type = "before_insert", data = payload, convert_sqlalchemy_to_json = True)
+        fn.process_webhook(module_name = 'xyz', run_type = "before_insert", data = payload, convert_sqlalchemy_to_json = False)
 
     pass
 
 
 @event.listens_for(Xyz, "after_insert")
 def after_insert(mapper, connection, target):
+    if request.form:
+        payload =str(json.dumps(target.as_dict(), indent=4, default=str))
+        
+        data = Audit(
+            model_name="Xyz",
+            action="After Insert",
+            context="Web Form",
+            payload=payload
+        )
+        db.session.add(data)
+
+        fn.process_webhook(module_name = 'xyz', run_type = "after_insert", data = payload, convert_sqlalchemy_to_json = False)
     pass
 
 
@@ -287,12 +302,24 @@ def before_update(mapper, connection, target):
         )
         db.session.add(data)
 
-        fn.process_webhook(module_name = 'xyz', run_type = "before_insert", data = payload, convert_sqlalchemy_to_json = True)
+        fn.process_webhook(module_name = 'xyz', run_type = "before_insert", data = payload, convert_sqlalchemy_to_json = False)
     pass
 
 
 @event.listens_for(Xyz, "after_update")
 def after_update(mapper, connection, target):
+    if request.form:
+        payload =str(json.dumps(target.as_dict(), indent=4, default=str))
+        
+        data = Audit(
+            model_name="Xyz",
+            action="After Update",
+            context="Web Form",
+            payload=payload
+        )
+        db.session.add(data)
+
+        fn.process_webhook(module_name = 'xyz', run_type = "after_update", data = payload, convert_sqlalchemy_to_json = False)
     pass
 
 
@@ -313,7 +340,7 @@ def before_delete(mapper, connection, target):
         )
         db.session.add(data)
 
-        fn.process_webhook(module_name = 'xyz', run_type = "before_insert", data = payload, convert_sqlalchemy_to_json = True)
+        fn.process_webhook(module_name = 'xyz', run_type = "before_delete", data = payload, convert_sqlalchemy_to_json = False)
     pass
 
 
