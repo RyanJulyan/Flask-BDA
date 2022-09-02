@@ -43,7 +43,9 @@ def process_webhook(module_name, run_type, data, convert_sqlalchemy_to_json=True
                 )
 
     if convert_sqlalchemy_to_json:
-        data = jsonify(data)
+        data = jsonify(data.as_dict())
+    
+    status_code = 'No Webhook Run'
         
     for web_hook in web_hooks:
 

@@ -321,6 +321,18 @@ def before_insert(mapper, connection, target):
 
 @event.listens_for(Xyz, "after_insert")
 def after_insert(mapper, connection, target):
+    if api.payload:
+        payload =str(json.dumps(target.as_dict(), indent=4, default=str))
+        
+        data = Audit(
+            model_name="Xyz",
+            action="After Insert",
+            context="Rest API",
+            payload=payload
+        )
+        db.session.add(data)
+
+        fn.process_webhook(module_name = 'xyz', run_type = "after_insert", data = payload, convert_sqlalchemy_to_json = False)
     pass
 
 
@@ -344,6 +356,18 @@ def before_update(mapper, connection, target):
 
 @event.listens_for(Xyz, "after_update")
 def after_update(mapper, connection, target):
+    if api.payload:
+        payload =str(json.dumps(target.as_dict(), indent=4, default=str))
+        
+        data = Audit(
+            model_name="Xyz",
+            action="After Update",
+            context="Rest API",
+            payload=payload
+        )
+        db.session.add(data)
+
+        fn.process_webhook(module_name = 'xyz', run_type = "after_update", data = payload, convert_sqlalchemy_to_json = False)
     pass
 
 
@@ -360,7 +384,7 @@ def before_delete(mapper, connection, target):
         )
         db.session.add(data)
 
-        fn.process_webhook(module_name = 'xyz', run_type = "before_insert", data = payload, convert_sqlalchemy_to_json = False)
+        fn.process_webhook(module_name = 'xyz', run_type = "before_delete", data = payload, convert_sqlalchemy_to_json = False)
         
     pass
 
