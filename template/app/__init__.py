@@ -568,7 +568,8 @@ from app.mod_calendar_definitions.controllers import (
 )  # noqa: E402
 
 # graphql
-from app.mod_graphql.controllers import mod_graphql as graphql_module  # noqa: E402
+#TODO: Figure out versioning issues!
+# from app.mod_graphql.controllers import mod_graphql as graphql_module  # noqa: E402
 
 # from app.mod_xyz.controllers import mod_xyz as xyz_module
 # import new xyz_module
