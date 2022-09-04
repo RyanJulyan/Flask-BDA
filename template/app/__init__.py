@@ -568,7 +568,7 @@ from app.mod_calendar_definitions.controllers import (
 )  # noqa: E402
 
 # graphql
-#TODO: Figure out versioning issues!
+#TODO: Figure out versioning issues with REST plugin!
 # from app.mod_graphql.controllers import mod_graphql as graphql_module  # noqa: E402
 
 # from app.mod_xyz.controllers import mod_xyz as xyz_module
@@ -610,7 +610,8 @@ app.register_blueprint(calendar_periods_admin_module)
 app.register_blueprint(calendar_definitions_public_module)
 app.register_blueprint(calendar_definitions_admin_module)
 # graphql
-app.register_blueprint(graphql_module)
+#TODO: Figure out versioning issues with REST plugin!
+# app.register_blueprint(graphql_module)
 # register_blueprint new xyz_module
 # statuses
 app.register_blueprint(statuses_public_module)
@@ -618,7 +619,8 @@ app.register_blueprint(statuses_admin_module)
 
 
 # Prevent GraphQL The CSRF token is missing. error
-csrf_protect.exempt(graphql_module)
+#TODO: Figure out versioning issues with REST plugin!
+# csrf_protect.exempt(graphql_module)
 
 # Define the API
 # This must be after other routes or it overwrites everything.
