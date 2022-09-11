@@ -120,14 +120,17 @@ class SubstitutionEncryption():
         else:
             final_words_list = new_words_list
 
-        for i in range(0, number_of_shuffles):
-            random.shuffle(final_words_list)
-        chosen_word = final_words_list[0].strip()
+        unique_word_in_list = False
+        chosen_word = None 
+        while not unique_word_in_list and chosen_word is not None:
+            if chosen_word in self.substitution_lookup[self.current_key].items():
+                for i in range(0, number_of_shuffles):
+                    random.shuffle(final_words_list)
+                chosen_word = final_words_list[0].strip()
+            else:
+                unique_word_in_list = True
 
-        if chosen_word in self.substitution_lookup[self.current_key].items():
-            self.update_substitution_lookup()
-        else:
-            self.substitution_lookup[self.current_key][message] = chosen_word
+        self.substitution_lookup[self.current_key][message] = chosen_word
 
         return chosen_word
 
