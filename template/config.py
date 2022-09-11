@@ -75,6 +75,7 @@ BASE_DIR = env("BASE_DIR", BASE_DIR)
 ###############################
 # Logging for the environment #
 ###############################
+FLASK_DEBUG = env("FLASK_DEBUG", 0)
 LOG_BACKUP_COUNT = env("LOG_BACKUP_COUNT", 7)
 LOG_FILENAME = env("LOG_FILENAME", "logs/system/system.log")
 LOG_LEVEL = env("LOG_LEVEL", logging.DEBUG)
@@ -104,6 +105,11 @@ SQLALCHEMY_ENGINE_OPTIONS = {
     # 'pool_size': 0,  # https://docs.sqlalchemy.org/en/13/core/engines.html#sqlalchemy.create_engine.params.pool_size  # Pool size not valid
     "pool_recycle": -1,  # https://docs.sqlalchemy.org/en/13/core/engines.html#sqlalchemy.create_engine.params.pool_recycle
 }
+
+##############################################
+# Run create_database() in @app.before_request #
+##############################################
+AUTO_CREATE_DATABASE = env("AUTO_CREATE_DATABASE", True)
 
 ##############################################
 # Run db.create_all() in @app.before_request #
