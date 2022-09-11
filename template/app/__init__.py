@@ -49,6 +49,7 @@ from flask_jwt_extended import JWTManager, create_access_token
 
 # Import SQLAlchemy
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy_utils import database_exists, create_database
 from app.mod_tenancy.multi_tenant import MultiTenantSQLAlchemy
 
 # Import Mail
@@ -286,13 +287,26 @@ def before_request():
     # Just use the query parameter "?organization=tenant_name"
     # organization = tenant
     g.organization = "default"
+    
+    host = request.environ.get("HTTP_HOST").split(".")
+
     if "organization" in request.args:
         g.organization = request.args["organization"]
         app.logger.info("Organisation changed: " + g.organization)
+    elif len(host) == 3 and host[0] != "www":
+        g.organization = host[0]
 
     # Set database to tenant
     db.choose_tenant(g.organization)
 
+    # Create database if it does not exist.
+    if app.config["AUTO_CREATE_DATABASE"]:
+        if not database_exists(db.engine.url):
+            create_database(db.engine.url)
+        else:
+            # Connect the database if exists.
+            db.engine.connect()
+    
     # Build the database:
     if app.config["AUTO_CREATE_TABLES_FROM_MODELS"]:
         # This will create the database tables using SQLAlchemy
