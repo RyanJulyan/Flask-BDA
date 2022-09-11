@@ -2,10 +2,10 @@ from binascii import hexlify
 from hashlib import sha256
 from os import urandom
 
-# from app.mod_end_to_end_encryption.primes import primes
-from primes import primes
+from app.mod_encryption.primes import primes
 
-class DiffieHellman:
+
+class DiffieHellmanEncryption:
     # Current minimum recommendation is 2048 bit (encoding_bit 14)
     def __init__(self, encoding_bit: int = 14) -> None:
         if encoding_bit not in primes:
