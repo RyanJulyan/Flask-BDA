@@ -5,6 +5,7 @@ from collections import deque
 
 from heapq import heappop, heappush
 from itertools import count
+from typing import Any, Sequence, TypedDict
 
 
 class PriorityLevel(Enum):
@@ -12,6 +13,11 @@ class PriorityLevel(Enum):
     IMPORTANT = 2
     NEUTRAL = 1
     Low = 0
+
+
+class PriorityQueueKwargs(TypedDict):
+    priority: PriorityLevel
+    value: Any
 
 
 @dataclass
@@ -64,9 +70,10 @@ class PriorityQueue(IterableMixin):
     def elements(self):
         return self._elements
 
-    def enqueue(self, priority, value):
-        element = (-priority, next(self._counter), value)
-        heappush(self._elements, element)
+    def enqueue(self, *args: Sequence[PriorityQueueKwargs]):
+        for kwargs in args:
+            element = (-kwargs.priority, next(self._counter), kwargs.value)
+            heappush(self._elements, element)
 
     def dequeue(self):
         return heappop(self._elements)[-1]
