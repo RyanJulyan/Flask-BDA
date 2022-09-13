@@ -1,6 +1,8 @@
 import sys, os
-
 from datetime import date
+
+# Import json for consuming payload and for payload data type transformations
+import json
 
 # Import flask and template operators
 from flask import (
@@ -64,9 +66,6 @@ from flask_bcrypt import Bcrypt
 
 # Import request for API calls
 import requests
-
-# Import json for consuming payload and for payload data type transformations
-import json
 
 # Import GraphQLAuth
 # from flask_graphql_auth import GraphQLAuth
@@ -254,7 +253,6 @@ from app.mod_users.models import Users  # noqa: E402
 from app.mod_organisations.models import Organisations  # noqa: E402
 from app.mod_api_keys.models import Api_keys  # noqa: E402
 
-
 #################################################################################
 ## NOT GOOD, CHANGES THE SERVER TO ALWAYS HAVE AUTH AND NOT JUST SINGLE REQUEST##
 #################################################################################
@@ -284,8 +282,9 @@ from app.mod_api_keys.models import Api_keys  # noqa: E402
 
 @app.before_request
 def before_request():
+    # organization = tenant_name
     # Just use the query parameter "?organization=tenant_name"
-    # organization = tenant
+    # or a subdomain tenant_name.example.com
     g.organization = "default"
     
     host = request.environ.get("HTTP_HOST").split(".")
@@ -295,8 +294,9 @@ def before_request():
         app.logger.info("Organisation changed: " + g.organization)
     elif len(host) == 3 and host[0] != "www":
         g.organization = host[0]
+        app.logger.info("Organisation changed: " + g.organization)
 
-    # Set database to tenant
+    # Set database to tenant_name
     db.choose_tenant(g.organization)
 
     # Create database if it does not exist.
