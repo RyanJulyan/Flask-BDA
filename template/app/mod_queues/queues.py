@@ -1,4 +1,3 @@
-
 from dataclasses import dataclass
 from enum import Enum
 
@@ -65,7 +64,7 @@ class PriorityQueue(IterableMixin):
     def elements(self):
         return self._elements
 
-    def enqueue_with_priority(self, priority, value):
+    def enqueue(self, priority, value):
         element = (-priority, next(self._counter), value)
         heappush(self._elements, element)
 

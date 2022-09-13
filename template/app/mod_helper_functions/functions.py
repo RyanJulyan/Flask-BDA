@@ -1,5 +1,6 @@
-
-from flask import jsonify
+from enum import Enum
+from typing import Sequence
+from flask import jsonify, g
 
 from datetime import datetime
 import json
@@ -17,6 +18,12 @@ import requests
 
 # Import web_hooks module models 
 from app.mod_web_hooks.models import Web_hooks
+
+#Import queues module
+from app.mod_queues.queues import Queue  # noqa: E402
+from app.mod_queues.queues import Stack  # noqa: E402
+from app.mod_queues.queues import PriorityQueue  # noqa: E402
+from app.mod_queues.queues import Event  # noqa: E402
 
 list_separator = app.config['LIST_SEPARATOR']
 
@@ -120,13 +127,49 @@ def process_webhook(module_name, run_type, data, convert_sqlalchemy_to_json=True
                 data = json.loads(x.content)
             except Exception:
                 data = convert_to_python_data_type('str')(x.content)
-    
+
     data = {
-        "status_code":status_code,
-        "data":data,
+        "status_code": status_code,
+        "data": data,
     }
-    
+
     return data
+
+
+class QueueType(Enum):
+    QUEUE = "queue"
+    STACK = "stack"
+    PRIORITY_QUEUE = "priority_queue"
+
+
+def enqueue(
+    queue_type: QueueType,
+    queue_name: str,
+    *elements: Sequence[Event]
+):
+    queue_lookup = {
+        "queue": Queue,
+        "stack": Stack,
+        "priority_queue": PriorityQueue,
+    }
+
+    if not hasattr(g, "queues"):
+        g.queues = {
+            "queue": {},
+            "stack": {},
+            "priority_queue": {},
+        }
+    if queue_name in g.queues[queue_type]:
+        g.queues[queue_type][queue_name].enqueue(*elements)
+    else:
+        g.queues[queue_type][queue_name] = queue_lookup[queue_type](*elements)
+
+
+def dequeue(
+    queue_type: QueueType,
+    queue_name: str,
+):
+    return g.queues[queue_type][queue_name].dequeue()
 
 
 def path_level(path, delimiter='/'):
@@ -191,20 +234,39 @@ def convert_to_python_data_type(data_type_string):
     return fn
 
 
-async def get_request_worker(session, url):
+async def get_request_worker(session: aiohttp.ClientSession, url):
     async with session.get(url) as response:
         return await response.json()
 
 
 async def get_request_controller(urls):
     async with aiohttp.ClientSession() as session:
-        tasks = [ensure_future(get_request_worker(session, url)) for url in urls]
+        tasks = [ensure_future(get_request_worker(session, url.get("url"))) for url in urls]
         results = await gather(*tasks)
     return results
 
 
-def multi_async_get_requests(urls):
+def multi_async_get_requests(urls: list[dict]):
     loop = asyncio.get_event_loop()
     results = loop.run_until_complete(get_request_controller(urls))
+
+    return results
+
+
+async def post_request_worker(session: aiohttp.ClientSession, url, data, **kwargs):
+    async with session.post(url, data, **kwargs) as response:
+        return await response.json()
+
+
+async def post_request_controller(urls):
+    async with aiohttp.ClientSession() as session:
+        tasks = [ensure_future(post_request_worker(session, url.get("url"), url.get("data"), url.get("kwargs"))) for url in urls]
+        results = await gather(*tasks)
+    return results
+
+
+def multi_async_post_requests(urls: list[dict]):
+    loop = asyncio.get_event_loop()
+    results = loop.run_until_complete(post_request_controller(urls))
 
     return results
