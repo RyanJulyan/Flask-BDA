@@ -97,7 +97,7 @@ def index(template):
                 .paginate(page=page, per_page=app.config['ROWS_PER_PAGE'])
             )
 
-    context_data ={
+    context_data = {
         "data": data,
     }
 
@@ -113,7 +113,7 @@ def create(template):
 
     # Relationship returns
 
-    context_data ={
+    context_data = {
         # Relationship context_data
         
     }
@@ -163,7 +163,15 @@ def show(id,template):
                 Xyz.query
                 # relationship join
 
-                .get_or_404(id)
+                .add_columns(
+                    Xyz.id,
+                    # Xyz query add columns
+
+                    # relationship query add columns
+
+                )
+                .filter_by(id=id)
+                .first_or_404()
             )
 
     context_data ={

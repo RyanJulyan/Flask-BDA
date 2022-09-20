@@ -1,8 +1,4 @@
 import sys, os
-from datetime import date
-
-# Import json for consuming payload and for payload data type transformations
-import json
 
 # Import flask and template operators
 from flask import (
@@ -16,6 +12,7 @@ from flask import (
     redirect,
     url_for,
 )
+
 from flask_login import (
     LoginManager,
     UserMixin,
@@ -24,6 +21,7 @@ from flask_login import (
     logout_user,
     current_user,
 )
+
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 from flask_wtf.csrf import CSRFProtect
 
@@ -251,28 +249,6 @@ scheduler.start()
 # Import module models (i.e. Users)
 from app.mod_users.models import Users  # noqa: E402
 from app.mod_organisations.models import Organisations  # noqa: E402
-from app.mod_api_keys.models import Api_keys  # noqa: E402
-
-#################################################################################
-## NOT GOOD, CHANGES THE SERVER TO ALWAYS HAVE AUTH AND NOT JUST SINGLE REQUEST##
-#################################################################################
-# BearerToken = ''
-
-# class InterceptRequestMiddleware:
-#     global BearerToken
-#     def __init__(self, wsgi_app):
-#         self.wsgi_app = wsgi_app
-
-#     def __call__(self, environ, start_response):
-#         global BearerToken
-#         # print("BearerToken: ",BearerToken)
-#         environ['HTTP_AUTHORIZATION'] = BearerToken
-#         return self.wsgi_app(environ, start_response)
-
-# app.wsgi_app = InterceptRequestMiddleware(app.wsgi_app)
-#################################################################################
-## NOT GOOD, CHANGES THE SERVER TO ALWAYS HAVE AUTH AND NOT JUST SINGLE REQUEST##
-#################################################################################
 
 # @app.before_first_request
 # def before_first_request():
@@ -319,62 +295,6 @@ def before_request():
 
     if organisation:
         g.organisation_id = organisation.id
-
-    # Set User JWT token if API key Used
-    if "ApiKey" in request.headers:
-        ApiKey = request.headers.get("ApiKey")
-        current_date = date.today()
-
-        api_key = (
-            Api_keys.query.filter(Api_keys.api_key == ApiKey)
-            .filter(Api_keys.valid_from <= current_date)
-            .filter(current_date <= Api_keys.valid_to)
-            .first()
-        )
-
-        if api_key:
-            BearerToken = "Bearer " + create_access_token(identity=ApiKey)
-
-            params = request.args
-            headers = dict(request.headers)
-            headers["Authorization"] = BearerToken
-            data = request.data.decode("UTF-8")
-            if len(data) > 0:
-                data = json.loads(data)
-
-            if request.method == "GET":
-
-                url = request.url
-
-                x = requests.get(url, params=params, headers=headers, json=data)
-
-                # return_data = json.loads(x.text)
-
-                # print("return_data: ", return_data)
-
-            # if(request.method == 'post'):
-
-            #     url = api_endpoint
-
-            #     x = requests.post(url,params=params, headers=headers, json=data)
-
-            #     data = json.loads(x.text)
-
-            # if(request.method == 'put'):
-
-            #     url = api_endpoint
-
-            #     x = requests.put(url,params=params, headers=headers, json=data)
-
-            #     data = json.loads(x.text)
-
-            # if(request.method == 'delete'):
-
-            #     url = api_endpoint
-
-            #     x = requests.put(url,params=params, headers=headers, json=data)
-
-            #     data = json.loads(x.text)
 
 
 # make organisation accessable in template
@@ -581,12 +501,6 @@ from app.mod_calendar_definitions.controllers import (
     mod_admin_calendar_definitions as calendar_definitions_admin_module,
 )  # noqa: E402
 
-# graphql
-#TODO: Figure out versioning issues with REST plugin!
-# from app.mod_graphql.controllers import mod_graphql as graphql_module  # noqa: E402
-
-# from app.mod_xyz.controllers import mod_xyz as xyz_module
-# import new xyz_module
 # statuses
 from app.mod_statuses.controllers import (
     mod_public_statuses as statuses_public_module,
@@ -594,6 +508,13 @@ from app.mod_statuses.controllers import (
 from app.mod_statuses.controllers import (
     mod_admin_statuses as statuses_admin_module,
 )  # noqa: E402
+
+# graphql
+#TODO: Figure out versioning issues with REST plugin!
+# from app.mod_graphql.controllers import mod_graphql as graphql_module  # noqa: E402
+
+# from app.mod_xyz.controllers import mod_xyz as xyz_module
+# import new xyz_module
 
 
 # Register blueprint(s)
@@ -623,13 +544,13 @@ app.register_blueprint(calendar_periods_admin_module)
 # calendar_definitions
 app.register_blueprint(calendar_definitions_public_module)
 app.register_blueprint(calendar_definitions_admin_module)
+# statuses
+app.register_blueprint(statuses_public_module)
+app.register_blueprint(statuses_admin_module)
 # graphql
 #TODO: Figure out versioning issues with REST plugin!
 # app.register_blueprint(graphql_module)
 # register_blueprint new xyz_module
-# statuses
-app.register_blueprint(statuses_public_module)
-app.register_blueprint(statuses_admin_module)
 
 
 # Prevent GraphQL The CSRF token is missing. error
@@ -687,10 +608,10 @@ from app.mod_calendar_periods.api_controllers import (
 from app.mod_calendar_definitions.api_controllers import (
     ns as Calendar_definitions_API,
 )  # noqa: E402
-
-# new xyz api resources
 # statuses
 from app.mod_statuses.api_controllers import ns as Statuses_API  # noqa: E402
+
+# new xyz api resources
 
 
 # This MUST be the last route to allow for all API routes to be registered

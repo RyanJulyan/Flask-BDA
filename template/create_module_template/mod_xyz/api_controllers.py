@@ -1,4 +1,12 @@
 
+
+
+# Import json for consuming payload and for payload data type transformations
+import json
+
+# Import read_json from pandas for payload data type transformations
+from pandas import read_json
+
 # Import Flask Resource, fields from flask_restx for API and Swagger
 from flask_restx import Resource, fields, reqparse
 # Import sql functions (SUM,MIN,MAX,AVG)
@@ -7,7 +15,8 @@ from sqlalchemy.sql import func
 from sqlalchemy import event, and_, or_
 
 # JWT for API
-from flask_jwt_extended import jwt_required
+# from flask_jwt_extended import jwt_required
+from app.mod_api_keys.api_required import jwt_or_api_key_required
 
 # Import the database object from the main app module
 from app import db, app, api
@@ -20,12 +29,8 @@ from app.mod_xyz.models import Xyz
 # Import module models (e.g. User)
 
 
-# Import json for consuming payload and for payload data type transformations
-import json
-
-# Import read_json from pandas for payload data type transformations
-from pandas import read_json
-
+# Import module models (Audit)
+from app.mod_audit.models import Audit
 # import multiple bindings
 from app.mod_tenancy.multi_bind import MultiBindSQLAlchemy
 ###################################################################
@@ -92,7 +97,8 @@ class XyzResource(Resource):
              description='get xyz')
     @ns.marshal_list_with(xyz, code=200)
     @ns.doc(security='jwt')
-    @jwt_required
+    # @jwt_required
+    @jwt_or_api_key_required(checktype=app.config["JWT_OR_API_CHECK_TYPE"])
     def get(self, id):  # /xyz/<id>
         '''Fetch a single Xyz item given its identifier'''
         data = (
@@ -106,7 +112,8 @@ class XyzResource(Resource):
                     # relationship query add columns
                     
                 )
-                .get_or_404(id)
+                .filter_by(id=id)
+                .first_or_404()
             )
 
         return data, 200
@@ -114,7 +121,8 @@ class XyzResource(Resource):
     @ns.doc(responses={204: 'DELETED', 422: 'Unprocessable Entity', 500: 'Internal Server Error'},
              description='delete xyz')
     @ns.doc(security='jwt')
-    @jwt_required
+    # @jwt_required
+    @jwt_or_api_key_required(checktype=app.config["JWT_OR_API_CHECK_TYPE"])
     def delete(self, id):  # /xyz/<id>
         '''Delete a Xyz given its identifier'''
         data = Xyz.query.get_or_404(id)
@@ -128,7 +136,8 @@ class XyzResource(Resource):
     @ns.expect(xyz)
     @ns.marshal_list_with(xyz, code=201)
     @ns.doc(security='jwt')
-    @jwt_required
+    # @jwt_required
+    @jwt_or_api_key_required(checktype=app.config["JWT_OR_API_CHECK_TYPE"])
     def put(self, id):  # /xyz/<id>
         '''Update a Xyz given its identifier'''
         data = Xyz.query.get_or_404(id)
@@ -149,7 +158,8 @@ class XyzListResource(Resource):
     @ns.expect(parser)
     @ns.marshal_list_with(xyz, code=200)
     @ns.doc(security='jwt')
-    @jwt_required
+    # @jwt_required
+    @jwt_or_api_key_required(checktype=app.config["JWT_OR_API_CHECK_TYPE"])
     def get(self):  # /xyz
         '''List Xyz records '''
         args = parser.parse_args()
@@ -177,7 +187,8 @@ class XyzListResource(Resource):
     @ns.expect(xyz)
     @ns.marshal_with(xyz, code=201)
     @ns.doc(security='jwt')
-    @jwt_required
+    # @jwt_required
+    @jwt_or_api_key_required(checktype=app.config["JWT_OR_API_CHECK_TYPE"])
     def post(self):  # /xyz
         '''Create a new Xyz record'''
         data = Xyz(
@@ -200,7 +211,8 @@ class XyzBulkListResource(Resource):
     @ns.expect(xyz)
     @ns.marshal_list_with(xyz, code=201)
     @ns.doc(security='jwt')
-    @jwt_required
+    # @jwt_required
+    @jwt_or_api_key_required(checktype=app.config["JWT_OR_API_CHECK_TYPE"])
     def put(self):  # /xyz/bulk
         '''Bulk update Xyz given their identifiers'''
         data = json.dumps(api.payload)
@@ -216,7 +228,8 @@ class XyzBulkListResource(Resource):
     @ns.expect(xyz)
     @ns.marshal_with(xyz, code=201)
     @ns.doc(security='jwt')
-    @jwt_required
+    # @jwt_required
+    @jwt_or_api_key_required(checktype=app.config["JWT_OR_API_CHECK_TYPE"])
     def post(self):  # /xyz/bulk
         '''Bulk create new Xyz records'''
         data = json.dumps(api.payload)
@@ -239,6 +252,7 @@ class XyzBulkSeedResource(Resource):
     # @ns.doc(security='jwt')
     @ns.doc(security=None)
     # @jwt_required
+    # @jwt_or_api_key_required(checktype=app.config["JWT_OR_API_CHECK_TYPE"])
     def get(self, level):  # /xyz/seed/<level>
         '''Seed bulk Xyz records. Level 1 = `Core` Data, Level 2 = `Nice to Have` Data, Level 3 = `Demo` Data'''
         data = {
@@ -278,7 +292,8 @@ class XyzAggregateResource(Resource):
              description='get xyz aggregates')
     @ns.marshal_with(xyz_agg, code=200)
     @ns.doc(security='jwt')
-    @jwt_required
+    # @jwt_required
+    @jwt_or_api_key_required(checktype=app.config["JWT_OR_API_CHECK_TYPE"])
     def get(self):  # /xyz
         '''Aggregate Xyz records '''
 

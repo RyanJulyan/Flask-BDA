@@ -1,62 +1,62 @@
 {
-	"api_keys": {
-		"model": "Api_keys",
-		"fields": {
-			"api_key": {
-				"dataTypeLower": "string",
-				"dataType": "String(256)",
+    "api_keys": {
+        "model": "Api_keys",
+        "fields": {
+            "api_key": {
+                "dataTypeLower": "string",
+                "dataType": "String(256)",
                 "grapheneDataType": "String()",
-				"default": false,
-				"nullable": false,
-				"index": true,
-				"relationship": null,
+                "default": false,
+                "nullable": false,
+                "index": true,
+                "relationship": null,
                 "relationship_display_value": null,
-				"unique": true
-			},
-			"api_key_notes": {
-				"dataTypeLower": "text",
-				"dataType": "Text",
+                "unique": true
+            },
+            "api_key_notes": {
+                "dataTypeLower": "text",
+                "dataType": "Text",
                 "grapheneDataType": "String()",
-				"default": false,
-				"nullable": true,
-				"index": false,
-				"relationship": null,
+                "default": false,
+                "nullable": true,
+                "index": false,
+                "relationship": null,
                 "relationship_display_value": null,
-				"unique": false
-			},
-			"created_user_id": {
-				"dataTypeLower": "relationship",
-				"dataType": "Integer",
+                "unique": false
+            },
+            "created_user_id": {
+                "dataTypeLower": "relationship",
+                "dataType": "Integer",
                 "grapheneDataType": "Int()",
-				"default": false,
-				"nullable": false,
-				"index": true,
-				"relationship": "user",
+                "default": false,
+                "nullable": false,
+                "index": true,
+                "relationship": "users",
                 "relationship_display_value": "name",
-				"unique": false
-			},
-			"valid_from": {
-				"dataTypeLower": "datetime",
-				"dataType": "DateTime",
+                "unique": false
+            },
+            "valid_from": {
+                "dataTypeLower": "datetime",
+                "dataType": "DateTime",
                 "grapheneDataType": "DateTime()",
-				"default": false,
-				"nullable": false,
-				"index": true,
-				"relationship": null,
+                "default": false,
+                "nullable": false,
+                "index": true,
+                "relationship": null,
                 "relationship_display_value": null,
-				"unique": false
-			},
-			"valid_to": {
-				"dataTypeLower": "datetime",
-				"dataType": "DateTime",
+                "unique": false
+            },
+            "valid_to": {
+                "dataTypeLower": "datetime",
+                "dataType": "DateTime",
                 "grapheneDataType": "DateTime()",
-				"default": false,
-				"nullable": false,
-				"index": true,
-				"relationship": null,
+                "default": false,
+                "nullable": false,
+                "index": true,
+                "relationship": null,
                 "relationship_display_value": null,
-				"unique": false
-			}
-		}
-	}
+                "unique": false
+            }
+        }
+    }
 }

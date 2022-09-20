@@ -1,3 +1,4 @@
+from enum import Enum
 import sys, os
 
 # Import logging
@@ -5,6 +6,16 @@ import logging
 
 # Import SQLAlchemyJobStore
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
+
+
+# Import JWT_OR_API_CHECK_TYPE ENUM
+class CheckType(Enum):
+    API_KEY = "api_key"
+    JWT = "jwt"
+    BOTH = "both"
+    EITHER = "either"
+    NONE = "none"
+
 
 #############################
 # Simplify ENVIRON function #
@@ -56,7 +67,7 @@ LIST_SEPARATOR = ","
 # '%X'	        Locale’s appropriate time representation.	21:30:00 (en_US) 21:30:00 (de_DE)
 # '%%'	        A literal ‘%’ character.	%
 ##################################################################################################################################################################################################################
-DATE_FORMAT = env("DATE_FORMAT", "%Y-%m-%d")
+DATE_FORMAT = env("DATE_FORMAT", "%Y/%m/%d")
 TIME_FORMAT = env("TIME_FORMAT", "%H:%M:%S")
 
 ####################################
@@ -239,6 +250,11 @@ JWT_SECRET_KEY = env("JWT_SECRET_KEY", "secret")
 JWT_ACCESS_TOKEN_EXPIRES = env("JWT_ACCESS_TOKEN_EXPIRES", 3600)
 JWT_BLACKLIST_ENABLED = env("JWT_BLACKLIST_ENABLED", True)
 JWT_BLACKLIST_TOKEN_CHECKS = env("JWT_BLACKLIST_TOKEN_CHECKS", ["access", "refresh"])
+
+##################################################
+# CheckType Enum for for jwt_or_api_key_required #
+##################################################
+JWT_OR_API_CHECK_TYPE = env("JWT_OR_API_CHECK_TYPE", CheckType.EITHER)
 
 ########################
 # CORS ORIGINS allowed #

@@ -1,6 +1,6 @@
 
 # Import Form and RecaptchaField (optional)
-from flask_wtf import Form  # , RecaptchaField
+from flask_wtf import FlaskForm as Form  # , RecaptchaField
 
 # Import Form elements such as TextField and BooleanField
 from wtforms import TextField, BooleanField
@@ -13,10 +13,19 @@ from wtforms.validators import Required
 
 class Api_keysForm(Form):
     # start new form definitions
-    api_key = TextField('api_key', [Required(message='Must provide a Api key')]),
-    api_key_notes = TextField('api_key_notes'),
-    created_user_id = TextField('created_user_id', [Required(message='Must provide a Created user id')]),
-    valid_from = TextField('valid_from', [Required(message='Must provide a Valid from')]),
+    api_key = TextField('api_key', [Required(message='Must provide a Api key')])
+    api_key_notes = TextField('api_key_notes')
+    created_user_id = TextField('created_user_id', [Required(message='Must provide a Created user id')])
+    valid_from = TextField('valid_from', [Required(message='Must provide a Valid from')])
     valid_to = TextField('valid_to', [Required(message='Must provide a Valid to')])
     # end new form definitions
     # example_field = TextField('Example Field', [Required(message='Must provide a Example Field')])
+
+    def validate(self):
+        initial_validation = super(Api_keysForm, self).validate()
+        
+        if not initial_validation:
+            return False
+        
+        return True
+

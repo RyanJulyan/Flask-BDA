@@ -172,14 +172,14 @@ def create_project(project_name, owner = "RyanJulyan", repo = "Flask-BDA", branc
     destination = open(dir_name + '/config.py', "w")
 
     for line in source:
-        if "CSRF_SESSION_KEY = env('CSRF_SESSION_KEY', 'secret')" in line:
-            destination.write("CSRF_SESSION_KEY = env('CSRF_SESSION_KEY', '" + CSRF_SESSION_KEY + "')" + "\n")
-        elif "SECRET_KEY = env('SECRET_KEY', 'secret')" in line:
-            destination.write("SECRET_KEY = env('SECRET_KEY', '" + SECRET_KEY + "')" + "\n")
-        elif "JWT_SECRET_KEY = env('JWT_SECRET_KEY', 'secret')" in line:
-            destination.write("JWT_SECRET_KEY = env('JWT_SECRET_KEY', '" + JWT_SECRET_KEY + "')" + "\n")
-        elif "SECURITY_PASSWORD_SALT = env('SECURITY_PASSWORD_SALT', 'secret')" in line:
-            destination.write("SECURITY_PASSWORD_SALT = env('SECURITY_PASSWORD_SALT', '" + SECURITY_PASSWORD_SALT + "')" + "\n")
+        if 'CSRF_SESSION_KEY = env("CSRF_SESSION_KEY", "secret")' in line:
+            destination.write('CSRF_SESSION_KEY = env("CSRF_SESSION_KEY", "' + CSRF_SESSION_KEY + '")' + '\n')
+        elif 'SECRET_KEY = env("SECRET_KEY", "secret")' in line:
+            destination.write('SECRET_KEY = env("SECRET_KEY", "' + SECRET_KEY + '")' + "\n")
+        elif 'JWT_SECRET_KEY = env("JWT_SECRET_KEY", "secret")' in line:
+            destination.write('JWT_SECRET_KEY = env("JWT_SECRET_KEY", "' + JWT_SECRET_KEY + '")' + "\n")
+        elif 'SECURITY_PASSWORD_SALT = env("SECURITY_PASSWORD_SALT", "secret")' in line:
+            destination.write('SECURITY_PASSWORD_SALT = env("SECURITY_PASSWORD_SALT", "' + SECURITY_PASSWORD_SALT + '")' + "\n")
         else:
             destination.write(line)
 
