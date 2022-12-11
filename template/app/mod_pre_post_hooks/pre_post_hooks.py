@@ -1,13 +1,30 @@
+import inspect
 from typing import Dict, Sequence
 
 
 class PrePostHooks:
-    """Create a function"""
+    """A class that lets you register pre and post hooks onto a method of a class.
+    You can create a function and then register the function.
+
+    """
 
     def __init__(self):
-        """_summary_"""
+        """Register the dictionary for methods and callable pre and post hooks.
+        The add_pre_hook method is used to create a logger on every method of the child
+        Class this means every class uses the pre hook as a way to log out what was called
+        """
         self.pre_hooks: Dict[str, callable] = {}
         self.post_hooks: Dict[str, callable] = {}
+
+        methods = [func for func in self.__class__.__dict__.values() if callable(func)]
+        for method in methods:
+            # Add a logger pre-hook for each method
+            self.add_pre_hook(method.__name__, self.logger)
+
+    def logger(self, *args, **kwargs):
+        print(
+            f"Called method {self.__class__.__name__}.{inspect.stack()[2].code_context[0].strip()}"
+        )
 
     def add_pre_hook(self, method_name: str, hook_func: callable):
         """Add a callable function to a named function that will run before a method
