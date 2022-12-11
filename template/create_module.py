@@ -242,6 +242,7 @@ def create_module(module):
     grapheneColumns = ''
     feildNames = []
     formDefinitionsArr = []
+    newBrokerDataDefinitionsArr = []
     newFormRequestDefinitionsArr = []
     updateFormRequestDefinitionsArr = []
     newApiRequestDefinitionsArr = []
@@ -254,6 +255,7 @@ def create_module(module):
     instanceNames = ''
     instanceDictNames = ''
     formDefinitions = ''
+    newBrokerDataDefinitions = ''
     newFormRequestDefinitions = ''
     updateFormRequestDefinitions = ''
     newApiRequestDefinitions = ''
@@ -293,14 +295,14 @@ def create_module(module):
             relationshipFieldsImports += "from app.mod_{}.models import {}\n".format(value['relationship'],
                                                                                                 value['relationship'].capitalize())
 
-            relationshipJoins += "                .join({})\n".format(value['relationship'].capitalize())
+            relationshipJoins += "                .join({}.{})\n".format(model, value['relationship'])
 
             relationshipReturns += "    {} = {}.query.all()\n".format(value['relationship'],
                                                                                         value['relationship'].capitalize())
 
             contextDataArr.append("\n        '{}': {}".format(value['relationship'],value['relationship']))
 
-            columns += "    {} = db.relationship('{}', remote_side='{}.id', lazy='joined')\n".format(value['relationship'],
+            columns += "    {} = db.relationship('{}', remote_side='{}.id', lazy='joined', innerjoin=True)\n".format(value['relationship'],
                                                                                                 # secrets.token_urlsafe(3),
                                                                                                 value['relationship'].capitalize(),
                                                                                                 value['relationship'].capitalize())
@@ -467,6 +469,15 @@ def create_module(module):
             newFormRequestDefinitionsArr.append("\n            {} = request.form.get('{}')".format(key, key))
         
         if value['dataType'] == 'Date':
+            newBrokerDataDefinitionsArr.append("\n            {} = fn.convert_to_python_data_type('date')(data.get('{}', None))".format(key, key))
+        elif value['dataType'] == 'DateTime':
+            newBrokerDataDefinitionsArr.append("\n            {} = fn.convert_to_python_data_type('datetime')(data.get('{}', None))".format(key, key))
+        elif value['dataType'] == 'Boolean':
+            newBrokerDataDefinitionsArr.append("\n            {} = True if data.get('{}', None) == 'True' else False".format(key, key))
+        else:
+            newBrokerDataDefinitionsArr.append("\n            {} = data.get('{}', None)".format(key, key))
+        
+        if value['dataType'] == 'Date':
             updateFormRequestDefinitionsArr.append("\n        data.{} = fn.convert_to_python_data_type('date')(request.form.get('{}'))".format(key, key))
         elif value['dataType'] == 'DateTime':
             updateFormRequestDefinitionsArr.append("\n        data.{} = fn.convert_to_python_data_type('datetime')(request.form.get('{}'))".format(key, key))
@@ -486,12 +497,14 @@ def create_module(module):
     contextData = str((','.join(item for item in contextDataArr)))
     instanceParams = str((', '.join(item for item in feildNames)))
     formDefinitions = str((''.join(item for item in formDefinitionsArr)))
+    newBrokerDataDefinitions = str((','.join(item for item in newFormRequestDefinitionsArr)))
     newFormRequestDefinitions = str((','.join(item for item in newFormRequestDefinitionsArr)))
     updateFormRequestDefinitions = str((''.join(item for item in updateFormRequestDefinitionsArr)))
     newApiRequestDefinitions = str((','.join(item for item in newApiRequestDefinitionsArr)))
     argumentParser = str((','.join(item for item in argumentParserArr)))
     argumentAggParser = str((','.join(item for item in argumentAggParserArr)))
 
+    newBrokerDataDefinitions = newBrokerDataDefinitions.lstrip('\n')
     newFormRequestDefinitions = newFormRequestDefinitions.lstrip('\n')
     updateFormRequestDefinitions = updateFormRequestDefinitions.lstrip('\n')
     newApiRequestDefinitions = newApiRequestDefinitions.lstrip('\n')
@@ -544,23 +557,23 @@ def create_module(module):
             destination.write("try:\n")
             destination.write("    from app.mod_" + module + ".controllers import mod_public_" + module + " as " + module + "_public_module  # noqa: E402\n")
             destination.write("    from app.mod_" + module + ".controllers import mod_admin_" + module + " as " + module + "_admin_module  # noqa: E402\n")
-            destination.write("except ImportError:\n")
-            destination.write("    print(ImportError.__class__.__name__ + ': ' + ImportError.message)\n")
-            destination.write("except Exception:\n")
-            destination.write("    print(Exception.__class__.__name__ + ': ' + Exception.message)\n")
+            destination.write("except ImportError as e:\n")
+            destination.write("    print(ImportError.__class__.__name__ + ': ' + str(e))\n")
+            destination.write("except Exception as e:\n")
+            destination.write("    print(Exception.__class__.__name__ + ': ' + str(e))\n")
         if "# register_blueprint new xyz_module" in line:
             destination.write("# " + module + "\n")
             destination.write("try:\n")
             destination.write("    app.register_blueprint(" + module + "_public_module)\n")
             destination.write("    app.register_blueprint(" + module + "_admin_module)\n")
-            destination.write("except Exception:\n")
-            destination.write("    print(Exception.__class__.__name__ + ': ' + Exception.message)\n")
+            destination.write("except Exception as e:\n")
+            destination.write("    print(Exception.__class__.__name__ + ': ' + str(e))\n")
         if "# new xyz api resources" in line:
             destination.write("# " + module + "\n")
             destination.write("try:\n")
             destination.write("    from app.mod_" + module + ".api_controllers import ns as " + module.capitalize() + "_API  # noqa: E402\n")
-            destination.write("except Exception:\n")
-            destination.write("    print(Exception.__class__.__name__ + ': ' + Exception.message)\n")
+            destination.write("except Exception as e:\n")
+            destination.write("    print(Exception.__class__.__name__ + ': ' + str(e))\n")
 
     source.close()
     destination.close()
@@ -738,6 +751,8 @@ class Create_{}(graphene.Mutation):
                     replaceTextBetweenTags(s, '# start new api_request feilds', '# end new api_request feilds', '            ', '')
                     replaceTextBetweenTags(s, '# start new api_aggregate feilds', '# end new api_aggregate feilds', '            ', '')
                     replaceTextBetweenTags(s, '# start new api_aggregate_object feilds', '# end new api_aggregate_object feilds', '            ', '')
+                if('sql_alch_broker.py' in s):
+                    replaceTextBetweenTags(s, '# start new broker data feilds', '# end new broker data feilds', '            ', '')
                 if('controllers.py' in s):
                     replaceTextBetweenTags(s, '# start new request feilds', '# end new request feilds', '        ', '')
                     replaceTextBetweenTags(s, '# start update request feilds', '# end update request feilds', '    ','')
@@ -779,6 +794,8 @@ class Create_{}(graphene.Mutation):
                         destination.write(argumentParser)
                     if "# start new add_agg_argument" in line:
                         destination.write(argumentAggParser)
+                    if "# start new broker data feilds" in line:
+                        destination.write(newBrokerDataDefinitions)
                     if "# start new request feilds" in line:
                         destination.write(newFormRequestDefinitions)
                     if "# Import module models (e.g. User)" in line:

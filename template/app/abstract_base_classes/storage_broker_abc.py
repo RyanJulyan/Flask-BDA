@@ -24,7 +24,7 @@ class StorageBroker(ABC):
     """
 
     @abstractmethod
-    def browse(page: Optional[int]):
+    def browse(self, page: Optional[int]):
         """Return all values (per page) 
 
         Args:
@@ -33,7 +33,7 @@ class StorageBroker(ABC):
         pass
 
     @abstractmethod
-    def read(id: Any):
+    def read(self, id: Any):
         """Return a single record by id
 
         Args:
@@ -43,54 +43,61 @@ class StorageBroker(ABC):
         pass
 
     @abstractmethod
-    def edit(id: Any, data: Any):
+    def edit(self, id: Any, request: Any):
         """Edit a single record's values
 
         Args:
             id (Any): The unique identifier that will allow you 
                         to query against
-            data (Any): The data you wish to update the record
+            request (Any): The request you wish to update the record
                         with
         """
         pass
 
     @abstractmethod
-    def add(data: Any):
+    def add(self, request: Any):
         """Create a single record
 
         Args:
-            data (Any): The data you wish to create a new record
+            request (Any): The request you wish to create a new record
                         with
         """
         pass
 
     @abstractmethod
-    def delete(id: Any):
+    def delete(self, id: Any):
         """Delete a single record
 
         Args:
-            id (Any): The unique identifier that will allow you 
+            id (Any): The unique identifier that will allow you
                         to query against
         """
         pass
 
     @abstractmethod
-    def search(**kwargs: Dict[str, Any]):
+    def search(self, **kwargs: Dict[str, Any]):
         """Search with optional kwargs
         """
         pass
 
-    def columns():
+    @abstractmethod
+    def relationship_returns(self, **kwargs: Dict[str, Any]):
+        """Return any relationship request that the view needs
+            with optional kwargs
+        """
+        pass
+
+    def columns(self):
         """Return the column names
         """
         pass
 
-    def is_singluar(entities: list):
+    def is_singluar(self, entities: list):
         if len(entities) > 1:
             return False
         return True
 
-    def is_empty(entities: list):
+    def is_empty(self, entities: list):
         if len(entities) == 1:
             return True
         return False

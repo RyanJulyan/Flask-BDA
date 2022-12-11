@@ -68,5 +68,5 @@ class Block:
         while (self._hash[0:self.difficulty] != ("0"*self.difficulty)):
             self.nonce = self.nonce + 1
             self.hash
-        
+
         return self._hash

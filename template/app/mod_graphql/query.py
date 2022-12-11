@@ -17,6 +17,15 @@ from app.mod_calendar_definitions.types import Calendar_definitions as Calendar_
 from app.mod_calendar_periods.models import Calendar_periods as Calendar_periodsModel  # noqa: E402
 from app.mod_calendar_periods.types import Calendar_periods as Calendar_periodsTypes  # noqa: E402
 # import new xyz_model and xyz_type
+# api_keys
+from app.mod_api_keys.models import Api_keys as Api_keysModel  # noqa: E402
+from app.mod_api_keys.types import Api_keys as Api_keysTypes  # noqa: E402
+# api_keys
+from app.mod_api_keys.models import Api_keys as Api_keysModel  # noqa: E402
+from app.mod_api_keys.types import Api_keys as Api_keysTypes  # noqa: E402
+# test
+from app.mod_test.models import Test as TestModel  # noqa: E402
+from app.mod_test.types import Test as TestTypes  # noqa: E402
 # statuses
 from app.mod_statuses.models import Statuses as StatusesModel  # noqa: E402
 from app.mod_statuses.types import Statuses as StatusesTypes  # noqa: E402
@@ -40,6 +49,12 @@ class Query(graphene.ObjectType):
     # @query_header_jwt_required
     all_calendar_periods = SQLAlchemyConnectionField(Calendar_periodsTypes.connection)
     # new xyz_model connection
+    # api_keys
+    all_api_keys = SQLAlchemyConnectionField(Api_keysTypes.connection)
+    # api_keys
+    all_api_keys = SQLAlchemyConnectionField(Api_keysTypes.connection)
+    # test
+    all_test = SQLAlchemyConnectionField(TestTypes.connection)
 
     users_by_name = graphene.List(UsersTypes, name=graphene.String())
 

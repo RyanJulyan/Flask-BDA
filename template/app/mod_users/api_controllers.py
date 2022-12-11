@@ -127,7 +127,7 @@ class Logout(Resource):
     @ns.doc(responses={201: 'LOGGED OUT', 422: 'Unprocessable Entity', 500: 'Internal Server Error'},
              description='Login user')
     @ns.doc(security='jwt')
-    # @jwt_required
+    # # @jwt_required
     def post(self):
         jti = get_raw_jwt()['jti']
 
@@ -146,7 +146,7 @@ class UserResource(Resource):
              description='get user')
     @ns.marshal_list_with(user, code=200)
     @ns.doc(security='jwt')
-    @jwt_required
+    # @jwt_required
     # @ns.doc(security=None)
     def get(self, id):  # /user/<id>
         '''Fetch a single User item given its identifier'''
@@ -157,7 +157,7 @@ class UserResource(Resource):
     @ns.doc(responses={204: 'DELETED', 422: 'Unprocessable Entity', 500: 'Internal Server Error'},
              description='delete user')
     @ns.doc(security='jwt')
-    @jwt_required
+    # @jwt_required
     # @ns.doc(security=None)
     def delete(self, id):  # /user/<id>
         '''Delete a User given its identifier'''
@@ -172,7 +172,7 @@ class UserResource(Resource):
     @ns.expect(user)
     @ns.marshal_list_with(user, code=201)
     @ns.doc(security='jwt')
-    @jwt_required
+    # @jwt_required
     # @ns.doc(security=None)
     def put(self, id):  # /user/<id>
         '''Update a User given its identifier'''
@@ -194,7 +194,7 @@ class UserListResource(Resource):
     @ns.expect(parser)
     @ns.marshal_list_with(user, code=200)
     @ns.doc(security='jwt')
-    @jwt_required
+    # @jwt_required
     # @ns.doc(security=None)
     def get(self):  # /user
         '''List User records '''
@@ -210,7 +210,7 @@ class UserListResource(Resource):
     @ns.expect(user)
     @ns.marshal_with(user, code=201)
     @ns.doc(security='jwt')
-    @jwt_required
+    # @jwt_required
     # @ns.doc(security=None)
     def post(self):  # /user
         """Create a new User record"""

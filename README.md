@@ -857,6 +857,7 @@ docker build -t flask_app:latest .
 docker run -p 5000:5000 flask_app
 
 ```
+
 ### Linux / Mac
 * Open new terminal
     * "Control + Option + Shift + T" to open the terminal
@@ -1391,7 +1392,7 @@ pip install --upgrade pip
 pip install virtualenv
 virtualenv venv
 
-venv/bin/activate
+source venv/bin/activate
 
 pip install --upgrade pip
 pip install --no-cache-dir -r requirements.txt
@@ -1412,7 +1413,7 @@ pip install --upgrade pip
 pip install virtualenv
 virtualenv venv
 
-venv/bin/activate
+source venv/bin/activate
 
 pip install --upgrade pip
 pip install --no-cache-dir -r requirements.txt
@@ -1640,7 +1641,7 @@ flake8 . --count --exit-zero --max-complexity=11 --max-line-length=127 --statist
 ```shell
 cd <Path To>/my_awesome_project
 
-venv/bin/activate
+source venv/bin/activate
 
 flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
 flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics

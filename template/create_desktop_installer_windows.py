@@ -11,6 +11,7 @@ def copytree(src, dst, symlinks=False, ignore=None):
         else:
             shutil.copy2(s, d)
 
+
 # my spec file in "dev\config" dir
 workdir = os.getcwd()
 # fn_msi_spec = os.path.join(workdir, 'main_msi.spec')
@@ -27,9 +28,9 @@ PyInstaller.__main__.run([
     'run_desktop.py',
     '--distpath', distdir,
     '--workpath', builddir,
-    '--onefile',
-    '--noconsole',
-    '--windowed',
+    # '--onefile',
+    # '--noconsole',
+    # '--windowed',
     '--noconfirm',
     '--clean',
     '--add-data', 'app;app',
@@ -51,10 +52,11 @@ copy_config_to_dir = '{0}/config.py'.format(distdir)
 copy_license_to_dir = '{0}/LICENSE'.format(distdir)
 copy_flask_license_to_dir = '{0}/FLASK-BDA LICENSE'.format(distdir)
 copy_databases_to_dir = '{0}/databases'.format(distdir)
+copy_logs_to_dir = '{0}/logs'.format(distdir)
 
 shutil.copy2('config.py', copy_config_to_dir)
 shutil.copy2('LICENSE', copy_license_to_dir)
 shutil.copy2('FLASK-BDA LICENSE', copy_flask_license_to_dir)
 
 copytree('databases',copy_databases_to_dir)
-
+copytree('logs',copy_logs_to_dir)

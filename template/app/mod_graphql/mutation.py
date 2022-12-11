@@ -21,6 +21,15 @@ from app.mod_calendar_definitions.types import Calendar_definitions as Calendar_
 from app.mod_calendar_periods.models import Calendar_periods as Calendar_periodsModel  # noqa: E402
 from app.mod_calendar_periods.types import Calendar_periods as Calendar_periodsTypes, CreateCalendar_periodsInput  # noqa: E402
 # import new xyz_model and xyz_type, input
+# api_keys
+from app.mod_api_keys.models import Api_keys as Api_keysModel  # noqa: E402
+from app.mod_api_keys.types import Api_keys as Api_keysTypes, CreateApi_keysInput  # noqa: E402
+# api_keys
+from app.mod_api_keys.models import Api_keys as Api_keysModel  # noqa: E402
+from app.mod_api_keys.types import Api_keys as Api_keysTypes, CreateApi_keysInput  # noqa: E402
+# test
+from app.mod_test.models import Test as TestModel  # noqa: E402
+from app.mod_test.types import Test as TestTypes, CreateTestInput  # noqa: E402
 # statuses
 from app.mod_statuses.models import Statuses as StatusesModel  # noqa: E402
 from app.mod_statuses.types import Statuses as StatusesTypes, CreateStatusesInput  # noqa: E402
@@ -151,7 +160,61 @@ class Create_Calendar_periods(graphene.Mutation):
 
 
 # new create xyz class
+
+# api_keys
+class Create_Api_keys(graphene.Mutation):
+    api_keys = graphene.Field(lambda: Api_keysTypes)
+    ok = graphene.Boolean()
+
+    class Arguments:
+        input = CreateApi_keysInput(required=True)
+
+    @staticmethod
+    def mutate(self, info, input):
+        data = graphql_input_into_dictionary(input)
+        api_keys = Api_keysModel(**data)
+        db.session.add(api_keys)
+        db.session.commit()
+        ok = True
+        return Create_Api_keys(api_keys=api_keys, ok=ok)
+
             
+# api_keys
+class Create_Api_keys(graphene.Mutation):
+    api_keys = graphene.Field(lambda: Api_keysTypes)
+    ok = graphene.Boolean()
+
+    class Arguments:
+        input = CreateApi_keysInput(required=True)
+
+    @staticmethod
+    def mutate(self, info, input):
+        data = graphql_input_into_dictionary(input)
+        api_keys = Api_keysModel(**data)
+        db.session.add(api_keys)
+        db.session.commit()
+        ok = True
+        return Create_Api_keys(api_keys=api_keys, ok=ok)
+
+            
+# test
+class Create_Test(graphene.Mutation):
+    test = graphene.Field(lambda: TestTypes)
+    ok = graphene.Boolean()
+
+    class Arguments:
+        input = CreateTestInput(required=True)
+
+    @staticmethod
+    def mutate(self, info, input):
+        data = graphql_input_into_dictionary(input)
+        test = TestModel(**data)
+        db.session.add(test)
+        db.session.commit()
+        ok = True
+        return Create_Test(test=test, ok=ok)
+
+                        
             
 class Mutation(graphene.ObjectType):
     createUser = Create_User.Field()
@@ -165,4 +228,10 @@ class Mutation(graphene.ObjectType):
     # calendar_periods
     createCalendar_periods = Create_Calendar_periods.Field()
     # register new createXyz
+    # api_keys
+    createApi_keys = Create_Api_keys.Field()
+    # api_keys
+    createApi_keys = Create_Api_keys.Field()
+    # test
+    createTest = Create_Test.Field()
 

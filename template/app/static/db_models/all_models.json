@@ -30,7 +30,7 @@
                 "grapheneDataType": "Int()",
                 "index": true,
                 "nullable": false,
-                "relationship": "user",
+                "relationship": "users",
                 "relationship_display_value": "name",
                 "unique": false
             },
@@ -657,66 +657,6 @@
     },
     "site_settings": {
         "fields": {
-            "data_type": {
-                "dataType": "String(256)",
-                "dataTypeLower": "string",
-                "default": false,
-                "grapheneDataType": "String()",
-                "index": false,
-                "nullable": false,
-                "relationship": null,
-                "unique": false
-            },
-            "description": {
-                "dataType": "Text",
-                "dataTypeLower": "text",
-                "default": false,
-                "grapheneDataType": "String()",
-                "index": false,
-                "nullable": false,
-                "relationship": null,
-                "unique": false
-            },
-            "display_name": {
-                "dataType": "String(256)",
-                "dataTypeLower": "string",
-                "default": false,
-                "grapheneDataType": "String()",
-                "index": false,
-                "nullable": false,
-                "relationship": null,
-                "unique": false
-            },
-            "group": {
-                "dataType": "String(256)",
-                "dataTypeLower": "string",
-                "default": false,
-                "grapheneDataType": "String()",
-                "index": false,
-                "nullable": false,
-                "relationship": null,
-                "unique": false
-            },
-            "key": {
-                "dataType": "String(256)",
-                "dataTypeLower": "string",
-                "default": false,
-                "grapheneDataType": "String()",
-                "index": true,
-                "nullable": false,
-                "relationship": null,
-                "unique": true
-            },
-            "key_value": {
-                "dataType": "Text",
-                "dataTypeLower": "text",
-                "default": false,
-                "grapheneDataType": "String()",
-                "index": false,
-                "nullable": true,
-                "relationship": null,
-                "unique": false
-            },
             "organisation_id": {
                 "dataType": "Integer",
                 "dataTypeLower": "relationship",
@@ -728,7 +668,67 @@
                 "relationship_display_value": "organisation_name",
                 "unique": false
             },
-            "value": {
+            "site_setting_data_type": {
+                "dataType": "String(256)",
+                "dataTypeLower": "string",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            },
+            "site_setting_description": {
+                "dataType": "Text",
+                "dataTypeLower": "text",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            },
+            "site_setting_display_name": {
+                "dataType": "String(256)",
+                "dataTypeLower": "string",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            },
+            "site_setting_group": {
+                "dataType": "String(256)",
+                "dataTypeLower": "string",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
+                "nullable": false,
+                "relationship": null,
+                "unique": false
+            },
+            "site_setting_key": {
+                "dataType": "String(256)",
+                "dataTypeLower": "string",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": true,
+                "nullable": false,
+                "relationship": null,
+                "unique": true
+            },
+            "site_setting_key_value": {
+                "dataType": "Text",
+                "dataTypeLower": "text",
+                "default": false,
+                "grapheneDataType": "String()",
+                "index": false,
+                "nullable": true,
+                "relationship": null,
+                "unique": false
+            },
+            "site_setting_value": {
                 "dataType": "Text",
                 "dataTypeLower": "text",
                 "default": false,
@@ -743,7 +743,7 @@
     },
     "statuses": {
         "fields": {
-            "description": {
+            "status_description": {
                 "dataType": "Text",
                 "dataTypeLower": "text",
                 "default": false,
@@ -754,7 +754,7 @@
                 "relationship_display_value": null,
                 "unique": false
             },
-            "display_name": {
+            "status_display_name": {
                 "dataType": "String(256)",
                 "dataTypeLower": "string",
                 "default": false,
@@ -765,7 +765,7 @@
                 "relationship_display_value": null,
                 "unique": false
             },
-            "group": {
+            "status_group": {
                 "dataType": "String(256)",
                 "dataTypeLower": "string",
                 "default": false,
@@ -776,7 +776,7 @@
                 "relationship_display_value": null,
                 "unique": false
             },
-            "key": {
+            "status_key": {
                 "dataType": "String(256)",
                 "dataTypeLower": "string",
                 "default": false,
@@ -787,7 +787,7 @@
                 "relationship_display_value": null,
                 "unique": true
             },
-            "key_value": {
+            "status_key_value": {
                 "dataType": "Text",
                 "dataTypeLower": "text",
                 "default": false,
@@ -797,80 +797,9 @@
                 "relationship": null,
                 "relationship_display_value": null,
                 "unique": false
-            },
-            "organisation_id": {
-                "dataType": "Integer",
-                "dataTypeLower": "relationship",
-                "default": false,
-                "grapheneDataType": "Int()",
-                "index": true,
-                "nullable": false,
-                "relationship": "organisations",
-                "relationship_display_value": "organisation_name",
-                "unique": false
             }
         },
         "model": "Statuses"
-    },
-    "test": {
-        "fields": {
-            "budget": {
-                "dataType": "Numeric(38, 19)",
-                "dataTypeLower": "float",
-                "default": false,
-                "grapheneDataType": "Decimal(required=True)",
-                "index": true,
-                "nullable": false,
-                "relationship": null,
-                "relationship_display_value": null,
-                "unique": false
-            },
-            "end_datetime": {
-                "dataType": "DateTime",
-                "dataTypeLower": "datetime",
-                "default": false,
-                "grapheneDataType": "DateTime(required=True)",
-                "index": true,
-                "nullable": false,
-                "relationship": null,
-                "relationship_display_value": null,
-                "unique": true
-            },
-            "name": {
-                "dataType": "String(50)",
-                "dataTypeLower": "string",
-                "default": false,
-                "grapheneDataType": "String(required=True)",
-                "index": true,
-                "nullable": false,
-                "relationship": null,
-                "relationship_display_value": null,
-                "unique": true
-            },
-            "start_date": {
-                "dataType": "Date",
-                "dataTypeLower": "date",
-                "default": false,
-                "grapheneDataType": "Date(required=True)",
-                "index": true,
-                "nullable": false,
-                "relationship": null,
-                "relationship_display_value": null,
-                "unique": true
-            },
-            "test_id": {
-                "dataType": "Integer",
-                "dataTypeLower": "relationship",
-                "default": false,
-                "grapheneDataType": "Int(required=True)",
-                "index": true,
-                "nullable": false,
-                "relationship": "users",
-                "relationship_display_value": "name",
-                "unique": false
-            }
-        },
-        "model": "Test"
     },
     "web_hooks": {
         "fields": {
@@ -880,18 +809,18 @@
                 "default": "1",
                 "grapheneDataType": "Boolean(required=True)",
                 "index": true,
-                "nullable": false,
+                "nullable": true,
                 "relationship": null,
                 "relationship_display_value": null,
                 "unique": false
             },
-            "api_data": {
+            "api_endpoint": {
                 "dataType": "Text",
                 "dataTypeLower": "text",
-                "default": "\"[]\"",
-                "grapheneDataType": "String(required=False)",
+                "default": false,
+                "grapheneDataType": "String(required=True)",
                 "index": false,
-                "nullable": true,
+                "nullable": false,
                 "relationship": null,
                 "relationship_display_value": null,
                 "unique": false
@@ -899,7 +828,7 @@
             "api_headers": {
                 "dataType": "Text",
                 "dataTypeLower": "text",
-                "default": "\"[]\"",
+                "default": "[]",
                 "grapheneDataType": "String(required=False)",
                 "index": false,
                 "nullable": true,
@@ -910,10 +839,10 @@
             "api_params": {
                 "dataType": "Text",
                 "dataTypeLower": "text",
-                "default": "\"[]\"",
-                "grapheneDataType": "String(required=True)",
+                "default": "[]",
+                "grapheneDataType": "String(required=False)",
                 "index": false,
-                "nullable": false,
+                "nullable": true,
                 "relationship": null,
                 "relationship_display_value": null,
                 "unique": false
@@ -921,7 +850,7 @@
             "data_type": {
                 "dataType": "String(256)",
                 "dataTypeLower": "string",
-                "default": "\"json\"",
+                "default": "json",
                 "grapheneDataType": "String(required=True)",
                 "index": true,
                 "nullable": false,
@@ -932,7 +861,7 @@
             "method": {
                 "dataType": "String(256)",
                 "dataTypeLower": "string",
-                "default": "\"get\"",
+                "default": "get",
                 "grapheneDataType": "String(required=True)",
                 "index": true,
                 "nullable": false,
@@ -940,7 +869,73 @@
                 "relationship_display_value": null,
                 "unique": false
             },
-            "module_name": {
+            "run_after_delete": {
+                "dataType": "Boolean",
+                "dataTypeLower": "boolean",
+                "default": "1",
+                "grapheneDataType": "Boolean(required=True)",
+                "index": true,
+                "nullable": true,
+                "relationship": null,
+                "relationship_display_value": null,
+                "unique": false
+            },
+            "run_after_insert": {
+                "dataType": "Boolean",
+                "dataTypeLower": "boolean",
+                "default": "1",
+                "grapheneDataType": "Boolean(required=True)",
+                "index": true,
+                "nullable": true,
+                "relationship": null,
+                "relationship_display_value": null,
+                "unique": false
+            },
+            "run_after_update": {
+                "dataType": "Boolean",
+                "dataTypeLower": "boolean",
+                "default": "1",
+                "grapheneDataType": "Boolean(required=True)",
+                "index": true,
+                "nullable": true,
+                "relationship": null,
+                "relationship_display_value": null,
+                "unique": false
+            },
+            "run_before_delete": {
+                "dataType": "Boolean",
+                "dataTypeLower": "boolean",
+                "default": "0",
+                "grapheneDataType": "Boolean(required=True)",
+                "index": true,
+                "nullable": true,
+                "relationship": null,
+                "relationship_display_value": null,
+                "unique": false
+            },
+            "run_before_insert": {
+                "dataType": "Boolean",
+                "dataTypeLower": "boolean",
+                "default": "0",
+                "grapheneDataType": "Boolean(required=True)",
+                "index": true,
+                "nullable": true,
+                "relationship": null,
+                "relationship_display_value": null,
+                "unique": false
+            },
+            "run_before_update": {
+                "dataType": "Boolean",
+                "dataTypeLower": "boolean",
+                "default": "0",
+                "grapheneDataType": "Boolean(required=True)",
+                "index": true,
+                "nullable": true,
+                "relationship": null,
+                "relationship_display_value": null,
+                "unique": false
+            },
+            "run_in_module_name": {
                 "dataType": "String(256)",
                 "dataTypeLower": "string",
                 "default": false,
@@ -951,12 +946,12 @@
                 "relationship_display_value": null,
                 "unique": false
             },
-            "url": {
+            "webhook_name": {
                 "dataType": "String(256)",
                 "dataTypeLower": "string",
                 "default": false,
                 "grapheneDataType": "String(required=True)",
-                "index": false,
+                "index": true,
                 "nullable": false,
                 "relationship": null,
                 "relationship_display_value": null,

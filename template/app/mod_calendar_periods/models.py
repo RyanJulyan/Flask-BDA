@@ -25,7 +25,7 @@ class Calendar_periods(Base):
     __tablename__ = 'calendar_periods'
     # start new field definitions
     calendar_definition_id = db.Column(db.Integer, db.ForeignKey('calendar_definitions.id'), nullable=False, default=1, unique=False, index=True)
-    calendar_definitions = db.relationship('Calendar_definitions', remote_side='Calendar_definitions.id', lazy='joined')
+    calendar_definitions = db.relationship('Calendar_definitions', remote_side='Calendar_definitions.id', lazy='joined', innerjoin=True)
 
     # @aggregated('calendar_definitions_count', db.Column(db.Integer))
     # def calendar_definitions_count(self):

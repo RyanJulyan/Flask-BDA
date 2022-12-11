@@ -25,7 +25,7 @@ class Hierarchies(Base):
     __tablename__ = 'hierarchies'
     # start new field definitions
     organisation_id = db.Column(db.Integer, db.ForeignKey('organisations.id'), nullable=False, default=False, unique=False)
-    organisations = db.relationship('Organisations', remote_side='Organisations.id', lazy='joined')
+    organisations = db.relationship('Organisations', remote_side='Organisations.id', lazy='joined', innerjoin=True)
 
     # @aggregated('organisations_count', db.Column(db.Integer))
     # def organisations_count(self):
@@ -34,7 +34,7 @@ class Hierarchies(Base):
     path = db.Column(db.Text, nullable=False, default=False, unique=False)
     level = db.Column(db.Integer, nullable=True, default=False, unique=False)
     parent_id = db.Column(db.Integer, db.ForeignKey('hierarchies.id'), nullable=True, default=False, unique=False)
-    hierarchies = db.relationship('Hierarchies', remote_side='Hierarchies.id', lazy='joined')
+    hierarchies = db.relationship('Hierarchies', remote_side='Hierarchies.id', lazy='joined', innerjoin=True)
     cached = db.Column(db.Boolean, nullable=False, default='0', unique=False)
 
     # @aggregated('hierarchies_count', db.Column(db.Integer))

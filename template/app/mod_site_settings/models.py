@@ -25,7 +25,7 @@ class Site_settings(Base):
     __tablename__ = 'site_settings'
     # start new field definitions
     organisation_id = db.Column(db.Integer, db.ForeignKey('organisations.id'), nullable=False, default=False, unique=False, index=True)
-    organisations = db.relationship('Organisations', remote_side='Organisations.id', lazy='joined')
+    organisations = db.relationship('Organisations', remote_side='Organisations.id', lazy='joined', innerjoin=True)
 
     # @aggregated('organisations_count', db.Column(db.Integer))
     # def organisations_count(self):
